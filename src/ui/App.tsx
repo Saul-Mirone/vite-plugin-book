@@ -5,11 +5,21 @@ import { useEffect } from 'react';
 import { useRpc } from './useRpc';
 
 export function App() {
-    const [status, rpc] = useRpc();
+    const ctx = useRpc();
     useEffect(() => {
-        if (status === 'connected') {
-            rpc.$.getFiles().then(console.log);
+        if (ctx.status === 'connected') {
+            // const playWithRpc = async () => {
+            //     const files = await ctx.rpc.$.getFiles();
+            //     const [file] = files;
+            //     console.log(file);
+            //     const markdown = await ctx.rpc.$.getFile((file as { url: string }).url);
+            //     console.log(markdown);
+            //     await ctx.rpc.$.writeFile((file as { url: string }).url, '> Override by client');
+            //     const markdown2 = await ctx.rpc.$.getFile((file as { url: string }).url);
+            //     console.log(markdown2);
+            // };
+            // playWithRpc();
         }
-    }, [rpc, status]);
-    return <div className="App">App {status}</div>;
+    }, [ctx]);
+    return <div className="App">App {ctx.status}</div>;
 }

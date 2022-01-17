@@ -6,6 +6,7 @@ import type { ViteDevServer } from 'vite';
 import { WebSocket, WebSocketServer } from 'ws';
 
 import { WebSocketClientEvents, WebSocketServerEvents } from '../interface';
+import { ContentManager } from './content-manager';
 
 type ClientMap = Map<WebSocket, BirpcReturn<WebSocketClientEvents>>;
 
@@ -21,25 +22,18 @@ export const createWsServer = (server: ViteDevServer, docDir: string) => {
 
         wss.handleUpgrade(request, socket, head, (ws) => {
             wss.emit('connection', ws, request);
-            setupClient(ws, clients);
+            setupClient(ws, clients, docDir);
         });
     });
 };
 
-function setupClient(ws: WebSocket, clientMap: ClientMap) {
-    const rpc = createBirpc<WebSocketClientEvents, WebSocketServerEvents>(
-        {
-            getFiles() {
-                return [];
-            },
-        },
-        {
-            post: (msg) => ws.send(msg),
-            on: (fn) => ws.on('message', fn),
-            serialize: stringify,
-            deserialize: parse,
-        },
-    );
+function setupClient(ws: WebSocket, clientMap: ClientMap, docDir: string) {
+    const rpc = createBirpc<WebSocketClientEvents, WebSocketServerEvents>(new ContentManager(docDir), {
+        post: (msg) => ws.send(msg),
+        on: (fn) => ws.on('message', fn),
+        serialize: stringify,
+        deserialize: parse,
+    });
     clientMap.set(ws, rpc);
 
     ws.on('close', () => {

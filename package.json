@@ -15,6 +15,7 @@
     "devDependencies": {
         "@commitlint/cli": "^16.0.0",
         "@commitlint/config-conventional": "^16.0.0",
+        "@types/fs-extra": "^9.0.13",
         "@types/node": "^17.0.8",
         "@types/react": "17.0.38",
         "@types/react-dom": "^17.0.9",
@@ -45,6 +46,7 @@
     "dependencies": {
         "birpc": "^0.1.0",
         "flatted": "^3.2.4",
+        "fs-extra": "^10.0.0",
         "pathe": "^0.2.0",
         "sirv": "^2.0.0",
         "ws": "^8.4.2"
