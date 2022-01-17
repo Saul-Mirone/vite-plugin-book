@@ -21,7 +21,7 @@ module.exports = {
 
         'import/prefer-default-export': 'off',
         'import/no-default-export': 'error',
-        'import/no-unresolved': ['error', { ignore: ['uno.css'] }],
+        'import/no-unresolved': ['error', { ignore: ['uno.css', 'unocss/vite'] }],
 
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
