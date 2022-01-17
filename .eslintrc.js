@@ -50,7 +50,7 @@ module.exports = {
             },
         },
         {
-            files: ['shim.d.ts', 'vite.config.ts', 'playwright.config.ts'],
+            files: ['shim.d.ts', 'vite.config.ts', 'playwright.config.ts', './src/plugin/index.ts'],
             rules: {
                 'import/no-default-export': 'off',
             },

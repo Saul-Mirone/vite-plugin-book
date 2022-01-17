@@ -5,5 +5,5 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "cSpell.words": ["Mirone", "tsdoc", "unocss", "vite", "vitejs"]
+    "cSpell.words": ["commitlint", "Mirone", "tsdoc", "unocss", "vite", "vitejs"]
 }
