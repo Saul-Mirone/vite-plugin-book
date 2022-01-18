@@ -30,8 +30,13 @@ export const Editor: FC = () => {
     return (
         <>
             <div className="m-x-8 m-y-4" ref={divRef} />
-            <div>
-                <button onClick={() => onSave()}>Save</button>
+            <div className="m-x-8">
+                <button
+                    className="transition cursor-pointer text-secondary p-x-4 p-y-2 bg-transparent b-2 b-secondary hover:b-primary hover:text-primary"
+                    onClick={() => onSave()}
+                >
+                    Save
+                </button>
             </div>
         </>
     );

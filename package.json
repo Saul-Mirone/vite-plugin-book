@@ -29,6 +29,7 @@
         "@types/ws": "^8.2.2",
         "@typescript-eslint/eslint-plugin": "^5.0.0",
         "@typescript-eslint/parser": "^5.0.0",
+        "@unocss/reset": "^0.22.4",
         "@vitejs/plugin-react": "^1.1.4",
         "eslint": "^8.0.0",
         "eslint-config-prettier": "^8.3.0",
@@ -52,9 +53,11 @@
         "vite": "^2.5.3"
     },
     "dependencies": {
+        "@rollup/pluginutils": "^4.1.2",
         "birpc": "^0.1.0",
         "flatted": "^3.2.4",
         "fs-extra": "^10.0.0",
+        "magic-string": "^0.25.7",
         "pathe": "^0.2.0",
         "sirv": "^2.0.0",
         "ws": "^8.4.2"
