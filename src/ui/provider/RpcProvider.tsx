@@ -2,7 +2,7 @@
 
 import { createContext, FC, useEffect, useRef, useState } from 'react';
 
-import { Rpc } from './rpc';
+import { Rpc } from '../rpc';
 
 export type Status = 'connecting' | 'connected' | 'disconnected';
 export const RpcCtx = createContext<Rpc | undefined>(undefined);

@@ -7,8 +7,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import { App } from './App';
-import { FileProvider } from './FileProvider';
-import { RpcProvider } from './RpcProvider';
+import { FileProvider } from './provider/FileProvider';
+import { RpcProvider } from './provider/RpcProvider';
 
 ReactDOM.render(
     <React.StrictMode>

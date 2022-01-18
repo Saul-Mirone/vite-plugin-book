@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import SplitPane from 'react-split-pane';
 
 import { ItemInfo } from '../interface';
-import { Editor } from './Editor';
-import { Nav } from './Nav';
-import { useRpc } from './useRpc';
+import { Editor } from './component/Editor';
+import { Nav } from './component/Nav';
+import { useRpc } from './hook/useRpc';
 
 export function App() {
     const ctx = useRpc();
@@ -21,8 +21,8 @@ export function App() {
         }
     }, [ctx]);
     return (
-        <div className="h-screen w-screen overflow-hidden">
-            <SplitPane split="vertical" defaultSize={200} minSize={120}>
+        <div className="h-screen w-screen overflow-hidden font-mono">
+            <SplitPane className="bg-background" split="vertical" defaultSize="16rem" minSize={200} maxSize={400}>
                 <Nav items={items} />
                 <Editor />
             </SplitPane>

@@ -2,9 +2,9 @@
 
 import { FC } from 'react';
 
-import { FileInfo, ItemInfo } from '../interface';
-import { useFile } from './useFile';
-import { useRpc } from './useRpc';
+import { FileInfo, ItemInfo } from '../../interface';
+import { useFile } from '../hook/useFile';
+import { useRpc } from '../hook/useRpc';
 
 export const Nav: FC<{ items: ItemInfo[] }> = ({ items }) => {
     const ctx = useRpc();
@@ -24,10 +24,14 @@ export const Nav: FC<{ items: ItemInfo[] }> = ({ items }) => {
     };
 
     return (
-        <nav className="h-full w-full flex flex-col">
+        <nav className="h-full w-full flex flex-col bg-background">
             <ul className="list-none m-0 p-0">
                 {files.map(({ name, url }) => (
-                    <li key={url} onClick={() => onClickItem(url)}>
+                    <li
+                        className="cursor-pointer p-x-6 p-y-3 border-rounded text-sm text-neutral text-opacity-60 hover:text-opacity-90"
+                        key={url}
+                        onClick={() => onClickItem(url)}
+                    >
                         {name}
                     </li>
                 ))}
