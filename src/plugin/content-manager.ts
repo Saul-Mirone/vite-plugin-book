@@ -3,13 +3,14 @@
 import fs from 'fs-extra';
 import { resolve } from 'pathe';
 
-import type { Item, WebSocketServerEvents } from '../interface';
+import type { ItemInfo, WebSocketServerEvents } from '../interface';
 
 export class ContentManager implements WebSocketServerEvents {
     constructor(private docDir: string) {}
-    async getFiles(): Promise<Item[]> {
+    async getFiles(): Promise<ItemInfo[]> {
         const files = await fs.readdir(this.docDir);
         return files.map((name) => ({
+            type: 'file',
             name,
             url: resolve(this.docDir, name),
         }));

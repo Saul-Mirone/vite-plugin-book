@@ -1,20 +1,22 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-export type File = {
+export type FileInfo = {
+    type: 'file';
     name: string;
     url: string;
 };
 
-export type Dir = {
+export type DirInfo = {
+    type: 'dir';
     name: string;
-    list: Item[];
+    list: ItemInfo[];
 };
 
-export type Item = File | Dir;
+export type ItemInfo = FileInfo | DirInfo;
 
 export interface WebSocketServerEvents {
     // getConfig
-    getFiles(): Promise<Item[]>;
+    getFiles(): Promise<ItemInfo[]>;
     getFile(url: string): Promise<string>;
     writeFile(url: string, markdown: string): Promise<void>;
 }

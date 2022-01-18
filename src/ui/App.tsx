@@ -1,25 +1,29 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import { ItemInfo } from '../interface';
+import { Editor } from './Editor';
+import { Nav } from './Nav';
 import { useRpc } from './useRpc';
 
 export function App() {
     const ctx = useRpc();
+    const [items, setItems] = useState<ItemInfo[]>([]);
     useEffect(() => {
         if (ctx.status === 'connected') {
-            // const playWithRpc = async () => {
-            //     const files = await ctx.rpc.$.getFiles();
-            //     const [file] = files;
-            //     console.log(file);
-            //     const markdown = await ctx.rpc.$.getFile((file as { url: string }).url);
-            //     console.log(markdown);
-            //     await ctx.rpc.$.writeFile((file as { url: string }).url, '> Override by client');
-            //     const markdown2 = await ctx.rpc.$.getFile((file as { url: string }).url);
-            //     console.log(markdown2);
-            // };
-            // playWithRpc();
+            const getFiles = async () => {
+                const fs = await ctx.rpc.$.getFiles();
+                setItems(fs);
+            };
+            getFiles();
         }
     }, [ctx]);
-    return <div className="App">App {ctx.status}</div>;
+    return (
+        <div className="App">
+            <div>App {ctx.status}</div>
+            <Nav items={items} />
+            <Editor />
+        </div>
+    );
 }

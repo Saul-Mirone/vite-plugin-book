@@ -6,13 +6,16 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import { App } from './App';
+import { FileProvider } from './FileProvider';
 import { RpcProvider } from './RpcProvider';
 
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <RpcProvider>
-                <App />
+                <FileProvider>
+                    <App />
+                </FileProvider>
             </RpcProvider>
         </BrowserRouter>
     </React.StrictMode>,
