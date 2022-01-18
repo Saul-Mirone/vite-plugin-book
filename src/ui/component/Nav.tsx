@@ -1,14 +1,27 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { FileInfo, ItemInfo } from '../../interface';
 import { useFile } from '../hook/useFile';
 import { useRpc } from '../hook/useRpc';
 
+function transformName(name: string) {
+    const [withOutExt] = name.split('.md');
+    return withOutExt
+        .split('-')
+        .map((str) => {
+            const [first] = str.slice(0, 1);
+            const rest = str.slice(1);
+            return first.toUpperCase() + rest;
+        })
+        .join(' ');
+}
+
 export const Nav: FC<{ items: ItemInfo[] }> = ({ items }) => {
     const ctx = useRpc();
     const [_, setFile] = useFile();
+    const [url, setUrl] = useState('');
     const files = items.filter((item): item is FileInfo => {
         return item.type === 'file';
     });
@@ -17,6 +30,7 @@ export const Nav: FC<{ items: ItemInfo[] }> = ({ items }) => {
         if (ctx.status !== 'connected') {
             return;
         }
+        setUrl(url);
 
         const file = await ctx.rpc.$.getFile(url);
 
@@ -25,14 +39,17 @@ export const Nav: FC<{ items: ItemInfo[] }> = ({ items }) => {
 
     return (
         <nav className="h-full w-full flex flex-col bg-background">
-            <ul className="list-none m-0 p-0">
-                {files.map(({ name, url }) => (
+            <div className="cursor-pointer p-x-6 p-y-3 text-lg m-t-5">Vite Plugin Book</div>
+            <ul className="list-none m-0 p-0 p-l-2">
+                {files.map(({ name, url: u }) => (
                     <li
-                        className="cursor-pointer p-x-6 p-y-3 border-rounded text-sm text-neutral text-opacity-60 hover:text-opacity-90"
-                        key={url}
-                        onClick={() => onClickItem(url)}
+                        className={`transition cursor-pointer p-x-6 p-y-3 text-sm hover:text-primary hover:text-opacity-100 ${
+                            url === u ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
+                        }`}
+                        key={u}
+                        onClick={() => onClickItem(u)}
                     >
-                        {name}
+                        {transformName(name)}
                     </li>
                 ))}
             </ul>
