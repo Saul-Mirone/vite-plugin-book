@@ -3,7 +3,14 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+import { FileProvider } from '../ui/provider/FileProvider';
+
 // Pure render for vite plugin book
 export function renderBook(container: HTMLElement = document.body) {
-    render(<div>Hello render</div>, container);
+    render(
+        <FileProvider>
+            <div>Hello render</div>
+        </FileProvider>,
+        container,
+    );
 }

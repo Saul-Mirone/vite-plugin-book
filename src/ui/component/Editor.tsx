@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 
 import { useEditor } from '../hook/useEditor';
 import { useFile } from '../hook/useFile';

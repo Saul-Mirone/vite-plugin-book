@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SplitPane from 'react-split-pane';
 
 import { ItemInfo } from '../interface';

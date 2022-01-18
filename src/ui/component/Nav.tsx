@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { FC, useState } from 'react';
+import React, { FC } from 'react';
 
 import { FileInfo, ItemInfo } from '../../interface';
 import { useFile } from '../hook/useFile';
