@@ -3,18 +3,18 @@ import 'uno.css';
 import '@unocss/reset/normalize.css';
 import './style.css';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { StrictMode } from 'react';
+import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import { App } from './App';
 import { FileProvider } from './provider/FileProvider';
 import { RpcProvider } from './provider/RpcProvider';
 
-console.log(window.__vite_plugin_doc__);
+// console.log(window.__vite_plugin_doc__);
 
-ReactDOM.render(
-    <React.StrictMode>
+render(
+    <StrictMode>
         <BrowserRouter>
             <RpcProvider>
                 <FileProvider>
@@ -22,6 +22,6 @@ ReactDOM.render(
                 </FileProvider>
             </RpcProvider>
         </BrowserRouter>
-    </React.StrictMode>,
+    </StrictMode>,
     document.getElementById('root'),
 );

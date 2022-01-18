@@ -2,17 +2,12 @@
 import { dataToEsm } from '@rollup/pluginutils';
 import fs from 'fs-extra';
 import MagicString from 'magic-string';
-import { dirname, relative, resolve } from 'pathe';
+import { dirname, extname, relative, resolve } from 'pathe';
 import sirv from 'sirv';
 import { fileURLToPath } from 'url';
 import type { Plugin } from 'vite';
 
 import { createWsServer } from './ws-server';
-
-// The virtual id for our shared "process" mock.
-// We prefix it with \0 so that other plugins ignore it
-const name = 'vite-plugin-book';
-const VIRTUAL_MODULE_ID = `\0${name}`;
 
 function transformName(name: string) {
     const [withOutExt] = name.split('.md');
@@ -28,15 +23,16 @@ function transformName(name: string) {
 
 export default function vitePluginBook(): Plugin[] {
     let root = '';
-    let entry = '';
     let mode = '';
-    let docMapping: string[];
+    let docMapping: { name: string; url: string }[];
+    let injected = false;
     return [
         {
             name: 'vite-plugin-book-dev',
             apply: 'serve',
             async configureServer(server) {
-                const clientDist = resolve(fileURLToPath(import.meta.url), '../ui');
+                const clientDist = resolve(fileURLToPath(import.meta.url), '../../ui');
+                console.log(clientDist);
 
                 const { root } = server.config;
 
@@ -54,7 +50,7 @@ export default function vitePluginBook(): Plugin[] {
             },
         },
         {
-            name: 'vite-plugin-markdown',
+            name: 'vite-plugin-book-markdown',
             async transform(code: string, id: string) {
                 if (id.endsWith('.md')) {
                     return dataToEsm(code);
@@ -68,22 +64,27 @@ export default function vitePluginBook(): Plugin[] {
             apply: 'build',
             async configResolved(resolvedConfig) {
                 root = resolvedConfig.root;
-                const clientDist = resolve(fileURLToPath(import.meta.url), '../../ui');
-                entry = resolve(clientDist, 'main.tsx');
                 mode = resolvedConfig.mode;
+
                 const docsDir = resolve(root, 'docs');
-                // TODO: don't read whole file, just keep a mapping
                 const files = await fs.readdir(docsDir);
                 docMapping = await Promise.all(
                     files.map(async (name) => {
                         const url = resolve(docsDir, name);
-                        const markdown = await fs.readFile(url, 'utf-8');
-                        return markdown;
+                        return { name, url };
                     }),
                 );
             },
             async transform(code: string, id: string) {
-                if (id !== entry) {
+                const ext = extname(id);
+                if (injected) return null;
+                if (!['.ts', '.tsx', '.js'].includes(ext)) {
+                    return null;
+                }
+                if (!id.includes(root)) {
+                    return null;
+                }
+                if (id.includes('node_modules')) {
                     return null;
                 }
 
@@ -94,35 +95,23 @@ export default function vitePluginBook(): Plugin[] {
                 files.forEach((fileName) => {
                     const url = resolve(docsDir, fileName);
                     const name = transformName(fileName);
+                    console.log(
+                        `globalThis.__VITE_PLUGIN_BOOK__.${name} = () => import('./${relative(dirname(id), url)}');\n`,
+                    );
                     magicString.prepend(
-                        `globalThis.__VITE_PLUGIN_BOOK__.${name} = () => import('${relative(dirname(entry), url)}');\n`,
+                        `globalThis.__VITE_PLUGIN_BOOK__.${name} = () => import('./${relative(dirname(id), url)}');\n`,
                     );
                 });
 
-                magicString.prepend(`import '${VIRTUAL_MODULE_ID}';\n`);
                 magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__ = {};`);
+                magicString.prepend(`globalThis.__VITE_PLUGIN_DOC__ = ${JSON.stringify({ docMapping, mode })};`);
+
+                injected = true;
 
                 return {
                     code: magicString.toString(),
                     map: magicString.generateMap({ hires: true }),
                 };
-            },
-            resolveId(id: string) {
-                // this tells Rollup not to try to resolve imports from our virtual id
-                if (id === VIRTUAL_MODULE_ID) {
-                    return VIRTUAL_MODULE_ID;
-                }
-            },
-            load(id: string) {
-                if (id === VIRTUAL_MODULE_ID) {
-                    return `
-(function() {
-    const env = ${JSON.stringify({ docMapping, mode })};
-    globalThis.__vite_plugin_doc__ = env;
-})();
-`;
-                }
-                return null;
             },
         },
     ];

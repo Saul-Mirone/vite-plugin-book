@@ -8,6 +8,10 @@ import vitePluginBook from './src/plugin';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    base: '/__vite-plugin-book__/',
+    build: {
+        outDir: 'dist/ui',
+    },
     plugins: [
         react(),
         Unocss({
