@@ -50,6 +50,7 @@ export default () => [
             dir: 'dist/render',
             format: 'esm',
         },
+        external,
         plugins: [
             resolve({
                 preferBuiltins: true,
