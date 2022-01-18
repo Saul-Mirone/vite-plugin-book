@@ -24,12 +24,14 @@ export const Nav: FC<{ items: ItemInfo[] }> = ({ items }) => {
     };
 
     return (
-        <nav>
-            {files.map(({ name, url }) => (
-                <div key={url} onClick={() => onClickItem(url)}>
-                    {name}
-                </div>
-            ))}
+        <nav className="h-full w-full flex flex-col">
+            <ul className="list-none m-0 p-0">
+                {files.map(({ name, url }) => (
+                    <li key={url} onClick={() => onClickItem(url)}>
+                        {name}
+                    </li>
+                ))}
+            </ul>
         </nav>
     );
 };

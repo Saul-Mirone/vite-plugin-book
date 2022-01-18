@@ -1,6 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import { useEffect, useState } from 'react';
+import SplitPane from 'react-split-pane';
 
 import { ItemInfo } from '../interface';
 import { Editor } from './Editor';
@@ -20,10 +21,11 @@ export function App() {
         }
     }, [ctx]);
     return (
-        <div className="App">
-            <div>App {ctx.status}</div>
-            <Nav items={items} />
-            <Editor />
+        <div className="h-screen w-screen overflow-hidden">
+            <SplitPane split="vertical" defaultSize={200} minSize={120}>
+                <Nav items={items} />
+                <Editor />
+            </SplitPane>
         </div>
     );
 }

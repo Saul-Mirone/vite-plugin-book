@@ -1,5 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import 'uno.css';
+import './style.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
