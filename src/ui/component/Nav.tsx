@@ -20,8 +20,7 @@ function transformName(name: string) {
 
 export const Nav: FC<{ items: ItemInfo[] }> = ({ items }) => {
     const ctx = useRpc();
-    const [_, setFile] = useFile();
-    const [url, setUrl] = useState('');
+    const { setFile, url, setUrl } = useFile();
     const files = items.filter((item): item is FileInfo => {
         return item.type === 'file';
     });
@@ -39,7 +38,7 @@ export const Nav: FC<{ items: ItemInfo[] }> = ({ items }) => {
 
     return (
         <nav className="h-full w-full flex flex-col bg-background">
-            <div className="cursor-pointer p-x-6 p-y-3 text-lg m-t-5">Vite Plugin Book</div>
+            <div className="cursor-pointer p-x-6 p-y-3 text-xl m-t-5">Vite Plugin Book</div>
             <ul className="list-none m-0 p-0 p-l-2">
                 {files.map(({ name, url: u }) => (
                     <li

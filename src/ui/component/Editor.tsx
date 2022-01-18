@@ -3,11 +3,13 @@ import { FC, useEffect, useRef } from 'react';
 
 import { useEditor } from '../hook/useEditor';
 import { useFile } from '../hook/useFile';
+import { useRpc } from '../hook/useRpc';
 
 export const Editor: FC = () => {
-    const [file] = useFile();
+    const ctx = useRpc();
+    const { file, url } = useFile();
     const divRef = useRef<HTMLDivElement>(null);
-    const { status, set } = useEditor(divRef);
+    const { status, set, get } = useEditor(divRef);
 
     useEffect(() => {
         if (status !== 'loaded') return;
@@ -15,5 +17,22 @@ export const Editor: FC = () => {
         set(file);
     }, [file, set, status]);
 
-    return <div className="m-x-8" ref={divRef} />;
+    const onSave = () => {
+        if (status !== 'loaded' || ctx.status !== 'connected' || !url) return;
+
+        const markdown = get();
+
+        if (markdown != null) {
+            ctx.rpc.$.writeFile(url, markdown);
+        }
+    };
+
+    return (
+        <>
+            <div className="m-x-8 m-y-4" ref={divRef} />
+            <div>
+                <button onClick={() => onSave()}>Save</button>
+            </div>
+        </>
+    );
 };

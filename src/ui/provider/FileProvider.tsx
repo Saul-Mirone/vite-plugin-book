@@ -5,12 +5,21 @@ export const FileCtx = createContext('');
 export const SetFileCtx = createContext<Dispatch<SetStateAction<string>>>(() => {
     throw new Error();
 });
+export const UrlCtx = createContext('');
+export const SetUrlCtx = createContext<Dispatch<SetStateAction<string>>>(() => {
+    throw new Error();
+});
 
 export const FileProvider: FC = ({ children }) => {
     const [file, setFile] = useState('');
+    const [url, setUrl] = useState('');
     return (
-        <FileCtx.Provider value={file}>
-            <SetFileCtx.Provider value={setFile}>{children}</SetFileCtx.Provider>
-        </FileCtx.Provider>
+        <UrlCtx.Provider value={url}>
+            <SetUrlCtx.Provider value={setUrl}>
+                <FileCtx.Provider value={file}>
+                    <SetFileCtx.Provider value={setFile}>{children}</SetFileCtx.Provider>
+                </FileCtx.Provider>
+            </SetUrlCtx.Provider>
+        </UrlCtx.Provider>
     );
 };
