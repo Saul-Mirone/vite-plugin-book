@@ -1,4 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
+/* eslint-disable no-console */
+
 import { dataToEsm } from '@rollup/pluginutils';
 import fs from 'fs-extra';
 import MagicString from 'magic-string';
@@ -23,7 +25,6 @@ function transformName(name: string) {
 
 export default function vitePluginBook(): Plugin[] {
     let root = '';
-    let mode = '';
     let docMapping: { name: string; url: string }[];
     let injected = false;
     return [
@@ -64,7 +65,6 @@ export default function vitePluginBook(): Plugin[] {
             apply: 'build',
             async configResolved(resolvedConfig) {
                 root = resolvedConfig.root;
-                mode = resolvedConfig.mode;
 
                 const docsDir = resolve(root, 'docs');
                 const files = await fs.readdir(docsDir);
@@ -111,9 +111,7 @@ export default function vitePluginBook(): Plugin[] {
                     );
                 });
 
-                magicString.prepend(
-                    `globalThis.__VITE_PLUGIN_BOOK__.mapping = ${JSON.stringify({ docMapping, mode })};`,
-                );
+                magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__.mapping = ${JSON.stringify(docMapping)};`);
                 magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__ = { file: {} };`);
 
                 injected = true;
