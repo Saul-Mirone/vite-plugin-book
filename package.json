@@ -8,7 +8,11 @@
         "start": "vite",
         "build:ui": "vite build",
         "build:plugin": "rollup -c",
-        "ui:preview": "vite preview --port 7001"
+        "build:render": "vite build --config vite.config.render.ts",
+        "ui:preview": "vite preview --port 7001",
+        "example:start": "vite example",
+        "example:build": "vite build example",
+        "example:preview": "vite preview --port 7001 example"
     },
     "keywords": [
         "vite-plugin"
@@ -59,7 +63,8 @@
         "rollup-plugin-esbuild": "^4.8.2",
         "typescript": "^4.5.4",
         "unocss": "^0.22.2",
-        "vite": "^2.5.3"
+        "vite": "^2.5.3",
+        "vite-plugin-dts": "^0.9.9"
     },
     "dependencies": {
         "@rollup/pluginutils": "^4.1.2",

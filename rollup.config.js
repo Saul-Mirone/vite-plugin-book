@@ -8,7 +8,6 @@ import esbuild from 'rollup-plugin-esbuild';
 import pkg from './package.json';
 
 const pluginEntry = ['./src/plugin/index.ts'];
-const renderEntry = ['./src/render/index.tsx'];
 
 const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies || {}), 'worker_threads'];
 
@@ -39,37 +38,6 @@ export default () => [
         input: pluginEntry,
         output: {
             file: 'dist/plugin/index.d.ts',
-            format: 'esm',
-        },
-        external,
-        plugins: [dts()],
-    },
-    {
-        input: renderEntry,
-        output: {
-            dir: 'dist/render',
-            format: 'esm',
-        },
-        external,
-        plugins: [
-            resolve({
-                preferBuiltins: true,
-            }),
-            json(),
-            commonjs(),
-            esbuild({
-                target: 'node14',
-            }),
-        ],
-        onwarn(message) {
-            if (message.code === 'CIRCULAR_DEPENDENCY') return;
-            console.error(message);
-        },
-    },
-    {
-        input: renderEntry,
-        output: {
-            file: 'dist/render/index.d.ts',
             format: 'esm',
         },
         external,
