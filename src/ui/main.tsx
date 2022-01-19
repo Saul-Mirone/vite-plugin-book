@@ -24,7 +24,8 @@ const Root = () => (
     </StrictMode>
 );
 
-if (location.href.includes('preview')) {
+const params = new URLSearchParams(location.search);
+if (params.get('preview')) {
     renderBook('#root');
 } else {
     render(<Root />, document.getElementById('root'));

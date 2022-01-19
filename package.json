@@ -6,7 +6,7 @@
     "scripts": {
         "commit": "git-cz",
         "start": "vite",
-        "build:ui": "vite build",
+        "build:ui": "vite build --config vite.config.ui.ts",
         "build:plugin": "rollup -c",
         "build:render": "vite build --config vite.config.render.ts",
         "ui:preview": "vite preview --port 7001",
