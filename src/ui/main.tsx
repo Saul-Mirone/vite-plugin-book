@@ -7,11 +7,12 @@ import { StrictMode } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
+import { renderBook } from '../render';
 import { App } from './App';
 import { FileProvider } from './provider/FileProvider';
 import { RpcProvider } from './provider/RpcProvider';
 
-render(
+const Root = () => (
     <StrictMode>
         <BrowserRouter>
             <RpcProvider>
@@ -20,6 +21,11 @@ render(
                 </FileProvider>
             </RpcProvider>
         </BrowserRouter>
-    </StrictMode>,
-    document.getElementById('root'),
+    </StrictMode>
 );
+
+if (location.href.includes('preview')) {
+    renderBook('#root');
+} else {
+    render(<Root />, document.getElementById('root'));
+}

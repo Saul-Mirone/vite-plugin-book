@@ -6,5 +6,5 @@ import { useEditor } from '../hook/useEditor';
 export const Editor = () => {
     const divRef = useRef<HTMLDivElement>(null);
     const { status, set } = useEditor(divRef, true);
-    return <div ref={divRef} />;
+    return <div className="m-x-8 m-y-4" ref={divRef} />;
 };
