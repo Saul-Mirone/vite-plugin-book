@@ -4,6 +4,8 @@ import 'uno.css';
 
 import { render } from 'react-dom';
 
+import { FileProvider } from '../ui/provider/FileProvider';
+import { RpcProvider } from '../ui/provider/RpcProvider';
 import { App } from './App';
 
 function getRoot(container?: Element | string) {
@@ -28,6 +30,13 @@ function getRoot(container?: Element | string) {
 }
 
 // Pure render for vite plugin book
-export function renderBook(container?: Element | string) {
-    render(<App />, getRoot(container));
+export function renderBook(prod: boolean, container?: Element | string) {
+    render(
+        <FileProvider>
+            <RpcProvider>
+                <App />
+            </RpcProvider>
+        </FileProvider>,
+        getRoot(container),
+    );
 }

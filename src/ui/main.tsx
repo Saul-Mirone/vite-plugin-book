@@ -5,7 +5,7 @@ import './style.css';
 
 import { StrictMode } from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 import { renderBook } from '../render';
 import { App } from './App';
@@ -14,19 +14,19 @@ import { RpcProvider } from './provider/RpcProvider';
 
 const Root = () => (
     <StrictMode>
-        <BrowserRouter>
+        <HashRouter>
             <RpcProvider>
                 <FileProvider>
                     <App />
                 </FileProvider>
             </RpcProvider>
-        </BrowserRouter>
+        </HashRouter>
     </StrictMode>
 );
 
 const params = new URLSearchParams(location.search);
 if (params.get('preview')) {
-    renderBook('#root');
+    renderBook(import.meta.env.PROD, '#root');
 } else {
     render(<Root />, document.getElementById('root'));
 }

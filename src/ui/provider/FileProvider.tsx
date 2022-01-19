@@ -12,6 +12,7 @@ export const SetUrlCtx = createContext<Dispatch<SetStateAction<string>>>(() => {
 
 export const FileProvider: FC = ({ children }) => {
     const [file, setFile] = useState('');
+    // TODO: parse current url as default
     const [url, setUrl] = useState('');
     return (
         <UrlCtx.Provider value={url}>

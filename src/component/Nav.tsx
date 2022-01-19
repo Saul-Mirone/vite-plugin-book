@@ -1,5 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import type { FC } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import type { ItemInfo } from '../interface';
 import { isIndexPage, nope, transformName } from '../utils/helper';
@@ -12,14 +13,17 @@ type ListItemProps = {
 };
 
 const ListItem: FC<ListItemProps> = ({ isActive, url, name, onClick, children }) => (
-    <li
-        className={`transition cursor-pointer p-x-6 p-y-3 text-sm hover:text-primary hover:text-opacity-100 ${
-            isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
-        }`}
-        key={url}
-        onClick={() => onClick(url)}
-    >
-        {transformName(name)}
+    <li key={url} onClick={() => onClick(url)}>
+        <NavLink
+            to={name.split('.md')[0]}
+            className={({ isActive }) =>
+                `transition no-underline cursor-pointer p-x-6 p-y-3 text-sm hover:text-primary hover:text-opacity-100 ${
+                    isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
+                }`
+            }
+        >
+            {transformName(name)}
+        </NavLink>
         {children}
     </li>
 );
@@ -80,12 +84,16 @@ export const Nav: FC<NavProps> = ({ title, items, activeUrl, onClick }) => {
     const indexPage = items.find(isIndexPage);
     return (
         <nav className="h-full w-full flex flex-col bg-background">
-            <div
-                onClick={() => indexPage && onClick(indexPage.url)}
-                className="cursor-pointer p-x-6 p-y-3 text-xl m-t-5"
-            >
-                {title}
+            <div className="cursor-pointer p-x-6 p-y-3 text-xl m-t-5">
+                <NavLink
+                    onClick={() => indexPage && onClick(indexPage.url)}
+                    to="/"
+                    className="no-underline text-neutral"
+                >
+                    {title}
+                </NavLink>
             </div>
+            <hr />
             <List items={items.filter((item) => !isIndexPage(item))} activeUrl={activeUrl} onClick={onClick} />
         </nav>
     );
