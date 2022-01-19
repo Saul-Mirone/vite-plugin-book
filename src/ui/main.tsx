@@ -3,7 +3,7 @@ import 'uno.css';
 import '@unocss/reset/normalize.css';
 import './style.css';
 
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 

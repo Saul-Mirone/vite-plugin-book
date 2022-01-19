@@ -2,17 +2,11 @@
 
 import 'uno.css';
 
-import React from 'react';
 import { render } from 'react-dom';
 
-import { FileProvider } from '../ui/provider/FileProvider';
+import { App } from './App';
 
 // Pure render for vite plugin book
 export function renderBook(container: HTMLElement = document.body) {
-    render(
-        <FileProvider>
-            <div className="p-2 bg-background">Hello render</div>
-        </FileProvider>,
-        container,
-    );
+    render(<App />, container);
 }

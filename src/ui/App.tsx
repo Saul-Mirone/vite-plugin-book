@@ -1,12 +1,12 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SplitPane from 'react-split-pane';
 
+import { useRpc } from '../hook/useRpc';
 import { ItemInfo } from '../interface';
 import { Editor } from './component/Editor';
 import { Nav } from './component/Nav';
-import { useRpc } from './hook/useRpc';
 
 export function App() {
     const ctx = useRpc();

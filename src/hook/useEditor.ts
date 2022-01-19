@@ -1,6 +1,14 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { Editor, editorCtx, editorViewCtx, parserCtx, rootCtx, serializerCtx } from '@milkdown/core';
+import {
+    Editor,
+    editorCtx,
+    editorViewCtx,
+    editorViewOptionsCtx,
+    parserCtx,
+    rootCtx,
+    serializerCtx,
+} from '@milkdown/core';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
@@ -9,7 +17,7 @@ import { Slice } from '@milkdown/prose';
 import { nordLight } from '@milkdown/theme-nord';
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
-export function useEditor(containerRef: RefObject<HTMLElement>) {
+export function useEditor(containerRef: RefObject<HTMLElement>, readOnly = false) {
     const milkdown = useRef<Editor>();
     const [status, setStatus] = useState<'loading' | 'loaded'>('loading');
     useEffect(() => {
@@ -18,6 +26,9 @@ export function useEditor(containerRef: RefObject<HTMLElement>) {
         Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, ref);
+                ctx.set(editorViewOptionsCtx, {
+                    editable: () => !readOnly,
+                });
                 ctx.get(listenerCtx).mounted((ctx) => {
                     setStatus('loaded');
                     milkdown.current = ctx.get(editorCtx);
@@ -34,7 +45,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>) {
             if (!ref) return;
             ref.innerHTML = '';
         };
-    }, [containerRef]);
+    }, [containerRef, readOnly]);
 
     const set = useCallback(
         (markdown = '') => {

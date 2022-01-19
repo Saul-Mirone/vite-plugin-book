@@ -1,10 +1,10 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import React, { FC } from 'react';
+import { FC } from 'react';
 
+import { useFile } from '../../hook/useFile';
+import { useRpc } from '../../hook/useRpc';
 import { FileInfo, ItemInfo } from '../../interface';
-import { useFile } from '../hook/useFile';
-import { useRpc } from '../hook/useRpc';
 
 function transformName(name: string) {
     const [withOutExt] = name.split('.md');

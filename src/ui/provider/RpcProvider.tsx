@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import React, { createContext, FC, useEffect, useRef, useState } from 'react';
+import { createContext, FC, useEffect, useRef, useState } from 'react';
 
 import { Rpc } from '../rpc';
 

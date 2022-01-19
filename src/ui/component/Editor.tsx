@@ -1,9 +1,9 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import React, { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
-import { useEditor } from '../hook/useEditor';
-import { useFile } from '../hook/useFile';
-import { useRpc } from '../hook/useRpc';
+import { useEditor } from '../../hook/useEditor';
+import { useFile } from '../../hook/useFile';
+import { useRpc } from '../../hook/useRpc';
 
 export const Editor: FC = () => {
     const ctx = useRpc();

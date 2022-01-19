@@ -32,7 +32,6 @@ export default function vitePluginBook(): Plugin[] {
             apply: 'serve',
             async configureServer(server) {
                 const clientDist = resolve(fileURLToPath(import.meta.url), '../../ui');
-                console.log(clientDist);
 
                 const { root } = server.config;
 
@@ -51,6 +50,7 @@ export default function vitePluginBook(): Plugin[] {
         },
         {
             name: 'vite-plugin-book-markdown',
+            enforce: 'pre',
             async transform(code: string, id: string) {
                 if (id.endsWith('.md')) {
                     return dataToEsm(code);
