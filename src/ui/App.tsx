@@ -12,22 +12,21 @@ import { NavBar } from './component/NavBar';
 
 export const App = () => {
     const ctx = useRpc();
-    const { setUrl } = useFile();
     const [items, setItems] = useState<ItemInfo[]>([]);
 
     useEffect(() => {
         if (ctx.status === 'connected') {
             const getFiles = async () => {
-                const fs = await ctx.rpc.$.getFiles();
-                setItems(fs);
-                const indexPage = fs.find(isIndexPage);
-                if (indexPage) {
-                    setUrl(indexPage.url);
+                try {
+                    const fs = await ctx.rpc.$.getFiles();
+                    setItems(fs);
+                } catch (e) {
+                    console.error(e);
                 }
             };
             getFiles();
         }
-    }, [ctx, setUrl]);
+    }, [ctx]);
 
     return (
         <Layout>

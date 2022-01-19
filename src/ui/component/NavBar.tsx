@@ -12,12 +12,13 @@ export const NavBar: FC<{ items: ItemInfo[] }> = ({ items }) => {
     const { setFile, url, setUrl } = useFile();
 
     useEffect(() => {
-        if (ctx.status !== 'connected' || !url) {
+        if (ctx.status !== 'connected') {
             return;
         }
 
         const setFileByUrl = async () => {
-            const file = await ctx.rpc.$.getFile(url);
+            // TODO: handle url in dir
+            const file = await ctx.rpc.$.getFile(url === '/' ? 'index' : url);
 
             setFile(file);
         };

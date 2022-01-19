@@ -1,7 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import fs from 'fs-extra';
-import { resolve } from 'pathe';
+import { relative, resolve } from 'pathe';
 
 import type { ItemInfo, WebSocketServerEvents } from '../interface';
 
@@ -12,14 +12,18 @@ export class ContentManager implements WebSocketServerEvents {
         return files.map((name) => ({
             type: 'file',
             name,
-            url: resolve(this.docDir, name),
+            url: name.split('.md')[0],
         }));
     }
     async getFile(url: string): Promise<string> {
-        const data = await fs.readFile(url, 'utf-8');
+        const data = await fs.readFile(this.resolveFilePath(url), 'utf-8');
         return data;
     }
     async writeFile(url: string, markdown: string): Promise<void> {
-        await fs.writeFile(url, markdown);
+        await fs.writeFile(this.resolveFilePath(url), markdown);
+    }
+
+    private resolveFilePath(url: string) {
+        return resolve(this.docDir, url) + '.md';
     }
 }

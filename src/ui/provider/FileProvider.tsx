@@ -10,10 +10,14 @@ export const SetUrlCtx = createContext<Dispatch<SetStateAction<string>>>(() => {
     throw new Error();
 });
 
+const path = window.location.hash
+    .split('/')
+    .filter((x) => x && x !== '#')
+    .join('/');
+
 export const FileProvider: FC = ({ children }) => {
     const [file, setFile] = useState('');
-    // TODO: parse current url as default
-    const [url, setUrl] = useState('');
+    const [url, setUrl] = useState(path.length === 0 ? '/' : path);
     return (
         <UrlCtx.Provider value={url}>
             <SetUrlCtx.Provider value={setUrl}>

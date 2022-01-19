@@ -8,14 +8,14 @@ import { isIndexPage, nope, transformName } from '../utils/helper';
 type ListItemProps = {
     name: string;
     url: string;
-    isActive: boolean;
     onClick: (url: string) => void;
 };
 
-const ListItem: FC<ListItemProps> = ({ isActive, url, name, onClick, children }) => (
-    <li key={url} onClick={() => onClick(url)}>
+const ListItem: FC<ListItemProps> = ({ url, name, onClick, children }) => (
+    <li key={url}>
         <NavLink
-            to={name.split('.md')[0]}
+            onClick={() => onClick(url)}
+            to={url}
             className={({ isActive }) =>
                 `transition no-underline cursor-pointer p-x-6 p-y-3 text-sm hover:text-primary hover:text-opacity-100 ${
                     isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
@@ -38,12 +38,7 @@ type DirItemProps = {
 const DirItem: FC<DirItemProps> = ({ name, activeUrl, onClick, list }) => {
     const item = list.find(isIndexPage);
     return (
-        <ListItem
-            url={item?.url || ''}
-            name={name}
-            isActive={Boolean(item && item.url === activeUrl)}
-            onClick={item ? onClick : nope}
-        >
+        <ListItem url={item?.url || ''} name={name} onClick={item ? onClick : nope}>
             <List onClick={onClick} activeUrl={activeUrl} items={list.filter((item) => !isIndexPage(item))} />
         </ListItem>
     );
@@ -59,13 +54,7 @@ const List: FC<ListProps> = ({ items, activeUrl, onClick }) => (
     <ul className="list-none m-0 p-0 p-l-2">
         {items.map((item) =>
             item.type === 'file' ? (
-                <ListItem
-                    key={item.url}
-                    url={item.url}
-                    name={item.name}
-                    isActive={item.url === activeUrl}
-                    onClick={onClick}
-                />
+                <ListItem key={item.url} url={item.url} name={item.name} onClick={onClick} />
             ) : (
                 <DirItem key={item.name} name={item.name} activeUrl={activeUrl} onClick={onClick} list={item.list} />
             ),
