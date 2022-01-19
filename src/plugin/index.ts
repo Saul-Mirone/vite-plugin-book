@@ -87,6 +87,8 @@ export default function vitePluginBook(): Plugin[] {
                 if (id.includes('node_modules')) {
                     return null;
                 }
+                console.log('\n');
+                console.log('Inject global environments for vite-plugin-book to file: ', id);
 
                 const magicString = new MagicString(code);
 
@@ -96,15 +98,23 @@ export default function vitePluginBook(): Plugin[] {
                     const url = resolve(docsDir, fileName);
                     const name = transformName(fileName);
                     console.log(
-                        `globalThis.__VITE_PLUGIN_BOOK__.${name} = () => import('./${relative(dirname(id), url)}');\n`,
+                        `globalThis.__VITE_PLUGIN_BOOK__.file.${name} = () => import('./${relative(
+                            dirname(id),
+                            url,
+                        )}');`,
                     );
                     magicString.prepend(
-                        `globalThis.__VITE_PLUGIN_BOOK__.${name} = () => import('./${relative(dirname(id), url)}');\n`,
+                        `globalThis.__VITE_PLUGIN_BOOK__.file.${name} = () => import('./${relative(
+                            dirname(id),
+                            url,
+                        )}');\n`,
                     );
                 });
 
-                magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__ = {};`);
-                magicString.prepend(`globalThis.__VITE_PLUGIN_DOC__ = ${JSON.stringify({ docMapping, mode })};`);
+                magicString.prepend(
+                    `globalThis.__VITE_PLUGIN_BOOK__.mapping = ${JSON.stringify({ docMapping, mode })};`,
+                );
+                magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__ = { file: {} };`);
 
                 injected = true;
 
