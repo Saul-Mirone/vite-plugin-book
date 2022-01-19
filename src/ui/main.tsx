@@ -11,8 +11,6 @@ import { App } from './App';
 import { FileProvider } from './provider/FileProvider';
 import { RpcProvider } from './provider/RpcProvider';
 
-// console.log(window.__vite_plugin_doc__);
-
 render(
     <StrictMode>
         <BrowserRouter>
