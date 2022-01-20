@@ -1,11 +1,12 @@
 {
     "name": "vite-plugin-book",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "A vite plugin to help you write a book.",
     "type": "module",
     "main": "dist/plugin/index.js",
     "module": "dist/plugin/index.js",
     "types": "dist/plugin/index.d.ts",
+    "files": ["dist", "src"],
     "exports": {
         ".": {
             "import": "./dist/plugin/index.js",

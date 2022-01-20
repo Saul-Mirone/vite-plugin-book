@@ -20,7 +20,7 @@ export function vitePluginBookDev(): Plugin {
             createWsServer(server, docsDir);
 
             server.middlewares.use(
-                '/__vite-plugin-book__/',
+                '/__vite_plugin_book__/',
                 sirv(clientDist, {
                     single: true,
                     dev: true,

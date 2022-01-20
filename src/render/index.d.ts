@@ -1,1 +1,1 @@
-export default function renderBook(isProd: boolean, container?: Element | string): void;
+export function renderBook(isProd: boolean, container?: Element | string): void;
