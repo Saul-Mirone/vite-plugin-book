@@ -7,6 +7,6 @@ import { vitePluginBookDev } from './plugin-dev';
 import { vitePluginBookMarkdown } from './plugin-markdown';
 import { vitePluginBookRuntimeInject } from './plugin-runtime-inject';
 
-export default function vitePluginBook(): Plugin[] {
+export function book(): Plugin[] {
     return [vitePluginBookDev(), vitePluginBookMarkdown(), vitePluginBookRuntimeInject()];
 }

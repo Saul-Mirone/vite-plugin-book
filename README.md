@@ -25,7 +25,7 @@ npm install vite-plugin-book
 In `vite.config.ts`:
 
 ```typescript
-import book from 'vite-plugin-book';
+import { book } from 'vite-plugin-book/vite';
 
 export default defineConfig({
     plugins: [book()]
@@ -40,7 +40,7 @@ Then create a `index.md` file with a `first-page.md` file.
 ### See the Editor
 
 When running `vite` in `http://localhost:3000`,
-you can open `http://localhost:3000/__vite_plugin_book__` to see the editor.
+you can open `http://localhost:3000/__vite_plugin_book__/` to see the editor.
 
 You can write in editor and it will write to your local disk **when clicking the save button**.
 
@@ -53,7 +53,7 @@ In your code entry:
 > It's `main.ts` by default.
 
 ```typescript
-import { renderBook } from 'vite-plugin-book/render';
+import { renderBook } from 'vite-plugin-book';
 
 renderBook(import.meta.env.PROD, document.getElementById('root'));
 ```
