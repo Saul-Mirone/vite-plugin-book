@@ -55,7 +55,7 @@ In your code entry:
 ```typescript
 import { renderBook } from 'vite-plugin-book';
 
-renderBook(import.meta.env.PROD, document.getElementById('root'));
+renderBook(import.meta.env.PROD, document.getElementById('app'));
 ```
 
 Then you can preview the result through:
