@@ -4,4 +4,4 @@ import '../dist/render/style.css';
 
 import { renderBook } from '../dist/render';
 
-renderBook('#root');
+renderBook(import.meta.env.PROD, '#root');

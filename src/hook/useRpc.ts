@@ -2,10 +2,13 @@
 
 import { useContext, useMemo } from 'react';
 
+import type { WebSocketServerEvents } from '../interface';
 import { RpcCtx, RpcStatusCtx } from '../provider/RpcProvider';
-import { Rpc } from '../utils/rpc';
 
-type UseRpc = { status: 'connected'; rpc: Rpc } | { status: 'connecting' } | { status: 'disconnected' };
+type UseRpc =
+    | { status: 'connected'; rpc: WebSocketServerEvents }
+    | { status: 'connecting' }
+    | { status: 'disconnected' };
 
 export function useRpc(): UseRpc {
     const status = useContext(RpcStatusCtx);

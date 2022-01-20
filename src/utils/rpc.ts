@@ -3,6 +3,7 @@ import { BirpcReturn, createBirpc } from 'birpc';
 import { parse, stringify } from 'flatted';
 
 import { WebSocketClientEvents, WebSocketServerEvents } from '../interface';
+import { nope } from './helper';
 
 const reconnectTries = 10;
 const reconnectInterval = 2000;
@@ -21,7 +22,7 @@ export class RuntimeRpc implements WebSocketServerEvents {
     }
 
     getFiles() {
-        return Promise.resolve(this.store.files);
+        return Promise.resolve(this.store.items);
     }
 
     writeFile(): Promise<void> {
@@ -33,9 +34,7 @@ export class Rpc implements WebSocketServerEvents {
     ws: WebSocket;
     $: BirpcReturn<WebSocketServerEvents>;
 
-    #onMessage: (...args: unknown[]) => unknown = () => {
-        // do nothing
-    };
+    #onMessage: (...args: unknown[]) => unknown = nope;
     #openPromise: Promise<void> = Promise.resolve();
     #tries = reconnectTries;
 

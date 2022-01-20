@@ -8,9 +8,12 @@ export const nope = () => {
 
 export const isIndexPage = (item: ItemInfo): item is FileInfo => item.type === 'file' && item.name === 'index.md';
 
+export const withOutExt = (name: string) => {
+    return name.split('.md')[0];
+};
+
 export const transformName = (name: string) => {
-    const [withOutExt] = name.split('.md');
-    return withOutExt
+    return withOutExt(name)
         .split('-')
         .map((str) => {
             const [first] = str.slice(0, 1);
