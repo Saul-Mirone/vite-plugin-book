@@ -2,21 +2,27 @@
     "name": "vite-plugin-book",
     "version": "0.0.1",
     "description": "A vite plugin to help you write a book.",
-    "type": "module",
-    "main": "dist/plugin/index.js",
-    "module": "dist/plugin/index.js",
-    "types": "dist/plugin/index.d.ts",
+    "module": "true",
+    "main": "./dist/render/index.js",
+    "types": "./dist/render/index.d.ts",
     "files": ["dist", "src"],
     "exports": {
         ".": {
-            "import": "./dist/plugin/index.js",
-            "types": "./dist/plugin/index.d.ts"
-        },
-        "./render": {
             "import": "./dist/render/index.js",
             "types": "./dist/render/index.d.ts"
+        },
+        "./*": "./dist/render/*",
+        "./vite": {
+            "require": "./dist/plugin/index.js",
+            "types": "./dist/plugin/index.d.ts"
         }
     },
+    "typesVersions": {
+        "*": {
+            "vite": ["dist/plugin/index.d.ts"]
+        }
+    },
+    "sideEffects": false,
     "scripts": {
         "commit": "git-cz",
         "start": "vite",

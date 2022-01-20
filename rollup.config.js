@@ -16,7 +16,7 @@ export default () => [
         input: pluginEntry,
         output: {
             dir: 'dist/plugin',
-            format: 'esm',
+            format: 'cjs',
         },
         external,
         plugins: [
