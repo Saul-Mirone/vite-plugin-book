@@ -1,9 +1,9 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { FC, useEffect, useRef } from 'react';
 
-import { useEditor } from '../../hook/useEditor';
-import { useFile } from '../../hook/useFile';
-import { useRpc } from '../../hook/useRpc';
+import { useEditor } from '../hook/useEditor';
+import { useFile } from '../hook/useFile';
+import { useRpc } from '../hook/useRpc';
 
 export const Editor: FC = () => {
     const ctx = useRpc();
@@ -23,7 +23,7 @@ export const Editor: FC = () => {
         const markdown = get();
 
         if (markdown != null) {
-            ctx.rpc.$.writeFile(url, markdown);
+            ctx.rpc.writeFile(url, markdown);
         }
     };
 

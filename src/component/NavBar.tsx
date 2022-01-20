@@ -2,10 +2,10 @@
 
 import { FC, useEffect } from 'react';
 
-import { Nav } from '../../component/Nav';
-import { useFile } from '../../hook/useFile';
-import { useRpc } from '../../hook/useRpc';
-import { ItemInfo } from '../../interface';
+import { useFile } from '../hook/useFile';
+import { useRpc } from '../hook/useRpc';
+import { ItemInfo } from '../interface';
+import { Nav } from './Nav';
 
 export const NavBar: FC<{ items: ItemInfo[] }> = ({ items }) => {
     const ctx = useRpc();
@@ -18,7 +18,7 @@ export const NavBar: FC<{ items: ItemInfo[] }> = ({ items }) => {
 
         const setFileByUrl = async () => {
             // TODO: handle url in dir
-            const file = await ctx.rpc.$.getFile(url === '/' ? 'index' : url);
+            const file = await ctx.rpc.getFile(url === '/' ? 'index' : url);
 
             setFile(file);
         };

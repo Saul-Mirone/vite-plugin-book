@@ -96,23 +96,22 @@ export default function vitePluginBook(): Plugin[] {
                 const files = await fs.readdir(docsDir);
                 files.forEach((fileName) => {
                     const url = resolve(docsDir, fileName);
-                    const name = transformName(fileName);
                     console.log(
-                        `globalThis.__VITE_PLUGIN_BOOK__.file.${name} = () => import('./${relative(
+                        `globalThis.__VITE_PLUGIN_BOOK__.mapping['${url}'] = () => import('./${relative(
                             dirname(id),
                             url,
                         )}');`,
                     );
                     magicString.prepend(
-                        `globalThis.__VITE_PLUGIN_BOOK__.file.${name} = () => import('./${relative(
+                        `globalThis.__VITE_PLUGIN_BOOK__.mapping['${url}'] = () => import('./${relative(
                             dirname(id),
                             url,
                         )}');\n`,
                     );
                 });
 
-                magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__.mapping = ${JSON.stringify(docMapping)};`);
-                magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__ = { file: {} };`);
+                magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__.items = ${JSON.stringify(docMapping)};`);
+                magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__ = { mapping: {} };`);
 
                 injected = true;
 

@@ -1,7 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { useContext } from 'react';
 
-import { FileCtx, SetFileCtx, SetUrlCtx, UrlCtx } from '../ui/provider/FileProvider';
+import { FileCtx, SetFileCtx, SetUrlCtx, UrlCtx } from '../provider/FileProvider';
 
 export function useFile() {
     const file = useContext(FileCtx);

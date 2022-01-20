@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useEditor } from '../hook/useEditor';
 import { useFile } from '../hook/useFile';
 
-export const Editor = () => {
+export const Reader = () => {
     const divRef = useRef<HTMLDivElement>(null);
     const { status, set } = useEditor(divRef, true);
     const { file } = useFile();

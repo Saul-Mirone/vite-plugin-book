@@ -10,7 +10,26 @@ export const PORT = import.meta.hot ? '3000' : location.port;
 export const HOST = [location.hostname, PORT].filter(Boolean).join(':');
 const wsUrl = `${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${HOST}/__vite-plugin-book-server__`;
 
-export class Rpc {
+export class RuntimeRpc implements WebSocketServerEvents {
+    get store() {
+        return globalThis.__VITE_PLUGIN_BOOK__;
+    }
+
+    async getFile(url: string) {
+        const module = await this.store.mapping[url]();
+        return module.default;
+    }
+
+    getFiles() {
+        return Promise.resolve(this.store.files);
+    }
+
+    writeFile(): Promise<void> {
+        throw new Error();
+    }
+}
+
+export class Rpc implements WebSocketServerEvents {
     ws: WebSocket;
     $: BirpcReturn<WebSocketServerEvents>;
 
@@ -61,5 +80,17 @@ export class Rpc {
 
     waitForConnect() {
         return this.#openPromise;
+    }
+
+    getFile(url: string) {
+        return this.$.getFile(url);
+    }
+
+    getFiles() {
+        return this.$.getFiles();
+    }
+
+    writeFile(url: string, markdown: string) {
+        return this.$.writeFile(url, markdown);
     }
 }

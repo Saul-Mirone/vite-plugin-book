@@ -2,8 +2,8 @@
 
 import { useContext, useMemo } from 'react';
 
-import { RpcCtx, RpcStatusCtx } from '../ui/provider/RpcProvider';
-import { Rpc } from '../ui/rpc';
+import { RpcCtx, RpcStatusCtx } from '../provider/RpcProvider';
+import { Rpc } from '../utils/rpc';
 
 type UseRpc = { status: 'connected'; rpc: Rpc } | { status: 'connecting' } | { status: 'disconnected' };
 
