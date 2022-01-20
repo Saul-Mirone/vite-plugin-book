@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 import path from 'pathe';
 import Unocss from 'unocss/vite';
 import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
+import copy from 'rollup-plugin-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -49,6 +49,14 @@ export default defineConfig({
                 ],
             ],
         }),
-        dts({ insertTypesEntry: true }),
+        copy({
+            targets: [
+                {
+                    src: [path.resolve(__dirname, 'src/render/index.d.ts')],
+                    dest: path.resolve(__dirname, 'dist/render'),
+                },
+            ],
+            hook: 'writeBundle',
+        }),
     ],
 });
