@@ -4,7 +4,7 @@ import type { Plugin } from 'vite';
 
 export function vitePluginBookMarkdown(): Plugin {
     return {
-        name: 'vite-plugin-book-markdown',
+        name: 'vite-plugin-book:markdown',
         enforce: 'pre',
         async transform(code: string, id: string) {
             if (id.endsWith('.md')) {

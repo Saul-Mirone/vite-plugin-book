@@ -1,5 +1,4 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-/* eslint-disable no-var */
 
 /// <reference types="vite/client" />
 

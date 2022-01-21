@@ -55,5 +55,17 @@ module.exports = {
                 'import/no-default-export': 'off',
             },
         },
+        {
+            files: ['**/*.d.ts'],
+            rules: {
+                'no-var': 'off',
+            },
+        },
+        {
+            files: ['**/plugin/**.ts'],
+            rules: {
+                'no-console': 'off',
+            },
+        },
     ],
 };

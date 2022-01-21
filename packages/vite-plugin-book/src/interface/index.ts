@@ -21,5 +21,6 @@ export interface WebSocketServerEvents {
     writeFile(url: string, markdown: string): Promise<void>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface WebSocketClientEvents {}
+export type WebSocketClientEvents = {
+    // add client events here
+};

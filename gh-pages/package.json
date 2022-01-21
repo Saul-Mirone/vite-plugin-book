@@ -3,7 +3,9 @@
     "private": "true",
     "version": "0.0.2",
     "scripts": {
-        "start": "vite"
+        "start": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
     },
     "devDependencies": {
         "vite-plugin-book": "workspace:*"

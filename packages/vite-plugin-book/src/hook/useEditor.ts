@@ -9,7 +9,9 @@ import {
     rootCtx,
     serializerCtx,
 } from '@milkdown/core';
+import { history } from '@milkdown/plugin-history';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
+import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { gfm } from '@milkdown/preset-gfm';
@@ -36,6 +38,8 @@ export function useEditor(containerRef: RefObject<HTMLElement>, readOnly = false
             })
             .use(nordLight)
             .use(listener)
+            .use(prism)
+            .use(history)
             .use(gfm)
             .use(slash)
             .use(tooltip)

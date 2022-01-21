@@ -10,7 +10,7 @@ import { renderBook } from '../render';
 
 const params = new URLSearchParams(location.search);
 if (params.get('preview')) {
-    renderBook(import.meta.env.PROD, '#root');
+    renderBook(location.href.includes('__vite_plugin_book__') ? false : import.meta.env.PROD, '#root');
 } else {
     render(<Root />, document.getElementById('root'));
 }

@@ -1,8 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-// TODO: use report nodejs lib instead of console
-/* eslint-disable no-console */
-
 import fs from 'fs-extra';
 import MagicString from 'magic-string';
 import { dirname, extname, relative, resolve } from 'pathe';
@@ -17,7 +14,7 @@ export function vitePluginBookRuntimeInject(): Plugin {
     let docMapping: ItemInfo[];
     let injected = false;
     return {
-        name: 'vite-plugin-book-runtime-inject',
+        name: 'vite-plugin-book:runtime-inject',
         apply: 'build',
         async configResolved(resolvedConfig) {
             root = resolvedConfig.root;

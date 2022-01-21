@@ -1,5 +1,4 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-/* eslint-disable no-console */
 
 import type { Plugin } from 'vite';
 
