@@ -5,7 +5,10 @@
     "module": "true",
     "main": "./dist/render/index.js",
     "types": "./dist/render/index.d.ts",
-    "files": ["dist", "src"],
+    "files": [
+        "dist",
+        "src"
+    ],
     "exports": {
         ".": {
             "import": "./dist/render/index.js",
@@ -19,21 +22,21 @@
     },
     "typesVersions": {
         "*": {
-            "vite": ["dist/plugin/index.d.ts"]
+            "vite": [
+                "dist/plugin/index.d.ts"
+            ]
         }
     },
     "sideEffects": false,
     "scripts": {
         "commit": "git-cz",
         "start": "vite",
+        "example:build": "vite build",
+        "example:preview": "vite preview --port 7001",
         "build": "concurrently -n plugin,ui,render \"pnpm run build:plugin\" \"pnpm run build:ui\" \"pnpm run build:render\"",
         "build:ui": "vite build --config vite.config.ui.ts",
         "build:plugin": "rollup -c",
-        "build:render": "vite build --config vite.config.render.ts",
-        "ui:preview": "vite preview --port 7001",
-        "example:start": "vite example",
-        "example:build": "vite build example",
-        "example:preview": "vite preview --port 7001 example"
+        "build:render": "vite build --config vite.config.render.ts"
     },
     "keywords": [
         "vite-plugin"
