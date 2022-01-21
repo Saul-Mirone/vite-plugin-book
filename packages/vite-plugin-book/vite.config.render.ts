@@ -1,13 +1,22 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import react from '@vitejs/plugin-react';
+import path from 'pathe';
+import copy from 'rollup-plugin-copy';
 import Unocss from 'unocss/vite';
 import { defineConfig } from 'vite';
 
-import { book } from './src/plugin';
-
 // https://vitejs.dev/config/
 export default defineConfig({
+    base: '/__vite-plugin-book__/',
+    build: {
+        lib: {
+            formats: ['es'],
+            entry: path.resolve(__dirname, 'src/render/index.tsx'),
+            fileName: () => `index.js`,
+        },
+        outDir: 'dist/render',
+    },
     plugins: [
         react(),
         Unocss({
@@ -40,6 +49,14 @@ export default defineConfig({
                 ],
             ],
         }),
-        book(),
+        copy({
+            targets: [
+                {
+                    src: [path.resolve(__dirname, 'src/render/index.d.ts')],
+                    dest: path.resolve(__dirname, 'dist/render'),
+                },
+            ],
+            hook: 'writeBundle',
+        }),
     ],
 });

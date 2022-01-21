@@ -1,0 +1,11 @@
+{
+    "name": "@vite-plugin-book/gh-pages",
+    "private": "true",
+    "version": "0.0.2",
+    "scripts": {
+        "start": "vite"
+    },
+    "devDependencies": {
+        "vite-plugin-book": "workspace:*"
+    }
+}
