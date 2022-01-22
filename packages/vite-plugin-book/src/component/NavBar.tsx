@@ -26,5 +26,5 @@ export const NavBar: FC<{ items: ItemInfo[] }> = ({ items }) => {
         setFileByUrl();
     }, [url, setFile, ctx]);
 
-    return <Nav title={'Vite Plugin Book'} items={items} activeUrl={url} onClick={setUrl} />;
+    return <Nav title={'Vite Book'} items={items} activeUrl={url} onClick={setUrl} />;
 };
