@@ -15,7 +15,7 @@ type ListItemProps = {
 const ListItem: FC<ListItemProps> = ({ url, name, onClick, children }) => {
     const base = useContext(RouteBaseCtx);
     return (
-        <li key={url}>
+        <li key={url} className="truncate">
             <NavLink
                 onClick={() => onClick(url)}
                 to={`${base}${url}`}
@@ -78,7 +78,7 @@ export const Nav: FC<NavProps> = ({ title, items, activeUrl, onClick }) => {
     const base = useContext(RouteBaseCtx);
     return (
         <nav className="h-full w-full flex flex-col bg-background">
-            <div className="cursor-pointer p-x-6 p-y-3 text-xl m-t-5">
+            <div className="cursor-pointer truncate p-x-6 p-y-3 text-xl m-t-5">
                 <NavLink
                     onClick={() => indexPage && onClick(indexPage.url)}
                     to={base}
