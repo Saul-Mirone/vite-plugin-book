@@ -1,5 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { createContext, Dispatch, FC, SetStateAction, useState } from 'react';
+import { createContext, Dispatch, FC, SetStateAction, useContext, useState } from 'react';
+
+import { RouteBaseCtx } from './RouteBaseProvider';
 
 export const FileCtx = createContext('');
 export const SetFileCtx = createContext<Dispatch<SetStateAction<string>>>(() => {
@@ -10,14 +12,11 @@ export const SetUrlCtx = createContext<Dispatch<SetStateAction<string>>>(() => {
     throw new Error();
 });
 
-const path = window.location.hash
-    .split('/')
-    .filter((x) => x && x !== '#')
-    .join('/');
-
 export const FileProvider: FC = ({ children }) => {
+    const base = useContext(RouteBaseCtx);
+    const pureBase = window.location.pathname.replace(base, '');
     const [file, setFile] = useState('');
-    const [url, setUrl] = useState(path.length === 0 ? '/' : path);
+    const [url, setUrl] = useState(pureBase.length === 0 ? '/' : pureBase);
     return (
         <UrlCtx.Provider value={url}>
             <SetUrlCtx.Provider value={setUrl}>

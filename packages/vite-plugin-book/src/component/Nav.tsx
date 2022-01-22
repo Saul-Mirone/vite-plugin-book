@@ -13,10 +13,11 @@ type ListItemProps = {
     name: string;
     url: string;
     onClick: (url: string) => void;
+    path: string;
 };
 
-const ListItem: FC<ListItemProps> = ({ url, name, onClick, children }) => {
-    const { to, isActive } = useActive(url);
+const ListItem: FC<ListItemProps> = ({ url, name, onClick, children, path }) => {
+    const { to, isActive } = useActive(path + url);
     return (
         <li
             key={url}
@@ -31,10 +32,37 @@ const ListItem: FC<ListItemProps> = ({ url, name, onClick, children }) => {
                         isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
                     }`
                 }
-                onClick={() => onClick(url)}
+                onClick={() => onClick(path + url)}
             >
                 {transformName(name)}
             </NavLink>
+            {children}
+        </li>
+    );
+};
+
+const SubList: FC<ListItemProps & { hasIndex: boolean }> = ({ hasIndex, url, name, children, onClick, path }) => {
+    const base = useContext(RouteBaseCtx);
+    const to = path + name + '/' + url;
+    return (
+        <li key={url}>
+            <div className={`transition py-18px px-16px text-neutral ${hasIndex ? 'hover:text-primary' : ''}`}>
+                {hasIndex ? (
+                    <NavLink
+                        to={base + to}
+                        className={({ isActive }) =>
+                            ` cursor-pointer no-underline text-sm hover:text-primary hover:text-opacity-100 ${
+                                isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
+                            }`
+                        }
+                        onClick={() => onClick(to)}
+                    >
+                        {transformName(name)}
+                    </NavLink>
+                ) : (
+                    <span className="text-neutral text-opacity-60">{transformName(name)}</span>
+                )}
+            </div>
             {children}
         </li>
     );
@@ -45,14 +73,21 @@ type DirItemProps = {
     activeUrl: string;
     onClick: (url: string) => void;
     list: ItemInfo[];
+    path: string;
 };
 
-const DirItem: FC<DirItemProps> = ({ name, activeUrl, onClick, list }) => {
+const DirItem: FC<DirItemProps> = ({ name, activeUrl, onClick, list, path }) => {
     const item = list.find(isIndexPage);
+    const hasIndex = list.find((x) => x.name === 'index.md') != null;
     return (
-        <ListItem url={item?.url || ''} name={name} onClick={item ? onClick : nope}>
-            <List onClick={onClick} activeUrl={activeUrl} items={list.filter((item) => !isIndexPage(item))} />
-        </ListItem>
+        <SubList path={path} hasIndex={hasIndex} url={item?.url || ''} name={name} onClick={item ? onClick : nope}>
+            <List
+                path={path + name + '/'}
+                onClick={onClick}
+                activeUrl={activeUrl}
+                items={list.filter((item) => !isIndexPage(item))}
+            />
+        </SubList>
     );
 };
 
@@ -60,15 +95,23 @@ type ListProps = {
     items: ItemInfo[];
     onClick: (url: string) => void;
     activeUrl: string;
+    path: string;
 };
 
-const List: FC<ListProps> = ({ items, activeUrl, onClick }) => (
+const List: FC<ListProps> = ({ items, activeUrl, onClick, path }) => (
     <ul className="list-none m-0 px-12px">
         {items.map((item) =>
             item.type === 'file' ? (
-                <ListItem key={item.url} url={item.url} name={item.name} onClick={onClick} />
+                <ListItem key={item.url} path={path} url={item.url} name={item.name} onClick={onClick} />
             ) : (
-                <DirItem key={item.name} name={item.name} activeUrl={activeUrl} onClick={onClick} list={item.list} />
+                <DirItem
+                    key={item.name}
+                    path={path}
+                    name={item.name}
+                    activeUrl={activeUrl}
+                    onClick={onClick}
+                    list={item.list}
+                />
             ),
         )}
     </ul>
@@ -100,7 +143,7 @@ export const Nav: FC<NavProps> = ({ title, items, activeUrl, onClick }) => {
                 </NavLink>
                 {mode === 'editable' && <Button text="New" icon="add" onClick={onClickAdd} />}
             </div>
-            <List items={items.filter((item) => !isIndexPage(item))} activeUrl={activeUrl} onClick={onClick} />
+            <List path="" items={items.filter((item) => !isIndexPage(item))} activeUrl={activeUrl} onClick={onClick} />
         </nav>
     );
 };

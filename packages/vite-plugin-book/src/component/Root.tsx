@@ -10,7 +10,7 @@ import { DevRpcProvider, RuntimeRpcProvider } from '../provider/RpcProvider';
 import { App } from './App';
 
 const isPreview = location.pathname.split('/').includes('__preview__');
-const base = location.href.includes('__vite_plugin_book__')
+const base = location.pathname.includes('__vite_plugin_book__')
     ? isPreview
         ? '/__vite_plugin_book__/__preview__/'
         : '/__vite_plugin_book__/'

@@ -3,18 +3,35 @@
 import fs from 'fs-extra';
 import { resolve } from 'pathe';
 
-import type { ItemInfo, WebSocketServerEvents } from '../interface';
+import type { DirInfo, FileInfo, ItemInfo, WebSocketServerEvents } from '../interface';
 import { withOutExt } from '../utils/helper';
 
 export class ContentManager implements WebSocketServerEvents {
     constructor(private docDir: string) {}
     async getFiles(): Promise<ItemInfo[]> {
-        const files = await fs.readdir(this.docDir);
-        return files.map((name) => ({
-            type: 'file',
-            name,
-            url: withOutExt(name),
-        }));
+        const handlePath = async (dir: string) => {
+            const files = await fs.readdir(dir, { withFileTypes: true });
+            return Promise.all(
+                files.map(async (file): Promise<ItemInfo> => {
+                    if (file.isDirectory()) {
+                        const dirInfo: DirInfo = {
+                            type: 'dir',
+                            name: file.name,
+                            list: await handlePath(resolve(dir, file.name)),
+                        };
+                        return dirInfo;
+                    }
+
+                    const fileInfo: FileInfo = {
+                        type: 'file',
+                        name: file.name,
+                        url: withOutExt(file.name),
+                    };
+                    return fileInfo;
+                }),
+            );
+        };
+        return handlePath(this.docDir);
     }
     async getFile(url: string): Promise<string> {
         const data = await fs.readFile(this.resolveFilePath(url), 'utf-8');
