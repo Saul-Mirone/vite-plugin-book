@@ -43,7 +43,7 @@ const ListItem: FC<ListItemProps> = ({ url, name, onClick, children, path }) => 
 
 const SubList: FC<ListItemProps & { hasIndex: boolean }> = ({ hasIndex, url, name, children, onClick, path }) => {
     const base = useContext(RouteBaseCtx);
-    const to = path + name + '/' + url;
+    const to = path + name;
     return (
         <li key={url}>
             <div className={`transition py-18px px-16px text-neutral ${hasIndex ? 'hover:text-primary' : ''}`}>

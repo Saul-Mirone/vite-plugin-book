@@ -33,15 +33,25 @@ export class ContentManager implements WebSocketServerEvents {
         };
         return handlePath(this.docDir);
     }
+
     async getFile(url: string): Promise<string> {
-        const data = await fs.readFile(this.resolveFilePath(url), 'utf-8');
-        return data;
+        return fs.readFile(this.resolveFilePath(url), 'utf-8');
     }
+
     async writeFile(url: string, markdown: string): Promise<void> {
         await fs.writeFile(this.resolveFilePath(url), markdown);
     }
 
     private resolveFilePath(url: string) {
-        return resolve(this.docDir, url) + '.md';
+        const target = resolve(this.docDir, url) + '.md';
+        if (fs.existsSync(target)) {
+            return target;
+        }
+        const index = resolve(withOutExt(target), 'index.md');
+        if (fs.existsSync(index)) {
+            return index;
+        }
+        console.error('Cannot resolve file: ', url);
+        return '';
     }
 }
