@@ -1,8 +1,9 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import type { FC } from 'react';
+import { FC, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import type { ItemInfo } from '../interface';
+import { RouteBaseCtx } from '../provider/RouteBaseProvider';
 import { isIndexPage, nope, transformName } from '../utils/helper';
 
 type ListItemProps = {
@@ -11,22 +12,25 @@ type ListItemProps = {
     onClick: (url: string) => void;
 };
 
-const ListItem: FC<ListItemProps> = ({ url, name, onClick, children }) => (
-    <li key={url}>
-        <NavLink
-            onClick={() => onClick(url)}
-            to={url}
-            className={({ isActive }) =>
-                `transition no-underline cursor-pointer p-x-6 p-y-3 text-sm hover:text-primary hover:text-opacity-100 ${
-                    isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
-                }`
-            }
-        >
-            {transformName(name)}
-        </NavLink>
-        {children}
-    </li>
-);
+const ListItem: FC<ListItemProps> = ({ url, name, onClick, children }) => {
+    const base = useContext(RouteBaseCtx);
+    return (
+        <li key={url}>
+            <NavLink
+                onClick={() => onClick(url)}
+                to={`${base}${url}`}
+                className={({ isActive }) =>
+                    `transition no-underline cursor-pointer p-x-6 p-y-3 text-sm hover:text-primary hover:text-opacity-100 ${
+                        isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
+                    }`
+                }
+            >
+                {transformName(name)}
+            </NavLink>
+            {children}
+        </li>
+    );
+};
 
 type DirItemProps = {
     name: string;
@@ -71,12 +75,13 @@ export type NavProps = {
 
 export const Nav: FC<NavProps> = ({ title, items, activeUrl, onClick }) => {
     const indexPage = items.find(isIndexPage);
+    const base = useContext(RouteBaseCtx);
     return (
         <nav className="h-full w-full flex flex-col bg-background">
             <div className="cursor-pointer p-x-6 p-y-3 text-xl m-t-5">
                 <NavLink
                     onClick={() => indexPage && onClick(indexPage.url)}
-                    to="/"
+                    to={base}
                     className="no-underline text-neutral"
                 >
                     {title}

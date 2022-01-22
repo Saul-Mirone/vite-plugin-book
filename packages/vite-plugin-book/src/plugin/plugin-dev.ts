@@ -67,7 +67,7 @@ export function vitePluginBookDev(): Plugin {
 
                 setTimeout(() => {
                     console.log(`  > Book Admin: ${url}`);
-                    console.log(`  > Book Preview: ${url}?preview=1`);
+                    console.log(`  > Book Preview: ${url}__preview__/`);
                 });
             });
         },

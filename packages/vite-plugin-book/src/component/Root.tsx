@@ -1,29 +1,37 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import { FC, StrictMode, useMemo } from 'react';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import { FileProvider } from '../provider/FileProvider';
 import { ModeProvider } from '../provider/ModeProvider';
+import { RouteBaseProvider } from '../provider/RouteBaseProvider';
 import { DevRpcProvider, RuntimeRpcProvider } from '../provider/RpcProvider';
 import { App } from './App';
 
-const params = new URLSearchParams(location.search);
+const isPreview = location.pathname.split('/').includes('__preview__');
+const base = location.href.includes('__vite_plugin_book__')
+    ? isPreview
+        ? '/__vite_plugin_book__/__preview__/'
+        : '/__vite_plugin_book__/'
+    : '/';
 
 export const Root: FC<{ isRuntime?: boolean }> = ({ isRuntime = false }) => {
     const RpcProvider = useMemo(() => (isRuntime ? RuntimeRpcProvider : DevRpcProvider), [isRuntime]);
-    const mode = isRuntime ? 'preview' : params.get('preview') ? 'preview' : 'editable';
+    const mode = isRuntime || isPreview || base === '/' ? 'preview' : 'editable';
     return (
         <StrictMode>
-            <HashRouter>
+            <BrowserRouter>
                 <ModeProvider mode={mode}>
-                    <RpcProvider>
-                        <FileProvider>
-                            <App />
-                        </FileProvider>
-                    </RpcProvider>
+                    <RouteBaseProvider base={base}>
+                        <RpcProvider>
+                            <FileProvider>
+                                <App />
+                            </FileProvider>
+                        </RpcProvider>
+                    </RouteBaseProvider>
                 </ModeProvider>
-            </HashRouter>
+            </BrowserRouter>
         </StrictMode>
     );
 };

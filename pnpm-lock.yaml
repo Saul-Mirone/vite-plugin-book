@@ -68,15 +68,15 @@ importers:
 
   packages/vite-plugin-book:
     specifiers:
-      '@milkdown/core': ^5.3.3
-      '@milkdown/plugin-history': ^5.3.3
-      '@milkdown/plugin-listener': ^5.3.3
-      '@milkdown/plugin-prism': ^5.3.3
-      '@milkdown/plugin-slash': ^5.3.3
-      '@milkdown/plugin-tooltip': ^5.3.3
-      '@milkdown/preset-gfm': ^5.3.3
-      '@milkdown/prose': ^5.3.3
-      '@milkdown/theme-nord': ^5.3.3
+      '@milkdown/core': ^5.3.4
+      '@milkdown/plugin-history': ^5.3.4
+      '@milkdown/plugin-listener': ^5.3.4
+      '@milkdown/plugin-prism': ^5.3.4
+      '@milkdown/plugin-slash': ^5.3.4
+      '@milkdown/plugin-tooltip': ^5.3.4
+      '@milkdown/preset-gfm': ^5.3.4
+      '@milkdown/prose': ^5.3.4
+      '@milkdown/theme-nord': ^5.3.4
       '@rollup/plugin-commonjs': ^21.0.1
       '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-node-resolve': ^13.1.3
@@ -110,15 +110,15 @@ importers:
       sirv: 2.0.0
       ws: 8.4.2
     devDependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/plugin-history': 5.3.3
-      '@milkdown/plugin-listener': 5.3.3
-      '@milkdown/plugin-prism': 5.3.3
-      '@milkdown/plugin-slash': 5.3.3
-      '@milkdown/plugin-tooltip': 5.3.3
-      '@milkdown/preset-gfm': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/theme-nord': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/plugin-history': 5.3.4
+      '@milkdown/plugin-listener': 5.3.4
+      '@milkdown/plugin-prism': 5.3.4
+      '@milkdown/plugin-slash': 5.3.4
+      '@milkdown/plugin-tooltip': 5.3.4
+      '@milkdown/preset-gfm': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/theme-nord': 5.3.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.64.0
       '@rollup/plugin-json': 4.1.0_rollup@2.64.0
       '@rollup/plugin-node-resolve': 13.1.3_rollup@2.64.0
@@ -954,14 +954,14 @@ packages:
     resolution: {integrity: sha512-WrHvO8PDL8wd8T2+zBGKrMwVL5IyzR3ryWUsl0PXgEV0QHup4mTLi0QcATefGI6Gx9Anu7vthPyyyLpY0EpiQg==}
     dev: true
 
-  /@milkdown/core/5.3.3:
-    resolution: {integrity: sha512-VjHUlsbpioIdADU3DBoirpCYx1LQ035DFm7E7Ruc6gRBfk3hNoP8aLZHncsOEkshxgRqH7Zus8pKaHjjVVS6lQ==}
+  /@milkdown/core/5.3.4:
+    resolution: {integrity: sha512-fRb4SBxutMwQlak7FEvIo3XCI0b8lhIcy03R2nkCEZ30XQmBcfBNoHppozBNQL1nrrMvqEtbpoL//dXlpSisQQ==}
     dependencies:
-      '@milkdown/ctx': 5.3.3
-      '@milkdown/design-system': 5.3.3
-      '@milkdown/exception': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/transformer': 5.3.3
+      '@milkdown/ctx': 5.3.4
+      '@milkdown/design-system': 5.3.4
+      '@milkdown/exception': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/transformer': 5.3.4
       remark: 14.0.2
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -969,15 +969,15 @@ packages:
       - supports-color
     dev: true
 
-  /@milkdown/ctx/5.3.3:
-    resolution: {integrity: sha512-DGIwpbG2SkF6zVujgX0oH0e4dCd18jL0sQEitAHzZkyFYAWlqfeqn9rKBhXxLN+iwmVvKSAVDu+dEIuKea7dPQ==}
+  /@milkdown/ctx/5.3.4:
+    resolution: {integrity: sha512-+HEkaYtDqjxb+VTkggIRdp0YmmEKOLIMEoO+rVl793ck0aW+wS2K/18s+vMtwjlgrKj/6mwjy3NrHItHOFx0Zg==}
     dependencies:
-      '@milkdown/exception': 5.3.3
+      '@milkdown/exception': 5.3.4
       tslib: 2.3.1
     dev: true
 
-  /@milkdown/design-system/5.3.3:
-    resolution: {integrity: sha512-wgn8lyrjVnud1CFn1ERRWLBH2pFMTQw50fR+RyNjKylOt1Nvyrk7aTO9n2hSKxOsPUlLnInra0IPVowA/GhqaQ==}
+  /@milkdown/design-system/5.3.4:
+    resolution: {integrity: sha512-+E8vlBAuT1BvVNrXTRAM4vQREmun1t2gLH+83OBQybXgm6yLYkQBeWMs0IyJFVeIqQjRu1dethlXB92dHwnpJw==}
     dependencies:
       '@emotion/cache': 11.7.1
       '@emotion/css': 11.7.1
@@ -986,42 +986,42 @@ packages:
       - '@babel/core'
     dev: true
 
-  /@milkdown/exception/5.3.3:
-    resolution: {integrity: sha512-W9G+yLiI9U4WzTGNkMqfRK+BLi5fqvWAjkppkndCL6I+YjzlYCJhY4/hdLm5Q9Ti+f8tAnXM4K67jEZL5q1ruQ==}
+  /@milkdown/exception/5.3.4:
+    resolution: {integrity: sha512-BjES6yln2in/5Udg3gMtGlxsthsIMTkA9bT58MCHAYRR0XoSH7LITfo4/7Ncb3/DtXMk6lMoNocBC7yQu9/PkQ==}
     dependencies:
       tslib: 2.3.1
     dev: true
 
-  /@milkdown/plugin-history/5.3.3:
-    resolution: {integrity: sha512-6NZxPkwvtYeA/4nzjCIk9IrXow29zi16kfd9T2inSWFQ8wNNAa+g7nM4lGE6+FgOzA5rYtgFCBjvlLCDXtQpmQ==}
+  /@milkdown/plugin-history/5.3.4:
+    resolution: {integrity: sha512-EEgFBCb1f5171+vgQiPET6b3l6isVGDUooRf3YQpF2n+bwBv00ZLlsuchGz17NwSSarDyERTDotLoH+5krHZ6A==}
     dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/utils': 5.3.3
-      tslib: 2.3.1
-    transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
-    dev: true
-
-  /@milkdown/plugin-listener/5.3.3:
-    resolution: {integrity: sha512-fgeTjvLOoFcyxH9WpD8soQjNc5CU7Vktuh1E/SAF2YEUeNcLtQbkwdWxqqAqHgmWH3qs59h7IriUZtlUayqWPQ==}
-    dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/utils': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/utils': 5.3.4
       tslib: 2.3.1
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
     dev: true
 
-  /@milkdown/plugin-math/5.3.3:
-    resolution: {integrity: sha512-SMuz6jFU9f/EfInw6iLelTamSSK7G/nYQz4B5/Y05Lnm1zdxxYwycdRq+WB/iFWT19gerCtUjiwT3ToWvGHLzQ==}
+  /@milkdown/plugin-listener/5.3.4:
+    resolution: {integrity: sha512-furHFcp/JKdU4f4yd7Jk3qTfMUvvCaiFX9SCRyLEvpHFYg1GKdKrX3YZ6tcT5dkOkhBEt3km0Ubghv3wV5V+/g==}
     dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/utils': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/utils': 5.3.4
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
+    dev: true
+
+  /@milkdown/plugin-math/5.3.4:
+    resolution: {integrity: sha512-7GxmjwNvvWwx1l/aVLrVxWnDR9CxsT+D8uvFWDKA5NcwzW2NKYbgrPI84FTf26MXDaTBHZJO28JpmT9a/8FptQ==}
+    dependencies:
+      '@milkdown/core': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/utils': 5.3.4
       '@types/katex': 0.11.1
       katex: 0.15.2
       remark-math: 5.1.1
@@ -1031,12 +1031,12 @@ packages:
       - supports-color
     dev: true
 
-  /@milkdown/plugin-prism/5.3.3:
-    resolution: {integrity: sha512-nr4GjMA/xfde+TuzNfqcasJ0gMX6LqfDPvkjPbPLio7tIjxbdL48mumD3e7CHBmhB7+3t69o++r+szGFvGe2JQ==}
+  /@milkdown/plugin-prism/5.3.4:
+    resolution: {integrity: sha512-Gh8dn9n+ODTJO+p/Cg0cixIEUNiyECln2+oXTMMgdPEQcnZE/Dcg7+LUcAWH6qMwgqYws/Mb53eJuwFlzo65dQ==}
     dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/utils': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/utils': 5.3.4
       '@types/refractor': 3.0.2
       refractor: 4.4.0
       tslib: 2.3.1
@@ -1045,15 +1045,15 @@ packages:
       - supports-color
     dev: true
 
-  /@milkdown/plugin-slash/5.3.3:
-    resolution: {integrity: sha512-KESn3XSNZAgSUVVGX22HkqkMnk5KhM2+4/1MEbGsZgyf13iXiiJBw1KI/D2JjL8GJbML88R4LZtTlDHTIl0bJQ==}
+  /@milkdown/plugin-slash/5.3.4:
+    resolution: {integrity: sha512-u+xOFf6Ku64M4g1CrmOkZ7BGjnmXZBSm/O0HhRNErdT+IS5oHG8UOtLJOOLCsaHJRjoK4xhpD9tu7VE44q9qvw==}
     dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/ctx': 5.3.3
-      '@milkdown/design-system': 5.3.3
-      '@milkdown/preset-gfm': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/utils': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/ctx': 5.3.4
+      '@milkdown/design-system': 5.3.4
+      '@milkdown/preset-gfm': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/utils': 5.3.4
       smooth-scroll-into-view-if-needed: 1.1.32
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -1061,28 +1061,28 @@ packages:
       - supports-color
     dev: true
 
-  /@milkdown/plugin-tooltip/5.3.3:
-    resolution: {integrity: sha512-wc3CzMio3XeaIlHaRjMCjGRuQOYT27jeQDljLDkyWEQ88f/RQsWhx3dmxVqBWM+Uo4vCmL0bSHhCahiQnk1/dQ==}
+  /@milkdown/plugin-tooltip/5.3.4:
+    resolution: {integrity: sha512-krmPiIO2h4nMs4GZXKe+17D13PmJkEgfCg5tmqfeBDODoMWBeS8kjGHFaPa+DLEyPA3BHzFCeudM09QX/rhxZg==}
     dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/design-system': 5.3.3
-      '@milkdown/plugin-math': 5.3.3
-      '@milkdown/preset-gfm': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/utils': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/design-system': 5.3.4
+      '@milkdown/plugin-math': 5.3.4
+      '@milkdown/preset-gfm': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/utils': 5.3.4
       tslib: 2.3.1
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
     dev: true
 
-  /@milkdown/preset-commonmark/5.3.3:
-    resolution: {integrity: sha512-kJYcw9geG6FXGBwn59ev8AMWB7om3PGPbyqIyWuhb8jtOOu0K7/7273X7aqVzoC9KdW1ofaTxBXa1ni8jF3GGA==}
+  /@milkdown/preset-commonmark/5.3.4:
+    resolution: {integrity: sha512-Fgvtw1iYTP5xShVmSUr1t0gtqpqxMQ02jDuGYU6pQ6l3e+yDLnFlkr9jFdJXQ7mfOr8Q52GJos4nneWuyMRRlA==}
     dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/design-system': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/utils': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/design-system': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/utils': 5.3.4
       remark-inline-links: 6.0.1
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -1090,14 +1090,14 @@ packages:
       - supports-color
     dev: true
 
-  /@milkdown/preset-gfm/5.3.3:
-    resolution: {integrity: sha512-ClRrsAVNGwgwehWiHXfelMjui1Ag2273DzbRikrVJrrA6BEnsYlSR4so9z3wqxu5tRltear30T2vrJucpFoqkg==}
+  /@milkdown/preset-gfm/5.3.4:
+    resolution: {integrity: sha512-FtRndzrSR0mELNriIdGNUt3hZ1SH4H7b2/ouPvkmMpe/jdm36NjEAT4unhVGrgRuJ0WWrLczVK+Dsr7bhZdcvw==}
     dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/design-system': 5.3.3
-      '@milkdown/preset-commonmark': 5.3.3
-      '@milkdown/prose': 5.3.3
-      '@milkdown/utils': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/design-system': 5.3.4
+      '@milkdown/preset-commonmark': 5.3.4
+      '@milkdown/prose': 5.3.4
+      '@milkdown/utils': 5.3.4
       remark-gfm: 3.0.1
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -1105,10 +1105,10 @@ packages:
       - supports-color
     dev: true
 
-  /@milkdown/prose/5.3.3:
-    resolution: {integrity: sha512-5fc8S+WKAGZg7UezJCkMHjnd499ePVzglM/oYdhlvl9mb5HpyuS5LX5PqzUwl3hV5Kyd6wn+Mt1/+uiOEHy47Q==}
+  /@milkdown/prose/5.3.4:
+    resolution: {integrity: sha512-kiNXBbNg0K83bvVBhcY2Y0V4oh4WzFXRxG37qG5Vk98n796yyeKufNitfPFR4hqHgCL2Nx1bVRW4/Y8QZLqChw==}
     dependencies:
-      '@milkdown/exception': 5.3.3
+      '@milkdown/exception': 5.3.4
       '@types/prosemirror-commands': 1.0.4
       '@types/prosemirror-dropcursor': 1.0.3
       '@types/prosemirror-gapcursor': 1.0.4
@@ -1135,22 +1135,22 @@ packages:
       tslib: 2.3.1
     dev: true
 
-  /@milkdown/theme-nord/5.3.3:
-    resolution: {integrity: sha512-wnxhT5af3ZiJN8nvwBO1AKiqdADXN3murT9Tw21hCsHUee+zZO3umdLr9x5ZAkIb7N1SbyoSEAMpCEoC2RDcBQ==}
+  /@milkdown/theme-nord/5.3.4:
+    resolution: {integrity: sha512-sLrLIqilIYjZGZZB+/wB1IWwe0fq9mdWTjGqpeT54lSwlu2N1//yQ8/7kOhXKnNjAJm79B8LJ+aUU6WsLzJHSQ==}
     dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/design-system': 5.3.3
-      '@milkdown/prose': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/design-system': 5.3.4
+      '@milkdown/prose': 5.3.4
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
     dev: true
 
-  /@milkdown/transformer/5.3.3:
-    resolution: {integrity: sha512-W/4W8AqHZmC0oIMDOGivMKhan1rbCSVi+GB1hwxWCiSBuBC0Bxm9aipGuxegLYGFLWNr5+YYHH1MvKxE0Tq+EA==}
+  /@milkdown/transformer/5.3.4:
+    resolution: {integrity: sha512-uweUmVwpI0G9XLGbS57IeArfQC0NCrFaGMLjwbj/8B8Cmfn8zq5J1ux0L2CwhtMFiuhpqE5vFM/aN3+jiieBSg==}
     dependencies:
-      '@milkdown/exception': 5.3.3
-      '@milkdown/prose': 5.3.3
+      '@milkdown/exception': 5.3.4
+      '@milkdown/prose': 5.3.4
       remark: 14.0.2
       tslib: 2.3.1
       unified: 10.1.1
@@ -1158,12 +1158,12 @@ packages:
       - supports-color
     dev: true
 
-  /@milkdown/utils/5.3.3:
-    resolution: {integrity: sha512-WWbaTr52x6BQCytWwhYY9v3ufimfnx8hVYpHKBerTfFb35MzlToZheEFVbInJYXzhlJiHucJrprtVreMBorLrw==}
+  /@milkdown/utils/5.3.4:
+    resolution: {integrity: sha512-mAguKKszS3q8QI7VcXEI2bGCsk0XiShDjlL6vPZp9zGygK2QR8daridBtwgSOYoJg4OWZ/7pU7nKfDBVlTkiBg==}
     dependencies:
-      '@milkdown/core': 5.3.3
-      '@milkdown/exception': 5.3.3
-      '@milkdown/prose': 5.3.3
+      '@milkdown/core': 5.3.4
+      '@milkdown/exception': 5.3.4
+      '@milkdown/prose': 5.3.4
       tslib: 2.3.1
     transitivePeerDependencies:
       - '@babel/core'
