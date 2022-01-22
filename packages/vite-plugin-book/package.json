@@ -30,7 +30,7 @@
     "sideEffects": false,
     "scripts": {
         "commit": "git-cz",
-        "dev": "concurrently -n plugin,ui,render \"pnpm run dev:plugin\" \"pnpm dev build:ui\" \"pnpm dev build:render\"",
+        "dev": "concurrently -n plugin,ui,render \"pnpm run dev:plugin\" \"pnpm run dev:ui\" \"pnpm run dev:render\"",
         "dev:ui": "vite build --config vite.config.ui.ts --watch",
         "dev:plugin": "rollup -c --watch",
         "dev:render": "vite build --config vite.config.render.ts --watch",
@@ -46,11 +46,11 @@
     "license": "MIT",
     "devDependencies": {
         "@milkdown/core": "^5.3.4",
+        "@milkdown/plugin-history": "^5.3.4",
         "@milkdown/plugin-listener": "^5.3.4",
+        "@milkdown/plugin-prism": "^5.3.4",
         "@milkdown/plugin-slash": "^5.3.4",
         "@milkdown/plugin-tooltip": "^5.3.4",
-        "@milkdown/plugin-history": "^5.3.4",
-        "@milkdown/plugin-prism": "^5.3.4",
         "@milkdown/preset-gfm": "^5.3.4",
         "@milkdown/prose": "^5.3.4",
         "@milkdown/theme-nord": "^5.3.4",
@@ -62,13 +62,13 @@
         "@types/react": "17.0.38",
         "@types/react-dom": "^17.0.9",
         "@types/ws": "^8.2.2",
-        "@unocss/reset": "^0.22.4",
         "@vitejs/plugin-react": "^1.1.4",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-router-dom": "^6.2.1",
         "react-split-pane": "^0.1.92",
-        "unocss": "^0.22.2"
+        "vite-plugin-windicss": "^1.6.3",
+        "windicss": "^3.4.3"
     },
     "dependencies": {
         "@rollup/pluginutils": "^4.1.2",

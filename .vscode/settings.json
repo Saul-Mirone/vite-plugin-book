@@ -18,6 +18,8 @@
         "tsdoc",
         "unocss",
         "vite",
-        "vitejs"
+        "vitejs",
+        "Windi",
+        "windicss"
     ]
 }

@@ -35,7 +35,8 @@
         "build": "pnpm build --filter=vite-plugin-book",
         "changeset": "changeset",
         "release": "changeset publish",
-        "commit": "git-cz"
+        "commit": "git-cz",
+        "doc": "pnpm start --filter=gh-pages"
     },
     "keywords": [
         "vite-plugin"

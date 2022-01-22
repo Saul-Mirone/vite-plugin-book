@@ -8,7 +8,7 @@ import SplitPane from 'react-split-pane';
 export const Layout: FC = ({ children }) => {
     return (
         <div className="h-screen w-screen overflow-hidden font-mono">
-            <SplitPane className="bg-background" split="vertical" defaultSize="16rem" minSize={200} maxSize={400}>
+            <SplitPane className="bg-background" split="vertical" defaultSize={280} minSize={280} maxSize={400}>
                 {children}
             </SplitPane>
         </div>
