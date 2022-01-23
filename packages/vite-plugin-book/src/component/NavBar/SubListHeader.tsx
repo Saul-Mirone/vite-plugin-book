@@ -1,8 +1,8 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
+import { useActive } from '../../hook/useActive';
 import { transformName } from '../../utils/helper';
 import { Divider } from './Divider';
 
@@ -15,7 +15,7 @@ type SubListHeaderProps = {
 };
 
 export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, children, onClick }) => {
-    const base = useContext(RouteBaseCtx);
+    const { to } = useActive(url);
 
     return (
         <li key={url}>
@@ -23,7 +23,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
             <div className={`transition py-18px px-16px text-neutral ${hasIndex ? 'hover:text-primary' : ''}`}>
                 {hasIndex ? (
                     <NavLink
-                        to={base + url}
+                        to={to}
                         className={({ isActive }) =>
                             ` cursor-pointer no-underline text-sm hover:text-primary hover:text-opacity-100 ${
                                 isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'

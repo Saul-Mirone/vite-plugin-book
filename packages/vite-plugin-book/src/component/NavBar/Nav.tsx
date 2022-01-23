@@ -23,7 +23,7 @@ export const Nav: FC<NavProps> = ({ title, items, onClick }) => {
         // TODO: add file
     };
     return (
-        <nav className="h-full w-full flex flex-col bg-surface py-12px ">
+        <nav className="h-full w-full flex flex-col bg-surface py-12px">
             <div className="cursor-pointer mx-12px text-base flex justify-between items-center h-42px my-8px">
                 <NavLink
                     onClick={() => indexPage && onClick(indexPage.url)}
