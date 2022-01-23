@@ -5,6 +5,7 @@ const colorFactory = (r: number, g: number, b: number) =>
     `rgba(${r}, ${g}, ${b}, var(--tw-text-opacity, var(--tw-bg-opacity, 1)))`;
 
 export default defineConfig({
+    preflight: false,
     darkMode: 'class',
     theme: {
         extend: {

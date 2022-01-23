@@ -37,7 +37,7 @@ export const Outline: FC = () => {
                                 <div className={'bg-opacity-12 cursor-pointer hover:bg-secondary'}>
                                     <a
                                         href={url}
-                                        className={`truncate text-sm block pl-16px py-8px leading-20px text-opacity-78 hover:text-primary ${
+                                        className={`no-underline truncate text-sm block pl-16px py-8px leading-20px text-opacity-78 hover:text-primary ${
                                             location.hash === url ? 'text-primary' : 'text-neutral'
                                         }`}
                                     >
