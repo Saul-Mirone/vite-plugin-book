@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { transformName } from '../../utils/helper';
+import { Divider } from './Divider';
 
 /* Copyright 2021, vite-plugin-book by Mirone. */
 type SubListHeaderProps = {
@@ -18,6 +19,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
 
     return (
         <li key={url}>
+            <Divider />
             <div className={`transition py-18px px-16px text-neutral ${hasIndex ? 'hover:text-primary' : ''}`}>
                 {hasIndex ? (
                     <NavLink
