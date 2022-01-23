@@ -1,8 +1,8 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { useEffect, useRef } from 'react';
 
-import { useEditor } from '../hook/useEditor';
-import { useFile } from '../hook/useFile';
+import { useEditor } from '../../hook/useEditor';
+import { useFile } from '../../hook/useFile';
 
 export const Reader = () => {
     const divRef = useRef<HTMLDivElement>(null);
@@ -13,5 +13,5 @@ export const Reader = () => {
 
         set(file);
     }, [file, set, status]);
-    return <div className="m-x-8 m-y-4" ref={divRef} />;
+    return <div className="max-w-760px w-full" ref={divRef} />;
 };

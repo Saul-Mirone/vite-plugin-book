@@ -1,9 +1,9 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { FC, useEffect, useRef } from 'react';
 
-import { useEditor } from '../hook/useEditor';
-import { useFile } from '../hook/useFile';
-import { useRpc } from '../hook/useRpc';
+import { useEditor } from '../../hook/useEditor';
+import { useFile } from '../../hook/useFile';
+import { useRpc } from '../../hook/useRpc';
 
 export const Editor: FC = () => {
     const ctx = useRpc();
@@ -29,14 +29,14 @@ export const Editor: FC = () => {
 
     return (
         <>
-            <div className="m-x-8 m-y-4" ref={divRef} />
-            <div className="m-x-8">
-                <button
+            <div className="max-w-760px w-full" ref={divRef} />
+            <div>
+                {/* <button
                     className="transition cursor-pointer text-secondary p-x-4 p-y-2 bg-transparent b-2 b-secondary hover:b-primary hover:text-primary"
                     onClick={() => onSave()}
                 >
                     Save
-                </button>
+                </button> */}
             </div>
         </>
     );

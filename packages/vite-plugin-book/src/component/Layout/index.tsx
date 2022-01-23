@@ -1,6 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-
-import './Layout.css';
+import './style.css';
 
 import { FC } from 'react';
 import SplitPane from 'react-split-pane';

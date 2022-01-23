@@ -6,9 +6,11 @@ import { useMode } from '../hook/useMode';
 import { useRpc } from '../hook/useRpc';
 import { ItemInfo } from '../interface';
 import { Editor } from './Editor';
+import { Reader } from './Editor/Reader';
+import { Header } from './Header';
 import { Layout } from './Layout';
 import { NavBar } from './NavBar';
-import { Reader } from './Reader';
+import { Outline } from './Outline';
 
 export const App = () => {
     const ctx = useRpc();
@@ -32,7 +34,15 @@ export const App = () => {
     return (
         <Layout>
             <NavBar items={items} />
-            {mode === 'editable' ? <Editor /> : <Reader />}
+            <div className="overflow-auto h-full">
+                <Header />
+                <div className="px-30px flex justify-center mb-30px">
+                    {mode === 'editable' ? <Editor /> : <Reader />}
+                    <div className="w-255px ml-10px">
+                        <Outline />
+                    </div>
+                </div>
+            </div>
         </Layout>
     );
 };
