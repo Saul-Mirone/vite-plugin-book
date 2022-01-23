@@ -9,6 +9,7 @@ export type FileInfo = {
 export type DirInfo = {
     type: 'dir';
     name: string;
+    url: string;
     list: ItemInfo[];
 };
 

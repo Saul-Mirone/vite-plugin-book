@@ -1,7 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import fs from 'fs-extra';
-import { resolve } from 'pathe';
+import { relative, resolve } from 'pathe';
 
 import type { DirInfo, FileInfo, ItemInfo, WebSocketServerEvents } from '../interface';
 import { withOutExt } from '../utils/helper';
@@ -13,11 +13,13 @@ export class ContentManager implements WebSocketServerEvents {
             const files = await fs.readdir(dir, { withFileTypes: true });
             return Promise.all(
                 files.map(async (file): Promise<ItemInfo> => {
+                    const relativeUrl = relative(this.docDir, resolve(dir, file.name));
                     if (file.isDirectory()) {
                         const dirInfo: DirInfo = {
                             type: 'dir',
                             name: file.name,
                             list: await handlePath(resolve(dir, file.name)),
+                            url: relativeUrl,
                         };
                         return dirInfo;
                     }
@@ -25,7 +27,7 @@ export class ContentManager implements WebSocketServerEvents {
                     const fileInfo: FileInfo = {
                         type: 'file',
                         name: file.name,
-                        url: withOutExt(file.name),
+                        url: withOutExt(relativeUrl),
                     };
                     return fileInfo;
                 }),

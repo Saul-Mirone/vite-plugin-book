@@ -2,9 +2,9 @@
 
 import { FC, useEffect } from 'react';
 
-import { useFile } from '../hook/useFile';
-import { useRpc } from '../hook/useRpc';
-import { ItemInfo } from '../interface';
+import { useFile } from '../../hook/useFile';
+import { useRpc } from '../../hook/useRpc';
+import { ItemInfo } from '../../interface';
 import { Nav } from './Nav';
 
 export const NavBar: FC<{ items: ItemInfo[] }> = ({ items }) => {
@@ -26,5 +26,5 @@ export const NavBar: FC<{ items: ItemInfo[] }> = ({ items }) => {
         setFileByUrl();
     }, [url, setFile, ctx]);
 
-    return <Nav title={'Vite Book'} items={items} activeUrl={url} onClick={setUrl} />;
+    return <Nav title={'Vite Book'} items={items} onClick={setUrl} />;
 };
