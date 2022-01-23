@@ -18,10 +18,10 @@ type NavProps = {
 export const Nav: FC<NavProps> = ({ title, items, onClick }) => {
     const indexPage = items.find(isIndexPage);
     const base = useContext(RouteBaseCtx);
-    const mode = useMode();
-    const onClickAdd = () => {
-        // TODO: add file
-    };
+    // const mode = useMode();
+    // const onClickAdd = () => {
+    //     // TODO: add file
+    // };
     return (
         <nav className="h-full w-full flex flex-col bg-surface py-12px">
             <div className="cursor-pointer mx-12px text-base flex justify-between items-center h-42px my-8px">
@@ -32,7 +32,7 @@ export const Nav: FC<NavProps> = ({ title, items, onClick }) => {
                 >
                     {title}
                 </NavLink>
-                {mode === 'editable' && <Button text="New" icon="add" onClick={onClickAdd} />}
+                {/* {mode === 'editable' && <Button text="New" icon="add" onClick={onClickAdd} />} */}
             </div>
             <List items={items.filter((item) => !isIndexPage(item))} onClick={onClick} />
         </nav>

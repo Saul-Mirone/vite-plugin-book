@@ -11,6 +11,7 @@ import { Header } from './Header';
 import { Layout } from './Layout';
 import { NavBar } from './NavBar';
 import { Outline } from './Outline';
+import { Toolbar } from './Toolbar';
 
 export const App = () => {
     const ctx = useRpc();
@@ -38,10 +39,11 @@ export const App = () => {
                 <Header />
                 <div className="px-30px flex justify-center mb-30px">
                     {mode === 'editable' ? <Editor /> : <Reader />}
-                    <div className="w-255px ml-10px">
+                    <div className="w-255px ml-10px flex-shrink-0">
                         <Outline />
                     </div>
                 </div>
+                <Toolbar />
             </div>
         </Layout>
     );

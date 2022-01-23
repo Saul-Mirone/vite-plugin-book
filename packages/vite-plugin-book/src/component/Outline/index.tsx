@@ -31,14 +31,14 @@ export const Outline: FC<{ data?: OutlineList }> = ({ data = mockData }) => {
         <div>
             {data.map((item) => {
                 return (
-                    <div className="px-10px">
-                        <div className="px-10px border-l">
+                    <div className="pl-10px">
+                        <div className="pl-10px border-l">
                             <div
                                 className={`${
                                     item.active ? 'bg-secondary' : ''
                                 } bg-opacity-12 cursor-pointer hover:bg-primary hover:bg-opacity-38`}
                             >
-                                <span className="text-sm block px-16px py-8px leading-20px text-neutral text-opacity-78 hover:text-primary">
+                                <span className="truncate text-sm block pl-16px py-8px leading-20px text-neutral text-opacity-78 hover:text-primary">
                                     {item.text}
                                 </span>
                             </div>

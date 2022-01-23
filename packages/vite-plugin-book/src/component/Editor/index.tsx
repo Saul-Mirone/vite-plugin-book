@@ -27,17 +27,5 @@ export const Editor: FC = () => {
         }
     };
 
-    return (
-        <>
-            <div className="max-w-760px w-full" ref={divRef} />
-            <div>
-                {/* <button
-                    className="transition cursor-pointer text-secondary p-x-4 p-y-2 bg-transparent b-2 b-secondary hover:b-primary hover:text-primary"
-                    onClick={() => onSave()}
-                >
-                    Save
-                </button> */}
-            </div>
-        </>
-    );
+    return <div className="max-w-760px w-full" ref={divRef} />;
 };
