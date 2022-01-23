@@ -6,7 +6,6 @@ const colorFactory = (r: number, g: number, b: number) =>
 
 export default defineConfig({
     darkMode: 'class',
-    safelist: 'p-3 p-4 p-5',
     theme: {
         extend: {
             colors: {

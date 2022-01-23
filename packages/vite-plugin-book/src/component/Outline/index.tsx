@@ -1,52 +1,52 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { FC } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import { useOutline } from '../../hook/useOutline';
 
 type OutlineItem = {
     text: string;
     active?: boolean;
-    list?: OutlineItem[];
+    level: number;
 };
-type OutlineList = OutlineItem[];
+export type OutlineList = OutlineItem[];
 
-const mockData: OutlineList = [
-    {
-        text: 'More pages',
-        list: [
-            {
-                text: 'Sidebar',
-                active: true,
-            },
-            {
-                text: 'Config',
-            },
-        ],
-    },
-    {
-        text: 'Redesign',
-    },
-];
+const NestedDiv: FC<{ level: number }> = ({ level, children }) => {
+    if (level === 0) {
+        return <>{children}</>;
+    }
 
-export const Outline: FC<{ data?: OutlineList }> = ({ data = mockData }) => {
+    return (
+        <div className="pl-10px">
+            <NestedDiv level={level - 1}>{children}</NestedDiv>
+        </div>
+    );
+};
+
+export const Outline: FC = () => {
+    const location = useLocation();
+    const [data] = useOutline();
     return (
         <div>
-            {data.map((item) => {
-                return (
-                    <div className="pl-10px">
-                        <div className="pl-10px border-l">
-                            <div
-                                className={`${
-                                    item.active ? 'bg-secondary' : ''
-                                } bg-opacity-12 cursor-pointer hover:bg-primary hover:bg-opacity-38`}
-                            >
-                                <span className="truncate text-sm block pl-16px py-8px leading-20px text-neutral text-opacity-78 hover:text-primary">
-                                    {item.text}
+            {data.map((item) => (
+                <div className="pl-10px">
+                    <div className={`border-l`}>
+                        <NestedDiv level={item.level}>
+                            <div className={'bg-opacity-12 cursor-pointer hover:bg-secondary'}>
+                                <span
+                                    className={`truncate text-sm block pl-16px py-8px leading-20px text-opacity-78 hover:text-primary ${
+                                        location.hash === '#' + item.text.toLocaleLowerCase().split(' ').join('-')
+                                            ? 'text-primary'
+                                            : 'text-neutral'
+                                    }`}
+                                >
+                                    <a href={'#' + item.text.toLowerCase().split(' ').join('-')}>{item.text}</a>
                                 </span>
                             </div>
-                        </div>
-                        {item.list && <Outline data={item.list} />}
+                        </NestedDiv>
                     </div>
-                );
-            })}
+                </div>
+            ))}
         </div>
     );
 };

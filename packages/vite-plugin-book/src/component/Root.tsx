@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { FileProvider } from '../provider/FileProvider';
 import { ModeProvider } from '../provider/ModeProvider';
+import { OutlineProvider } from '../provider/OutlineProvider';
 import { RouteBaseProvider } from '../provider/RouteBaseProvider';
 import { DevRpcProvider, RuntimeRpcProvider } from '../provider/RpcProvider';
 import { App } from './App';
@@ -26,7 +27,9 @@ export const Root: FC<{ isRuntime?: boolean }> = ({ isRuntime = false }) => {
                     <RouteBaseProvider base={base}>
                         <RpcProvider>
                             <FileProvider>
-                                <App />
+                                <OutlineProvider>
+                                    <App />
+                                </OutlineProvider>
                             </FileProvider>
                         </RpcProvider>
                     </RouteBaseProvider>

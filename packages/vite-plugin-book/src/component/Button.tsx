@@ -10,3 +10,9 @@ export const Button: FC<{ icon: string; text: string; onClick: () => void }> = (
         <span className="text-sm">{text}</span>
     </button>
 );
+
+export const SurfaceButton: FC<{ icon: string }> = ({ icon }) => (
+    <button className="transition rounded-16px p-8px w-40px h-40px hover:bg-primary hover:text-surface">
+        <span className="material-icons-outlined">{icon}</span>
+    </button>
+);

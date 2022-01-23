@@ -19,9 +19,12 @@ import { Slice } from '@milkdown/prose';
 import { nordLight } from '@milkdown/theme-nord';
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
+import { useOutline } from './useOutline';
+
 export function useEditor(containerRef: RefObject<HTMLElement>, readOnly = false) {
     const milkdown = useRef<Editor>();
     const [status, setStatus] = useState<'loading' | 'loaded'>('loading');
+    const [_, setOutline] = useOutline();
     useEffect(() => {
         const ref = containerRef.current;
         if (!ref) return;
@@ -31,10 +34,20 @@ export function useEditor(containerRef: RefObject<HTMLElement>, readOnly = false
                 ctx.set(editorViewOptionsCtx, {
                     editable: () => !readOnly,
                 });
-                ctx.get(listenerCtx).mounted((ctx) => {
-                    setStatus('loaded');
-                    milkdown.current = ctx.get(editorCtx);
-                });
+                ctx.get(listenerCtx)
+                    .mounted((ctx) => {
+                        setStatus('loaded');
+                        milkdown.current = ctx.get(editorCtx);
+                    })
+                    .updated((_, doc) => {
+                        const data: { text: string; level: number }[] = [];
+                        doc.descendants((node) => {
+                            if (node.type.name === 'heading' && node.attrs.level) {
+                                data.push({ text: node.textContent, level: node.attrs.level });
+                            }
+                        });
+                        setOutline(data);
+                    });
             })
             .use(nordLight)
             .use(listener)
