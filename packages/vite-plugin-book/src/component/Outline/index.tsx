@@ -28,25 +28,27 @@ export const Outline: FC = () => {
     const [data] = useOutline();
     return (
         <div>
-            {data.map((item) => (
-                <div className="pl-10px">
-                    <div className={`border-l`}>
-                        <NestedDiv level={item.level}>
-                            <div className={'bg-opacity-12 cursor-pointer hover:bg-secondary'}>
-                                <span
-                                    className={`truncate text-sm block pl-16px py-8px leading-20px text-opacity-78 hover:text-primary ${
-                                        location.hash === '#' + item.text.toLocaleLowerCase().split(' ').join('-')
-                                            ? 'text-primary'
-                                            : 'text-neutral'
-                                    }`}
-                                >
-                                    <a href={'#' + item.text.toLowerCase().split(' ').join('-')}>{item.text}</a>
-                                </span>
-                            </div>
-                        </NestedDiv>
+            {data.map((item) => {
+                const url = '#' + item.text.toLowerCase().split(' ').join('-');
+                return (
+                    <div className="pl-10px">
+                        <div className={`border-l`}>
+                            <NestedDiv level={item.level}>
+                                <div className={'bg-opacity-12 cursor-pointer hover:bg-secondary'}>
+                                    <a
+                                        href={url}
+                                        className={`truncate text-sm block pl-16px py-8px leading-20px text-opacity-78 hover:text-primary ${
+                                            location.hash === url ? 'text-primary' : 'text-neutral'
+                                        }`}
+                                    >
+                                        {item.text}
+                                    </a>
+                                </div>
+                            </NestedDiv>
+                        </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
         </div>
     );
 };

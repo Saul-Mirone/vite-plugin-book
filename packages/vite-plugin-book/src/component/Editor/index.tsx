@@ -1,4 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
+import './style.css';
+
 import { FC, useEffect, useRef } from 'react';
 
 import { useEditor } from '../../hook/useEditor';
