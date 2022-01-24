@@ -1,7 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import { FC, useEffect } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 import { useFile } from '../../hook/useFile';
 import { useRpc } from '../../hook/useRpc';
@@ -27,8 +27,9 @@ export const NavBar: FC<{ items: ItemInfo[] }> = ({ items }) => {
         setFileByUrl();
     }, [url, setFile, ctx]);
 
-    const onDragEnd = () => {
+    const onDragEnd = (data: DropResult) => {
         //TODO
+        data;
     };
 
     return (

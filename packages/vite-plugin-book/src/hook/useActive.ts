@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { useContext } from 'react';
-import { useMatch, useResolvedPath } from 'react-router-dom';
+import { useLocation, useMatch, useResolvedPath } from 'react-router-dom';
 
 import { RouteBaseCtx } from '../provider/RouteBaseProvider';
 

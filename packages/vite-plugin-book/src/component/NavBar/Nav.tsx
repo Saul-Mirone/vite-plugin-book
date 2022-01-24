@@ -28,7 +28,9 @@ export const Nav: FC<NavProps> = ({ title, items, onClick }) => {
                     {title}
                 </NavLink>
             </div>
-            <List items={items.filter((item) => !isIndexPage(item))} onClick={onClick} />
+            <div className="pr-12px">
+                <List id="root" items={items.filter((item) => !isIndexPage(item))} onClick={onClick} />
+            </div>
         </nav>
     );
 };

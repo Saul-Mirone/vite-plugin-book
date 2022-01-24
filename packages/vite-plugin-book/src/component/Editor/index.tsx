@@ -45,12 +45,10 @@ export const Editor: FC<{ readonly: boolean }> = ({ readonly }) => {
         });
     };
 
-    const onAdd = nope;
-
     return (
         <>
             <div className="max-w-760px w-full" ref={divRef} />
-            {mode === 'editable' && <Toolbar changed={changed} onAdd={onAdd} onSave={onSave} onCancel={onCancel} />}
+            {mode === 'editable' && <Toolbar changed={changed} onSave={onSave} onCancel={onCancel} />}
         </>
     );
 };
