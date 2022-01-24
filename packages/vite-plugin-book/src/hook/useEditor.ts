@@ -1,6 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import {
+    defaultValueCtx,
     Editor,
     editorCtx,
     editorViewCtx,
@@ -17,25 +18,36 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import { gfm } from '@milkdown/preset-gfm';
 import { Slice } from '@milkdown/prose';
 import { nordLight } from '@milkdown/theme-nord';
-import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useOutline } from './useOutline';
 
-export function useEditor(containerRef: RefObject<HTMLElement>, readOnly = false) {
+export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: string, readOnly = false) {
     const milkdown = useRef<Editor>();
     const [status, setStatus] = useState<'loading' | 'loaded'>('loading');
+    const [changed, setChanged] = useState(false);
     const [_, setOutline] = useOutline();
+    const [editorValue, setEditorValue] = useState(defaultValue);
+
+    const [flag, setFlag] = useState(false);
+
+    const flush = useCallback(() => {
+        setFlag((x) => !x);
+    }, []);
+
     useEffect(() => {
         const ref = containerRef.current;
         if (!ref) return;
         Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, ref);
+                ctx.set(defaultValueCtx, defaultValue);
                 ctx.set(editorViewOptionsCtx, {
                     editable: () => !readOnly,
                 });
                 ctx.get(listenerCtx)
                     .mounted((ctx) => {
+                        setChanged(false);
                         setStatus('loaded');
                         milkdown.current = ctx.get(editorCtx);
                     })
@@ -47,6 +59,10 @@ export function useEditor(containerRef: RefObject<HTMLElement>, readOnly = false
                             }
                         });
                         setOutline(data);
+                    })
+                    .markdownUpdated((_, markdown) => {
+                        setChanged(defaultValue !== markdown);
+                        setEditorValue(markdown);
                     });
             })
             .use(nordLight)
@@ -62,43 +78,23 @@ export function useEditor(containerRef: RefObject<HTMLElement>, readOnly = false
             if (!ref) return;
             ref.innerHTML = '';
         };
-    }, [containerRef, readOnly]);
-
-    const set = useCallback(
-        (markdown = '') => {
-            const $ = milkdown.current;
-            if (status !== 'loaded' || !$) return;
-
-            $.action((ctx) => {
-                const view = ctx.get(editorViewCtx);
-                const parser = ctx.get(parserCtx);
-                const doc = parser(markdown);
-
-                if (!doc) return;
-                const { state } = view;
-                view.dispatch(
-                    state.tr.replace(0, state.doc.content.size, new Slice(doc.content, 0, 0)).scrollIntoView(),
-                );
-            });
-        },
-        [status],
-    );
+    }, [containerRef, defaultValue, readOnly, setOutline, flag]);
 
     const get = useCallback(() => {
         const $ = milkdown.current;
         if (status !== 'loaded' || !$) return;
 
-        return $.action((ctx) => {
-            const view = ctx.get(editorViewCtx);
-            const serializer = ctx.get(serializerCtx);
-            return serializer(view.state.doc);
-        });
-    }, [status]);
+        return editorValue;
+    }, [editorValue, status]);
 
-    return {
-        status,
-        milkdown: milkdown.current,
-        set,
-        get,
-    };
+    return useMemo(
+        () => ({
+            status,
+            changed,
+            milkdown: milkdown.current,
+            get,
+            flush,
+        }),
+        [status, changed, get, flush],
+    );
 }

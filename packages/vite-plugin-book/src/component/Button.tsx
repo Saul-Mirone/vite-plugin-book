@@ -11,8 +11,11 @@ export const Button: FC<{ icon: string; text: string; onClick: () => void }> = (
     </button>
 );
 
-export const SurfaceButton: FC<{ icon: string }> = ({ icon }) => (
-    <div className="cursor-pointer transition rounded-16px p-8px w-40px h-40px hover:bg-primary hover:text-surface box-border">
+export const SurfaceButton: FC<{ icon: string; onClick: () => void }> = ({ icon, onClick }) => (
+    <div
+        onClick={onClick}
+        className="cursor-pointer transition rounded-16px p-8px w-40px h-40px hover:bg-primary hover:text-surface box-border"
+    >
         <span className="material-icons-outlined">{icon}</span>
     </div>
 );

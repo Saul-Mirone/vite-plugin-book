@@ -6,28 +6,34 @@ import { FC, useEffect, useRef } from 'react';
 import { useEditor } from '../../hook/useEditor';
 import { useFile } from '../../hook/useFile';
 import { useRpc } from '../../hook/useRpc';
+import { Toolbar } from '../Toolbar';
 
-export const Editor: FC = () => {
+export const Editor: FC<{ readonly: boolean }> = ({ readonly }) => {
     const ctx = useRpc();
-    const { file, url } = useFile();
+    const { file, url, setFile } = useFile();
     const divRef = useRef<HTMLDivElement>(null);
-    const { status, set, get } = useEditor(divRef);
-
-    useEffect(() => {
-        if (status !== 'loaded') return;
-
-        set(file);
-    }, [file, set, status]);
+    const { flush, get, changed } = useEditor(divRef, file, readonly);
 
     const onSave = () => {
-        if (status !== 'loaded' || ctx.status !== 'connected' || !url) return;
+        if (ctx.status !== 'connected' || !url) return;
 
         const markdown = get();
 
         if (markdown != null) {
             ctx.rpc.writeFile(url, markdown);
+            setFile(markdown);
         }
     };
 
-    return <div className="max-w-760px w-full" ref={divRef} />;
+    const onCancel = () => {
+        if (ctx.status !== 'connected' || !url) return;
+        flush();
+    };
+
+    return (
+        <>
+            <div className="max-w-760px w-full" ref={divRef} />
+            <Toolbar changed={changed} onSave={onSave} onCancel={onCancel} />
+        </>
+    );
 };

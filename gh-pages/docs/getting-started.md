@@ -9,7 +9,9 @@ A magical vite plugin that helps you to generate and manage documentation websit
 ## Feature
 
 -   Auto generate documentation website.
+
 -   Write and manage documentation just in browser.
+
 -   Write document in a WYSIWYG way.
 
 ## Usage

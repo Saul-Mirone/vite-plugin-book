@@ -6,7 +6,6 @@ import { useMode } from '../hook/useMode';
 import { useRpc } from '../hook/useRpc';
 import { ItemInfo } from '../interface';
 import { Editor } from './Editor';
-import { Reader } from './Editor/Reader';
 import { Header } from './Header';
 import { Layout } from './Layout';
 import { NavBar } from './NavBar';
@@ -38,12 +37,11 @@ export const App = () => {
             <div className="overflow-auto h-full">
                 <Header />
                 <div className="px-30px flex justify-center mb-30px">
-                    {mode === 'editable' ? <Editor /> : <Reader />}
+                    <Editor readonly={mode !== 'editable'} />
                     <div className="w-255px ml-10px flex-shrink-0">
                         <Outline />
                     </div>
                 </div>
-                <Toolbar />
             </div>
         </Layout>
     );
