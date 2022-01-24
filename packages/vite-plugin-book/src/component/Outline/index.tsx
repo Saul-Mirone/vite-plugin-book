@@ -32,7 +32,7 @@ export const Outline: FC = () => {
                 const url = '#' + item.text.toLowerCase().split(' ').join('-');
                 return (
                     <div className="pl-10px">
-                        <div className={`border-l`}>
+                        <div className={`border-solid border-l border-line border-r-0 border-t-0 border-b-0`}>
                             <NestedDiv level={item.level}>
                                 <div className={'bg-opacity-12 cursor-pointer hover:bg-secondary'}>
                                     <a

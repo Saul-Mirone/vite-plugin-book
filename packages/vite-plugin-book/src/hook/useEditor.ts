@@ -4,6 +4,7 @@ import {
     defaultValueCtx,
     Editor,
     editorCtx,
+    editorStateCtx,
     editorViewCtx,
     editorViewOptionsCtx,
     parserCtx,
@@ -50,8 +51,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                         setChanged(false);
                         setStatus('loaded');
                         milkdown.current = ctx.get(editorCtx);
-                    })
-                    .updated((_, doc) => {
+                        const doc = ctx.get(editorStateCtx).doc;
                         const data: { text: string; level: number }[] = [];
                         doc.descendants((node) => {
                             if (node.type.name === 'heading' && node.attrs.level) {
