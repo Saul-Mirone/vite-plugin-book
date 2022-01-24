@@ -20,8 +20,9 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     const [spread, setSpread] = useState(pathname.includes(url));
 
     useEffect(() => {
+        if (isActive) return;
         setSpread(pathname.includes(url));
-    }, [pathname, url]);
+    }, [isActive, pathname, url]);
 
     return (
         <li>
@@ -63,7 +64,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     </span>
                 </div>
             </div>
-            {spread && children}
+            {spread && <>{children}</>}
         </li>
     );
 };
