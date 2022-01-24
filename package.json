@@ -36,6 +36,7 @@
         "changeset": "changeset",
         "release": "changeset publish",
         "commit": "git-cz",
+        "dev": "pnpm dev --filter=vite-plugin-book",
         "doc": "pnpm start --filter=gh-pages"
     },
     "keywords": [

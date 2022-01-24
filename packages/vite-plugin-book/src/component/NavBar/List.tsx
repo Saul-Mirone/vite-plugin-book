@@ -1,5 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { FC } from 'react';
+import { Droppable } from 'react-beautiful-dnd';
 
 import { ItemInfo } from '../../interface';
 import { DirItem } from './DirItem';

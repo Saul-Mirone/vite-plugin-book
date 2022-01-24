@@ -1,6 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import { FC, useEffect } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 import { useFile } from '../../hook/useFile';
 import { useRpc } from '../../hook/useRpc';
@@ -26,5 +27,13 @@ export const NavBar: FC<{ items: ItemInfo[] }> = ({ items }) => {
         setFileByUrl();
     }, [url, setFile, ctx]);
 
-    return <Nav title={'Vite Book'} items={items} onClick={setUrl} />;
+    const onDragEnd = () => {
+        //TODO
+    };
+
+    return (
+        <DragDropContext onDragEnd={onDragEnd}>
+            <Nav title={'Vite Book'} items={items} onClick={setUrl} />
+        </DragDropContext>
+    );
 };
