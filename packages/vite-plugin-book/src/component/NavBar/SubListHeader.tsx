@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { FC, useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
 import { transformName } from '../../utils/helper';
@@ -14,8 +14,9 @@ type SubListHeaderProps = {
 };
 
 export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, children, onClick }) => {
-    const { to } = useActive(url);
+    const { to, isActive } = useActive(url);
     const { pathname } = useLocation();
+    const navigate = useNavigate();
     const [spread, setSpread] = useState(pathname.includes(url));
 
     useEffect(() => {
@@ -29,25 +30,22 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     hasIndex ? 'hover:text-primary' : ''
                 }`}
                 onClick={() => {
+                    onClick(url);
                     setSpread(!spread);
+                    if (hasIndex) {
+                        navigate(to);
+                    }
                 }}
             >
                 <div className="flex h-24px">
-                    {hasIndex ? (
-                        <NavLink
-                            to={to}
-                            className={({ isActive }) =>
-                                `leading-24px cursor-pointer no-underline text-sm hover:text-primary hover:text-opacity-100 ${
-                                    isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
-                                }`
-                            }
-                            onClick={() => onClick(url)}
-                        >
-                            {transformName(name)}
-                        </NavLink>
-                    ) : (
-                        <span className="leading-24px text-sm text-neutral text-opacity-60">{transformName(name)}</span>
-                    )}
+                    <span
+                        className={`leading-24px cursor-pointer no-underline text-sm hover:text-primary hover:text-opacity-100 ${
+                            isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
+                        }`}
+                        onClick={() => hasIndex && onClick(url)}
+                    >
+                        {transformName(name)}
+                    </span>
                 </div>
                 <div className="flex items-center gap-4px">
                     {spread && (
