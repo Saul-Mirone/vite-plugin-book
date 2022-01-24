@@ -10,7 +10,6 @@ import { Header } from './Header';
 import { Layout } from './Layout';
 import { NavBar } from './NavBar';
 import { Outline } from './Outline';
-import { Toolbar } from './Toolbar';
 
 export const App = () => {
     const ctx = useRpc();
