@@ -25,7 +25,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     return (
         <li>
             <div
-                className={`transition py-18px pl-24px pr-8px text-neutral flex justify-between items-center ${
+                className={`transition cursor-pointer rounded-8px hover:bg-primary hover:bg-opacity-38 transition py-18px pl-24px pr-8px text-neutral flex justify-between items-center ${
                     hasIndex ? 'hover:text-primary' : ''
                 }`}
                 onClick={() => {
@@ -65,12 +65,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     </span>
                 </div>
             </div>
-            {spread && (
-                <>
-                    <Divider />
-                    {children}
-                </>
-            )}
+            {spread && children}
         </li>
     );
 };
