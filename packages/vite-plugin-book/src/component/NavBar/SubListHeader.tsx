@@ -1,10 +1,11 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
 import { transformName } from '../../utils/helper';
 import { Divider } from './Divider';
+import { DraggingCtx } from './Nav';
 
 type SubListHeaderProps = {
     name: string;
@@ -18,6 +19,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [spread, setSpread] = useState(pathname.includes(url));
+    const dragging = useContext(DraggingCtx);
 
     useEffect(() => {
         if (isActive) return;
@@ -27,7 +29,9 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     return (
         <li>
             <div
-                className={`transition cursor-pointer rounded-8px hover:bg-primary hover:bg-opacity-38 transition py-18px pl-24px pr-8px text-neutral flex justify-between items-center ${
+                className={`transition cursor-pointer rounded-8px ${
+                    dragging ? '' : 'hover:bg-primary hover:bg-opacity-38'
+                } transition py-18px pl-24px pr-8px text-neutral flex justify-between items-center ${
                     hasIndex ? 'hover:text-primary' : ''
                 }`}
                 onClick={() => {

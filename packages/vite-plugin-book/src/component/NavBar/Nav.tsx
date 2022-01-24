@@ -1,6 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, useContext } from 'react';
-import { Droppable } from 'react-beautiful-dnd';
+import { createContext, FC, useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { ItemInfo } from '../../interface';
@@ -14,23 +13,36 @@ type NavProps = {
     onClick: (url: string) => void;
 };
 
+export const DraggingCtx = createContext(false);
+
 export const Nav: FC<NavProps> = ({ title, items, onClick }) => {
     const indexPage = items.find(isIndexPage);
     const base = useContext(RouteBaseCtx);
+    const [dragging, setDragging] = useState(false);
     return (
-        <nav className="h-full w-full flex flex-col bg-surface py-12px">
-            <div className="cursor-pointer mx-12px text-base flex justify-between items-center h-42px my-8px">
-                <NavLink
-                    onClick={() => indexPage && onClick(indexPage.url)}
-                    to={base}
-                    className="pl-12px no-underline text-neutral"
+        <DraggingCtx.Provider value={dragging}>
+            <nav className="h-full w-full flex flex-col bg-surface py-12px">
+                <div className="cursor-pointer mx-12px text-base flex justify-between items-center h-42px my-8px">
+                    <NavLink
+                        onClick={() => indexPage && onClick(indexPage.url)}
+                        to={base}
+                        className="pl-12px no-underline text-neutral"
+                    >
+                        {title}
+                    </NavLink>
+                </div>
+                <div
+                    className="pr-12px"
+                    onDrag={() => {
+                        setDragging(true);
+                    }}
+                    onDragEnd={() => {
+                        setDragging(false);
+                    }}
                 >
-                    {title}
-                </NavLink>
-            </div>
-            <div className="pr-12px">
-                <List id="root" items={items.filter((item) => !isIndexPage(item))} onClick={onClick} />
-            </div>
-        </nav>
+                    <List id="root" items={items.filter((item) => !isIndexPage(item))} onClick={onClick} />
+                </div>
+            </nav>
+        </DraggingCtx.Provider>
     );
 };

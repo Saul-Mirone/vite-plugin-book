@@ -60,15 +60,15 @@
         "@types/fs-extra": "^9.0.13",
         "@types/node": "^17.0.8",
         "@types/react": "17.0.38",
-        "@types/react-beautiful-dnd": "^13.1.2",
         "@types/react-dom": "^17.0.9",
+        "@types/sortablejs": "^1.10.7",
         "@types/ws": "^8.2.2",
         "@vitejs/plugin-react": "^1.1.4",
         "react": "^17.0.2",
-        "react-beautiful-dnd": "^13.1.0",
         "react-dom": "^17.0.2",
         "react-router-dom": "^6.2.1",
         "react-split-pane": "^0.1.92",
+        "sortablejs": "^1.14.0",
         "vite-plugin-windicss": "^1.6.3",
         "windicss": "^3.4.3"
     },
@@ -79,6 +79,7 @@
         "fs-extra": "^10.0.0",
         "magic-string": "^0.25.7",
         "pathe": "^0.2.0",
+        "react-sortablejs": "^6.0.3",
         "sirv": "^2.0.0",
         "ws": "^8.4.2"
     }
