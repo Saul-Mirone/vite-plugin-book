@@ -93,6 +93,7 @@ importers:
       birpc: ^0.1.0
       flatted: ^3.2.4
       fs-extra: ^10.0.0
+      immer: ^9.0.12
       magic-string: ^0.25.7
       pathe: ^0.2.0
       react: ^17.0.2
@@ -135,6 +136,7 @@ importers:
       '@types/sortablejs': 1.10.7
       '@types/ws': 8.2.2
       '@vitejs/plugin-react': 1.1.4
+      immer: 9.0.12
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
@@ -3261,6 +3263,10 @@ packages:
   /ignore/5.2.0:
     resolution: {integrity: sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==}
     engines: {node: '>= 4'}
+    dev: true
+
+  /immer/9.0.12:
+    resolution: {integrity: sha512-lk7UNmSbAukB5B6dh9fnh5D0bJTOFKxVg2cyJWTYrWRfhLrLMBquONcUs3aFq507hNoIZEDDh8lb8UtOizSMhA==}
     dev: true
 
   /import-fresh/3.3.0:

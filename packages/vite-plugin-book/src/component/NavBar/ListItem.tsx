@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, useContext } from 'react';
+import { FC, memo, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
@@ -7,13 +7,12 @@ import { transformName } from '../../utils/helper';
 import { DraggingCtx } from './Nav';
 
 type ListItemProps = {
-    index: number;
     name: string;
     url: string;
     onClick: (url: string) => void;
 };
 
-export const ListItem: FC<ListItemProps> = ({ url, name, onClick, children, index }) => {
+export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick, children }) => {
     const dragging = useContext(DraggingCtx);
     const { to, isActive } = useActive(url);
     return (
@@ -36,4 +35,4 @@ export const ListItem: FC<ListItemProps> = ({ url, name, onClick, children, inde
             {children}
         </li>
     );
-};
+});
