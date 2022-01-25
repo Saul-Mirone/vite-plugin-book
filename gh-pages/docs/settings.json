@@ -1,0 +1,48 @@
+{
+    "sidebar": [
+        {
+            "type": "file",
+            "name": "QA.md",
+            "url": "QA"
+        },
+        {
+            "type": "file",
+            "name": "getting-started.md",
+            "url": "getting-started"
+        },
+        {
+            "type": "dir",
+            "name": "guide",
+            "list": [
+                {
+                    "type": "file",
+                    "name": "installation.md",
+                    "url": "guide/installation"
+                },
+                {
+                    "type": "dir",
+                    "name": "side-bar-config",
+                    "list": [
+                        {
+                            "type": "file",
+                            "name": "API.md",
+                            "url": "guide/side-bar-config/API"
+                        },
+                        {
+                            "type": "file",
+                            "name": "index.md",
+                            "url": "guide/side-bar-config/index"
+                        }
+                    ],
+                    "url": "guide/side-bar-config"
+                }
+            ],
+            "url": "guide"
+        },
+        {
+            "type": "file",
+            "name": "index.md",
+            "url": "index"
+        }
+    ]
+}

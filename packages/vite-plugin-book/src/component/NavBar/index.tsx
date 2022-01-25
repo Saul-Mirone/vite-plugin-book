@@ -17,7 +17,6 @@ export const NavBar: FC<{ items: ItemInfo[] }> = ({ items }) => {
         }
 
         const setFileByUrl = async () => {
-            // TODO: handle url in dir
             const file = await ctx.rpc.getFile(url === '/' ? 'index' : url);
 
             setFile(file);

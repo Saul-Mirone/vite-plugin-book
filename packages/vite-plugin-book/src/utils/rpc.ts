@@ -16,8 +16,16 @@ export class RuntimeRpc implements WebSocketServerEvents {
         return globalThis.__VITE_PLUGIN_BOOK__;
     }
 
+    async getConfig(): Promise<Record<string, unknown>> {
+        return Promise.resolve(this.store.config);
+    }
+
     async getFile(url: string) {
-        const module = await this.store.mapping[url]();
+        let target = url;
+        if (!this.store.mapping[target]) {
+            target += '/index';
+        }
+        const module = await this.store.mapping[target]();
         return module.default;
     }
 
@@ -26,6 +34,10 @@ export class RuntimeRpc implements WebSocketServerEvents {
     }
 
     writeFile(): Promise<void> {
+        throw new Error();
+    }
+
+    writeConfig(): Promise<void> {
         throw new Error();
     }
 }
@@ -91,5 +103,13 @@ export class Rpc implements WebSocketServerEvents {
 
     writeFile(url: string, markdown: string) {
         return this.$.writeFile(url, markdown);
+    }
+
+    getConfig() {
+        return this.$.getConfig();
+    }
+
+    writeConfig(config: Record<string, unknown>): Promise<void> {
+        return this.$.writeConfig(config);
     }
 }

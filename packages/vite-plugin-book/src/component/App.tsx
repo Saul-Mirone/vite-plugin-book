@@ -20,7 +20,13 @@ export const App = () => {
         if (ctx.status === 'connected') {
             const getFiles = async () => {
                 try {
+                    const config = await ctx.rpc.getConfig();
                     const fs = await ctx.rpc.getFiles();
+
+                    if (mode === 'editable' && !config.sidebar) {
+                        await ctx.rpc.writeConfig({ ...config, sidebar: fs });
+                    }
+
                     setItems(fs);
                 } catch (e) {
                     console.error(e);

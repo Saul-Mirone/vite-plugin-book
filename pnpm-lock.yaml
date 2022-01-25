@@ -106,6 +106,7 @@ importers:
       windicss: ^3.4.3
       ws: ^8.4.2
     dependencies:
+      '@rollup/plugin-json': 4.1.0_rollup@2.66.0
       '@rollup/pluginutils': 4.1.2
       birpc: 0.1.0
       flatted: 3.2.4
@@ -126,7 +127,6 @@ importers:
       '@milkdown/prose': 5.3.4
       '@milkdown/theme-nord': 5.3.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.66.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.66.0
       '@rollup/plugin-node-resolve': 13.1.3_rollup@2.66.0
       '@types/fs-extra': 9.0.13
       '@types/node': 17.0.10
@@ -1202,7 +1202,7 @@ packages:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.66.0
       rollup: 2.66.0
-    dev: true
+    dev: false
 
   /@rollup/plugin-node-resolve/13.1.3_rollup@2.66.0:
     resolution: {integrity: sha512-BdxNk+LtmElRo5d06MGY4zoepyrXX1tkzX2hrnPEZ53k78GuOMWLqmJDGIIOPwVRIFZrLQOo+Yr6KtCuLIA0AQ==}
@@ -1229,7 +1229,6 @@ packages:
       estree-walker: 1.0.1
       picomatch: 2.3.1
       rollup: 2.66.0
-    dev: true
 
   /@rollup/pluginutils/4.1.2:
     resolution: {integrity: sha512-ROn4qvkxP9SyPeHaf7uQC/GPFY6L/OWy9+bd9AwcjOAWQwxRscoEyAUD8qCY5o5iL4jqQwoLk2kaTKJPb/HwzQ==}
@@ -1271,7 +1270,6 @@ packages:
 
   /@types/estree/0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
-    dev: true
 
   /@types/estree/0.0.50:
     resolution: {integrity: sha512-C6N5s2ZFtuZRj54k2/zyRhNDjJwwcViAM3Nbm8zjBpbqAdZ00mr0CFxvSKeO8Y/e03WVFLpQMdHYVfUd6SB+Hw==}
@@ -2840,7 +2838,6 @@ packages:
 
   /estree-walker/1.0.1:
     resolution: {integrity: sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==}
-    dev: true
 
   /estree-walker/2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}

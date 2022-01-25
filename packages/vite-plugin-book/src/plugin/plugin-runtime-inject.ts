@@ -12,6 +12,7 @@ import { ContentManager } from './content-manager';
 export function vitePluginBookRuntimeInject(): Plugin {
     let root = '';
     let docMapping: ItemInfo[];
+    let docConfig: Record<string, unknown>;
     let injected = false;
     return {
         name: 'vite-plugin-book:runtime-inject',
@@ -23,6 +24,7 @@ export function vitePluginBookRuntimeInject(): Plugin {
             const contentManager = new ContentManager(docsDir);
 
             docMapping = await contentManager.getFiles();
+            docConfig = await contentManager.getConfig();
         },
         async transform(code: string, id: string) {
             const ext = extname(id);
@@ -42,18 +44,37 @@ export function vitePluginBookRuntimeInject(): Plugin {
             const magicString = new MagicString(code);
 
             const docsDir = resolve(root, 'docs');
-            const files = await fs.readdir(docsDir);
-            files.forEach((fileName) => {
-                const url = resolve(docsDir, fileName);
 
-                const injectStr = `globalThis.__VITE_PLUGIN_BOOK__.mapping['${withOutExt(
-                    fileName,
-                )}'] = () => import('./${relative(dirname(id), url)}');`;
+            async function handlePath(dir: string) {
+                const files = await fs.readdir(dir, { withFileTypes: true });
+                await Promise.all(
+                    files.map(async (file): Promise<void> => {
+                        const relativeUrl = relative(docsDir, resolve(dir, file.name));
+                        if (file.isDirectory()) {
+                            await handlePath(resolve(dir, file.name));
+                            return;
+                        }
 
-                console.log(injectStr);
-                magicString.prepend(injectStr);
-            });
+                        if (!file.name.endsWith('.md')) {
+                            return;
+                        }
 
+                        const url = resolve(docsDir, dir, file.name);
+                        const injectStr = `globalThis.__VITE_PLUGIN_BOOK__.mapping['${withOutExt(
+                            relativeUrl,
+                        )}'] = () => import('./${relative(dirname(id), url)}');`;
+
+                        console.log(injectStr);
+                        magicString.prepend(injectStr);
+                    }),
+                );
+            }
+
+            await handlePath(docsDir);
+
+            // TODO: inject json config here
+            console.log(docConfig);
+            magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__.config = ${JSON.stringify(docConfig)};`);
             magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__.items = ${JSON.stringify(docMapping)};`);
             magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__ = { mapping: {} };`);
 

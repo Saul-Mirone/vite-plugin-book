@@ -8,6 +8,7 @@ import { withOutExt } from '../utils/helper';
 
 export class ContentManager implements WebSocketServerEvents {
     constructor(private docDir: string) {}
+
     async getFiles(): Promise<ItemInfo[]> {
         const handlePath = async (dir: string) => {
             const files = await fs.readdir(dir, { withFileTypes: true });
@@ -51,8 +52,12 @@ export class ContentManager implements WebSocketServerEvents {
 
     async getConfig(): Promise<Record<string, unknown>> {
         const jsonConfigPath = resolve(this.docDir, 'settings.json');
-        await fs.outputJSON(jsonConfigPath, {});
         return fs.readJSON(jsonConfigPath);
+    }
+
+    async writeConfig(config: Record<string, unknown>): Promise<void> {
+        const jsonConfigPath = resolve(this.docDir, 'settings.json');
+        await fs.writeJSON(jsonConfigPath, config, { spaces: 4 });
     }
 
     private resolveFilePath(url: string) {

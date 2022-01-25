@@ -7,6 +7,7 @@ import { ItemInfo } from './interface';
 declare global {
     var __VITE_PLUGIN_BOOK__: {
         mapping: Record<string, () => Promise<{ default: string }>>;
+        config: Record<string, unknown>;
         items: ItemInfo[];
     };
 }
