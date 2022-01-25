@@ -2,12 +2,12 @@
 
 /// <reference types="vite/client" />
 
-import { ItemInfo } from './interface';
+import { BookConfig, ItemInfo } from './interface';
 
 declare global {
     var __VITE_PLUGIN_BOOK__: {
         mapping: Record<string, () => Promise<{ default: string }>>;
-        config: Record<string, unknown>;
+        config: BookConfig;
         items: ItemInfo[];
     };
 }

@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 
 import { ItemInfo } from '../../interface';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
-import { isIndexPage } from '../../utils/helper';
+import { isIndexPage, nope } from '../../utils/helper';
+import { Button } from '../Button';
 import { List } from './List';
 
 type NavProps = {
@@ -30,6 +31,7 @@ export const Nav: FC<NavProps> = ({ title, items, onClick }) => {
                     >
                         {title}
                     </NavLink>
+                    <Button icon="add" text="New" onClick={nope} />
                 </div>
                 <div
                     className="pr-12px"

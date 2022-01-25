@@ -15,9 +15,25 @@ export type DirInfo = {
 
 export type ItemInfo = FileInfo | DirInfo;
 
+export type SideBarItem =
+    | {
+          type: 'file';
+          url: string;
+          index: number;
+      }
+    | {
+          type: 'dir';
+          url: string;
+          index: number;
+          list: SideBarItem[];
+      };
+export type BookConfig = {
+    sidebar: SideBarItem[];
+};
+
 export interface WebSocketServerEvents {
-    getConfig(): Promise<Record<string, unknown>>;
-    writeConfig(config: Record<string, unknown>): Promise<void>;
+    getConfig(): Promise<BookConfig>;
+    writeConfig(config: BookConfig): Promise<void>;
     getFiles(): Promise<ItemInfo[]>;
     getFile(url: string): Promise<string>;
     writeFile(url: string, markdown: string): Promise<void>;

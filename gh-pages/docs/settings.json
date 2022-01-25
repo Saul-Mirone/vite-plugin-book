@@ -2,11 +2,6 @@
     "sidebar": [
         {
             "type": "file",
-            "name": "QA.md",
-            "url": "QA"
-        },
-        {
-            "type": "file",
             "name": "getting-started.md",
             "url": "getting-started"
         },
@@ -43,6 +38,11 @@
             "type": "file",
             "name": "index.md",
             "url": "index"
+        },
+        {
+            "type": "file",
+            "name": "QA.md",
+            "url": "QA"
         }
     ]
 }

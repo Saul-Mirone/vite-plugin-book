@@ -22,10 +22,7 @@ export const App = () => {
                 try {
                     const config = await ctx.rpc.getConfig();
                     const fs = await ctx.rpc.getFiles();
-
-                    if (mode === 'editable' && !config.sidebar) {
-                        await ctx.rpc.writeConfig({ ...config, sidebar: fs });
-                    }
+                    // console.log(config);
 
                     setItems(fs);
                 } catch (e) {
@@ -34,7 +31,7 @@ export const App = () => {
             };
             getFiles();
         }
-    }, [ctx]);
+    }, [ctx, mode]);
 
     return (
         <Layout>

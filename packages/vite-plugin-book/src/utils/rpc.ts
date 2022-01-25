@@ -2,7 +2,7 @@
 import { BirpcReturn, createBirpc } from 'birpc';
 import { parse, stringify } from 'flatted';
 
-import { WebSocketClientEvents, WebSocketServerEvents } from '../interface';
+import { BookConfig, WebSocketClientEvents, WebSocketServerEvents } from '../interface';
 import { nope } from './helper';
 
 const reconnectTries = 10;
@@ -16,7 +16,7 @@ export class RuntimeRpc implements WebSocketServerEvents {
         return globalThis.__VITE_PLUGIN_BOOK__;
     }
 
-    async getConfig(): Promise<Record<string, unknown>> {
+    async getConfig(): Promise<BookConfig> {
         return Promise.resolve(this.store.config);
     }
 
@@ -109,7 +109,7 @@ export class Rpc implements WebSocketServerEvents {
         return this.$.getConfig();
     }
 
-    writeConfig(config: Record<string, unknown>): Promise<void> {
+    writeConfig(config: BookConfig): Promise<void> {
         return this.$.writeConfig(config);
     }
 }

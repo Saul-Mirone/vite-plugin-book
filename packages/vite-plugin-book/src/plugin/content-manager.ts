@@ -3,7 +3,7 @@
 import fs from 'fs-extra';
 import { relative, resolve } from 'pathe';
 
-import type { DirInfo, FileInfo, ItemInfo, WebSocketServerEvents } from '../interface';
+import type { BookConfig, DirInfo, FileInfo, ItemInfo, SideBarItem, WebSocketServerEvents } from '../interface';
 import { withOutExt } from '../utils/helper';
 
 export class ContentManager implements WebSocketServerEvents {
@@ -50,14 +50,18 @@ export class ContentManager implements WebSocketServerEvents {
         await fs.writeFile(this.resolveFilePath(url), markdown);
     }
 
-    async getConfig(): Promise<Record<string, unknown>> {
-        const jsonConfigPath = resolve(this.docDir, 'settings.json');
-        return fs.readJSON(jsonConfigPath);
+    async getConfig(): Promise<BookConfig> {
+        this.ensureConfig();
+        // TODO: diff the saved config with file system
+        return fs.readJSON(this.configPath);
     }
 
-    async writeConfig(config: Record<string, unknown>): Promise<void> {
-        const jsonConfigPath = resolve(this.docDir, 'settings.json');
-        await fs.writeJSON(jsonConfigPath, config, { spaces: 4 });
+    async writeConfig(config: BookConfig): Promise<void> {
+        await fs.writeJSON(this.configPath, config, { spaces: 4 });
+    }
+
+    private get configPath() {
+        return resolve(this.docDir, 'settings.json');
     }
 
     private resolveFilePath(url: string) {
@@ -71,5 +75,38 @@ export class ContentManager implements WebSocketServerEvents {
         }
         console.error('Cannot resolve file: ', url);
         return '';
+    }
+
+    private async ensureConfig() {
+        const exists = await fs.pathExists(this.configPath);
+        if (exists) {
+            return;
+        }
+        const config = await this.initConfig();
+        this.writeConfig(config);
+    }
+
+    private async initConfig(): Promise<BookConfig> {
+        const files = await this.getFiles();
+        const handleFiles = (files: ItemInfo[]) => {
+            return files.map((file, index): SideBarItem => {
+                if (file.type === 'file') {
+                    return {
+                        type: 'file',
+                        url: file.url,
+                        index,
+                    };
+                }
+
+                return {
+                    type: 'dir',
+                    url: file.url,
+                    index,
+                    list: handleFiles(file.list),
+                };
+            });
+        };
+        const sidebar = handleFiles(files);
+        return { sidebar };
     }
 }
