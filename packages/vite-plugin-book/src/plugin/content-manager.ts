@@ -11,8 +11,8 @@ export class ContentManager implements WebSocketServerEvents {
     async getFiles(): Promise<ItemInfo[]> {
         const handlePath = async (dir: string) => {
             const files = await fs.readdir(dir, { withFileTypes: true });
-            return Promise.all(
-                files.map(async (file): Promise<ItemInfo> => {
+            const data = await Promise.all(
+                files.map(async (file): Promise<ItemInfo | null> => {
                     const relativeUrl = relative(this.docDir, resolve(dir, file.name));
                     if (file.isDirectory()) {
                         const dirInfo: DirInfo = {
@@ -24,6 +24,10 @@ export class ContentManager implements WebSocketServerEvents {
                         return dirInfo;
                     }
 
+                    if (!file.name.endsWith('.md')) {
+                        return null;
+                    }
+
                     const fileInfo: FileInfo = {
                         type: 'file',
                         name: file.name,
@@ -32,6 +36,7 @@ export class ContentManager implements WebSocketServerEvents {
                     return fileInfo;
                 }),
             );
+            return data.filter((x): x is ItemInfo => !!x);
         };
         return handlePath(this.docDir);
     }
@@ -42,6 +47,12 @@ export class ContentManager implements WebSocketServerEvents {
 
     async writeFile(url: string, markdown: string): Promise<void> {
         await fs.writeFile(this.resolveFilePath(url), markdown);
+    }
+
+    async getConfig(): Promise<Record<string, unknown>> {
+        const jsonConfigPath = resolve(this.docDir, 'settings.json');
+        await fs.outputJSON(jsonConfigPath, {});
+        return fs.readJSON(jsonConfigPath);
     }
 
     private resolveFilePath(url: string) {

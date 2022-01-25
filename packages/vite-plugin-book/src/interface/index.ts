@@ -16,7 +16,7 @@ export type DirInfo = {
 export type ItemInfo = FileInfo | DirInfo;
 
 export interface WebSocketServerEvents {
-    // getConfig
+    getConfig(): Promise<Record<string, unknown>>;
     getFiles(): Promise<ItemInfo[]>;
     getFile(url: string): Promise<string>;
     writeFile(url: string, markdown: string): Promise<void>;
