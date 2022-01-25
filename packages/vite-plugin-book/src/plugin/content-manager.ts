@@ -51,7 +51,7 @@ export class ContentManager implements WebSocketServerEvents {
     }
 
     async getConfig(): Promise<BookConfig> {
-        this.ensureConfig();
+        await this.ensureConfig();
         // TODO: diff the saved config with file system
         return fs.readJSON(this.configPath);
     }
@@ -83,7 +83,7 @@ export class ContentManager implements WebSocketServerEvents {
             return;
         }
         const config = await this.initConfig();
-        this.writeConfig(config);
+        await this.writeConfig(config);
     }
 
     private async initConfig(): Promise<BookConfig> {

@@ -2,47 +2,47 @@
     "sidebar": [
         {
             "type": "file",
-            "name": "getting-started.md",
-            "url": "getting-started"
+            "url": "getting-started",
+            "index": 0
         },
         {
             "type": "dir",
-            "name": "guide",
+            "url": "guide",
+            "index": 1,
             "list": [
                 {
                     "type": "file",
-                    "name": "installation.md",
-                    "url": "guide/installation"
+                    "url": "guide/installation",
+                    "index": 0
                 },
                 {
                     "type": "dir",
-                    "name": "side-bar-config",
+                    "url": "guide/side-bar-config",
+                    "index": 1,
                     "list": [
                         {
                             "type": "file",
-                            "name": "API.md",
-                            "url": "guide/side-bar-config/API"
+                            "url": "guide/side-bar-config/API",
+                            "index": 0
                         },
                         {
                             "type": "file",
-                            "name": "index.md",
-                            "url": "guide/side-bar-config/index"
+                            "url": "guide/side-bar-config/index",
+                            "index": 1
                         }
-                    ],
-                    "url": "guide/side-bar-config"
+                    ]
                 }
-            ],
-            "url": "guide"
+            ]
         },
         {
             "type": "file",
-            "name": "index.md",
-            "url": "index"
+            "url": "index",
+            "index": 2
         },
         {
             "type": "file",
-            "name": "QA.md",
-            "url": "QA"
+            "url": "QA",
+            "index": 3
         }
     ]
 }
