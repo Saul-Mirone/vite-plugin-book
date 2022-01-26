@@ -36,6 +36,7 @@ export const List: FC<ListProps> = memo(({ items, onClick, id, indexList }) => {
                         <ListItem key={item.url} url={item.url} name={item.name} onClick={onClick} />
                     ) : (
                         <DirItem
+                            hasIndex={item.hasIndex}
                             indexList={[...indexList, index]}
                             key={item.name}
                             url={item.url}

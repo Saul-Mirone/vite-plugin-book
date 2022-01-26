@@ -10,6 +10,7 @@ export type StateFile = FileInfo & {
 export type StateDir = Omit<DirInfo, 'list'> & {
     list: StateItem[];
     id: string;
+    hasIndex: boolean;
 };
 
 export type StateItem = StateFile | StateDir;
@@ -33,12 +34,10 @@ const diffList = (origin: ListReducerState, indexList: number[], newSlice: ListR
             return newSlice;
         }
         const _indexList = [...indexList];
-        const _last = _indexList.pop();
-        const target = _indexList.reduce((acc, cur) => {
-            return (acc[cur] as StateDir).list;
-        }, draft) as StateDir[];
-        if (_last != null) {
-            target[_last].list = [...newSlice];
+        const last = _indexList.pop();
+        const target = _indexList.reduce((acc, cur) => (acc[cur] as StateDir).list, draft) as StateDir[];
+        if (last != null) {
+            target[last].list = [...newSlice];
         }
     });
     return value;

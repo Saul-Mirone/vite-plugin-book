@@ -31,7 +31,11 @@ export const Nav: FC<NavProps> = ({ title, items, onClick }) => {
                     return {
                         ...item,
                         id: item.url,
-                        list: handleList(item.list, idxList),
+                        hasIndex: !!item.list.find(isIndexPage),
+                        list: handleList(
+                            item.list.filter((x) => !isIndexPage(x)),
+                            idxList,
+                        ),
                     };
                 }
                 return {
