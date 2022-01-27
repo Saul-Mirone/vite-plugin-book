@@ -2,12 +2,10 @@
 import { FC, memo, useContext } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
-import { ItemInfo } from '../../interface';
-import { nope } from '../../utils/helper';
+import { DispatchCtx } from '.';
 import { DirItem } from './DirItem';
 import { ListItem } from './ListItem';
 import { StateItem } from './listReducer';
-import { SetItCtx } from './Nav';
 
 type ListProps = {
     id: string;
@@ -17,14 +15,14 @@ type ListProps = {
 };
 
 export const List: FC<ListProps> = memo(({ items, onClick, id, indexList }) => {
-    const setIt = useContext(SetItCtx);
+    const dispatch = useContext(DispatchCtx);
     return (
         <ul className="list-none m-0 pl-16px">
             <ReactSortable
                 key={id}
                 list={items}
                 setList={(list) => {
-                    setIt({ type: 'ModifyList', indexList, newSlice: list });
+                    dispatch({ type: 'ModifyList', indexList, newSlice: list });
                 }}
                 group="shared"
                 swapThreshold={0.65}

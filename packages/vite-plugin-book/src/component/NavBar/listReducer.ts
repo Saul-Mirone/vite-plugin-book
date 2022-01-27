@@ -1,4 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
+// eslint-disable-next-line import/no-named-as-default
 import produce from 'immer';
 
 import { DirInfo, FileInfo } from '../../interface';
@@ -29,6 +30,8 @@ export type ListReducerAction =
       };
 
 const diffList = (origin: ListReducerState, indexList: number[], newSlice: ListReducerState) => {
+    // TODO: validate first
+
     const value = produce(origin, (draft) => {
         if (indexList.length === 0) {
             return newSlice;

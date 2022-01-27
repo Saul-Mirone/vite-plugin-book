@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
 import { transformName } from '../../utils/helper';
-import { DraggingCtx } from './Nav';
+import { DraggingCtx } from '.';
 
 type ListItemProps = {
     name: string;

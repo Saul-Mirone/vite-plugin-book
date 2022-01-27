@@ -1,11 +1,10 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { FC, useContext, useEffect, useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
 import { transformName } from '../../utils/helper';
-import { Divider } from './Divider';
-import { DraggingCtx } from './Nav';
+import { DraggingCtx } from '.';
 
 type SubListHeaderProps = {
     name: string;

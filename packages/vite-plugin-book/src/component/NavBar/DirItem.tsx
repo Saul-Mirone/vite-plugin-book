@@ -1,8 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, memo, useEffect, useState } from 'react';
+import { FC, memo } from 'react';
 
-import { useRpc } from '../../hook/useRpc';
-import { FileInfo } from '../../interface';
 import { isIndexPage, nope } from '../../utils/helper';
 import { List } from './List';
 import { StateItem } from './listReducer';
@@ -17,15 +15,8 @@ type DirItemProps = {
     indexList: number[];
 };
 
-export const DirItem: FC<DirItemProps> = memo(({ name, onClick, list, url, indexList, hasIndex }) => {
-    return (
-        <SubListHeader hasIndex={hasIndex} url={url} name={name} onClick={hasIndex ? onClick : nope}>
-            <List
-                indexList={[...indexList]}
-                id={url}
-                onClick={onClick}
-                items={list.filter((item) => !isIndexPage(item))}
-            />
-        </SubListHeader>
-    );
-});
+export const DirItem: FC<DirItemProps> = memo(({ name, onClick, list, url, indexList, hasIndex }) => (
+    <SubListHeader hasIndex={hasIndex} url={url} name={name} onClick={hasIndex ? onClick : nope}>
+        <List indexList={[...indexList]} id={url} onClick={onClick} items={list.filter((item) => !isIndexPage(item))} />
+    </SubListHeader>
+));
