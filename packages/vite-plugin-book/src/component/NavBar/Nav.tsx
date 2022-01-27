@@ -2,6 +2,7 @@
 import { Dispatch, FC, SetStateAction, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { ItemInfo } from '../../interface';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { isIndexPage, nope } from '../../utils/helper';
 import { Button } from '../Button';
@@ -10,28 +11,23 @@ import { ListReducerState } from './listReducer';
 
 type NavProps = {
     title: string;
-    state: ListReducerState;
+    state: ItemInfo[];
     onClick: (url: string) => void;
     setDragging: Dispatch<SetStateAction<boolean>>;
 };
 
 export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
-    const indexPage = state.find(isIndexPage);
     const base = useContext(RouteBaseCtx);
     return (
         <nav className="h-full w-full flex flex-col bg-surface py-12px">
             <div className="cursor-pointer mx-12px text-base flex justify-between items-center h-42px my-8px">
-                <NavLink
-                    onClick={() => indexPage && onClick(indexPage.url)}
-                    to={base}
-                    className="pl-12px no-underline text-neutral"
-                >
+                <NavLink onClick={() => onClick('/')} to={base} className="pl-12px no-underline text-neutral">
                     {title}
                 </NavLink>
                 <Button icon="add" text="New" onClick={nope} />
             </div>
             <div
-                className="pr-12px"
+                className="pr-12px overflow-auto"
                 onDrag={() => {
                     setDragging(true);
                 }}

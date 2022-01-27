@@ -3,6 +3,7 @@
 import { FC, StrictMode, useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
+import { ConfigProvider } from '../provider/ConfigProvider';
 import { DialogProvider } from '../provider/DialogProvider';
 import { FileProvider } from '../provider/FileProvider';
 import { ModeProvider } from '../provider/ModeProvider';
@@ -28,11 +29,13 @@ export const Root: FC<{ isRuntime?: boolean }> = ({ isRuntime = false }) => {
                     <RouteBaseProvider base={base}>
                         <RpcProvider>
                             <FileProvider>
-                                <OutlineProvider>
-                                    <DialogProvider>
-                                        <App />
-                                    </DialogProvider>
-                                </OutlineProvider>
+                                <ConfigProvider>
+                                    <OutlineProvider>
+                                        <DialogProvider>
+                                            <App />
+                                        </DialogProvider>
+                                    </OutlineProvider>
+                                </ConfigProvider>
                             </FileProvider>
                         </RpcProvider>
                     </RouteBaseProvider>

@@ -1,46 +1,15 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import fs from 'fs-extra';
-import { relative, resolve } from 'pathe';
+import { resolve } from 'pathe';
 
-import type { BookConfig, DirInfo, FileInfo, ItemInfo, SideBarItem, WebSocketServerEvents } from '../interface';
+import type { BookConfig, ItemInfo, WebSocketServerEvents } from '../interface';
 import { withOutExt } from '../utils/helper';
+import { ConfigService } from './config-service';
+import { flushId, sortProject } from './sort-project';
 
 export class ContentManager implements WebSocketServerEvents {
-    constructor(private docDir: string) {}
-
-    async getFiles(): Promise<ItemInfo[]> {
-        const handlePath = async (dir: string) => {
-            const files = await fs.readdir(dir, { withFileTypes: true });
-            const data = await Promise.all(
-                files.map(async (file): Promise<ItemInfo | null> => {
-                    const relativeUrl = relative(this.docDir, resolve(dir, file.name));
-                    if (file.isDirectory()) {
-                        const dirInfo: DirInfo = {
-                            type: 'dir',
-                            name: file.name,
-                            list: await handlePath(resolve(dir, file.name)),
-                            url: relativeUrl,
-                        };
-                        return dirInfo;
-                    }
-
-                    if (!file.name.endsWith('.md')) {
-                        return null;
-                    }
-
-                    const fileInfo: FileInfo = {
-                        type: 'file',
-                        name: file.name,
-                        url: withOutExt(relativeUrl),
-                    };
-                    return fileInfo;
-                }),
-            );
-            return data.filter((x): x is ItemInfo => !!x);
-        };
-        return handlePath(this.docDir);
-    }
+    constructor(private docDir: string, private configService: ConfigService) {}
 
     async getFile(url: string): Promise<string> {
         return fs.readFile(this.resolveFilePath(url), 'utf-8');
@@ -51,17 +20,21 @@ export class ContentManager implements WebSocketServerEvents {
     }
 
     async getConfig(): Promise<BookConfig> {
-        await this.ensureConfig();
         // TODO: diff the saved config with file system
-        return fs.readJSON(this.configPath);
+        return Promise.resolve(this.configService.get());
     }
 
-    async writeConfig(config: BookConfig): Promise<void> {
-        await fs.writeJSON(this.configPath, config, { spaces: 4 });
-    }
+    async sort(info: ItemInfo[]): Promise<boolean> {
+        const config = this.configService.get();
+        const saved = config.projectInfo.list;
+        const changed = sortProject(this.docDir, saved, info);
+        if (changed) {
+            this.configService.setConfig({ ...config, projectInfo: { ...config.projectInfo, list: flushId(info) } });
 
-    private get configPath() {
-        return resolve(this.docDir, 'settings.json');
+            await this.configService.writeConfig();
+        }
+
+        return changed;
     }
 
     private resolveFilePath(url: string) {
@@ -75,38 +48,5 @@ export class ContentManager implements WebSocketServerEvents {
         }
         console.error('Cannot resolve file: ', url);
         return '';
-    }
-
-    private async ensureConfig() {
-        const exists = await fs.pathExists(this.configPath);
-        if (exists) {
-            return;
-        }
-        const config = await this.initConfig();
-        await this.writeConfig(config);
-    }
-
-    private async initConfig(): Promise<BookConfig> {
-        const files = await this.getFiles();
-        const handleFiles = (files: ItemInfo[]) => {
-            return files.map((file, index): SideBarItem => {
-                if (file.type === 'file') {
-                    return {
-                        type: 'file',
-                        url: file.url,
-                        index,
-                    };
-                }
-
-                return {
-                    type: 'dir',
-                    url: file.url,
-                    index,
-                    list: handleFiles(file.list),
-                };
-            });
-        };
-        const sidebar = handleFiles(files);
-        return { sidebar };
     }
 }

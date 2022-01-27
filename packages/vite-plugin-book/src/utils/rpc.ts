@@ -2,7 +2,7 @@
 import { BirpcReturn, createBirpc } from 'birpc';
 import { parse, stringify } from 'flatted';
 
-import { BookConfig, WebSocketClientEvents, WebSocketServerEvents } from '../interface';
+import { BookConfig, ItemInfo, WebSocketClientEvents, WebSocketServerEvents } from '../interface';
 import { nope } from './helper';
 
 const reconnectTries = 10;
@@ -97,10 +97,6 @@ export class Rpc implements WebSocketServerEvents {
         return this.$.getFile(url);
     }
 
-    getFiles() {
-        return this.$.getFiles();
-    }
-
     writeFile(url: string, markdown: string) {
         return this.$.writeFile(url, markdown);
     }
@@ -109,7 +105,7 @@ export class Rpc implements WebSocketServerEvents {
         return this.$.getConfig();
     }
 
-    writeConfig(config: BookConfig): Promise<void> {
-        return this.$.writeConfig(config);
+    sort(info: ItemInfo[]) {
+        return this.$.sort(info);
     }
 }

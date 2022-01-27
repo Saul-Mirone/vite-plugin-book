@@ -6,6 +6,7 @@ import type { ViteDevServer } from 'vite';
 import { WebSocket, WebSocketServer } from 'ws';
 
 import { WebSocketClientEvents, WebSocketServerEvents } from '../interface';
+import { ConfigService } from './config-service';
 import { ContentManager } from './content-manager';
 
 type ClientMap = Map<WebSocket, BirpcReturn<WebSocketClientEvents>>;
@@ -27,8 +28,10 @@ export const createWsServer = (server: ViteDevServer, docDir: string) => {
     });
 };
 
-function setupClient(ws: WebSocket, clientMap: ClientMap, docDir: string) {
-    const rpc = createBirpc<WebSocketClientEvents, WebSocketServerEvents>(new ContentManager(docDir), {
+async function setupClient(ws: WebSocket, clientMap: ClientMap, docDir: string) {
+    const configService = new ConfigService(docDir);
+    await configService.ready;
+    const rpc = createBirpc<WebSocketClientEvents, WebSocketServerEvents>(new ContentManager(docDir, configService), {
         post: (msg) => ws.send(msg),
         on: (fn) => ws.on('message', fn),
         serialize: stringify,

@@ -1,48 +1,61 @@
 {
-    "sidebar": [
-        {
-            "type": "file",
-            "url": "getting-started",
-            "index": 0
-        },
-        {
-            "type": "dir",
-            "url": "guide",
-            "index": 1,
-            "list": [
-                {
-                    "type": "file",
-                    "url": "guide/installation",
-                    "index": 0
-                },
-                {
-                    "type": "dir",
-                    "url": "guide/side-bar-config",
-                    "index": 1,
-                    "list": [
-                        {
-                            "type": "file",
-                            "url": "guide/side-bar-config/API",
-                            "index": 0
-                        },
-                        {
-                            "type": "file",
-                            "url": "guide/side-bar-config/index",
-                            "index": 1
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "file",
-            "url": "index",
-            "index": 2
-        },
-        {
-            "type": "file",
-            "url": "QA",
-            "index": 3
-        }
-    ]
+    "projectInfo": {
+        "name": "vite-book",
+        "list": [
+            {
+                "type": "file",
+                "name": "QA.md",
+                "url": "QA",
+                "id": "QA",
+                "selected": false,
+                "chosen": false
+            },
+            {
+                "list": [
+                    {
+                        "type": "file",
+                        "name": "installation.md",
+                        "url": "guide/installation",
+                        "id": "guide/installation",
+                        "chosen": false,
+                        "selected": false
+                    },
+                    {
+                        "list": [
+                            {
+                                "type": "file",
+                                "name": "API.md",
+                                "url": "guide/side-bar-config/API",
+                                "id": "guide/side-bar-config/API",
+                                "selected": false,
+                                "chosen": false
+                            },
+                            {
+                                "type": "file",
+                                "name": "getting-started.md",
+                                "url": "guide/side-bar-config/getting-started",
+                                "id": "guide/side-bar-config/getting-started",
+                                "chosen": false,
+                                "selected": false
+                            }
+                        ],
+                        "type": "dir",
+                        "name": "side-bar-config",
+                        "id": "guide/side-bar-config",
+                        "url": "guide/side-bar-config",
+                        "hasIndex": true,
+                        "chosen": false,
+                        "selected": false
+                    }
+                ],
+                "type": "dir",
+                "name": "guide",
+                "id": "guide",
+                "url": "guide",
+                "hasIndex": false,
+                "selected": false,
+                "chosen": false
+            }
+        ]
+    }
 }

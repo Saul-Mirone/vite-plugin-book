@@ -1,10 +1,10 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
+import { useConfig } from '../hook/useConfig';
 import { useMode } from '../hook/useMode';
 import { useRpc } from '../hook/useRpc';
-import { ItemInfo } from '../interface';
 import { Editor } from './Editor';
 import { Header } from './Header';
 import { Layout } from './Layout';
@@ -13,29 +13,18 @@ import { Outline } from './Outline';
 
 export const App = () => {
     const ctx = useRpc();
-    const [items, setItems] = useState<ItemInfo[]>([]);
+    const { config, getConfig } = useConfig();
     const mode = useMode();
 
     useEffect(() => {
         if (ctx.status === 'connected') {
-            const getFiles = async () => {
-                try {
-                    const config = await ctx.rpc.getConfig();
-                    const fs = await ctx.rpc.getFiles();
-                    // console.log(config);
-
-                    setItems(fs);
-                } catch (e) {
-                    console.error(e);
-                }
-            };
-            getFiles();
+            getConfig();
         }
-    }, [ctx, mode]);
+    }, [ctx, getConfig, mode]);
 
     return (
         <Layout>
-            <NavBar items={items} />
+            {config && <NavBar projectInfo={config.projectInfo} />}
             <div className="overflow-auto h-full">
                 <Header />
                 <div className="px-30px flex justify-center mb-30px">

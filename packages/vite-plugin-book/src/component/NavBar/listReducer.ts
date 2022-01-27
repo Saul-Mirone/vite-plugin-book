@@ -2,34 +2,38 @@
 // eslint-disable-next-line import/no-named-as-default
 import produce from 'immer';
 
-import { DirInfo, FileInfo } from '../../interface';
+import { DirInfo, ItemInfo } from '../../interface';
+import { flatItems, walkThroughTree, withOutExt } from '../../utils/helper';
 
-export type StateFile = FileInfo & {
-    id: string;
+export type ListReducerState = {
+    curr: ItemInfo[];
+    count: number;
 };
-
-export type StateDir = Omit<DirInfo, 'list'> & {
-    list: StateItem[];
-    id: string;
-    hasIndex: boolean;
-};
-
-export type StateItem = StateFile | StateDir;
-
-export type ListReducerState = StateItem[];
 
 export type ListReducerAction =
     | {
           type: 'ReplaceAll';
-          list: ListReducerState;
+          list: ItemInfo[];
       }
     | {
           type: 'ModifyList';
           indexList: number[];
-          newSlice: ListReducerState;
+          newSlice: ItemInfo[];
       };
 
-const diffList = (origin: ListReducerState, indexList: number[], newSlice: ListReducerState) => {
+const flushUrl = (state: ItemInfo[]) => {
+    const value = produce(state, (draft) => {
+        walkThroughTree(draft, (item, parent) => {
+            const prefix = parent?.url ?? '';
+
+            item.url = [prefix, withOutExt(item.name)].filter((x) => x.length > 0).join('/');
+        });
+    });
+
+    return value;
+};
+
+const diffList = (origin: ItemInfo[], indexList: number[], newSlice: ItemInfo[]) => {
     // TODO: validate first
 
     const value = produce(origin, (draft) => {
@@ -38,19 +42,29 @@ const diffList = (origin: ListReducerState, indexList: number[], newSlice: ListR
         }
         const _indexList = [...indexList];
         const last = _indexList.pop();
-        const target = _indexList.reduce((acc, cur) => (acc[cur] as StateDir).list, draft) as StateDir[];
+        const target = _indexList.reduce((acc, cur) => (acc[cur] as DirInfo).list, draft) as DirInfo[];
         if (last != null) {
             target[last].list = [...newSlice];
         }
     });
+
     return value;
 };
 
-export const listReducer = (state: ListReducerState, action: ListReducerAction) => {
+export const listReducer = (state: ListReducerState, action: ListReducerAction): ListReducerState => {
     switch (action.type) {
         case 'ReplaceAll':
-            return action.list;
-        case 'ModifyList':
-            return diffList(state, action.indexList, action.newSlice);
+            return {
+                curr: action.list,
+                count: flatItems(action.list).length,
+            };
+        case 'ModifyList': {
+            const newState = flushUrl(diffList(state.curr, action.indexList, action.newSlice));
+
+            return {
+                curr: newState,
+                count: state.count,
+            };
+        }
     }
 };
