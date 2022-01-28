@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useActive } from '../../hook/useActive';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
+import { IconButton } from './IconButton';
 
 type SubListHeaderProps = {
     name: string;
@@ -54,12 +55,18 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                 <div className="flex items-center gap-4px">
                     {spread && (
                         <>
-                            <span className="cursor-pointer text-lg text-opacity-60 text-neutral hover:text-primary hover:text-opacity-100 material-icons-outlined">
-                                add
-                            </span>
-                            <span className="cursor-pointer text-lg text-opacity-60 text-neutral hover:text-primary hover:text-opacity-100 material-icons-outlined">
-                                delete
-                            </span>
+                            <IconButton
+                                type="add"
+                                onClick={() => {
+                                    console.error('add not implemented');
+                                }}
+                            />
+                            <IconButton
+                                type="delete"
+                                onClick={() => {
+                                    console.error('delete not implemented');
+                                }}
+                            />
                         </>
                     )}
                     <span className="material-icons-outlined text-neutral text-opacity-60 text-lg">

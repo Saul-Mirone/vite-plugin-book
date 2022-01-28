@@ -1,23 +1,12 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import {
-    defaultValueCtx,
-    Editor,
-    editorCtx,
-    editorStateCtx,
-    editorViewCtx,
-    editorViewOptionsCtx,
-    parserCtx,
-    rootCtx,
-    serializerCtx,
-} from '@milkdown/core';
+import { defaultValueCtx, Editor, editorCtx, editorStateCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
 import { history } from '@milkdown/plugin-history';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { gfm } from '@milkdown/preset-gfm';
-import { Slice } from '@milkdown/prose';
 import { nordLight } from '@milkdown/theme-nord';
 import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
