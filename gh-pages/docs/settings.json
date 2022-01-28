@@ -14,9 +14,17 @@
                 "list": [
                     {
                         "type": "file",
-                        "name": "installation.md",
-                        "url": "guide/installation",
-                        "id": "guide/installation",
+                        "name": "APIs-Ref.md",
+                        "url": "Side-Bar-Configs/APIs-Ref",
+                        "id": "Side-Bar-Configs/APIs-Ref",
+                        "selected": false,
+                        "chosen": false
+                    },
+                    {
+                        "type": "file",
+                        "name": "getting-started.md",
+                        "url": "Side-Bar-Configs/getting-started",
+                        "id": "Side-Bar-Configs/getting-started",
                         "chosen": false,
                         "selected": false
                     },
@@ -24,37 +32,29 @@
                         "list": [
                             {
                                 "type": "file",
-                                "name": "API.md",
-                                "url": "guide/side-bar-config/API",
-                                "id": "guide/side-bar-config/API",
-                                "selected": false,
-                                "chosen": false
-                            },
-                            {
-                                "type": "file",
-                                "name": "getting-started.md",
-                                "url": "guide/side-bar-config/getting-started",
-                                "id": "guide/side-bar-config/getting-started",
+                                "name": "installation.md",
+                                "url": "Side-Bar-Configs/guide/installation",
+                                "id": "Side-Bar-Configs/guide/installation",
                                 "chosen": false,
                                 "selected": false
                             }
                         ],
                         "type": "dir",
-                        "name": "side-bar-config",
-                        "id": "guide/side-bar-config",
-                        "url": "guide/side-bar-config",
-                        "hasIndex": true,
-                        "chosen": false,
-                        "selected": false
+                        "name": "guide",
+                        "id": "Side-Bar-Configs/guide",
+                        "url": "Side-Bar-Configs/guide",
+                        "hasIndex": false,
+                        "selected": false,
+                        "chosen": false
                     }
                 ],
                 "type": "dir",
-                "name": "guide",
-                "id": "guide",
-                "url": "guide",
-                "hasIndex": false,
-                "selected": false,
-                "chosen": false
+                "name": "Side-Bar-Configs",
+                "id": "Side-Bar-Configs",
+                "url": "Side-Bar-Configs",
+                "hasIndex": true,
+                "chosen": false,
+                "selected": false
             }
         ]
     }

@@ -29,7 +29,7 @@ export type BookConfig = {
 
 // These events are only supported for editable mode
 interface AdminEvents {
-    writeFile(url: string, markdown: string): Promise<void>;
+    writeFile(url: string, name: string, markdown: string): Promise<void>;
     sort(info: ItemInfo[]): Promise<boolean>;
 }
 

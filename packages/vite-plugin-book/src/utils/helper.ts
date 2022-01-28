@@ -33,13 +33,13 @@ export const walkThroughTree = (
             return;
         }
 
-        return item.list.map((it, idx) => {
+        return item.list.forEach((it, idx) => {
             walk(it, item, [...index, idx]);
             return;
         });
     };
 
-    return items.map((item, index) => walk(item, null, [index]));
+    return items.forEach((item, index) => walk(item, null, [index]));
 };
 
 export const flatItems = (items: ItemInfo[]): (FileInfo | Omit<DirInfo, 'list'>)[] => {
@@ -56,6 +56,9 @@ export const flatItems = (items: ItemInfo[]): (FileInfo | Omit<DirInfo, 'list'>)
 export const isEqualState = (prevState: ItemInfo[], nextState: ItemInfo[]): boolean => {
     return prevState.every((item, index) => {
         const next = nextState[index];
+        if (!next) {
+            return false;
+        }
         if (item.id !== next.id) {
             return false;
         }

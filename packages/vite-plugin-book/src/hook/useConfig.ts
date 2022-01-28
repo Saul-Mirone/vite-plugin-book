@@ -10,17 +10,14 @@ export const useConfig = () => {
     const config = useContext(ConfigCtx);
     const setConfig = useContext(SetConfigCtx);
 
-    const getConfig = useCallback(() => {
+    const getConfig = useCallback(async () => {
         if (ctx.status === 'connected') {
-            const fetchConfig = async () => {
-                try {
-                    const config = await ctx.rpc.getConfig();
-                    setConfig(config);
-                } catch (e) {
-                    console.error(e);
-                }
-            };
-            fetchConfig();
+            try {
+                const config = await ctx.rpc.getConfig();
+                setConfig(config);
+            } catch (e) {
+                console.error(e);
+            }
         }
     }, [ctx, setConfig]);
 

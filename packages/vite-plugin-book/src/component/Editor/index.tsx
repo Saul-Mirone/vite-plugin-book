@@ -1,14 +1,17 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import './style.css';
 
-import { FC, useRef } from 'react';
+import { FC, useContext, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
 import { useEditor } from '../../hook/useEditor';
 import { useFile } from '../../hook/useFile';
 import { useMode } from '../../hook/useMode';
+import { useOutline } from '../../hook/useOutline';
 import { useRpc } from '../../hook/useRpc';
-import { nope } from '../../utils/helper';
+import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { Toolbar } from '../Toolbar';
 
 export const Editor: FC<{ readonly: boolean }> = ({ readonly }) => {
@@ -18,16 +21,28 @@ export const Editor: FC<{ readonly: boolean }> = ({ readonly }) => {
     const divRef = useRef<HTMLDivElement>(null);
     const { flush, get, changed } = useEditor(divRef, file, readonly);
     const { show, hide } = useDialog();
+    const [data] = useOutline();
+    const { getConfig } = useConfig();
+    const navigate = useNavigate();
+    const base = useContext(RouteBaseCtx);
 
-    const onSave = () => {
+    const onSave = async () => {
         if (ctx.status !== 'connected' || !url) return;
 
         const markdown = get();
 
+        const [h1] = data;
+
+        const name = h1 ? h1.text.replace(/\s/g, '-') : 'untitled';
+
         if (markdown != null) {
-            ctx.rpc.writeFile(url, markdown);
+            await ctx.rpc.writeFile(url, name, markdown);
             setFile(markdown);
         }
+        await getConfig();
+        const prevPathList = url.split('/');
+        const newPath = prevPathList.slice(0, prevPathList.length - 1).join('/') + '/' + name;
+        navigate(`${base}${newPath}`);
     };
 
     const onCancel = () => {

@@ -8,7 +8,7 @@ import { flatItems, isEqualState, walkThroughTree, withOutExt } from '../utils/h
 
 export const flushId = (state: ItemInfo[]) => {
     const value = produce(state, (draft) => {
-        walkThroughTree(draft, (item, parent) => {
+        walkThroughTree(draft, (item) => {
             item.id = item.url;
         });
     });
