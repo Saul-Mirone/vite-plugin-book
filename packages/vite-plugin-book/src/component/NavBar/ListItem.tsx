@@ -1,9 +1,12 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { FC, memo, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
+import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
+import { useRpc } from '../../hook/useRpc';
+import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
@@ -15,9 +18,13 @@ type ListItemProps = {
 };
 
 export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
+    const ctx = useRpc();
     const dragging = useContext(DraggingCtx);
+    const base = useContext(RouteBaseCtx);
     const { to, isActive } = useActive(url);
+    const { getConfig } = useConfig();
     const { show, hide } = useDialog();
+    const navigate = useNavigate();
     return (
         <li
             className={`transition cursor-pointer rounded-8px ${
@@ -49,8 +56,16 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
                                         </div>
                                     </div>
                                 ),
-                                onConfirm: () => {
-                                    // TODO: delete folder
+                                onConfirm: async () => {
+                                    if (ctx.status !== 'connected') {
+                                        hide();
+                                        return;
+                                    }
+                                    const nextId = await ctx.rpc.deleteFile(url);
+                                    await getConfig();
+                                    navigate(base + nextId, { replace: true });
+                                    onClick(nextId);
+
                                     hide();
                                 },
                                 onCancel: () => {

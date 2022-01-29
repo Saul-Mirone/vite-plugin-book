@@ -97,6 +97,14 @@ export class Rpc implements WebSocketServerEvents {
         return this.$.getFile(url);
     }
 
+    createFile(near: string): Promise<string> {
+        return this.$.createFile(near);
+    }
+
+    deleteFile(url: string): Promise<string> {
+        return this.$.deleteFile(url);
+    }
+
     writeFile(url: string, name: string, markdown: string) {
         return this.$.writeFile(url, name, markdown);
     }

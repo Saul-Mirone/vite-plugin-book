@@ -29,6 +29,9 @@ export type BookConfig = {
 
 // These events are only supported for editable mode
 interface AdminEvents {
+    createFile(near: string): Promise<string>;
+    deleteFile(url: string): Promise<string>;
+    createFolder(url: string): Promise<void>;
     writeFile(url: string, name: string, markdown: string): Promise<void>;
     sort(info: ItemInfo[]): Promise<boolean>;
 }

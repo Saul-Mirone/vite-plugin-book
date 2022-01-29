@@ -37,6 +37,18 @@
                                 "id": "Side-Bar-Config/guide/installation",
                                 "chosen": false,
                                 "selected": false
+                            },
+                            {
+                                "type": "file",
+                                "name": "Nananana.md",
+                                "url": "Side-Bar-Config/guide/Nananana",
+                                "id": "Side-Bar-Config/guide/Nananana"
+                            },
+                            {
+                                "type": "file",
+                                "name": "Fine.md",
+                                "url": "Side-Bar-Config/guide/Fine",
+                                "id": "Side-Bar-Config/guide/Fine"
                             }
                         ],
                         "type": "dir",
@@ -55,6 +67,18 @@
                 "hasIndex": true,
                 "chosen": false,
                 "selected": false
+            },
+            {
+                "type": "file",
+                "name": "Test.md",
+                "url": "Test",
+                "id": "Test"
+            },
+            {
+                "type": "file",
+                "name": "Not-Count.md",
+                "url": "Not-Count",
+                "id": "Not-Count"
             }
         ]
     }

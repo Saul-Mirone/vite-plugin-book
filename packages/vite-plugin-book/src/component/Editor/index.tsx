@@ -17,7 +17,7 @@ import { Toolbar } from '../Toolbar';
 export const Editor: FC<{ readonly: boolean }> = ({ readonly }) => {
     const mode = useMode();
     const ctx = useRpc();
-    const { file, url, setFile } = useFile();
+    const { file, url, setFile, setUrl } = useFile();
     const divRef = useRef<HTMLDivElement>(null);
     const { flush, get, changed } = useEditor(divRef, file, readonly);
     const { show, hide } = useDialog();
@@ -46,6 +46,7 @@ export const Editor: FC<{ readonly: boolean }> = ({ readonly }) => {
             .concat(name)
             .join('/');
         navigate(`${base}${newPath}`);
+        setUrl(newPath);
     };
 
     const onCancel = () => {

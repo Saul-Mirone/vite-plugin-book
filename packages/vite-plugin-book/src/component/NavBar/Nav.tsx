@@ -1,7 +1,10 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { Dispatch, FC, SetStateAction, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 
+import { useConfig } from '../../hook/useConfig';
+import { useFile } from '../../hook/useFile';
+import { useRpc } from '../../hook/useRpc';
 import { ItemInfo } from '../../interface';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { isIndexPage, nope } from '../../utils/helper';
@@ -19,6 +22,10 @@ type NavProps = {
 
 export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
     const base = useContext(RouteBaseCtx);
+    const { url } = useFile();
+    const ctx = useRpc();
+    const { getConfig } = useConfig();
+    const navigate = useNavigate();
     return (
         <nav className="h-full w-full flex flex-col bg-surface py-12px">
             <div className="cursor-pointer mx-12px text-base flex justify-between items-center h-42px my-8px">
@@ -28,8 +35,13 @@ export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
                 <div className="flex gap-8px mr-8px">
                     <IconButton
                         type="post_add"
-                        onClick={() => {
-                            console.error('add post not implemented');
+                        onClick={async () => {
+                            if (ctx.status !== 'connected') return;
+                            const nextId = await ctx.rpc.createFile(url);
+                            await getConfig();
+                            const to = `${base}${nextId}`;
+                            navigate(to);
+                            onClick(nextId);
                         }}
                     />
                     <IconButton
