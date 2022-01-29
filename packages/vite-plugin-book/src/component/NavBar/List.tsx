@@ -1,7 +1,8 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, memo, useContext } from 'react';
+import { FC, memo, useContext, useMemo } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
+import { useMode } from '../../hook/useMode';
 import { ItemInfo } from '../../interface';
 import { DispatchCtx } from '.';
 import { DirItem } from './DirItem';
@@ -16,6 +17,32 @@ type ListProps = {
 
 export const List: FC<ListProps> = memo(({ items, onClick, id, indexList }) => {
     const dispatch = useContext(DispatchCtx);
+    const mode = useMode();
+
+    const listItems = useMemo(
+        () =>
+            items.map((item, index) =>
+                item.type === 'file' ? (
+                    <ListItem key={item.id} url={item.id} name={item.name} onClick={onClick} />
+                ) : (
+                    <DirItem
+                        hasIndex={item.hasIndex}
+                        indexList={[...indexList, index]}
+                        key={item.name}
+                        url={item.id}
+                        name={item.name}
+                        onClick={onClick}
+                        list={item.list}
+                    />
+                ),
+            ),
+        [indexList, items, onClick],
+    );
+
+    if (mode === 'preview') {
+        return <ul className="list-none m-0 pl-16px">{listItems}</ul>;
+    }
+
     return (
         <ul className="list-none m-0 pl-16px">
             <ReactSortable
@@ -29,21 +56,7 @@ export const List: FC<ListProps> = memo(({ items, onClick, id, indexList }) => {
                 animation={150}
                 ghostClass="ghost"
             >
-                {items.map((item, index) => {
-                    return item.type === 'file' ? (
-                        <ListItem key={item.id} url={item.id} name={item.name} onClick={onClick} />
-                    ) : (
-                        <DirItem
-                            hasIndex={item.hasIndex}
-                            indexList={[...indexList, index]}
-                            key={item.name}
-                            url={item.id}
-                            name={item.name}
-                            onClick={onClick}
-                            list={item.list}
-                        />
-                    );
-                })}
+                {listItems}
             </ReactSortable>
         </ul>
     );

@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useActive } from '../../hook/useActive';
 import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
+import { useMode } from '../../hook/useMode';
 import { useRpc } from '../../hook/useRpc';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { nope, transformName } from '../../utils/helper';
@@ -28,6 +29,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     const ctx = useRpc();
     const base = useContext(RouteBaseCtx);
     const { getConfig } = useConfig();
+    const mode = useMode();
 
     useEffect(() => {
         if (isActive) return;
@@ -61,7 +63,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     </span>
                 </div>
                 <div className="flex items-center gap-4px">
-                    {spread && (
+                    {spread && mode === 'editable' && (
                         <>
                             <IconButton
                                 type="delete_outline"

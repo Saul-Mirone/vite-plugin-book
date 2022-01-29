@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useActive } from '../../hook/useActive';
 import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
+import { useMode } from '../../hook/useMode';
 import { useRpc } from '../../hook/useRpc';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { transformName } from '../../utils/helper';
@@ -25,6 +26,7 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
     const { getConfig } = useConfig();
     const { show, hide } = useDialog();
     const navigate = useNavigate();
+    const mode = useMode();
     return (
         <li
             className={`transition cursor-pointer rounded-8px ${
@@ -41,7 +43,7 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
                 onClick={() => onClick(url)}
             >
                 {transformName(name)}
-                {isActive && (
+                {isActive && mode === 'editable' && (
                     <IconButton
                         type="remove_circle_outline"
                         onClick={() => {
