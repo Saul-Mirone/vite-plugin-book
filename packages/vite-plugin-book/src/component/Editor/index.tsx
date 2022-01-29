@@ -41,7 +41,10 @@ export const Editor: FC<{ readonly: boolean }> = ({ readonly }) => {
         }
         await getConfig();
         const prevPathList = url.split('/');
-        const newPath = prevPathList.slice(0, prevPathList.length - 1).join('/') + '/' + name;
+        const newPath = prevPathList
+            .slice(0, prevPathList.length - 1)
+            .concat(name)
+            .join('/');
         navigate(`${base}${newPath}`);
     };
 

@@ -4,9 +4,9 @@
         "list": [
             {
                 "type": "file",
-                "name": "QA.md",
-                "url": "QA",
-                "id": "QA",
+                "name": "QA-List.md",
+                "url": "QA-List",
+                "id": "QA-List",
                 "selected": false,
                 "chosen": false
             },
@@ -14,17 +14,17 @@
                 "list": [
                     {
                         "type": "file",
-                        "name": "APIs-Ref.md",
-                        "url": "Side-Bar-Configs/APIs-Ref",
-                        "id": "Side-Bar-Configs/APIs-Ref",
+                        "name": "APIs-Reference-Manual.md",
+                        "url": "Side-Bar-Config/APIs-Reference-Manual",
+                        "id": "Side-Bar-Config/APIs-Reference-Manual",
                         "selected": false,
                         "chosen": false
                     },
                     {
                         "type": "file",
                         "name": "getting-started.md",
-                        "url": "Side-Bar-Configs/getting-started",
-                        "id": "Side-Bar-Configs/getting-started",
+                        "url": "Side-Bar-Config/getting-started",
+                        "id": "Side-Bar-Config/getting-started",
                         "chosen": false,
                         "selected": false
                     },
@@ -33,25 +33,25 @@
                             {
                                 "type": "file",
                                 "name": "installation.md",
-                                "url": "Side-Bar-Configs/guide/installation",
-                                "id": "Side-Bar-Configs/guide/installation",
+                                "url": "Side-Bar-Config/guide/installation",
+                                "id": "Side-Bar-Config/guide/installation",
                                 "chosen": false,
                                 "selected": false
                             }
                         ],
                         "type": "dir",
                         "name": "guide",
-                        "id": "Side-Bar-Configs/guide",
-                        "url": "Side-Bar-Configs/guide",
+                        "id": "Side-Bar-Config/guide",
+                        "url": "Side-Bar-Config/guide",
                         "hasIndex": false,
                         "selected": false,
                         "chosen": false
                     }
                 ],
                 "type": "dir",
-                "name": "Side-Bar-Configs",
-                "id": "Side-Bar-Configs",
-                "url": "Side-Bar-Configs",
+                "name": "Side-Bar-Config",
+                "id": "Side-Bar-Config",
+                "url": "Side-Bar-Config",
                 "hasIndex": true,
                 "chosen": false,
                 "selected": false

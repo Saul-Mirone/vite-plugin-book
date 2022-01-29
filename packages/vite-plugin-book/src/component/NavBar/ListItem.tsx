@@ -34,7 +34,7 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
                 {transformName(name)}
                 {isActive && (
                     <IconButton
-                        type="delete"
+                        type="remove_circle_outline"
                         onClick={() => {
                             // TODO
                             console.error('delete item not implemented');

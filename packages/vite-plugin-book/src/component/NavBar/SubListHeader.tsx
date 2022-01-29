@@ -56,13 +56,13 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     {spread && (
                         <>
                             <IconButton
-                                type="add"
+                                type="add_circle_outline"
                                 onClick={() => {
                                     console.error('add not implemented');
                                 }}
                             />
                             <IconButton
-                                type="delete"
+                                type="remove_circle_outline"
                                 onClick={() => {
                                     console.error('delete not implemented');
                                 }}
