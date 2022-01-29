@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
 import { useDialog } from '../../hook/useDialog';
-import { transformName } from '../../utils/helper';
+import { nope, transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
 
@@ -83,9 +83,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                             />
                         </>
                     )}
-                    <span className="material-icons-outlined text-neutral text-opacity-60 text-lg">
-                        {!spread ? 'expand' : 'unfold_less'}
-                    </span>
+                    <IconButton type={!spread ? 'expand' : 'unfold_less'} onClick={nope} />
                 </div>
             </div>
             {spread && <>{children}</>}
