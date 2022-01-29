@@ -1,0 +1,48 @@
+{
+    "name": "@types/katex",
+    "version": "0.11.1",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743208338,
+            "integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+            "mode": 511,
+            "size": 1141
+        },
+        "README.md": {
+            "checkedAt": 1642743209563,
+            "integrity": "sha512-qpxMfxKwj7zcMksRjHAaBVhKBJGkWOqqRECuq8OCGhKAs8Be/It0hEp2ONZarnhept/KqmiRpXvSju/8wYLTlQ==",
+            "mode": 511,
+            "size": 671
+        },
+        "contrib/auto-render.d.ts": {
+            "checkedAt": 1642743209563,
+            "integrity": "sha512-C22aI8LnTOPHMJ3rijY1NVfkhPt9OZ58WKmcoROQf13hzbdII2ofxT4xfbRwSzv1yXTakmxwhXIRKxKNEDqCVQ==",
+            "mode": 511,
+            "size": 2286
+        },
+        "contrib/index.d.ts": {
+            "checkedAt": 1642743209563,
+            "integrity": "sha512-p03hsfrBd+asWCPhnRQDK0oCIn3MsxZ88Vfn4ZyUCHUdCjOn5CD2OhzB1vfkjDqh2l2wiEamzOZKmKtiI84MbQ==",
+            "mode": 511,
+            "size": 82
+        },
+        "contrib/katex2tex.d.ts": {
+            "checkedAt": 1642743209563,
+            "integrity": "sha512-uqr0LPJ+glnzLlJ4V2pxQYBLcqqWTJG+xAPuLkkG2/wBNenu5ekBp4Jq43P6lfJGQb1wu3I/SNnZO3kOe444sA==",
+            "mode": 511,
+            "size": 805
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743209563,
+            "integrity": "sha512-Ccg4Kqt1ltjurPZUUNHjbY+Ol+LcEf8Z23zm1gtdZ+sgdGfnUtmS/i/E3YR8qoUzYB3iVEj/tsKhSzbY5sfbUQ==",
+            "mode": 511,
+            "size": 4980
+        },
+        "package.json": {
+            "checkedAt": 1642743209569,
+            "integrity": "sha512-xgQLuYhRy/wuOfsVuC/62Cc7XiOz/VfUTb9MZbRnRhsxt7FSoygHlnt20RS7WWiftx+ZIy/ctFSWcHPsfe8OxQ==",
+            "mode": 511,
+            "size": 1386
+        }
+    }
+}

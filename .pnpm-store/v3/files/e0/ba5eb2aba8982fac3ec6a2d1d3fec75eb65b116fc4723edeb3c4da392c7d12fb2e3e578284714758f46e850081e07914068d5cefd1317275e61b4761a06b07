@@ -1,0 +1,7 @@
+export declare const ToggleStrikeThrough: import("@milkdown/core").CmdKey<undefined>;
+export declare const strikeThrough: import("@milkdown/utils/lib/types").WithExtend<"StrikeThrough", import("@milkdown/utils").UnknownRecord, import("prosemirror-model").MarkType<any>, {
+    id: string;
+    schema: (ctx: import("@milkdown/core").Ctx) => import("@milkdown/core").MarkSchema;
+    view?: ((ctx: import("@milkdown/core").Ctx) => import("@milkdown/prose").MarkViewFactory) | undefined;
+}>;
+//# sourceMappingURL=strike-through.d.ts.map

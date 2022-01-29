@@ -1,0 +1,33 @@
+{
+  "name": "@milkdown/plugin-tooltip",
+  "version": "5.3.4",
+  "type": "module",
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "milkdown",
+    "milkdown plugin"
+  ],
+  "dependencies": {
+    "@milkdown/core": "5.3.4",
+    "@milkdown/prose": "5.3.4",
+    "@milkdown/preset-gfm": "5.3.4",
+    "@milkdown/design-system": "5.3.4",
+    "@milkdown/plugin-math": "5.3.4",
+    "@milkdown/utils": "5.3.4",
+    "tslib": "^2.3.1"
+  },
+  "scripts": {
+    "start": "vite build --watch",
+    "test": "vitest",
+    "tsc": "tsc --noEmit",
+    "build": "vite build"
+  },
+  "readme": "# @milkdown/plugin-tooltip\n\nTooltip plugin for [milkdown](https://saul-mirone.github.io/milkdown/).\nAdd support for tooltip commands.\n\n# Example Usage\n\n```typescript\nimport { Editor } from '@milkdown/core';\nimport { commonmark } from '@milkdown/preset-commonmark';\nimport { nord } from '@milkdown/theme-nord';\n\nimport { tooltip } from '@milkdown/plugin-tooltip';\n\nEditor.make().use(nord).use(commonmark).use(tooltip).create();\n```\n\n# Placeholder\n\nModify the input widgets of link and image.\n\nExample:\n\n```typescript\nimport { tooltipPlugin, tooltip } from '@milkdown/plugin-tooltip';\n\nEditor.make().use(\n    tooltip.configure(tooltipPlugin, {\n        link: {\n            placeholder: 'Please input link...',\n            buttonText: 'Confirm',\n        },\n        image: {\n            placeholder: 'Please input image link...',\n            buttonText: 'OK',\n        },\n        inlineMath: {\n            placeholder: 'Please input inline math...',\n        },\n    }),\n);\n```\n\n# License\n\nMilkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).\n"
+}

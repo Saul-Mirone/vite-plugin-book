@@ -1,0 +1,7 @@
+export declare const ToggleInlineCode: import("@milkdown/core").CmdKey<undefined>;
+export declare const codeInline: import("@milkdown/utils/lib/types").WithExtend<"CodeInline", import("@milkdown/utils").UnknownRecord, import("prosemirror-model").MarkType<any>, {
+    id: string;
+    schema: (ctx: import("@milkdown/core").Ctx) => import("@milkdown/core").MarkSchema;
+    view?: ((ctx: import("@milkdown/core").Ctx) => import("@milkdown/prose").MarkViewFactory) | undefined;
+}>;
+//# sourceMappingURL=code-inline.d.ts.map

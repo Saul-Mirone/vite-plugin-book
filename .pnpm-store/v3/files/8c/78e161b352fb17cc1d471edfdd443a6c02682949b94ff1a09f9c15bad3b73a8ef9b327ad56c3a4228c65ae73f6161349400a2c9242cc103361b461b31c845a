@@ -1,0 +1,2 @@
+export { c as colors } from './colors-338f482c';
+import './types-c14b808b';

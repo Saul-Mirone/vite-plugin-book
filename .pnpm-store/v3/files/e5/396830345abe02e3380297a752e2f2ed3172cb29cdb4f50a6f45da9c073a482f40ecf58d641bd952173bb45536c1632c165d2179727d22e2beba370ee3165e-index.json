@@ -1,0 +1,30 @@
+{
+    "name": "@types/prosemirror-history",
+    "version": "1.0.3",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743208338,
+            "integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+            "mode": 511,
+            "size": 1141
+        },
+        "README.md": {
+            "checkedAt": 1642743208409,
+            "integrity": "sha512-e2MFHw8HD7OpueYFNT27SbF4brZpENGx/H/W9KcDZt9L5A+36rSSSNE8aA+OEa1pdkwr2JrKrsOfhn+W5fr8ig==",
+            "mode": 511,
+            "size": 2961
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743208409,
+            "integrity": "sha512-h1iYWUk6KTkILS2+9TLv/s8aw4K1fSwEy1J2swp4ljvH4ffbL7iSkMY1cGslD7xqeVU936EehFpW9NUKEVCWXQ==",
+            "mode": 511,
+            "size": 1989
+        },
+        "package.json": {
+            "checkedAt": 1642743208409,
+            "integrity": "sha512-DtEf23yW77kSWRjUG0iX/HMY1H2Nj+NKw/hFEoEc1wo2kp/qAtfojXowyYqOJSQ4hNjNxc8vEPLrsTqGmPINAA==",
+            "mode": 511,
+            "size": 1367
+        }
+    }
+}

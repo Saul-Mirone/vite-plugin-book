@@ -1,0 +1,24 @@
+{
+    "name": "esbuild-linux-64",
+    "version": "0.13.15",
+    "files": {
+        "package.json": {
+            "checkedAt": 1642743218966,
+            "integrity": "sha512-zkN72IaRKw7UJ/Brm9dqdYgGI5omydjK0E2ochUPq/F+u3Z3wzarXGpYbGKWXKNicnnYsbXaT06l+4ABnXeqVg==",
+            "mode": 420,
+            "size": 289
+        },
+        "README.md": {
+            "checkedAt": 1642743218966,
+            "integrity": "sha512-qNBiKmnPN19z/Z+/lCWlQUHNdW/dUvbWf5vFnL6D/NigWWw0HAKYXtACpBYUaA3TvTVK/gkK+Cus4aW8HbBtdQ==",
+            "mode": 420,
+            "size": 141
+        },
+        "bin/esbuild": {
+            "checkedAt": 1642743218967,
+            "integrity": "sha512-ORqv4WZSs9lqj5pLJGmFWK3Ewh/CSE5IEsT4O0ij2IcuaV+vRldbucvimJ48G1jZGIeQt6hF1ahr3loUio8UaQ==",
+            "mode": 493,
+            "size": 7704576
+        }
+    }
+}

@@ -1,0 +1,100 @@
+import { Rule } from '@unocss/core';
+import { T as Theme } from './types-c14b808b';
+
+declare const verticalAligns: Rule[];
+declare const textAligns: Rule[];
+
+declare const outline: Rule[];
+declare const appearance: Rule[];
+declare const willChange: Rule[];
+
+declare const borders: Rule[];
+
+/**
+ * @example op10 op-30 opacity-100
+ */
+declare const opacity: Rule[];
+/**
+ * @example c-red color-red5 text-red-300
+ */
+declare const textColors: Rule[];
+declare const bgColors: Rule[];
+
+declare const rules: Rule[];
+
+declare const flex: Rule[];
+
+declare const gaps: Rule[];
+
+declare const grids: Rule[];
+
+declare const overflows: Rule[];
+
+declare const positions: Rule[];
+declare const justifies: Rule[];
+declare const orders: Rule[];
+declare const alignments: Rule[];
+declare const placements: Rule[];
+declare const insets: Rule[];
+declare const floats: Rule[];
+declare const zIndexes: Rule[];
+declare const boxSizing: Rule[];
+
+/**
+ * Used for debugging, only avaliable in development mode.
+ *
+ * @example `?` / `where`
+ */
+declare const questionMark: Rule[];
+
+declare const rings: Rule<Theme>[];
+
+declare const shadowBase: {
+    "$$shortcut-no-merge": string;
+    '--un-ring-offset-shadow': string;
+    '--un-ring-shadow': string;
+    '--un-shadow-inset': string;
+    '--un-shadow': string;
+};
+declare const colorableShadows: (shadows: string | string[], colorVar: string) => string[];
+declare const boxShadows: Rule<Theme>[];
+
+declare const sizes: Rule<Theme>[];
+declare const aspectRatio: Rule[];
+
+declare const paddings: Rule[];
+declare const margins: Rule[];
+
+declare const varEmpty = "var(--un-empty,/*!*/ /*!*/)";
+declare const displays: Rule[];
+declare const appearances: Rule[];
+declare const cursors: Rule[];
+declare const pointerEvents: Rule[];
+declare const resizes: Rule[];
+declare const userSelects: Rule[];
+declare const whitespaces: Rule[];
+declare const contents: Rule[];
+declare const breaks: Rule[];
+declare const textOverflows: Rule[];
+declare const textTransforms: Rule[];
+declare const fontStyles: Rule[];
+declare const fontSmoothings: Rule[];
+
+declare const svgUtilities: Rule[];
+
+declare const transforms: Rule[];
+
+declare const transitions: Rule[];
+
+declare const fonts: Rule<Theme>[];
+declare const tabSizes: Rule<Theme>[];
+declare const textIndents: Rule<Theme>[];
+declare const textStrokes: Rule<Theme>[];
+declare const textShadows: Rule<Theme>[];
+
+declare const cssVariables: Rule[];
+declare const cssProperty: Rule[];
+
+declare const textDecorations: Rule[];
+
+export { alignments, appearance, appearances, aspectRatio, bgColors, borders, boxShadows, boxSizing, breaks, colorableShadows, contents, cssProperty, cssVariables, cursors, displays, flex, floats, fontSmoothings, fontStyles, fonts, gaps, grids, insets, justifies, margins, opacity, orders, outline, overflows, paddings, placements, pointerEvents, positions, questionMark, resizes, rings, rules, shadowBase, sizes, svgUtilities, tabSizes, textAligns, textColors, textDecorations, textIndents, textOverflows, textShadows, textStrokes, textTransforms, transforms, transitions, userSelects, varEmpty, verticalAligns, whitespaces, willChange, zIndexes };

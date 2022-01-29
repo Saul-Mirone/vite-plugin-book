@@ -1,0 +1,16 @@
+export declare type $Slice<T = unknown> = {
+    readonly id: symbol;
+    readonly name: string;
+    readonly set: (value: T) => void;
+    readonly get: () => T;
+    readonly update: (updater: (prev: T) => T) => void;
+};
+export declare type SliceMap = Map<symbol, $Slice>;
+export declare type Slice<T> = {
+    readonly id: symbol;
+    readonly sliceName: string;
+    readonly _typeInfo: () => T;
+    (container: SliceMap, resetValue?: T): $Slice<T>;
+};
+export declare const createSlice: <T>(value: T, name: string) => Slice<T>;
+//# sourceMappingURL=slice.d.ts.map

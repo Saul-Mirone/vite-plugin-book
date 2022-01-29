@@ -1,0 +1,96 @@
+{
+    "name": "react-router",
+    "version": "6.2.1",
+    "files": {
+        "index.js": {
+            "checkedAt": 1642743210358,
+            "integrity": "sha512-tp9zfEOwB80hWey+VaCJXTbFvrlCbfd60PbuH79MLxap6v/fgyclM9qRLDDOheXeYkcZsIohSoagwX8lBEWQEQ==",
+            "mode": 420,
+            "size": 34321
+        },
+        "main.js": {
+            "checkedAt": 1642743210358,
+            "integrity": "sha512-yNwiQr46+Tu12Nl1NPw2SfgjhMMtTrzurfu6Vlw7WiXCiGRBeiz3fAQsBvpg+VukpkkvRPR73ypoSorkSwOsfg==",
+            "mode": 420,
+            "size": 449
+        },
+        "react-router.development.js": {
+            "checkedAt": 1642743210394,
+            "integrity": "sha512-uC5ZDCAjUlO4W/xOTgyKxSrRLTYXWIXgT9Ijq6jYV5i8AH83Mj434DGIG/NJmDpcilpm4BQeDAyFlvP7dlvIMw==",
+            "mode": 420,
+            "size": 32111
+        },
+        "umd/react-router.development.js": {
+            "checkedAt": 1642743210415,
+            "integrity": "sha512-x/vwJ8OCwhBaXS1SCWX2WiYvvIO6RKbMMn/ZlRP4CPhpM7SnaladKEnQgcejrA7Ep0RDMaxjB98VvOOlDuhm9Q==",
+            "mode": 420,
+            "size": 35757
+        },
+        "react-router.production.min.js": {
+            "checkedAt": 1642743210415,
+            "integrity": "sha512-PJJ45H0qOfytloG0d/bSY45yUhQ90igyw700QOF8DCV6K/XnJ/Bxo5sSpTIITfKvo3DPTUNDUO4FB27VG80GAQ==",
+            "mode": 420,
+            "size": 7791
+        },
+        "umd/react-router.production.min.js": {
+            "checkedAt": 1642743210424,
+            "integrity": "sha512-mJ9vivZ5HvVrH5HYwFkTi7Ug1Rj7xQIsY+NlS323tZBh3PlP1VFmRJMdWa74y7rjL20bNjqyNV/ujdHr0IJkXQ==",
+            "mode": 420,
+            "size": 8475
+        },
+        "package.json": {
+            "checkedAt": 1642743210424,
+            "integrity": "sha512-9sK0vZIufY5n35hRX7Gdf0gh0NC8D7L0braKaiFdxP0HED4Tgce0NtWmtoGL4MRkJYkJiDCP+k3XdOPUjkbrZA==",
+            "mode": 420,
+            "size": 665
+        },
+        "index.js.map": {
+            "checkedAt": 1642743210475,
+            "integrity": "sha512-/qKcCx8xL289b1swVPQuRtEwuk39C1P+RJP0guA+Nz1/wkJoOGEWuYZixMTQj5JnESrM4PcI6RnTP9Q9Qkbr6Q==",
+            "mode": 420,
+            "size": 69889
+        },
+        "react-router.development.js.map": {
+            "checkedAt": 1642743210500,
+            "integrity": "sha512-Hoc9xYCEn4Z/xOA3A7oouLs4aCYkPIFxLG0S089ggi1Vkda/4ZHKVHALEtPaiWTtRUMsPPIK9xVFvuQntrSoig==",
+            "mode": 420,
+            "size": 69590
+        },
+        "umd/react-router.development.js.map": {
+            "checkedAt": 1642743210518,
+            "integrity": "sha512-dGM3k4GMVFysVLj45mpv5USDyGO+rOYdRLtzOt0QC3B27cB/T+QtLZeQTiJLcFR7igMLcHLZ7nBWHzDTNayv1g==",
+            "mode": 420,
+            "size": 69787
+        },
+        "react-router.production.min.js.map": {
+            "checkedAt": 1642743210530,
+            "integrity": "sha512-YDifJOyUaeSLqDYzIejTk8To2/T2wg5DJ+dqMGkEmWUwrQjfyMJrUHaS74PonWfWGsiq85MA+4AHgL1DwcMRZg==",
+            "mode": 420,
+            "size": 54832
+        },
+        "LICENSE.md": {
+            "checkedAt": 1642743210414,
+            "integrity": "sha512-kITXp99Wq9WXzCO4A4hj/tuWU/wgu3QneWGhPMc7JgAk+UCdXeKUxnIxuClHk9u33cRNEmA/A5qoxfywgQXZVA==",
+            "mode": 420,
+            "size": 1115
+        },
+        "umd/react-router.production.min.js.map": {
+            "checkedAt": 1642743210551,
+            "integrity": "sha512-F6IDZD9f+iKeEwmvksV9NbqB74g/dYZt87oezhM/Hez9zFfzDZkcFPqEImbJSHxzMF+bcZ/4+0ybtC8Y+2ipow==",
+            "mode": 420,
+            "size": 54808
+        },
+        "README.md": {
+            "checkedAt": 1642743210551,
+            "integrity": "sha512-epX0iZlc9le8isE3ljRhlugI3G6Ju1bBg4/QWWuHWPdVF9GPp1QQ5G82Y4fb5YIxgQMUtnX3Zj5oja4DP2/WPA==",
+            "mode": 420,
+            "size": 671
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743210554,
+            "integrity": "sha512-Hb66jO5j5WW2NywJAwQg1t6rCcDT5eypGL3FoMwbA8tpNsF3HDMiI0kAaHlWofux/I22m7Y6R8UnDElyW4HLlg==",
+            "mode": 420,
+            "size": 12769
+        }
+    }
+}

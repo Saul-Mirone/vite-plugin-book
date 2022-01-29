@@ -1,0 +1,268 @@
+import { v as variantMatcher, a as variantParentMatcher } from './variants.mjs';
+import { toArray, escapeRegExp } from '@unocss/core';
+
+const regexCache = {};
+const variantBreakpoints = (matcher, { theme }) => {
+  const variantEntries = Object.entries(theme.breakpoints || {}).map(([point, size], idx) => [point, size, idx]);
+  for (const [point, size, idx] of variantEntries) {
+    if (!regexCache[point])
+      regexCache[point] = new RegExp(`^((?:[al]t-)?${point}[:-])`);
+    const match = matcher.match(regexCache[point]);
+    if (!match)
+      continue;
+    const [, pre] = match;
+    const m = matcher.slice(pre.length);
+    if (m === "container")
+      continue;
+    let direction = "min";
+    let order = 1e3;
+    if (pre.startsWith("lt-")) {
+      direction = "max";
+      order -= idx + 1;
+    } else {
+      order += idx + 1;
+    }
+    if (pre.startsWith("at-") && idx < variantEntries.length - 1) {
+      return {
+        matcher: m,
+        parent: [`@media (min-width: ${size}) and (max-width: ${variantEntries[idx + 1][1]})`, order]
+      };
+    }
+    return {
+      matcher: m,
+      parent: [`@media (${direction}-width: ${size})`, order]
+    };
+  }
+};
+
+const variantCombinators = [
+  variantMatcher("all", (input) => `${input} *`),
+  variantMatcher("children", (input) => `${input}>*`),
+  variantMatcher("next", (input) => `${input}+*`),
+  variantMatcher("sibling", (input) => `${input}+*`),
+  variantMatcher("siblings", (input) => `${input}~*`),
+  variantMatcher("svg", (input) => `${input} svg`)
+];
+
+const variantMotions = [
+  variantParentMatcher("motion-reduce", "@media (prefers-reduced-motion: reduce)"),
+  variantParentMatcher("motion-safe", "@media (prefers-reduced-motion: no-preference)")
+];
+const variantOrientations = [
+  variantParentMatcher("landscape", "@media (orientation: landscape)"),
+  variantParentMatcher("portrait", "@media (orientation: portrait)")
+];
+const variantPrint = variantParentMatcher("print", "@media print");
+
+const variantColorsMediaOrClass = (options = {}) => {
+  if (options?.dark === "class") {
+    return [
+      variantMatcher("dark", (input) => `.dark $$ ${input}`),
+      variantMatcher("light", (input) => `.light $$ ${input}`)
+    ];
+  }
+  return [
+    variantParentMatcher("dark", "@media (prefers-color-scheme: dark)"),
+    variantParentMatcher("light", "@media (prefers-color-scheme: light)")
+  ];
+};
+
+const variantLanguageDirections = [
+  variantMatcher("rtl", (input) => `[dir="rtl"] $$ ${input}`),
+  variantMatcher("ltr", (input) => `[dir="ltr"] $$ ${input}`)
+];
+
+const variantImportant = {
+  match(matcher) {
+    if (matcher.startsWith("!")) {
+      return {
+        matcher: matcher.slice(1),
+        body: (body) => {
+          body.forEach((v) => {
+            if (v[1])
+              v[1] += " !important";
+          });
+          return body;
+        }
+      };
+    }
+  }
+};
+const variantNegative = {
+  match(matcher) {
+    if (matcher.startsWith("-")) {
+      return {
+        matcher: matcher.slice(1),
+        body: (body) => {
+          body.forEach((v) => {
+            if (v[0].startsWith("--un-scale") || v[1]?.toString() === "0")
+              return;
+            v[1] = v[1]?.toString().replace(/[0-9.]+(?:[a-z]+|%)?/, (i) => `-${i}`);
+          });
+          return body;
+        }
+      };
+    }
+  }
+};
+
+const PseudoClasses = Object.fromEntries([
+  "any-link",
+  "link",
+  "visited",
+  "target",
+  ["open", "[open]"],
+  "hover",
+  "active",
+  "focus-visible",
+  "focus-within",
+  "focus",
+  "autofill",
+  "enabled",
+  "disabled",
+  "read-only",
+  "read-write",
+  "placeholder-shown",
+  "default",
+  "checked",
+  "indeterminate",
+  "valid",
+  "invalid",
+  "in-range",
+  "out-of-range",
+  "required",
+  "optional",
+  "root",
+  "empty",
+  ["even-of-type", ":nth-of-type(even)"],
+  ["even", ":nth-child(even)"],
+  ["odd-of-type", ":nth-of-type(odd)"],
+  ["odd", ":nth-child(odd)"],
+  "first-of-type",
+  ["first", ":first-child"],
+  "last-of-type",
+  ["last", ":last-child"],
+  "only-child",
+  "only-of-type"
+].map(toArray));
+const PseudoElements = Object.fromEntries([
+  "placeholder",
+  "before",
+  "after",
+  "first-letter",
+  "first-line",
+  "selection",
+  "marker",
+  ["file", "::file-selector-button"]
+].map(toArray));
+const PseudoClassFunctions = [
+  "not",
+  "is",
+  "where",
+  "has"
+];
+const PseudoElementsStr = Object.keys(PseudoElements).join("|");
+const PseudoClassesStr = Object.keys(PseudoClasses).join("|");
+const PseudoClassFunctionsStr = PseudoClassFunctions.join("|");
+const PartClassesRE = /(part-\[(.+)]:)(.+)/;
+const PseudoElementsRE = new RegExp(`^(${PseudoElementsStr})[:-]`);
+const PseudoClassesRE = new RegExp(`^(${PseudoClassesStr})[:-]`);
+const PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})[:-]`);
+const taggedPseudoClassMatcher = (tag, parent, combinator) => {
+  const re = new RegExp(`^${tag}-((?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))[:-]`);
+  const rawRe = new RegExp(`^${escapeRegExp(parent)}:`);
+  return (input) => {
+    const match = input.match(re);
+    if (match) {
+      let pseudo = PseudoClasses[match[3]] || `:${match[3]}`;
+      if (match[2])
+        pseudo = `:${match[2]}(${pseudo})`;
+      return {
+        matcher: input.slice(match[1].length + tag.length + 2),
+        selector: (s) => rawRe.test(s) ? s.replace(rawRe, `${parent}${pseudo}:`) : `${parent}${pseudo}${combinator}${s}`
+      };
+    }
+  };
+};
+const variantPseudoElements = (input) => {
+  const match = input.match(PseudoElementsRE);
+  if (match) {
+    const pseudo = PseudoElements[match[1]] || `::${match[1]}`;
+    return {
+      matcher: input.slice(match[1].length + 1),
+      selector: (s) => `${s}${pseudo}`
+    };
+  }
+};
+const variantPseudoClasses = {
+  match: (input) => {
+    const match = input.match(PseudoClassesRE);
+    if (match) {
+      const pseudo = PseudoClasses[match[1]] || `:${match[1]}`;
+      return {
+        matcher: input.slice(match[1].length + 1),
+        selector: (s) => `${s}${pseudo}`
+      };
+    }
+  },
+  multiPass: true
+};
+const variantPseudoClassFunctions = {
+  match: (input) => {
+    const match = input.match(PseudoClassFunctionsRE);
+    if (match) {
+      const fn = match[1];
+      const pseudo = PseudoClasses[match[2]] || `:${match[2]}`;
+      return {
+        matcher: input.slice(match[1].length + match[2].length + 2),
+        selector: (s) => `${s}:${fn}(${pseudo})`
+      };
+    }
+  },
+  multiPass: true
+};
+const variantTaggedPseudoClasses = (options = {}) => {
+  const attributify = !!options?.attributifyPseudo;
+  return [
+    {
+      match: taggedPseudoClassMatcher("group", attributify ? '[group=""]' : ".group", " "),
+      multiPass: true
+    },
+    {
+      match: taggedPseudoClassMatcher("peer", attributify ? '[peer=""]' : ".peer", "~"),
+      multiPass: true
+    }
+  ];
+};
+const partClasses = {
+  match: (input) => {
+    const match = input.match(PartClassesRE);
+    if (match) {
+      const part = `part(${match[2]})`;
+      return {
+        matcher: input.slice(match[1].length),
+        selector: (s) => `${s}::${part}`
+      };
+    }
+  },
+  multiPass: true
+};
+
+const variants = (options) => [
+  variantNegative,
+  variantImportant,
+  variantPrint,
+  ...variantOrientations,
+  ...variantMotions,
+  variantBreakpoints,
+  ...variantCombinators,
+  variantPseudoClasses,
+  variantPseudoClassFunctions,
+  ...variantTaggedPseudoClasses(options),
+  variantPseudoElements,
+  partClasses,
+  ...variantColorsMediaOrClass(options),
+  ...variantLanguageDirections
+];
+
+export { variantBreakpoints as a, variantCombinators as b, variantMotions as c, variantOrientations as d, variantPrint as e, variantColorsMediaOrClass as f, variantLanguageDirections as g, variantImportant as h, variantNegative as i, variantPseudoElements as j, variantPseudoClasses as k, variantPseudoClassFunctions as l, variantTaggedPseudoClasses as m, partClasses as p, variants as v };

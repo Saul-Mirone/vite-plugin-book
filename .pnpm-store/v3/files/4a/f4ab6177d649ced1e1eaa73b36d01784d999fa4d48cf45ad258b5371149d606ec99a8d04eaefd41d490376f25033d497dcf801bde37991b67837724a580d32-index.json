@@ -1,0 +1,30 @@
+{
+    "name": "@types/fs-extra",
+    "version": "8.1.2",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743208338,
+            "integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+            "mode": 511,
+            "size": 1141
+        },
+        "README.md": {
+            "checkedAt": 1642743216827,
+            "integrity": "sha512-2piy3CE35qCFA2SSSwFMQDSGr3S4Y0a9SwWrwxkCpcNQkwuc1OGfTH/8hfOAFwdnXJ8k89JKFDG8XYxh+sPp7g==",
+            "mode": 511,
+            "size": 895
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743216831,
+            "integrity": "sha512-bS4nVXzX52zXpFHSIyvRrwa+vTRkwCkDlZprGnqRTAbnSHopap+nxWoWunz9x3cI+2wZSdJ+B1k2jL6SwvZMZQ==",
+            "mode": 511,
+            "size": 19428
+        },
+        "package.json": {
+            "checkedAt": 1642743216831,
+            "integrity": "sha512-HQoLY73teZwavZ3UFJgxNI+gXI7Z2Y4EFbTbtoR5Cw+hw2vHLHBXKrhMKe4lA+lh5z0opk3BbeXcksoC0xKdMg==",
+            "mode": 511,
+            "size": 1892
+        }
+    }
+}

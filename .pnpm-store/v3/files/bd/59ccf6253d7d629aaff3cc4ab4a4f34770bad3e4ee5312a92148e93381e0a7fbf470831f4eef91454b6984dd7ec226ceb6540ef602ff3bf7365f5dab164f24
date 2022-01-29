@@ -1,0 +1,4 @@
+import { Plugin } from '@milkdown/prose';
+export declare const key = "MILKDOWN_PLUGIN_PRISM";
+export declare function Prism(name: string): Plugin;
+//# sourceMappingURL=prism.d.ts.map

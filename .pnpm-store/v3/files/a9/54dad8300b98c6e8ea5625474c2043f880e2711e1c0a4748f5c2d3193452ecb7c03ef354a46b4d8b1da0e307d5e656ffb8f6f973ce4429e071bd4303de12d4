@@ -1,0 +1,23 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const utilities = require('./chunks/utilities.cjs');
+const variants = require('./chunks/variants.cjs');
+require('@unocss/core');
+
+
+
+exports.colorResolver = utilities.colorResolver;
+exports.cornerMap = utilities.cornerMap;
+exports.directionMap = utilities.directionMap;
+exports.directionSize = utilities.directionSize;
+exports.h = utilities.h;
+exports.handler = utilities.handler;
+exports.insetMap = utilities.insetMap;
+exports.parseColor = utilities.parseColor;
+exports.positionMap = utilities.positionMap;
+exports.valueHandlers = utilities.valueHandlers;
+exports.xyzMap = utilities.xyzMap;
+exports.variantMatcher = variants.variantMatcher;
+exports.variantParentMatcher = variants.variantParentMatcher;

@@ -1,0 +1,54 @@
+{
+  "name": "vite-plugin-windicss",
+  "version": "1.6.3",
+  "description": "Windi CSS for Vite, it's fast!",
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "windicss",
+    "tailwindcss"
+  ],
+  "homepage": "https://github.com/antfu/vite-plugin-windicss",
+  "bugs": "https://github.com/antfu/vite-plugin-windicss/issues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antfu/vite-plugin-windicss"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "author": "antfu <anthonyfu117@hotmail.com>",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./*": "./*",
+    "./client": {
+      "import": "./dist/client.mjs",
+      "require": "./dist/client.js"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "peerDependencies": {
+    "vite": "^2.0.1"
+  },
+  "dependencies": {
+    "@windicss/plugin-utils": "1.6.3",
+    "debug": "^4.3.3",
+    "kolorist": "^1.5.1",
+    "windicss": "^3.4.3"
+  },
+  "devDependencies": {
+    "vite": "^2.7.12"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/client.ts --dts --format cjs,esm --no-splitting",
+    "dev": "npm run build -- --watch"
+  },
+  "readme": "<h1 align='center'>vite-plugin-windicss</h1>\n\n<p align='center'><a href=\"https://github.com/voorjaar/windicss\">Windi CSS</a> for Vite, it's fast! ⚡️<br>\n</p>\n\n<p align='center'>\n<a href='https://www.npmjs.com/package/vite-plugin-windicss'>\n<img src='https://img.shields.io/npm/v/vite-plugin-windicss?color=0EA5E9&label='>\n</a>\n</p>\n\n## Features\n\n- ⚡️ **It's FAST** - 20~100x times faster than Tailwind on Vite\n- 🧩 On-demand CSS utilities (Fully compatible with Tailwind CSS v2)\n- 📦 On-demand native elements style reseting (preflight)\n- 🔥 Hot module replacement (HMR)\n- 🍃 Load configurations from `tailwind.config.js`\n- 🤝 Framework-agnostic - Vue, React, Svelte and vanilla!\n- 📄 CSS `@apply` / `@screen` directives transforms (also works for Vue SFC's `<style>`)\n- 🎳 Support Variant Groups - e.g. `bg-gray-200 hover:(bg-gray-100 text-red-300)`\n- 😎 [\"Design in Devtools\"](#design-in-devtools) - if you work this way in the traditional Tailwind, no reason we can't!\n\n## Documentation\n\nRead the [documentation](https://windicss.org/integrations/vite.html) for more details.\n\n## New Features in v3.0\n\n### [Attributify Mode](https://windicss.org/posts/v30.html#attributify-mode)\n\nEnabled it by \n\n```ts\n// windi.config.ts\nexport default {\n  attributify: true\n}\n```\n\nAnd use them as you would like:\n\n```html\n<button \n  bg=\"blue-400 hover:blue-500 dark:blue-500 dark:hover:blue-600\"\n  text=\"sm white\"\n  font=\"mono light\"\n  p=\"y-2 x-4\"\n  border=\"2 rounded blue-200\"\n>\n  Button\n</button>\n```\n\n#### Prefix\n\nIf you are concerned about naming confliction, you can add custom prefix to attributify mode by:\n\n```ts\n// windi.config.ts\nexport default {\n  attributify: {\n    prefix: 'w:'\n  }\n}\n```\n\n```html\n<button \n  w:bg=\"blue-400 hover:blue-500 dark:blue-500 dark:hover:blue-600\"\n  w:text=\"sm white\"\n  w:font=\"mono light\"\n  w:p=\"y-2 x-4\"\n  w:border=\"2 rounded blue-200\"\n>\n  Button\n</button>\n```\n\n### [Alias Config](https://windicss.org/posts/v30.html#alias-config)\n\n```ts\n// windi.config.ts\nexport default {\n  alias: {\n    'hstack': 'flex items-center',\n    'vstack': 'flex flex-col',\n    'icon': 'w-6 h-6 fill-current',\n    'app': 'text-red',\n    'app-border': 'border-gray-200 dark:border-dark-300',\n  },\n}\n```\n\n## Sponsors\n\n<p align=\"center\">\n  <a href=\"https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg\">\n    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg'/>\n  </a>\n</p>\n\n## License\n\nMIT License &copy; 2021 [Anthony Fu](https://github.com/antfu)\n"
+}

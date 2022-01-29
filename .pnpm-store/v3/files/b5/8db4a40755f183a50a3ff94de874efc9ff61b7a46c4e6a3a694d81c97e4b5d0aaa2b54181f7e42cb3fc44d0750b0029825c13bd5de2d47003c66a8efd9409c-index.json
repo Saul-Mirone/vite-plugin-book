@@ -1,0 +1,42 @@
+{
+    "name": "@windicss/plugin-utils",
+    "version": "1.6.3",
+    "files": {
+        "dist/index.js": {
+            "checkedAt": 1642858073476,
+            "integrity": "sha512-HiPP6iy9d0XY0GYxJN6ILBitRz7VKT+maNYx7iWXUT/aS70DrzfrgZtObWRoTK5EwriVuPWufXCnh+GhnpSZWg==",
+            "mode": 420,
+            "size": 31540
+        },
+        "package.json": {
+            "checkedAt": 1642858073480,
+            "integrity": "sha512-p3Kiq9T7u7JXIUL2vu96I4+9JanSh2yEw01cImeP+7KLJdzH1M9ETV1zOWN5b4UhSJoZMZ7LVWANOb4F8ul7ew==",
+            "mode": 420,
+            "size": 1722
+        },
+        "README.md": {
+            "checkedAt": 1642858073480,
+            "integrity": "sha512-pPLWkH+PvOLv51b0j+iWUb2NZCI3hgy4nWSiHPnqJwBV2IVprbrnInOoj4lal26yaK4tgXLK0rS+jgWUrIcBFw==",
+            "mode": 420,
+            "size": 421
+        },
+        "LICENSE": {
+            "checkedAt": 1642858073426,
+            "integrity": "sha512-aiJ6nLLBo9U/Z+0vnhBKQrja4t8IULBZLUWKhN76z3eJkG58bZh4baaGGJrcPnm4y1Pju1pAWbfkrH1ZerrKTw==",
+            "mode": 420,
+            "size": 1093
+        },
+        "dist/index.mjs": {
+            "checkedAt": 1642858073522,
+            "integrity": "sha512-dBXI52RfL1QmTkxOtnaF2GYdyU+8AQOwcsuZQSkm5UGQQrd/M80BtwD/habASlpc+RFmD4o2gPZSv5ljgGDBSg==",
+            "mode": 420,
+            "size": 30255
+        },
+        "dist/index.d.ts": {
+            "checkedAt": 1642858073569,
+            "integrity": "sha512-BLwSo5jgJPbNPK32OxgCCe1dCsW6C7J219bHtKsaV7lcJ0d2nE06SCksoYDTpm/mYrrf0zHTm+vVMiy8ofa6cw==",
+            "mode": 420,
+            "size": 12784
+        }
+    }
+}

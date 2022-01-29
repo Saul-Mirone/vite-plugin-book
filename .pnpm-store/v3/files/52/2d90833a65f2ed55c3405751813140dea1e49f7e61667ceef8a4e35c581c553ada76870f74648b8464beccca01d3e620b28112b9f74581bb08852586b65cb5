@@ -1,0 +1,7 @@
+export declare const WrapInBulletList: import("@milkdown/core").CmdKey<undefined>;
+export declare const bulletList: import("@milkdown/utils/lib/types").WithExtend<"BulletList", import("@milkdown/utils").UnknownRecord, import("prosemirror-model").NodeType<any>, {
+    id: string;
+    schema: (ctx: import("@milkdown/core").Ctx) => import("@milkdown/core").NodeSchema;
+    view?: ((ctx: import("@milkdown/core").Ctx) => import("@milkdown/prose").NodeViewFactory) | undefined;
+}>;
+//# sourceMappingURL=bullet-list.d.ts.map

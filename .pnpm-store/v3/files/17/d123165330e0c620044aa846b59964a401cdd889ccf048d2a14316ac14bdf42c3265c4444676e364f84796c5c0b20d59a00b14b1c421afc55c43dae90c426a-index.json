@@ -1,0 +1,54 @@
+{
+    "name": "@commitlint/parse",
+    "version": "16.0.0",
+    "files": {
+        "license.md": {
+            "checkedAt": 1642743212761,
+            "integrity": "sha512-Gd6hReKhspV9eKzmpFXEIz85f6nIx7nUtlC5469iDtUEcTqNh0tuBdyn00Y5XgSAtAXHDYfsnzbJBGtUcAPd/w==",
+            "mode": 420,
+            "size": 1087
+        },
+        "lib/index.js": {
+            "checkedAt": 1642743212853,
+            "integrity": "sha512-3as/yyJOmmQaAELK/bzqaQS/baG33VCvg2a/lTXIEFLOMoNyO+TtsZy87NetpIlp09Ri1AQ7pAXd2+Mmock+GQ==",
+            "mode": 420,
+            "size": 561
+        },
+        "package.json": {
+            "checkedAt": 1642743212853,
+            "integrity": "sha512-Ug2y8O7BBWdOqs+fd+HhzzmwtGO+apfvWTd1tInAK6aU2J1QfoaDgx4sn24XDKG5fLPJ/zB66CPpMIU6+StNGw==",
+            "mode": 420,
+            "size": 1084
+        },
+        "lib/index.d.ts.map": {
+            "checkedAt": 1642743212853,
+            "integrity": "sha512-L0M92ljgAoAVi7Kf0Mobk1ckajV/wxcHijhCq/pCtPT0ZZRLiDxeRYfhPUNmVw3gW9YNo+Xx8A88/Idr4B8NCg==",
+            "mode": 420,
+            "size": 282
+        },
+        "lib/index.js.map": {
+            "checkedAt": 1642743212853,
+            "integrity": "sha512-lIRFoTZLOtEId5Y4/zGjjE3Emd2V+GNrYzOeU6BCGtXvxMGrNXwfnBzCUdZ2qYhk1sAQxWGB9oL7CaIjQqHXDg==",
+            "mode": 420,
+            "size": 529
+        },
+        "CHANGELOG.md": {
+            "checkedAt": 1642743212853,
+            "integrity": "sha512-B24bmpqdsWFrN5t8EDHOXxIcHC/KM9SXUFW27faLqz/IIkZzQu60cVgLfx6+RrUR8ZQzkc7wxBNHnYyEFN26ag==",
+            "mode": 420,
+            "size": 8329
+        },
+        "README.md": {
+            "checkedAt": 1642743212864,
+            "integrity": "sha512-k+Sim7qOFkQl5xZ2AlscVFjRDI3B+qFxegqvpT0N6eBY18ERn0kZujEQxddBgT3vyZH+pd9i9XWEONQ9sZdKoA==",
+            "mode": 420,
+            "size": 589
+        },
+        "lib/index.d.ts": {
+            "checkedAt": 1642743212864,
+            "integrity": "sha512-uNDe3zo0WPNgsSfqXpg0TBo+o1+N4HNB2aIm7IG5EQaIOAL83E+nNAeTx/tVozP8pA895xo3RvG4HFbvlz5wCg==",
+            "mode": 420,
+            "size": 212
+        }
+    }
+}

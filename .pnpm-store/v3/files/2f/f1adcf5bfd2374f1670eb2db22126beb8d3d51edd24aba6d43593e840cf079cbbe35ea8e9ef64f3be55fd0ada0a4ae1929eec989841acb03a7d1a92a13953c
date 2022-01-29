@@ -1,0 +1,33 @@
+{
+  "name": "@milkdown/plugin-math",
+  "version": "5.3.3",
+  "type": "module",
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "milkdown",
+    "milkdown plugin"
+  ],
+  "dependencies": {
+    "@types/katex": "^0.11.1",
+    "@milkdown/core": "5.3.3",
+    "@milkdown/prose": "5.3.3",
+    "@milkdown/utils": "5.3.3",
+    "katex": "^0.15.0",
+    "remark-math": "^5.1.0",
+    "tslib": "^2.3.1"
+  },
+  "scripts": {
+    "start": "vite build --watch",
+    "test": "vitest",
+    "tsc": "tsc --noEmit",
+    "build": "vite build"
+  },
+  "readme": "# @milkdown/plugin-math\n\nMath plugin for [milkdown](https://saul-mirone.github.io/milkdown/).\nAdd support for latex.\n\n# Example Usage\n\n> **You need to include the .css file for katex**.\n\n```typescript\nimport { Editor } from '@milkdown/core';\nimport { commonmark } from '@milkdown/preset-commonmark';\nimport { nord } from '@milkdown/theme-nord';\n\nimport { math } from '@milkdown/plugin-math';\n\n// Don't forget to import the style of katex!\nimport 'katex/dist/katex.min.css';\n\nEditor.make().use(nord).use(commonmark).use(math).create();\n```\n\n# License\n\nMilkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).\n"
+}

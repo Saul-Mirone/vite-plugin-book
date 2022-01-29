@@ -1,0 +1,36 @@
+{
+    "name": "rollup-plugin-dts",
+    "version": "4.1.0",
+    "files": {
+        "dist/rollup-plugin-dts.cjs": {
+            "checkedAt": 1642743215505,
+            "integrity": "sha512-wFCGEtjg7dNu9jbMZbbU4fK4xk6uaPyITxxKb9uWcApdeyYhOXYSbjGMblZEbtvGa9R2K37Oxa3g5z/9f1rGEg==",
+            "mode": 420,
+            "size": 66907
+        },
+        "package.json": {
+            "checkedAt": 1642743215505,
+            "integrity": "sha512-M8uV0pjj2FzubeoG9LQ3CAGJul42eT13Tfky5jcGcbpyJtHzOEGnWhNokBfHkq1eV2TF8DSn/TvoPqnoNTC71A==",
+            "mode": 420,
+            "size": 1862
+        },
+        "README.md": {
+            "checkedAt": 1642743215505,
+            "integrity": "sha512-vf2LK7LFUTTXWPM2qyo7LMJ5hetr03n9gO+rQI6ntXPkVzpRfSt8WeEMXBeXS91XIQDu512KEcVSJ6g1fzuf7Q==",
+            "mode": 420,
+            "size": 2949
+        },
+        "dist/rollup-plugin-dts.mjs": {
+            "checkedAt": 1642743215579,
+            "integrity": "sha512-jWUWcad+VFhSwskjqk6X1RDfYxH7A0QrmUA0UzXmyY9/HxKjE5ND2Wc4yFxGybyNEPAmiyYAsynp42Hj+6onmQ==",
+            "mode": 420,
+            "size": 61811
+        },
+        "dist/rollup-plugin-dts.d.ts": {
+            "checkedAt": 1642743215579,
+            "integrity": "sha512-Cxg0+1fT9oCqqREmRGhsE9PEADTDFD8ZOZay94g5iXPoFIkizDY+/4CcEHlfiuG5Dq+5138oDsIlu6+sM9+TTg==",
+            "mode": 420,
+            "size": 738
+        }
+    }
+}

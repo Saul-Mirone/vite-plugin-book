@@ -1,0 +1,19 @@
+import type { EditorView } from '@milkdown/prose';
+import type { InputMap } from '../item';
+export declare const filterInput: (currentView: EditorView, inputMap: InputMap, div: HTMLDivElement, input: HTMLInputElement, button: HTMLButtonElement) => ({
+    command: import("../item").Event2Command;
+    display: import("../item").Pred;
+    update: import("../item").Updater;
+    placeholder: string;
+} & {
+    bind: true;
+}) | ({
+    command: import("../item").Event2Command;
+    display: import("../item").Pred;
+    update: import("../item").Updater;
+    placeholder: string;
+} & {
+    bind?: false | undefined;
+    buttonText: string;
+}) | undefined;
+//# sourceMappingURL=filter-input.d.ts.map

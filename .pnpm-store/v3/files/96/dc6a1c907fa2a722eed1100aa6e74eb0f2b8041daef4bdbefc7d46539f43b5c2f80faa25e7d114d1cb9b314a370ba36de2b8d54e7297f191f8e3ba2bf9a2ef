@@ -1,0 +1,55 @@
+{
+  "name": "@antfu/utils",
+  "version": "0.3.0",
+  "description": "Opinionated collection of common JavaScript / TypeScript utils by @antfu",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "funding": "https://github.com/sponsors/antfu",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "sideEffects": false,
+  "bugs": {
+    "url": "https://github.com/antfu/utils/issues"
+  },
+  "homepage": "https://github.com/antfu/utils#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/utils.git"
+  },
+  "keywords": [
+    "utils"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "dev": "npm run build -- --watch",
+    "start": "esno src/index.ts",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "release": "bumpp --commit --push --tag && npm publish",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@types/throttle-debounce": "^2.1.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.7.0",
+    "@antfu/ni": "^0.7.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.1",
+    "bumpp": "^6.0.6",
+    "eslint": "^7.32.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "esno": "^0.9.1",
+    "git-ensure": "^0.1.0",
+    "jest": "^27.0.6",
+    "throttle-debounce": "^3.0.1",
+    "ts-jest": "^27.0.5",
+    "tsup": "^4.14.0",
+    "typescript": "^4.3.5"
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"timing.d.ts","sourceRoot":"","sources":["../../src/timing/timing.ts"],"names":[],"mappings":"AACA,OAAO,EAAY,KAAK,EAAE,MAAM,SAAS,CAAC;AAE1C,oBAAY,MAAM,GAAG;IACjB,IAAI,OAAO,CAAC,IAAI,CAAC,CAAC;IAClB,IAAI,EAAE,MAAM,IAAI,CAAC;CACpB,CAAC;AAEF,eAAO,MAAM,WAAW,SAAU,MAAM,uBAAmB,KAgC1D,CAAC"}

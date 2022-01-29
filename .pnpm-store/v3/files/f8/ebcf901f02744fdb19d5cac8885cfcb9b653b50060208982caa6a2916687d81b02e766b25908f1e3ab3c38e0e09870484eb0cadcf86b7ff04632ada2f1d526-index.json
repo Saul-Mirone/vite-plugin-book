@@ -1,0 +1,30 @@
+{
+    "name": "@types/react-beautiful-dnd",
+    "version": "13.1.2",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1643023643881,
+            "integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+            "mode": 511,
+            "size": 1141
+        },
+        "README.md": {
+            "checkedAt": 1643023643902,
+            "integrity": "sha512-7KXfc37Hg4Dkxzt5nB/IdM1FIeLBjh063nw5DbeDd3pN1hYDNQAbXCdRQ1MUNAC8FK+wlp3O2M+6/kX4Q1eRhQ==",
+            "mode": 511,
+            "size": 1032
+        },
+        "index.d.ts": {
+            "checkedAt": 1643023643940,
+            "integrity": "sha512-osgbQAFcPrq1PyiUKPNkG8aM3ACs/NkQEdDQnvY92P5dssl/w8Kw73Aia1+xAi/qmGoRnr2WFUozOI41/iN+4g==",
+            "mode": 511,
+            "size": 19592
+        },
+        "package.json": {
+            "checkedAt": 1643023643940,
+            "integrity": "sha512-eHazB3RJ8sO91J5FaCe0OdYgJO1yHGoWUydd3XYOqma10vHcT6vjAfEV5W125KPGQ1orMttVLgg9SyVYgyowkg==",
+            "mode": 511,
+            "size": 2258
+        }
+    }
+}

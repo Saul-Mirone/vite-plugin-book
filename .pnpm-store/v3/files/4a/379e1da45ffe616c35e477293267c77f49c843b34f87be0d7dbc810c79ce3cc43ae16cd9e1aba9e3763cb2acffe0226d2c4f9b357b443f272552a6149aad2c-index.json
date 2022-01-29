@@ -1,0 +1,36 @@
+{
+    "name": "ts-morph",
+    "version": "13.0.2",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642826023188,
+            "integrity": "sha512-vuioGZSXDMQbjHPJdzVUax2f9nth+gNhscI2Wkm2EbdHeLCvNC2530ArYGktc+MrGJwC2GBY8Y8mzdVRzbXZAQ==",
+            "mode": 420,
+            "size": 1101
+        },
+        "dist/ts-morph.js": {
+            "checkedAt": 1642826023674,
+            "integrity": "sha512-tiqdvPWP6YXdXBjvQAUQD8cdQpIBx1uImDSfihByHDNoihK0ve3si81JVSh1bRbzWMPukYSjIwnMBFdKDvGYfA==",
+            "mode": 420,
+            "size": 894196
+        },
+        "package.json": {
+            "checkedAt": 1642826023677,
+            "integrity": "sha512-X2trmYSo2n3I0j+gWUH35G1nEFAKVN6oxy8hcvx4rd4xUd7+jNiWfQCTxAKh8/btFRfvJL+jiLsFLY/IFflTCQ==",
+            "mode": 420,
+            "size": 3810
+        },
+        "readme.md": {
+            "checkedAt": 1642826023672,
+            "integrity": "sha512-0jERm31mWPYCNarxrDZImCD1BTqU1yEtjDm9jhGK70EZ7NL5h1vkjoONG90aIRcvYyMlwwGhOcbLaFhZw9G2hw==",
+            "mode": 420,
+            "size": 4303
+        },
+        "lib/ts-morph.d.ts": {
+            "checkedAt": 1642826023792,
+            "integrity": "sha512-l1zNchU1AmnuFPmZRlePzFvLU27X5OuEsTNMPdBELF19yb+cfiEeZhx+CquQmjNwpfoIe8DLT6ArT7dwxwvzIw==",
+            "mode": 420,
+            "size": 489870
+        }
+    }
+}

@@ -1,0 +1,37 @@
+import type { Attrs, CmdKey, MilkdownPlugin, ThemeTool } from '@milkdown/core';
+import { CmdTuple, Ctx, RemarkPlugin } from '@milkdown/core';
+import { InputRule, Plugin, ViewFactory } from '@milkdown/prose';
+export declare type Utils = {
+    readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
+    readonly getStyle: (style: (themeTool: ThemeTool) => string | void) => string | undefined;
+    readonly themeTool: ThemeTool;
+};
+export declare type UnknownRecord = Record<string, unknown>;
+export declare type CommandConfig<T = unknown> = [commandKey: CmdKey<T>, defaultKey: string, args?: T];
+export declare type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRecord> = Obj & {
+    className?: (attrs: Attrs) => string;
+    keymap?: Partial<Record<SupportedKeys, string | string[]>>;
+    headless?: boolean;
+    view?: (ctx: Ctx) => ViewFactory;
+};
+export declare type Methods<Keys extends string, Type> = {
+    remarkPlugins?: (ctx: Ctx) => RemarkPlugin[];
+    inputRules?: (types: Type, ctx: Ctx) => InputRule[];
+    prosePlugins?: (types: Type, ctx: Ctx) => Plugin[];
+    commands?: (types: Type, ctx: Ctx) => CmdTuple[];
+    shortcuts?: Record<Keys, CommandConfig>;
+};
+export declare type GetPlugin<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (options?: Partial<CommonOptions<SupportedKeys, Options>>) => MilkdownPlugin;
+export declare type Metadata<Origin = unknown> = {
+    origin: Origin;
+};
+export declare type AddMetadata<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (options?: Partial<CommonOptions<SupportedKeys, Options>>) => Metadata<GetPlugin<SupportedKeys, Options>> & MilkdownPlugin;
+export declare type Spec<SupportedKeys extends string, Type, Rest> = Methods<SupportedKeys, Type> & Rest;
+export declare type Factory<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = (utils: Utils, options?: Partial<CommonOptions<SupportedKeys, Options>>) => Spec<SupportedKeys, Type, Rest>;
+export declare type WithExtend<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = AddMetadata<SupportedKeys, Options> & {
+    extend: <ExtendedSupportedKeys extends string = SupportedKeys, ExtendedOptions extends UnknownRecord = Options, ExtendedType extends Type = Type, ExtendedRest extends Rest = Rest>(extendFactory: (...args: [
+        original: Spec<SupportedKeys, Type, Rest>,
+        ...rest: Parameters<Factory<ExtendedSupportedKeys, ExtendedOptions, ExtendedType, ExtendedRest>>
+    ]) => Spec<ExtendedSupportedKeys, ExtendedType, ExtendedRest>) => AddMetadata<ExtendedSupportedKeys, ExtendedOptions>;
+};
+//# sourceMappingURL=types.d.ts.map

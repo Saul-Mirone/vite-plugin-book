@@ -1,0 +1,7 @@
+export declare const WrapInBlockquote: import("@milkdown/core").CmdKey<undefined>;
+export declare const blockquote: import("@milkdown/utils/lib/types").WithExtend<"Blockquote", import("@milkdown/utils").UnknownRecord, import("prosemirror-model").NodeType<any>, {
+    id: string;
+    schema: (ctx: import("@milkdown/core").Ctx) => import("@milkdown/core").NodeSchema;
+    view?: ((ctx: import("@milkdown/core").Ctx) => import("@milkdown/prose").NodeViewFactory) | undefined;
+}>;
+//# sourceMappingURL=blockquote.d.ts.map

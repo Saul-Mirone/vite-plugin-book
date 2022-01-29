@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../src/math-inline/index.ts"],"names":[],"mappings":"AAQA,aAAK,OAAO,GAAG;IACX,WAAW,EAAE;QACT,KAAK,EAAE,MAAM,CAAC;QACd,KAAK,EAAE,MAAM,CAAC;KACjB,CAAC;CACL,CAAC;AAEF,eAAO,MAAM,gBAAgB,yCAAyB,CAAC;AACvD,eAAO,MAAM,UAAU;;;;EA2HrB,CAAC"}

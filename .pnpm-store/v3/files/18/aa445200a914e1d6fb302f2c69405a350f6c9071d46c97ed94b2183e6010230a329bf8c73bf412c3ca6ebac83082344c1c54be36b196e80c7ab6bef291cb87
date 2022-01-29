@@ -1,0 +1,33 @@
+{
+  "name": "@milkdown/ctx",
+  "version": "5.3.4",
+  "type": "module",
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "milkdown",
+    "prosemirror",
+    "remark",
+    "markdown",
+    "wysiwyg",
+    "text editor",
+    "markdown editor"
+  ],
+  "dependencies": {
+    "@milkdown/exception": "5.3.4",
+    "tslib": "^2.3.1"
+  },
+  "scripts": {
+    "start": "vite build --watch",
+    "test": "vitest",
+    "tsc": "tsc --noEmit",
+    "build": "vite build"
+  },
+  "readme": "# @milkdown/ctx\n\nThe ctx module of [milkdown](https://saul-mirone.github.io/milkdown/).\n\n# Official Documentation\n\nDocumentation can be found on the [Milkdown website](https://saul-mirone.github.io/milkdown/).\n\n# License\n\nMilkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).\n"
+}

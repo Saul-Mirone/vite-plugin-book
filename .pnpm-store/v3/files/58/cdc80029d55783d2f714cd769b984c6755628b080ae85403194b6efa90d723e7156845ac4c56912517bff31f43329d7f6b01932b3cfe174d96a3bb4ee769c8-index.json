@@ -1,0 +1,288 @@
+{
+    "name": "@milkdown/prose",
+    "version": "5.3.2",
+    "files": {
+        "lib/index.es.js": {
+            "checkedAt": 1642743208685,
+            "integrity": "sha512-y4Lk2t3PFjM9mTTY7iI8twm4d9GPnN+LKhWQXgpntvYhNkDXZbzsb4DeNwizvQycMh/iVnVtP1MINDjFhAenDA==",
+            "mode": 420,
+            "size": 8578
+        },
+        "package.json": {
+            "checkedAt": 1642743208685,
+            "integrity": "sha512-L5d/tFJNnCUbQ9pjb3JGkQQFSGiD7dVRfG9KcHdL2oVb166oU+oFf2PmBYYFRAt8Wy1QCsLcDXyrDWrLz8j9Zw==",
+            "mode": 420,
+            "size": 1721
+        },
+        "lib/toolkit/input-rules/custom-input-rules.d.ts.map": {
+            "checkedAt": 1642743208685,
+            "integrity": "sha512-EjBDDnGlIlw9SkJrks3k3iAgbipSDykPsOhRydbee6RCi+a6zJiqXTY4aZBOzIJEqSDhMpVL2psz1IFVZngkow==",
+            "mode": 420,
+            "size": 348
+        },
+        "lib/toolkit/prose/helper.d.ts.map": {
+            "checkedAt": 1642743208685,
+            "integrity": "sha512-hXSz6M+5sK6+hIh6j5wHHs4c8coiSgTsUgf6qMx3262Fo+h8ayxI5iCbq0OkxegaFqbYHb70jB1u3EqjiACdVg==",
+            "mode": 420,
+            "size": 348
+        },
+        "lib/index.d.ts.map": {
+            "checkedAt": 1642743208685,
+            "integrity": "sha512-pN3kmUjd+8VNIq3rf9nKfWYlxTqCd+2fEl+/68+kNGfhURTY3gm3x0zkF0eEqiFMBJCr1viVwpxOrAnaT9qpbw==",
+            "mode": 420,
+            "size": 144
+        },
+        "lib/toolkit/index.d.ts.map": {
+            "checkedAt": 1642743208685,
+            "integrity": "sha512-iqh7DnyedXGDy28FQRAKxZWLgGat1M8F68fRPX7g6S2aovQqc6BlIXsnNmv2a+g9PXH9S489seePJe4uc6Jo2Q==",
+            "mode": 420,
+            "size": 197
+        },
+        "LICENSE": {
+            "checkedAt": 1642743207934,
+            "integrity": "sha512-DnXqxqiAWg0Up3S/UCwvTy/3WoOVA4zx/oYMZw8Xr4JsOL47ADHJUCPWFKI0oNsNgAN3q5zzizw4IpDqFF2ABA==",
+            "mode": 420,
+            "size": 1081
+        },
+        "lib/toolkit/input-rules/index.d.ts.map": {
+            "checkedAt": 1642743208692,
+            "integrity": "sha512-ImuRjjHrrbN7sV/LpAQxObLf/slkMlpBwjyeRlUp37LColeFXZQSPEMGJ3Ixork1M4xzv5K/iWKFcYrbJXIthQ==",
+            "mode": 420,
+            "size": 172
+        },
+        "lib/toolkit/position/index.d.ts.map": {
+            "checkedAt": 1642743208692,
+            "integrity": "sha512-lI7hNXl0aqhBpO0mnHh7w1Bqc0MsSCqexX3Xl3JxVAoa0oiCJgv8lWEYpzl9VwgvgJ8rpEA07SB+xSeTfh3Iug==",
+            "mode": 420,
+            "size": 560
+        },
+        "lib/toolkit/prose/index.d.ts.map": {
+            "checkedAt": 1642743208692,
+            "integrity": "sha512-fFLyt4ciiYwhA02XJI/dDP5gklzgHon41tbXjomT0hV4x9n4hcwbnI5btpOBvy5PrxSsGGJkU7USgd9L1U/bdA==",
+            "mode": 420,
+            "size": 206
+        },
+        "lib/toolkit/types/index.d.ts.map": {
+            "checkedAt": 1642743208692,
+            "integrity": "sha512-+jPAv5+gSH9Velnay6qDS9KwXKwlfUXrRsc/9NcHb9DpwHyaaQ/4hDL03IL9VRU6E7CWVtON5Q2AwX4z8ngKbw==",
+            "mode": 420,
+            "size": 829
+        },
+        "lib/index.es.js.map": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-aTAnOTfU1PndalSzvsJjNHGg5SNK1QfGslaVgTuUyxcxr7TvfkqBJ7HSFq1N3JzLOE1DTAFJI0MIjgB3ux9p+g==",
+            "mode": 420,
+            "size": 14277
+        },
+        "lib/toolkit/input-rules/mark-rule.d.ts.map": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-cTPMPsOsbyysujDz7lGdEKWE0X7l4d1t0SX5xUhQ9BrZB42ameMGQHUvpVUGB/v71eJjJ6wJX4vvCFDtiSAwRA==",
+            "mode": 420,
+            "size": 297
+        },
+        "lib/toolkit/prose/node.d.ts.map": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-F1t8eWwGy4zzbbTlC6fgM7wG3TXToTLe73JJl1sZEoMSdZLveNe/XZi30JNWOBsfq+qNOQSALVFkgH0Ua9Zt1A==",
+            "mode": 420,
+            "size": 499
+        },
+        "lib/prosemirror.d.ts.map": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-FI6F2rR59cMg0yAH9BJRNrgI0h9k/4SKQmurNeHaNY7dA3OMrND1JfD0gXVLlnCNvm69YfKvJjmXkwTPYSs31g==",
+            "mode": 420,
+            "size": 846
+        },
+        "lib/toolkit/prose/schema.d.ts.map": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-Glciwk9RMwuoXSdDwCTUHohzMVLpbn9vg2rmiHP2y1SKxfnnCcXL14fsQlcdAgs2p67aPBGVY7n8qNIQSLef5A==",
+            "mode": 420,
+            "size": 309
+        },
+        "lib/toolkit/prose/selection.d.ts.map": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-FcZrJPwZE/eAmG9InIuFWn5M/STqLvhZXk1bUtSFl34k5rkrv22NV8M5AqM5UbDHZIS+vBXWD0qO2B3zOz6vIg==",
+            "mode": 420,
+            "size": 643
+        },
+        "lib/toolkit/prose/types.d.ts.map": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-BcBBTEHs2dYHPXVW+n/8us4+mpjAJ4izunxfTi7a1qHPI1cCU6WeauVDhtpSA9s8k6RfG7oKq3yiGzIqWB9w8Q==",
+            "mode": 420,
+            "size": 237
+        },
+        "README.md": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-NprbR/QZgGPVT7M08RyjbayuacQK8CpoCvoN/ieTfC4ANjI9SR0xVyAibdxBoiesY0jJURSKZLLVkeOqEjaP1g==",
+            "mode": 420,
+            "size": 295
+        },
+        "lib/toolkit/input-rules/custom-input-rules.d.ts": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-l/J2YVWCRhCEUjRDd/PoJU2b4/JqrdPOTH4wypzlJMccif9cVp/i0KPkODxHIsX50VMY03XEqyZo0xdZyNHHuQ==",
+            "mode": 420,
+            "size": 314
+        },
+        "src/toolkit/input-rules/custom-input-rules.ts": {
+            "checkedAt": 1642743208704,
+            "integrity": "sha512-N0YRUmW3h9dAQTGy3xTu6YsqHegK++T8wjmcMRNdoiuHdMJpRiWdc7RUOyXMhYslxY5497jkfFXsMxp3SUyPeA==",
+            "mode": 420,
+            "size": 2658
+        },
+        "lib/toolkit/prose/helper.d.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-DR2kAQc5RVQY88tnxE7ln2GTPG3q7cdZbsmFTzi0wMfjyiM8f+vBsfRXLE8N8IGmyFeQClc8L0ywe4rYjfZpeQ==",
+            "mode": 420,
+            "size": 315
+        },
+        "src/toolkit/prose/helper.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-wHl6tdWiw5H7N7T1k2zZyfWw4h2JCLLy7cv7Gt4aX9V5y6DIWmcU+vSnI6lYwKrNoMcXQcIC13U6MSutMGFsiw==",
+            "mode": 420,
+            "size": 474
+        },
+        "lib/index.d.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-81E15v0uyPNk2S2euBrVUk31eJED9hZkRHe7ssVxIBqH2S0yDzfnB1ym27bkxPMgRoZSjKcn4lmz2G+s2Ty44A==",
+            "mode": 420,
+            "size": 93
+        },
+        "lib/toolkit/index.d.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-RuMRmsOZNLkZ5P7y7qMrsu/JmGflsMIkahLjMiprz3WlSQDY8oeHmPfPUU2uOlVBFGrh6XqbRmN2Gq9INb7ljQ==",
+            "mode": 420,
+            "size": 144
+        },
+        "lib/toolkit/input-rules/index.d.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-9V93XCASyUbdJOcG+8saN426txnLjjAtkf5WDd59w3Bk+TBsdVLEIQRcUWwXBa3FvIOEmuHgNtZ7OuqoR+WG5Q==",
+            "mode": 420,
+            "size": 102
+        },
+        "lib/toolkit/position/index.d.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-ZMyANCn8N28HEJfpCdiP26LZW+xeN3VNJ5x2fwxb9KbYHJyzW5ewPx6fuWXeAxad/0dXeRzbFzXosF0P045DPA==",
+            "mode": 420,
+            "size": 604
+        },
+        "lib/toolkit/prose/index.d.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-0Ec/9F75ddGwluylcEs6rtan69uX81wZiH3tta4GbDIFIDYb2uo8KAypWuS8Y/9VOCyhW244vdWIIhzsdghKuQ==",
+            "mode": 420,
+            "size": 140
+        },
+        "lib/toolkit/types/index.d.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-ZMgIIkuzpV05Yr04A32HSuc8tKT4pPCwDDGQEAFFhFlVfhfZEx8G9J4Dv6MMOyJINIBpG00zu+SwRbixrr9DQQ==",
+            "mode": 420,
+            "size": 773
+        },
+        "src/index.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-WO4mMqtO93n8gLl1c3WAQGPyO7kft1s9xHFg/I1j91mIaGg3kJ2Z2AVTC0/Ikq4xcIwLYWmwYOZcBm3+c0jYMw==",
+            "mode": 420,
+            "size": 101
+        },
+        "src/toolkit/index.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-zd099AWvyUa5ulwl6QVvo6ZBt4fdahPIKv6vv+0CZ0ZDgA4H59B3u+28cAAreSLtmt93Q2l7jmgXtlrpOwFsew==",
+            "mode": 420,
+            "size": 151
+        },
+        "src/toolkit/input-rules/index.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-T47JSy2UmUSR1T/Wl4Unwuw7rNDfG3Uji1KQY4wrFa6bP9Mf4H8wRAZOK/G+mmatIWJlLTt2CnFOUkw/rvxNPA==",
+            "mode": 420,
+            "size": 109
+        },
+        "src/toolkit/position/index.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-SMwholDLv0LR2t9MQS4kmMFT5iZkeQNcPLH1aZXfJOw032lqKhw5Qm5ywU8Od7oPdyAL3JeKABi+GjND1VIpFw==",
+            "mode": 420,
+            "size": 1789
+        },
+        "src/toolkit/prose/index.ts": {
+            "checkedAt": 1642743208711,
+            "integrity": "sha512-dVwelwueTSmiyppf5E+rHkSX/XvzGpVb3OjNlC+P6m41cH/cccf8vLm9eWE90Yll3eImFfEv8+pkEDqAdyb75w==",
+            "mode": 420,
+            "size": 147
+        },
+        "src/toolkit/types/index.ts": {
+            "checkedAt": 1642743208719,
+            "integrity": "sha512-1OrCHw/gADK4pHkgpj+3Q4eeOUQUKhrPvu0c/pYRVKeKxA1otEtx2r8zu4GdIY9lLZt9ZUsJBhTgkcBlJhz9ZQ==",
+            "mode": 420,
+            "size": 736
+        },
+        "lib/toolkit/input-rules/mark-rule.d.ts": {
+            "checkedAt": 1642743208719,
+            "integrity": "sha512-8KPuXAsAUxsT0YSYUpaR6jNTSaS50NDPFpswsoxIR4oUkcNwF+CrnlsEcS+dwFq9DSEABbIXDWcCRxto06e7Qg==",
+            "mode": 420,
+            "size": 218
+        },
+        "src/toolkit/input-rules/mark-rule.ts": {
+            "checkedAt": 1642743208719,
+            "integrity": "sha512-0M27mFlmQlIU4P+QdR9veNPt43rZ0xb5nDdMIAz8inGtGsD5M21JScxGaTVwlA/sDQcVPgzaJom3X91UWNysyg==",
+            "mode": 420,
+            "size": 2050
+        },
+        "lib/toolkit/prose/node.d.ts": {
+            "checkedAt": 1642743208719,
+            "integrity": "sha512-ksGKb3erflp0a+TRzorlt3xMRI0xcpNuROUMPcPDE8Ksrklsh1w40rytUYdq8Zi9iCOwB142k33/40iry0pIzw==",
+            "mode": 420,
+            "size": 564
+        },
+        "src/toolkit/prose/node.ts": {
+            "checkedAt": 1642743208719,
+            "integrity": "sha512-+qj7JsomEXooCsM/2f33VchNXXZvRJKh6UL5s8lyN4bM0CLXQpIj4+Sp8xis58yUr1pEelp/MBI9lsTLABuMWA==",
+            "mode": 420,
+            "size": 915
+        },
+        "lib/prosemirror.d.ts": {
+            "checkedAt": 1642743208720,
+            "integrity": "sha512-MuceG/2QMkK7VMMvuVK1tW1iqQ79o+S/rQ0Jx+e8xZXQKN5RMuEMwgtF/8xBYNbZSWA+0B8wlRNNujNtjJAi5w==",
+            "mode": 420,
+            "size": 1102
+        },
+        "src/prosemirror.ts": {
+            "checkedAt": 1642743208720,
+            "integrity": "sha512-zo7LNPlOxh8LW0zatzBMukZx0RvrKSj1896yXHgVEPoxBG6twOXlLiiHg9dsa4thDZsyMmbHCP+n69kmVJXqww==",
+            "mode": 420,
+            "size": 1104
+        },
+        "lib/toolkit/prose/schema.d.ts": {
+            "checkedAt": 1642743208720,
+            "integrity": "sha512-CmaSqk9K3BqrSFgaHfOdEKj/1+YWSuY7vN/7SsyMD50rGk+Mb3U1Sjpa37pnNdrO05CRPfFPBcfpwXTIn3QXTg==",
+            "mode": 420,
+            "size": 273
+        },
+        "src/toolkit/prose/schema.ts": {
+            "checkedAt": 1642743208720,
+            "integrity": "sha512-IHzZ8xf7I36R8l7BZ+YKsefRD7A1bhOlRW8H0f0pnEew1FTPvTOwG0yX9G6P/ZEEb4AtBTapwwn49I2WG8cgNA==",
+            "mode": 420,
+            "size": 610
+        },
+        "lib/toolkit/prose/selection.d.ts": {
+            "checkedAt": 1642743208720,
+            "integrity": "sha512-ctH5v8IOibfRrdgF7g1i0Fn2Gr4hgnTMTLgbDksy0rTNvGtSHYq8sy0aG8DQNRF2VArefnCfokj8wFOuX+PEwA==",
+            "mode": 420,
+            "size": 707
+        },
+        "src/toolkit/prose/selection.ts": {
+            "checkedAt": 1642743208724,
+            "integrity": "sha512-JhkRu/BO26ur2gxws10XiAiL3U6dEBRD75zAZil+fq+GBEjV0zs5jcrqHWAGjCG74C6J82CuThVecjCtdI2lrQ==",
+            "mode": 420,
+            "size": 1465
+        },
+        "lib/toolkit/prose/types.d.ts": {
+            "checkedAt": 1642743208724,
+            "integrity": "sha512-dEdtOnJ5bKBXPsPGBWadVe0F9ssN/uiuDMSKT4d0DiaVJ9xDjY0jGLXBsLraqo5mYpDAOeUM5VDOP3k7cjmSJw==",
+            "mode": 420,
+            "size": 157
+        },
+        "src/toolkit/prose/types.ts": {
+            "checkedAt": 1642743208724,
+            "integrity": "sha512-30Q0zUOwYaBT7HU/3b1Bfr7HFyKZEZUPi9WUzzes3jAgdZ6uZUNztGTDbaQHz5kJ/+Z0QM0ZcAouEFou9MwlMw==",
+            "mode": 420,
+            "size": 157
+        }
+    }
+}

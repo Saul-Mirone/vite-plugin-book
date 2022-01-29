@@ -1,0 +1,6 @@
+import { MilkdownPlugin } from '@milkdown/ctx';
+import { ThemePack, ThemeTool } from '@milkdown/design-system';
+export declare const themeToolCtx: import("@milkdown/ctx").Slice<ThemeTool>;
+export type { ThemeTool } from '@milkdown/design-system';
+export declare const themeFactory: (themePack: ThemePack) => MilkdownPlugin;
+//# sourceMappingURL=theme.d.ts.map

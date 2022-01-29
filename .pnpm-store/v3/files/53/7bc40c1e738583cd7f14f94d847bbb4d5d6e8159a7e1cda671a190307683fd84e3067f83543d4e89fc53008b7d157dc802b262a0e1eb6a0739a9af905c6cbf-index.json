@@ -1,0 +1,48 @@
+{
+    "name": "eslint-plugin-simple-import-sort",
+    "version": "7.0.0",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743214931,
+            "integrity": "sha512-q87dvSHxmiDmjxedONQWukr4YO3yA3ndfAs2VAQVEZSi0VvJp3ibNz/2/5RUSWxirzDw+jTKMz+SoXQpDB6sRg==",
+            "mode": 420,
+            "size": 1081
+        },
+        "exports.js": {
+            "checkedAt": 1642743214931,
+            "integrity": "sha512-9CD2AswZOpFf6X2nzaXoywsDBq2uxCHVtreA1NgWesCY+U4lHdGSk8/EyjZn7Wp+m6oSLIh5BcZ7V7Z8a9yszQ==",
+            "mode": 420,
+            "size": 2416
+        },
+        "imports.js": {
+            "checkedAt": 1642743214931,
+            "integrity": "sha512-SuMcmqzXv6PfONeNTHR0gyew9Ck37w8lXAtrxgVNuFnEc3xUYVAidurLG3rIt/C+gIjqeVO9A21onHqqViu9Gg==",
+            "mode": 420,
+            "size": 4073
+        },
+        "index.js": {
+            "checkedAt": 1642743214931,
+            "integrity": "sha512-YRuX5X16n10j3C6y4q7U0JO6PpWCLa0lUO+yku8zgxrD6FmsqIUdTnlrNNsSV9ogPbSQCpbV8tkS4KBBUSkTdg==",
+            "mode": 420,
+            "size": 190
+        },
+        "shared.js": {
+            "checkedAt": 1642743214942,
+            "integrity": "sha512-NAyf00fMPfNcIk1nyoCKokSwOTQJvWAIyIf3dSDRBJg0C+jFjJBAUKDLPPWUDD+36IHRwMc3yVbge45IrDyNSw==",
+            "mode": 420,
+            "size": 27393
+        },
+        "package.json": {
+            "checkedAt": 1642743214942,
+            "integrity": "sha512-+4UCeR+W/+F3nmytO2+bFWKWiD8x/kLgK3GDK7TjAq+gbZhTuvLKsZ4rVPA4HM1pPZtxmC3ckq8AiWHL5g87bA==",
+            "mode": 420,
+            "size": 463
+        },
+        "README.md": {
+            "checkedAt": 1642743214942,
+            "integrity": "sha512-SVCO4hYY1C2mlgI5yhYLa1+8G9sIpf3kPEHfV7rqSrW0vibC826ozinDx4nZRz9SPQf0fG0EofXJvYq2EWhSXw==",
+            "mode": 420,
+            "size": 1031
+        }
+    }
+}

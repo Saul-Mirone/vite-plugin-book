@@ -1,0 +1,4 @@
+import { EditorView } from '@milkdown/prose';
+import { ButtonMap } from '../item';
+export declare const noActive: (buttonMap: ButtonMap, view: EditorView) => boolean;
+//# sourceMappingURL=no-active.d.ts.map

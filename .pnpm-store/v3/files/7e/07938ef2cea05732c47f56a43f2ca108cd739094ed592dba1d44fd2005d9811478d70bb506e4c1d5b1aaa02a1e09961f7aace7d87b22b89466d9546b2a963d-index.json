@@ -1,0 +1,60 @@
+{
+    "name": "@milkdown/plugin-listener",
+    "version": "5.3.3",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642759280807,
+            "integrity": "sha512-DnXqxqiAWg0Up3S/UCwvTy/3WoOVA4zx/oYMZw8Xr4JsOL47ADHJUCPWFKI0oNsNgAN3q5zzizw4IpDqFF2ABA==",
+            "mode": 420,
+            "size": 1081
+        },
+        "lib/index.es.js": {
+            "checkedAt": 1642759280808,
+            "integrity": "sha512-RxKbZFT1imozfHW+S4dF6OVifzmpU/jwQyKhEuf352cvu0my9VLH2Ma+7SrcN4tjAkCYErHzWCwLonrYljR/DQ==",
+            "mode": 420,
+            "size": 3467
+        },
+        "lib/index.d.ts": {
+            "checkedAt": 1642759280807,
+            "integrity": "sha512-1Q6HwajZQXCskPXR5NmjD3/acAPqcntRRcf5Kvxwjfx/WNOTjCrayFCh5HLdpEG203wxMo43erVq1DOahrU7wg==",
+            "mode": 420,
+            "size": 28
+        },
+        "lib/index.es.js.map": {
+            "checkedAt": 1642759280830,
+            "integrity": "sha512-UYQPEEv6f/LjoTSTqKJ/pCQwiqF7t3WhoWPVoYBa5QQjgQUA3NiEjJzPDEp1ga6s8D3+SiBBVS8zs/CRRf4jgg==",
+            "mode": 420,
+            "size": 6658
+        },
+        "package.json": {
+            "checkedAt": 1642759280830,
+            "integrity": "sha512-DIEO6SA5JgJOTGhCVGq4Cb7dLO8FPd9gOa06xSGfV47DMNVmYqI6v0t7haZgkwCsLZA2lwVOLD8t6qiwKxWcQw==",
+            "mode": 420,
+            "size": 1929
+        },
+        "lib/src/index.d.ts.map": {
+            "checkedAt": 1642759280830,
+            "integrity": "sha512-cO4++hLrryyYeN3uYkFKBwOugvsX3sYYoQSfgdYNHTLK2b7lSqul7EYk/gJg6QoXhu+P+U8hC0yfJr9wyodutg==",
+            "mode": 420,
+            "size": 932
+        },
+        "README.md": {
+            "checkedAt": 1642759280863,
+            "integrity": "sha512-2C5caNaeW7gY1AnUUHiEXFbgC0Df3ILFymk4+G5PejFrJelSDur/q0eH4z/aNie329LK+OkNmOeXQ6tO94qi+g==",
+            "mode": 420,
+            "size": 1307
+        },
+        "lib/src/index.d.ts": {
+            "checkedAt": 1642759280863,
+            "integrity": "sha512-hKE2ktiXUxRvv2+vk8iEqvtbAk4MWsICzs/EnR7yT9fko5DzyiQEoyLdQjVuoKj3CEByMJZduSwXUvJR6EwuMQ==",
+            "mode": 420,
+            "size": 1372
+        },
+        "src/index.ts": {
+            "checkedAt": 1642759280863,
+            "integrity": "sha512-dyIJxQSwUbrEkELpZtHlQA9CRLjE748k5cQ5OxvYKA4V0jHuOzyXTCrWxuN8YOHSxY4kjNu+fFb8UcsOQ9BcOg==",
+            "mode": 420,
+            "size": 4790
+        }
+    }
+}

@@ -1,0 +1,594 @@
+var __defProp = Object.defineProperty;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key2, value) => key2 in obj ? __defProp(obj, key2, { enumerable: true, configurable: true, writable: true, value }) : obj[key2] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+import { commandsCtx, themeToolCtx, schemaCtx } from "@milkdown/core";
+import { findSelectedNodeOfType, findParentNode, TextSelection, calculateTextPosition, PluginKey, Plugin } from "@milkdown/prose";
+import { createPlugin as createPlugin$1, AtomList } from "@milkdown/utils";
+import { ModifyLink, ModifyImage, ToggleBold, ToggleItalic, ToggleStrikeThrough, ToggleInlineCode, ToggleLink } from "@milkdown/preset-gfm";
+import { ModifyInlineMath } from "@milkdown/plugin-math";
+const elementIsTag = (element, tagName) => element.tagName === tagName.toUpperCase();
+const modifyLink = (ctx) => (e) => {
+  const { target } = e;
+  if (!(target instanceof HTMLElement)) {
+    return () => true;
+  }
+  if (elementIsTag(target, "input")) {
+    target.focus();
+    return () => false;
+  }
+  const parent = target.parentNode;
+  if (!parent)
+    return () => false;
+  const inputEl = Array.from(parent.children).find((el) => el.tagName === "INPUT");
+  if (!(inputEl instanceof HTMLInputElement))
+    return () => false;
+  return ctx.get(commandsCtx).call(ModifyLink, inputEl.value);
+};
+const modifyInlineMath = (ctx) => (e) => {
+  const { target } = e;
+  if (!(target instanceof HTMLElement)) {
+    return () => true;
+  }
+  const parent = target.parentNode;
+  if (!parent)
+    return () => false;
+  const inputEl = Array.from(parent.children).find((el) => el.tagName === "INPUT");
+  if (!(inputEl instanceof HTMLInputElement))
+    return () => false;
+  return ctx.get(commandsCtx).call(ModifyInlineMath, inputEl.value);
+};
+const modifyImage = (ctx) => (e) => {
+  const { target } = e;
+  if (!(target instanceof HTMLElement)) {
+    return () => true;
+  }
+  if (elementIsTag(target, "input")) {
+    target.focus();
+    return () => false;
+  }
+  const parent = target.parentNode;
+  if (!parent)
+    return () => false;
+  const inputEl = Array.from(parent.children).find((el) => el.tagName === "INPUT");
+  if (!(inputEl instanceof HTMLInputElement))
+    return () => false;
+  return ctx.get(commandsCtx).call(ModifyImage, inputEl.value);
+};
+const updateLinkView = (view, $) => {
+  const { marks } = view.state.schema;
+  const { firstChild, lastElementChild } = $;
+  if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement))
+    return;
+  const { selection } = view.state;
+  let node;
+  view.state.doc.nodesBetween(selection.from, selection.to, (n) => {
+    if (marks.link.isInSet(n.marks)) {
+      node = n;
+      return false;
+    }
+    return;
+  });
+  if (!node)
+    return;
+  const mark = node.marks.find((m) => m.type === marks.link);
+  if (!mark)
+    return;
+  const value = mark.attrs.href;
+  firstChild.value = value;
+  if (!value) {
+    lastElementChild.classList.add("disable");
+    return;
+  }
+  if (lastElementChild.classList.contains("disable")) {
+    lastElementChild.classList.remove("disable");
+  }
+};
+const updateInlineMathView = (view, $) => {
+  const { nodes } = view.state.schema;
+  const { firstChild, lastElementChild } = $;
+  if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement))
+    return;
+  const result = findSelectedNodeOfType(view.state.selection, nodes.math_inline);
+  if (!result)
+    return;
+  const { node } = result;
+  const value = node.attrs.value;
+  firstChild.value = value;
+  if (!value) {
+    lastElementChild.classList.add("disable");
+    return;
+  }
+  if (lastElementChild.classList.contains("disable")) {
+    lastElementChild.classList.remove("disable");
+  }
+};
+const updateImageView = (view, $) => {
+  const { nodes } = view.state.schema;
+  const { firstChild, lastElementChild } = $;
+  if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement))
+    return;
+  const result = findSelectedNodeOfType(view.state.selection, nodes.image);
+  if (!result)
+    return;
+  const { node } = result;
+  const value = node.attrs.src;
+  firstChild.value = value;
+  if (!value) {
+    lastElementChild.classList.add("disable");
+    return;
+  }
+  if (lastElementChild.classList.contains("disable")) {
+    lastElementChild.classList.remove("disable");
+  }
+};
+const hasMark = (editorState, type) => {
+  const { from, to } = editorState.selection;
+  return editorState.doc.rangeHasMark(from, from === to ? to + 1 : to, type);
+};
+const isTextSelection = (editorState) => {
+  const { selection } = editorState;
+  if (selection instanceof TextSelection) {
+    const text = editorState.doc.textBetween(selection.from, selection.to);
+    if (!text)
+      return false;
+    return true;
+  }
+  return false;
+};
+const isInCodeFence = (editorState) => Boolean(findParentNode((node) => !!node.type.spec.code)(editorState.selection));
+const isTextAndNotHasMark = (editorState, mark) => !isTextSelection(editorState) || isInCodeFence(editorState) || hasMark(editorState, mark);
+const createToggleIcon = (ctx, iconName, commandKey, mark, disableForMark) => ({
+  $: ctx.get(themeToolCtx).slots.icon(iconName),
+  command: () => ctx.get(commandsCtx).call(commandKey),
+  active: (view) => hasMark(view.state, mark),
+  disable: (view) => isTextAndNotHasMark(view.state, disableForMark),
+  enable: (view) => !!mark && !!view.state.schema.marks[mark.name]
+});
+var ButtonAction;
+(function(ButtonAction2) {
+  ButtonAction2[ButtonAction2["ToggleBold"] = 0] = "ToggleBold";
+  ButtonAction2[ButtonAction2["ToggleItalic"] = 1] = "ToggleItalic";
+  ButtonAction2[ButtonAction2["ToggleStrike"] = 2] = "ToggleStrike";
+  ButtonAction2[ButtonAction2["ToggleCode"] = 3] = "ToggleCode";
+  ButtonAction2[ButtonAction2["ToggleLink"] = 4] = "ToggleLink";
+})(ButtonAction || (ButtonAction = {}));
+var InputAction;
+(function(InputAction2) {
+  InputAction2[InputAction2["ModifyLink"] = 0] = "ModifyLink";
+  InputAction2[InputAction2["ModifyImage"] = 1] = "ModifyImage";
+  InputAction2[InputAction2["ModifyInlineMath"] = 2] = "ModifyInlineMath";
+})(InputAction || (InputAction = {}));
+const inputMap = (schema, ctx, inputOptions) => {
+  const { marks, nodes } = schema;
+  return {
+    [0]: __spreadValues({
+      display: (view) => view.state.selection.empty && view.state.selection instanceof TextSelection && hasMark(view.state, marks.link),
+      command: modifyLink(ctx),
+      update: updateLinkView
+    }, inputOptions.link),
+    [2]: __spreadValues({
+      display: (view) => Boolean(findSelectedNodeOfType(view.state.selection, nodes.math_inline)),
+      command: modifyInlineMath(ctx),
+      update: updateInlineMathView,
+      bind: true
+    }, inputOptions.inlineMath),
+    [1]: __spreadValues({
+      display: (view) => Boolean(findSelectedNodeOfType(view.state.selection, nodes.image)),
+      command: modifyImage(ctx),
+      update: updateImageView
+    }, inputOptions.image)
+  };
+};
+const buttonMap = (schema, ctx) => {
+  const { marks } = schema;
+  return {
+    [0]: createToggleIcon(ctx, "bold", ToggleBold, marks.strong, marks.code_inline),
+    [1]: createToggleIcon(ctx, "italic", ToggleItalic, marks.em, marks.code_inline),
+    [2]: createToggleIcon(ctx, "strikeThrough", ToggleStrikeThrough, marks.strike_through, marks.code_inline),
+    [3]: createToggleIcon(ctx, "code", ToggleInlineCode, marks.code_inline, marks.link),
+    [4]: createToggleIcon(ctx, "link", ToggleLink, marks.link, marks.code_inline)
+  };
+};
+const calcButtonPos = (buttons, view) => {
+  buttons.classList.remove("hide");
+  calculateTextPosition(view, buttons, (start, end, target, parent) => {
+    const $editor = buttons.parentElement;
+    if (!$editor) {
+      throw new Error();
+    }
+    const selectionWidth = end.left - start.left;
+    let left = start.left - parent.left - (target.width - selectionWidth) / 2;
+    let top = start.top - parent.top - target.height - 14 + $editor.scrollTop;
+    if (left < 0)
+      left = 0;
+    if (start.top < target.height) {
+      top = start.bottom - parent.top + 14 + $editor.scrollTop;
+    }
+    return [top, left];
+  });
+};
+const injectStyle$1 = (themeTool, { css }) => {
+  var _a, _b;
+  const { palette, mixin, size } = themeTool;
+  return css`
+        display: inline-flex;
+        cursor: pointer;
+        justify-content: space-evenly;
+        position: absolute;
+        border-radius: ${size.radius};
+        z-index: 2;
+
+        ${(_a = mixin.border) == null ? void 0 : _a.call(mixin)};
+        ${(_b = mixin.shadow) == null ? void 0 : _b.call(mixin)};
+
+        overflow: hidden;
+        background: ${palette("surface")};
+
+        .icon {
+            position: relative;
+            color: ${palette("solid", 0.87)};
+
+            width: 3rem;
+            line-height: 3rem;
+            text-align: center;
+            transition: all 0.4s ease-in-out;
+            &:hover {
+                background-color: ${palette("secondary", 0.12)};
+            }
+            &.active {
+                color: ${palette("primary")};
+            }
+            &:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: calc(-0.5 * ${size.lineWidth});
+                width: ${size.lineWidth};
+                bottom: 0;
+                background: ${palette("line")};
+            }
+        }
+        &.hide,
+        .hide {
+            display: none;
+        }
+    `;
+};
+const createTooltip = (buttonMap2, utils) => {
+  const div = document.createElement("div");
+  const style = utils.getStyle(injectStyle$1) || "";
+  if (style) {
+    div.classList.add(style);
+  }
+  div.classList.add("tooltip");
+  return {
+    dom: div,
+    render: (editorView) => {
+      var _a;
+      Object.values(buttonMap2).filter((item) => item.enable(editorView)).forEach(({ $ }) => div.appendChild($));
+      (_a = editorView.dom.parentNode) == null ? void 0 : _a.appendChild(div);
+    }
+  };
+};
+const noActive = (buttonMap2, view) => {
+  return Object.values(buttonMap2).filter((item) => item.enable(view)).every(({ $ }) => $.classList.contains("hide"));
+};
+const filterButton = (buttonMap2, view) => {
+  Object.values(buttonMap2).filter((item) => item.enable(view)).forEach((item) => {
+    var _a;
+    const disable = (_a = item.disable) == null ? void 0 : _a.call(item, view);
+    if (disable) {
+      item.$.classList.add("hide");
+      return;
+    }
+    item.$.classList.remove("hide");
+    const active = item.active(view);
+    if (active) {
+      item.$.classList.add("active");
+      return;
+    }
+    item.$.classList.remove("active");
+  });
+  return noActive(buttonMap2, view);
+};
+const createButtonManager = (buttonMap2, utils) => {
+  const { dom: buttons, render } = createTooltip(buttonMap2, utils);
+  const onClick = (e) => {
+    const target = Object.values(buttonMap2).find(({ $ }) => e.target instanceof Element && $.contains(e.target));
+    if (!target)
+      return;
+    e.stopPropagation();
+    e.preventDefault();
+    target.command();
+  };
+  const hide = () => {
+    buttons.classList.add("hide");
+  };
+  buttons.addEventListener("mousedown", onClick);
+  return {
+    destroy: () => {
+      buttons.removeEventListener("mousedown", onClick);
+      buttons.remove();
+    },
+    hide,
+    update: (editorView) => {
+      const noActive2 = filterButton(buttonMap2, editorView);
+      if (noActive2) {
+        hide();
+        return;
+      }
+      calcButtonPos(buttons, editorView);
+    },
+    render
+  };
+};
+const calcInputPos = (view, input) => {
+  calculateTextPosition(view, input, (start, end, target, parent) => {
+    const $editor = input.parentElement;
+    if (!$editor) {
+      throw new Error();
+    }
+    const selectionWidth = end.left - start.left;
+    let left = start.left - parent.left - (target.width - selectionWidth) / 2;
+    const top = start.bottom - parent.top + 14 + $editor.scrollTop;
+    if (left < 0)
+      left = 0;
+    return [top, left];
+  });
+};
+const injectStyle = (themeTool, { css }) => {
+  var _a, _b;
+  const { palette, mixin, size } = themeTool;
+  return css`
+        ${(_a = mixin.border) == null ? void 0 : _a.call(mixin)};
+        ${(_b = mixin.shadow) == null ? void 0 : _b.call(mixin)};
+
+        display: inline-flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        background: ${palette("surface")};
+        border-radius: ${size.radius};
+        font-size: 1rem;
+
+        height: 3.5rem;
+        box-sizing: border-box;
+        width: 25.5rem;
+        padding: 0 1rem;
+        gap: 1rem;
+        z-index: 2;
+
+        input,
+        button {
+            all: unset;
+        }
+
+        input {
+            flex-grow: 1;
+            caret-color: ${palette("primary")};
+            &::placeholder {
+                color: ${palette("neutral", 0.6)};
+            }
+        }
+
+        button {
+            cursor: pointer;
+            height: 2.25rem;
+            color: ${palette("primary")};
+            font-size: 0.875rem;
+            padding: 0 0.5rem;
+            font-weight: 500;
+            letter-spacing: 1.25px;
+            &:hover {
+                background-color: ${palette("secondary", 0.12)};
+            }
+            &.disable {
+                color: ${palette("neutral", 0.38)};
+                cursor: not-allowed;
+                &:hover {
+                    background: transparent;
+                }
+            }
+            &.hide {
+                display: none;
+            }
+        }
+
+        &.hide {
+            display: none;
+        }
+    `;
+};
+const createInput = (utils) => {
+  const div = document.createElement("div");
+  const style = utils.getStyle(injectStyle);
+  if (style) {
+    div.classList.add(style);
+  }
+  div.classList.add("tooltip-input");
+  const input = document.createElement("input");
+  div.appendChild(input);
+  const button = document.createElement("button");
+  div.appendChild(button);
+  input.addEventListener("input", (e) => {
+    const { target } = e;
+    if (!(target instanceof HTMLInputElement)) {
+      return;
+    }
+    if (!target.value) {
+      button.classList.add("disable");
+      return;
+    }
+    button.classList.remove("disable");
+  });
+  return {
+    div,
+    input,
+    button
+  };
+};
+const filterInput = (currentView, inputMap2, div, input, button) => {
+  const target = Object.values(inputMap2).find((input2) => input2.display(currentView));
+  if (!target) {
+    div.classList.add("hide");
+    return;
+  }
+  div.classList.remove("hide");
+  if (target.bind) {
+    button.classList.add("hide");
+  } else {
+    button.classList.remove("hide");
+    button.textContent = target.buttonText;
+  }
+  input.placeholder = target.placeholder;
+  target.update(currentView, div);
+  return target;
+};
+const createInputManager = (inputMap2, utils) => {
+  let inputCommand;
+  let binding = false;
+  const setCommand = (x) => inputCommand = x;
+  const { div, button, input } = createInput(utils);
+  const onClick = (e) => {
+    if (!inputCommand || button.classList.contains("disable"))
+      return;
+    e.stopPropagation();
+    inputCommand(e);
+    div.classList.add("hide");
+  };
+  const onInput = (e) => {
+    if (!binding || !inputCommand)
+      return;
+    inputCommand(e);
+  };
+  input.addEventListener("input", onInput);
+  button.addEventListener("mousedown", onClick);
+  return {
+    destroy: () => {
+      input.removeEventListener("input", onInput);
+      div.removeEventListener("mousedown", onClick);
+      div.remove();
+    },
+    hide: () => {
+      div.classList.add("hide");
+      setCommand();
+    },
+    update: (editorView) => {
+      const result = filterInput(editorView, inputMap2, div, input, button);
+      if (!result)
+        return;
+      binding = !!result.bind;
+      setCommand(result.command);
+      calcInputPos(editorView, div);
+    },
+    render: (editorView) => {
+      const wrapper = editorView.dom.parentNode;
+      if (!wrapper)
+        throw new Error();
+      wrapper.appendChild(div);
+    }
+  };
+};
+const createPlugin = (buttonMap2, inputMap2, utils) => {
+  const buttonManager = createButtonManager(buttonMap2, utils);
+  const inputManager = createInputManager(inputMap2, utils);
+  let shouldHide = false;
+  const hide = () => {
+    buttonManager.hide();
+    inputManager.hide();
+  };
+  const update = (view, prevState) => {
+    const { state } = view;
+    if (!view.editable || shouldHide) {
+      hide();
+      return;
+    }
+    const isEqualSelection = (prevState == null ? void 0 : prevState.doc.eq(state.doc)) && prevState.selection.eq(state.selection);
+    if (isEqualSelection)
+      return;
+    buttonManager.update(view);
+    inputManager.update(view);
+  };
+  return {
+    update,
+    destroy: () => {
+      buttonManager.destroy();
+      inputManager.destroy();
+    },
+    render: (editorView) => {
+      buttonManager.render(editorView);
+      inputManager.render(editorView);
+      update(editorView);
+    },
+    setHide: (isTyping) => {
+      shouldHide = isTyping;
+    }
+  };
+};
+const key = new PluginKey("MILKDOWN_PLUGIN_TOOLTIP");
+const tooltipPlugin = createPlugin$1((utils, options) => {
+  return {
+    id: "tooltip",
+    prosePlugins: (_, ctx) => {
+      var _a, _b, _c;
+      const schema = ctx.get(schemaCtx);
+      const manager = createPlugin(buttonMap(schema, ctx), inputMap(schema, ctx, {
+        link: __spreadValues({
+          placeholder: "Input Web Link",
+          buttonText: "APPLY"
+        }, (_a = options == null ? void 0 : options.link) != null ? _a : {}),
+        image: __spreadValues({
+          placeholder: "Input Image Link",
+          buttonText: "APPLY"
+        }, (_b = options == null ? void 0 : options.image) != null ? _b : {}),
+        inlineMath: __spreadValues({
+          placeholder: "Input Math"
+        }, (_c = options == null ? void 0 : options.inlineMath) != null ? _c : {})
+      }), utils);
+      const plugin = new Plugin({
+        key,
+        props: {
+          handleKeyDown: () => {
+            manager.setHide(true);
+            return false;
+          },
+          handleClick: (view) => {
+            manager.setHide(false);
+            manager.update(view);
+            return false;
+          },
+          handleDOMEvents: {
+            mousedown: () => {
+              manager.setHide(false);
+              return false;
+            }
+          }
+        },
+        view: (editorView) => {
+          manager.render(editorView);
+          return {
+            update: manager.update,
+            destroy: manager.destroy
+          };
+        }
+      });
+      return [plugin];
+    }
+  };
+});
+const tooltip = AtomList.create([tooltipPlugin()]);
+export { key, tooltip, tooltipPlugin };
+//# sourceMappingURL=index.es.js.map

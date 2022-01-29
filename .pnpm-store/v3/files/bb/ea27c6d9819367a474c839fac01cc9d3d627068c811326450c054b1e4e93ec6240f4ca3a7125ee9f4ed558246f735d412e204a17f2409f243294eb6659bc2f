@@ -1,0 +1,35 @@
+{
+  "name": "@milkdown/preset-gfm",
+  "version": "5.3.3",
+  "type": "module",
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "milkdown",
+    "milkdown plugin",
+    "markdown",
+    "gfm"
+  ],
+  "dependencies": {
+    "@milkdown/core": "5.3.3",
+    "@milkdown/design-system": "5.3.3",
+    "@milkdown/preset-commonmark": "5.3.3",
+    "@milkdown/prose": "5.3.3",
+    "@milkdown/utils": "5.3.3",
+    "remark-gfm": "^3.0.0",
+    "tslib": "^2.3.1"
+  },
+  "scripts": {
+    "start": "vite build --watch",
+    "test": "vitest",
+    "tsc": "tsc --noEmit",
+    "build": "vite build"
+  },
+  "readme": "# @milkdown/preset-gfm\n\nGithub flavored markdown preset for [milkdown](https://saul-mirone.github.io/milkdown/).\nAdd support for gfm.\n\n# Example Usage\n\n```typescript\nimport { Editor } from '@milkdown/core';\nimport { nord } from '@milkdown/theme-nord';\n\nimport { gfm } from '@milkdown/preset-gfm';\n\nEditor.make().use(nord).use(gfm).create();\n```\n\n## Custom Keymap\n\n```typescript\nimport { commonmark, blockquote, SupportedKeys } from '@milkdown/preset-gfm';\n\nconst nodes = commonmark.configure(blockquote, {\n    keymap: {\n        [SupportedKeys.Blockquote]: 'Mod-Shift-b',\n    },\n});\n\nEditor.make().use(nodes);\n```\n\nKeymap supported:\n\n-   HardBreak\n-   Blockquote\n-   TaskList\n-   BulletList\n-   OrderedList\n-   CodeFence\n-   H1\n-   H2\n-   H3\n-   H4\n-   H5\n-   H6\n-   Text\n-   CodeInline\n-   Em\n-   Bold\n-   StrikeThrough\n-   NextListItem\n-   SinkListItem\n-   LiftListItem\n-   NextCell\n-   PrevCell\n-   ExitTable\n\n## Custom Style\n\n```typescript\nimport { commonmark, paragraph, heading } from '@milkdown/preset-gfm';\n\nconst nodes = commonmark\n    .configure(paragraph, {\n        className: () => 'my-custom-paragraph',\n    })\n    .configure(heading, {\n        className: (attrs) => `my-custom-heading my-h${attrs.level}`,\n    });\n\nEditor.make().use(nodes);\n```\n\n# License\n\nMilkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).\n"
+}

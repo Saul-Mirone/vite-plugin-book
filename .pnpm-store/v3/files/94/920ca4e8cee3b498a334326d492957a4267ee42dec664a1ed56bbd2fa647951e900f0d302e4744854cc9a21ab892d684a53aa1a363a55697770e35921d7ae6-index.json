@@ -1,0 +1,30 @@
+{
+    "name": "@types/prosemirror-inputrules",
+    "version": "1.0.4",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743208338,
+            "integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+            "mode": 438,
+            "size": 1141
+        },
+        "README.md": {
+            "checkedAt": 1642743208434,
+            "integrity": "sha512-7v2+dmioQoJdAGlu5m8omulEKVndSQLzUeS3rqCEwVUqD3YU0c7G2XnHUETGRz0idsVBYc0SNwa3+a4+KsePlQ==",
+            "mode": 438,
+            "size": 850
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743208446,
+            "integrity": "sha512-Jwmqz8cYsHg44e+BDiDUk64uqQ7pucCBG83azLLKKnKL1LPtmsBIV8XBzG8ShZKxkXytbpEqvfrTz4xXcRiffg==",
+            "mode": 438,
+            "size": 4786
+        },
+        "package.json": {
+            "checkedAt": 1642743208446,
+            "integrity": "sha512-K7sgp2JDDKhLH+/BRuX9D2yPAt+H7jgFgl4JJxqyMLfgvW/81KMkzqwX3gUE8dt1qc/TVHUSK7wOAjMLFjgznA==",
+            "mode": 438,
+            "size": 1268
+        }
+    }
+}

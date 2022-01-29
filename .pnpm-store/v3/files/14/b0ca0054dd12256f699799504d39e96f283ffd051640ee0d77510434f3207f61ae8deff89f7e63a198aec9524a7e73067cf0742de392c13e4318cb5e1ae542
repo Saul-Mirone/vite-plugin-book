@@ -1,0 +1,25 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const _default = require('./chunks/default3.cjs');
+require('./chunks/variants.cjs');
+require('@unocss/core');
+
+
+
+exports.partClasses = _default.partClasses;
+exports.variantBreakpoints = _default.variantBreakpoints;
+exports.variantColorsMediaOrClass = _default.variantColorsMediaOrClass;
+exports.variantCombinators = _default.variantCombinators;
+exports.variantImportant = _default.variantImportant;
+exports.variantLanguageDirections = _default.variantLanguageDirections;
+exports.variantMotions = _default.variantMotions;
+exports.variantNegative = _default.variantNegative;
+exports.variantOrientations = _default.variantOrientations;
+exports.variantPrint = _default.variantPrint;
+exports.variantPseudoClassFunctions = _default.variantPseudoClassFunctions;
+exports.variantPseudoClasses = _default.variantPseudoClasses;
+exports.variantPseudoElements = _default.variantPseudoElements;
+exports.variantTaggedPseudoClasses = _default.variantTaggedPseudoClasses;
+exports.variants = _default.variants;

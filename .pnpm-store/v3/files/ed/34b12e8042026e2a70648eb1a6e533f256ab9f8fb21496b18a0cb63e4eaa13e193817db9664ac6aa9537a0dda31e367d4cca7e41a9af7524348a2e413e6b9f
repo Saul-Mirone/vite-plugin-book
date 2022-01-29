@@ -1,0 +1,3 @@
+import { ThemeTool } from '@milkdown/core';
+export declare const injectStyle: (themeTool: ThemeTool) => string;
+//# sourceMappingURL=style.d.ts.map

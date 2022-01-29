@@ -1,0 +1,13 @@
+import type { ThemeTool } from '@milkdown/core';
+import type { Icon } from '@milkdown/design-system';
+import type { Command, Node } from '@milkdown/prose';
+import type { Utils } from '@milkdown/utils';
+export declare const createDropdown: (utils: Utils) => HTMLDivElement;
+declare type ItemOptions = {
+    textClassName: string;
+};
+export declare const createDropdownItem: (themeTool: ThemeTool, text: string, icon: Icon, options?: Partial<ItemOptions> | undefined) => HTMLDivElement;
+export declare const getDepth: (node: Node) => number;
+export declare const cleanUpAndCreateNode: (createCommand: () => void) => Command;
+export {};
+//# sourceMappingURL=utility.d.ts.map

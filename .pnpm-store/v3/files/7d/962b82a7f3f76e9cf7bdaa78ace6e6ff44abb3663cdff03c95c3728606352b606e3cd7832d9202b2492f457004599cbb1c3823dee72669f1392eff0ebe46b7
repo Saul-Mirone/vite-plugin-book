@@ -1,0 +1,13 @@
+export declare const docTypeError: (type: unknown) => Error;
+export declare const contextNotFound: (name: string) => Error;
+export declare const timerNotFound: () => Error;
+export declare const ctxCallOutOfScope: () => Error;
+export declare const createNodeInParserFail: (...args: unknown[]) => Error;
+export declare const stackOverFlow: () => Error;
+export declare const parserMatchError: (node: unknown) => Error;
+export declare const serializerMatchError: (node: unknown) => Error;
+export declare const getAtomFromSchemaFail: (type: 'mark' | 'node', name: string) => Error;
+export declare const expectDomTypeError: (node: unknown) => Error;
+export declare const callCommandBeforeEditorView: () => Error;
+export declare const themeMustInstalled: () => Error;
+//# sourceMappingURL=index.d.ts.map

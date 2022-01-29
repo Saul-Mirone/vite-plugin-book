@@ -1,0 +1,17 @@
+import { MilkdownPlugin, Slice, Timer } from '@milkdown/ctx';
+import type { Command } from '@milkdown/prose';
+export declare type Cmd<T = undefined> = (info?: T) => Command;
+export declare type CmdKey<T = undefined> = Slice<Cmd<T>>;
+export declare type CommandManager = {
+    create: <T>(meta: CmdKey<T>, value: Cmd<T>) => void;
+    get: <T>(meta: CmdKey<T>) => Cmd<T>;
+    call: <T>(meta: CmdKey<T>, info?: T) => boolean;
+};
+export declare type CmdTuple<T = unknown> = [key: CmdKey<T>, value: Cmd<T>];
+export declare const createCmd: <T>(key: CmdKey<T>, value: Cmd<T>) => CmdTuple<unknown>;
+export declare const commandsCtx: Slice<CommandManager>;
+export declare const createCmdKey: <T = undefined>() => CmdKey<T>;
+export declare const commandsTimerCtx: Slice<Timer[]>;
+export declare const CommandsReady: Timer;
+export declare const commands: MilkdownPlugin;
+//# sourceMappingURL=commands.d.ts.map

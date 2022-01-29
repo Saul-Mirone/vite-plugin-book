@@ -1,0 +1,30 @@
+{
+    "name": "micromark-util-html-tag-name",
+    "version": "1.0.0",
+    "files": {
+        "index.js": {
+            "checkedAt": 1642743209108,
+            "integrity": "sha512-O4CfhYPmD+vu6xVYYqVISNuwFjN3QGiJBphKbb1R6/VQ1iUJdXNFaWZUdLUvYNIDXSYZH23Iq4bMW93+Qc4iYw==",
+            "mode": 420,
+            "size": 1674
+        },
+        "package.json": {
+            "checkedAt": 1642743209108,
+            "integrity": "sha512-q885Tzv7Fx2L5trfUP6TKgxoA9Ff14fZq+UxnzPfbNKIOnFMlRtzr/a5YUz+98wxMcSECCpFqhdnRcreu4JVOQ==",
+            "mode": 420,
+            "size": 1162
+        },
+        "readme.md": {
+            "checkedAt": 1642743209108,
+            "integrity": "sha512-66loe0Zqg2GOdd/CvX0K7ShiG4dlXCf6i06xVRTBii7GqUbYkW8AlVNDC+BboJeYjZqk6HADxT4CW/IUVLRpgw==",
+            "mode": 420,
+            "size": 3814
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743209108,
+            "integrity": "sha512-mh9W8MuYnmL4E2wIm810Bg8sGfYvO5K+5kOdUHJLAR6kgISv0IiG5PZeWMYsycaicVCD7LQMq5qq/13UAZWpHA==",
+            "mode": 420,
+            "size": 981
+        }
+    }
+}

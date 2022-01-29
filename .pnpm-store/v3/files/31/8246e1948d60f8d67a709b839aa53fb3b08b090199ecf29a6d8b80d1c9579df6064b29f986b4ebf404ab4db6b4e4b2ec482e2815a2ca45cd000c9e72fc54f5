@@ -1,0 +1,24 @@
+import { PresetOptions, Preset } from '@unocss/core';
+import { T as Theme } from './types-c14b808b';
+export { T as Theme, a as ThemeAnimation } from './types-c14b808b';
+export { t as theme } from './default-17948303';
+export { c as colors } from './colors-338f482c';
+export { p as parseColor } from './utilities-29b01158';
+
+interface PresetMiniOptions extends PresetOptions {
+    /**
+     * @default 'class'
+     */
+    dark?: 'class' | 'media';
+    /**
+     * @default false
+     */
+    attributifyPseudo?: Boolean;
+    /**
+     * @default 'un-'
+     */
+    variablePrefix?: string;
+}
+declare const presetMini: (options?: PresetMiniOptions) => Preset<Theme>;
+
+export { PresetMiniOptions, presetMini as default, presetMini };

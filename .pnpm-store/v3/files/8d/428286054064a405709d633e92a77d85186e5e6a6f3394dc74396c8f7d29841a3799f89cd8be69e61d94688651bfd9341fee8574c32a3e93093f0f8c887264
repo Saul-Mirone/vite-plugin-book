@@ -1,0 +1,386 @@
+var _a;
+import { themeFactory } from "@milkdown/core";
+const typography = [
+  "Roboto",
+  "HelveticaNeue-Light",
+  "Helvetica Neue Light",
+  "Helvetica Neue",
+  "Helvetica",
+  "Arial",
+  "Lucida Grande",
+  "sans-serif"
+];
+const code = ["Consolas", "Monaco", "Andale Mono", "Ubuntu Mono", "monospace"];
+const mixin = ({ css }) => ({ palette, size: size2 }) => ({
+  scrollbar: (direction = "y") => css`
+            scrollbar-width: thin;
+            scrollbar-color: ${palette("secondary", 0.38)} ${palette("secondary", 0.12)};
+            -webkit-overflow-scrolling: touch;
+
+            &::-webkit-scrollbar {
+                ${direction === "y" ? "width" : "height"}: 12px;
+                background-color: transparent;
+            }
+
+            &::-webkit-scrollbar-track {
+                border-radius: 999px;
+                background: transparent;
+                border: 4px solid transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 999px;
+                background-color: ${palette("secondary", 0.38)};
+                border: 4px solid transparent;
+                background-clip: content-box;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background-color: ${palette("secondary")};
+            }
+        `,
+  shadow: () => {
+    const { lineWidth } = size2;
+    return css`
+                box-shadow: 0px ${lineWidth} ${lineWidth} ${palette("shadow", 0.14)},
+                    0px 2px ${lineWidth} ${palette("shadow", 0.12)}, 0px ${lineWidth} 3px ${palette("shadow", 0.2)};
+            `;
+  },
+  border: (direction) => {
+    if (!direction) {
+      return css`
+                    border: ${size2.lineWidth} solid ${palette("line")};
+                `;
+    }
+    return css`
+                ${`border-${direction}`}: ${size2.lineWidth} solid ${palette("line")};
+            `;
+  }
+});
+const Nord = {
+  nord0: "#2e3440",
+  nord1: "#3b4252",
+  nord2: "#434c5e",
+  nord3: "#4c566a",
+  nord4: "#d8dee9",
+  nord5: "#e5e9f0",
+  nord6: "#eceff4",
+  nord7: "#8fbcbb",
+  nord8: "#88c0d0",
+  nord9: "#81a1c1",
+  nord10: "#5e81ac",
+  nord11: "#bf616a",
+  nord12: "#d08770",
+  nord13: "#ebcb8b",
+  nord14: "#a3be8c",
+  nord15: "#b48ead"
+};
+const lightColor = {
+  shadow: Nord.nord1,
+  primary: Nord.nord10,
+  secondary: Nord.nord9,
+  neutral: Nord.nord0,
+  solid: Nord.nord3,
+  line: Nord.nord4,
+  background: Nord.nord6,
+  surface: "#fff"
+};
+const darkColor = {
+  shadow: Nord.nord1,
+  primary: Nord.nord10,
+  secondary: Nord.nord9,
+  neutral: Nord.nord6,
+  solid: Nord.nord4,
+  line: Nord.nord2,
+  background: "#252932",
+  surface: Nord.nord0
+};
+const color = {
+  lightColor,
+  darkColor
+};
+const override = ({ css }) => ({ palette, mixin: mixin2, size: size2, font: font2 }) => {
+  var _a2, _b, _c;
+  return css`
+            .milkdown {
+                color: ${palette("neutral", 0.87)};
+                background: ${palette("surface")};
+
+                position: relative;
+                font-family: ${font2.typography};
+                margin-left: auto;
+                margin-right: auto;
+                ${(_a2 = mixin2.shadow) == null ? void 0 : _a2.call(mixin2)};
+                box-sizing: border-box;
+                ${(_b = mixin2.scrollbar) == null ? void 0 : _b.call(mixin2)};
+
+                .editor {
+                    padding: 3.125rem 1.25rem;
+                    outline: none;
+                    & > * {
+                        margin: 1.875rem 0;
+                    }
+
+                    @media only screen and (min-width: 72rem) {
+                        max-width: 57.375rem;
+                        padding: 3.125rem 7.25rem;
+                    }
+                }
+
+                .ProseMirror-selectednode {
+                    outline: ${size2.lineWidth} solid ${palette("line")};
+                }
+
+                li.ProseMirror-selectednode {
+                    outline: none;
+                }
+
+                li.ProseMirror-selectednode::after {
+                    ${(_c = mixin2.border) == null ? void 0 : _c.call(mixin2)};
+                }
+
+                & ::selection {
+                    background: ${palette("secondary", 0.38)};
+                }
+            }
+        `;
+};
+const iconMapping = {
+  h1: {
+    label: "h1",
+    icon: "looks_one"
+  },
+  h2: {
+    label: "h2",
+    icon: "looks_two"
+  },
+  h3: {
+    label: "h3",
+    icon: "looks_3"
+  },
+  loading: {
+    label: "loading",
+    icon: "hourglass_empty"
+  },
+  quote: {
+    label: "quote",
+    icon: "format_quote"
+  },
+  code: {
+    label: "code",
+    icon: "code"
+  },
+  table: {
+    label: "table",
+    icon: "table_chart"
+  },
+  divider: {
+    label: "divider",
+    icon: "horizontal_rule"
+  },
+  image: {
+    label: "image",
+    icon: "image"
+  },
+  brokenImage: {
+    label: "broken image",
+    icon: "broken_image"
+  },
+  bulletList: {
+    label: "bullet list",
+    icon: "format_list_bulleted"
+  },
+  orderedList: {
+    label: "ordered list",
+    icon: "format_list_numbered"
+  },
+  taskList: {
+    label: "task list",
+    icon: "checklist"
+  },
+  bold: {
+    label: "bold",
+    icon: "format_bold"
+  },
+  italic: {
+    label: "italic",
+    icon: "format_italic"
+  },
+  inlineCode: {
+    label: "inline code",
+    icon: "code"
+  },
+  strikeThrough: {
+    label: "strike through",
+    icon: "strikethrough_s"
+  },
+  link: {
+    label: "link",
+    icon: "link"
+  },
+  leftArrow: {
+    label: "left arrow",
+    icon: "chevron_left"
+  },
+  rightArrow: {
+    label: "right arrow",
+    icon: "chevron_right"
+  },
+  upArrow: {
+    label: "up arrow",
+    icon: "expand_less"
+  },
+  downArrow: {
+    label: "down arrow",
+    icon: "expand_more"
+  },
+  alignLeft: {
+    label: "align left",
+    icon: "format_align_left"
+  },
+  alignRight: {
+    label: "align right",
+    icon: "format_align_right"
+  },
+  alignCenter: {
+    label: "align center",
+    icon: "format_align_center"
+  },
+  delete: {
+    label: "delete",
+    icon: "delete"
+  },
+  select: {
+    label: "select",
+    icon: "select_all"
+  },
+  unchecked: {
+    label: "unchecked",
+    icon: "check_box_outline_blank"
+  },
+  checked: {
+    label: "checked",
+    icon: "check_box"
+  },
+  undo: {
+    label: "undo",
+    icon: "turn_left"
+  },
+  redo: {
+    label: "redo",
+    icon: "turn_right"
+  },
+  liftList: {
+    label: "lift list",
+    icon: "format_indent_decrease"
+  },
+  sinkList: {
+    label: "sink list",
+    icon: "format_indent_increase"
+  }
+};
+const slots = () => ({
+  icon: (id) => {
+    const span = document.createElement("span");
+    span.className = "icon material-icons material-icons-outlined";
+    span.textContent = iconMapping[id].icon;
+    return span;
+  },
+  label: (id) => {
+    return iconMapping[id].label;
+  }
+});
+const view = ({ css }) => css`
+    /* copy from https://github.com/ProseMirror/@milkdown/prose/blob/master/style/prosemirror.css */
+    .ProseMirror {
+        position: relative;
+    }
+
+    .ProseMirror {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        white-space: break-spaces;
+        -webkit-font-variant-ligatures: none;
+        font-variant-ligatures: none;
+        font-feature-settings: 'liga' 0; /* the above doesn't seem to work in Edge */
+    }
+
+    .ProseMirror pre {
+        white-space: pre-wrap;
+    }
+
+    .ProseMirror li {
+        position: relative;
+    }
+
+    .ProseMirror-hideselection *::selection {
+        background: transparent;
+    }
+    .ProseMirror-hideselection *::-moz-selection {
+        background: transparent;
+    }
+    .ProseMirror-hideselection {
+        caret-color: transparent;
+    }
+
+    .ProseMirror-selectednode {
+        outline: 2px solid #8cf;
+    }
+
+    /* Make sure li selections wrap around markers */
+
+    li.ProseMirror-selectednode {
+        outline: none;
+    }
+
+    li.ProseMirror-selectednode:after {
+        content: '';
+        position: absolute;
+        left: -32px;
+        right: -2px;
+        top: -2px;
+        bottom: -2px;
+        border: 2px solid #8cf;
+        pointer-events: none;
+    }
+`;
+const font = {
+  typography,
+  code
+};
+const size = {
+  radius: "4px",
+  lineWidth: "1px"
+};
+const nordLight = themeFactory((emotion) => ({
+  font,
+  size,
+  slots,
+  color: lightColor,
+  mixin: mixin(emotion),
+  global: (themeTool) => {
+    const css = emotion.injectGlobal;
+    css`
+            ${view(emotion)};
+            ${override(emotion)(themeTool)}
+        `;
+  }
+}));
+const nordDark = themeFactory((emotion) => ({
+  font,
+  size,
+  slots,
+  color: darkColor,
+  mixin: mixin(emotion),
+  global: (themeTool) => {
+    const css = emotion.injectGlobal;
+    css`
+            ${view(emotion)};
+            ${override(emotion)(themeTool)}
+        `;
+  }
+}));
+const darkMode = Boolean((_a = window.matchMedia) == null ? void 0 : _a.call(window, "(prefers-color-scheme: dark)").matches);
+const nord = darkMode ? nordDark : nordLight;
+export { color, darkColor, font, lightColor, mixin, nord, nordDark, nordLight, override, size, slots, view };
+//# sourceMappingURL=index.es.js.map

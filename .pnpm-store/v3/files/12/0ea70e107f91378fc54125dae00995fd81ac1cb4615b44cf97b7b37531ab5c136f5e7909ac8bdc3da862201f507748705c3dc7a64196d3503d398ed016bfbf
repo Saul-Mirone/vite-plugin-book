@@ -1,0 +1,11 @@
+import { EditorView } from '@milkdown/prose';
+import { Utils } from '@milkdown/utils';
+import { Status } from './status';
+export declare const createView: (status: Status, view: EditorView, utils: Utils) => {
+    update?: undefined;
+    destroy?: undefined;
+} | {
+    update: (view: EditorView) => void;
+    destroy: () => void;
+};
+//# sourceMappingURL=view.d.ts.map

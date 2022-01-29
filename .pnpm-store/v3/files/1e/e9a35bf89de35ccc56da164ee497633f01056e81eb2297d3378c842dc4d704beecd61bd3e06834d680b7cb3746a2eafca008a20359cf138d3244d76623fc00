@@ -1,0 +1,109 @@
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+import { injectGlobal } from "@emotion/css";
+const font = {
+  typography: "",
+  code: ""
+};
+const size = {
+  radius: "0",
+  lineWidth: "1px"
+};
+const mixin = {
+  scrollbar: () => "",
+  shadow: () => "",
+  border: () => ""
+};
+const slots = {
+  icon: (id) => {
+    const div = document.createElement("div");
+    div.className = "milkdown-icon";
+    div.textContent = id;
+    return div;
+  },
+  label: (id) => {
+    return id;
+  }
+};
+const themeColor = (hex) => {
+  if (hex.startsWith("rgba")) {
+    return hex.slice(5, -1).split(",").slice(0, -1).join(",");
+  }
+  if (hex.startsWith("rgb")) {
+    return hex.slice(4, -1);
+  }
+  const hex2rgb = (hex2) => {
+    const rgbShorthandRegex = /^([a-f\d])([a-f\d])([a-f\d])$/i;
+    const rgbRegex = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+    const parse16 = (x) => parseInt(x, 16);
+    const fullHex = hex2.slice(1).replace(rgbShorthandRegex, (_, r2, g2, b2) => {
+      return r2 + r2 + g2 + g2 + b2 + b2;
+    });
+    const [ok, r, g, b] = fullHex.match(rgbRegex) || [];
+    return ok ? [r, g, b].map(parse16) : null;
+  };
+  const rgb = hex2rgb(hex);
+  if (!rgb) {
+    console.warn(`Invalid hex: ${hex}`);
+    return hex;
+  }
+  return rgb.join(", ");
+};
+const obj2var = (x = {}, transform = (x2) => `${x2}`) => Object.entries(x).map(([k, v]) => {
+  return `--${k}: ${transform(v)};`;
+}).join("\n");
+const obj2color = (x = {}) => obj2var(x, themeColor);
+const injectVar = (themePack) => {
+  const { color = {}, font: font2, size: size2 = {} } = themePack;
+  const css = injectGlobal;
+  css`
+        :root {
+            ${obj2color(color)};
+            ${obj2var(font2, (x) => x.join(", "))};
+            ${obj2var(size2)};
+        }
+    `;
+};
+const pack2Tool = (themePack) => {
+  const { font: font$1, size: size$1 = {}, mixin: _mixin, slots: _slots, global } = themePack;
+  const palette = (key, alpha = 1) => {
+    return `rgba(var(--${key}), ${alpha})`;
+  };
+  const toMap = (x = {}) => Object.fromEntries(Object.keys(x).map((k) => {
+    return [k, `var(--${k})`];
+  }));
+  const mixinTool = {
+    palette,
+    size: __spreadValues(__spreadValues({}, size), toMap(size$1)),
+    font: __spreadValues(__spreadValues({}, font), toMap(font$1))
+  };
+  const mixin$1 = __spreadValues(__spreadValues({}, mixin), _mixin == null ? void 0 : _mixin(mixinTool));
+  const slotsTool = __spreadProps(__spreadValues({}, mixinTool), {
+    mixin: mixin$1
+  });
+  const slots$1 = __spreadValues(__spreadValues({}, slots), _slots == null ? void 0 : _slots(slotsTool));
+  const tool = __spreadProps(__spreadValues({}, slotsTool), {
+    slots: slots$1
+  });
+  global == null ? void 0 : global(tool);
+  return tool;
+};
+export { injectVar, pack2Tool };
+//# sourceMappingURL=index.es.js.map

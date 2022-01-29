@@ -1,0 +1,30 @@
+{
+    "name": "@babel/plugin-transform-react-jsx-self",
+    "version": "7.16.7",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743207500,
+            "integrity": "sha512-KYRMN3MVTuiy5XkFDHd5PnQmHaQnt3z16nsBDePxZ9YNmq7IFlslpBBlR3UI+zvlbEemzowOYeKil9a0ZkOYxQ==",
+            "mode": 420,
+            "size": 1106
+        },
+        "README.md": {
+            "checkedAt": 1642743210230,
+            "integrity": "sha512-eG8nYCQbQRte20USrnUJU1KOA0CD3gw5/9Ww9v2vXtzfD58yVBk9dmIjej5FQZUw6T5jT7pJafE6AETVSZW6nQ==",
+            "mode": 420,
+            "size": 406
+        },
+        "lib/index.js": {
+            "checkedAt": 1642743210230,
+            "integrity": "sha512-KOx8DlcuvzBBsMf5p1sRFYZ3/XpPJkSZy3D3q1bLJhKNtll1smTFFTOMhzjkIqHWFjjj6azrnl7HiQhrQONKGA==",
+            "mode": 420,
+            "size": 1552
+        },
+        "package.json": {
+            "checkedAt": 1642743210230,
+            "integrity": "sha512-XW4oqY+8B/hVGQ3f/0neS1cc1dCmoPpiNjPbBTVKvMf8IEoqEE1pXREIgMLY8z9hLN3l25K+RkBQBP1dSd2e8g==",
+            "mode": 420,
+            "size": 891
+        }
+    }
+}

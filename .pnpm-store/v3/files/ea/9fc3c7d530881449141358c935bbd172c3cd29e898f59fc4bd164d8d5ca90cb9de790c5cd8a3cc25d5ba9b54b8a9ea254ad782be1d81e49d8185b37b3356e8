@@ -1,0 +1,182 @@
+{
+	"name": "@iconify/utils",
+	"description": "Common functions for working with Iconify icon sets used by various packages.",
+	"author": "Vjacheslav Trushkin",
+	"version": "1.0.21",
+	"license": "MIT",
+	"bugs": "https://github.com/iconify/iconify/issues",
+	"homepage": "https://iconify.design/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/iconify/iconify.git",
+		"directory": "packages/utils"
+	},
+	"scripts": {
+		"clean": "rimraf lib tests-compiled tsconfig.tsbuildinfo",
+		"lint": "eslint src/**/*.ts",
+		"prebuild": "npm run lint && npm run clean",
+		"build": "node build",
+		"test:jest": "jest --runInBand",
+		"test:jasmine": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jasmine",
+		"test": "npm run test:jest && npm run test:jasmine"
+	},
+	"main": "./lib/index.js",
+	"module": "./lib/index.mjs",
+	"exports": {
+		"./*": "./*",
+		".": {
+			"require": "./lib/index.js",
+			"import": "./lib/index.mjs"
+		},
+		"./lib/colors": {
+			"require": "./lib/colors/index.js",
+			"import": "./lib/colors/index.mjs"
+		},
+		"./lib/colors/index": {
+			"require": "./lib/colors/index.js",
+			"import": "./lib/colors/index.mjs"
+		},
+		"./lib/colors/keywords": {
+			"require": "./lib/colors/keywords.js",
+			"import": "./lib/colors/keywords.mjs"
+		},
+		"./lib/colors/types": {
+			"require": "./lib/colors/types.js",
+			"import": "./lib/colors/types.mjs"
+		},
+		"./lib/customisations/bool": {
+			"require": "./lib/customisations/bool.js",
+			"import": "./lib/customisations/bool.mjs"
+		},
+		"./lib/customisations/compare": {
+			"require": "./lib/customisations/compare.js",
+			"import": "./lib/customisations/compare.mjs"
+		},
+		"./lib/customisations": {
+			"require": "./lib/customisations/index.js",
+			"import": "./lib/customisations/index.mjs"
+		},
+		"./lib/customisations/index": {
+			"require": "./lib/customisations/index.js",
+			"import": "./lib/customisations/index.mjs"
+		},
+		"./lib/customisations/rotate": {
+			"require": "./lib/customisations/rotate.js",
+			"import": "./lib/customisations/rotate.mjs"
+		},
+		"./lib/customisations/shorthand": {
+			"require": "./lib/customisations/shorthand.js",
+			"import": "./lib/customisations/shorthand.mjs"
+		},
+		"./lib/icon-set/convert-info": {
+			"require": "./lib/icon-set/convert-info.js",
+			"import": "./lib/icon-set/convert-info.mjs"
+		},
+		"./lib/icon-set/expand": {
+			"require": "./lib/icon-set/expand.js",
+			"import": "./lib/icon-set/expand.mjs"
+		},
+		"./lib/icon-set/get-icon": {
+			"require": "./lib/icon-set/get-icon.js",
+			"import": "./lib/icon-set/get-icon.mjs"
+		},
+		"./lib/icon-set/get-icons": {
+			"require": "./lib/icon-set/get-icons.js",
+			"import": "./lib/icon-set/get-icons.mjs"
+		},
+		"./lib/icon-set/minify": {
+			"require": "./lib/icon-set/minify.js",
+			"import": "./lib/icon-set/minify.mjs"
+		},
+		"./lib/icon-set/parse": {
+			"require": "./lib/icon-set/parse.js",
+			"import": "./lib/icon-set/parse.mjs"
+		},
+		"./lib/icon-set/validate": {
+			"require": "./lib/icon-set/validate.js",
+			"import": "./lib/icon-set/validate.mjs"
+		},
+		"./lib/icon": {
+			"require": "./lib/icon/index.js",
+			"import": "./lib/icon/index.mjs"
+		},
+		"./lib/icon/index": {
+			"require": "./lib/icon/index.js",
+			"import": "./lib/icon/index.mjs"
+		},
+		"./lib/icon/merge": {
+			"require": "./lib/icon/merge.js",
+			"import": "./lib/icon/merge.mjs"
+		},
+		"./lib/icon/name": {
+			"require": "./lib/icon/name.js",
+			"import": "./lib/icon/name.mjs"
+		},
+		"./lib": {
+			"require": "./lib/index.js",
+			"import": "./lib/index.mjs"
+		},
+		"./lib/index": {
+			"require": "./lib/index.js",
+			"import": "./lib/index.mjs"
+		},
+		"./lib/loader/custom": {
+			"require": "./lib/loader/custom.js",
+			"import": "./lib/loader/custom.mjs"
+		},
+		"./lib/loader/loaders": {
+			"require": "./lib/loader/loaders.js",
+			"import": "./lib/loader/loaders.mjs"
+		},
+		"./lib/loader/modern": {
+			"require": "./lib/loader/modern.js",
+			"import": "./lib/loader/modern.mjs"
+		},
+		"./lib/loader/types": {
+			"require": "./lib/loader/types.js",
+			"import": "./lib/loader/types.mjs"
+		},
+		"./lib/loader/utils": {
+			"require": "./lib/loader/utils.js",
+			"import": "./lib/loader/utils.mjs"
+		},
+		"./lib/misc/strings": {
+			"require": "./lib/misc/strings.js",
+			"import": "./lib/misc/strings.mjs"
+		},
+		"./lib/svg/build": {
+			"require": "./lib/svg/build.js",
+			"import": "./lib/svg/build.mjs"
+		},
+		"./lib/svg/id": {
+			"require": "./lib/svg/id.js",
+			"import": "./lib/svg/id.mjs"
+		},
+		"./lib/svg/size": {
+			"require": "./lib/svg/size.js",
+			"import": "./lib/svg/size.mjs"
+		}
+	},
+	"dependencies": {
+		"@antfu/install-pkg": "^0.1.0",
+		"@antfu/utils": "^0.3.0",
+		"@iconify/types": "^1.0.12",
+		"debug": "^4.3.3",
+		"kolorist": "^1.5.0",
+		"local-pkg": "^0.4.0"
+	},
+	"devDependencies": {
+		"@iconify/library-builder": "^1.0.4",
+		"@types/debug": "^4.1.7",
+		"@types/jest": "^27.0.1",
+		"@typescript-eslint/eslint-plugin": "^4.31.1",
+		"cross-env": "^7.0.3",
+		"eslint": "^7.32.0",
+		"eslint-plugin-jasmine": "^4.1.2",
+		"jasmine": "^3.9.0",
+		"jest": "^27.2.1",
+		"rimraf": "^3.0.2",
+		"ts-jest": "^27.0.5",
+		"typescript": "^4.4.3"
+	}
+}

@@ -1,0 +1,7 @@
+import { DecorationSet, Node } from '@milkdown/prose';
+export declare type FlattedNode = {
+    text: string;
+    className: string[];
+};
+export declare function getDecorations(doc: Node, name: string): DecorationSet<any>;
+//# sourceMappingURL=get-decorations.d.ts.map

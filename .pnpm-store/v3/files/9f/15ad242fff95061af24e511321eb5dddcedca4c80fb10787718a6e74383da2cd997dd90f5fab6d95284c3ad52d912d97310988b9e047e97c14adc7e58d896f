@@ -1,0 +1,9 @@
+import { AtomList } from '@milkdown/utils';
+export declare const math: AtomList<import("@milkdown/utils/lib/types").Metadata<import("@milkdown/utils/lib/types").GetPlugin<string, {
+    placeholder: {
+        empty: string;
+        error: string;
+    };
+}>> & import("@milkdown/core").MilkdownPlugin>;
+export * from './nodes';
+//# sourceMappingURL=index.d.ts.map

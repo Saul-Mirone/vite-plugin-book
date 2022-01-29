@@ -1,0 +1,150 @@
+{
+    "name": "@milkdown/plugin-math",
+    "version": "5.3.3",
+    "files": {
+        "lib/index.es.js": {
+            "checkedAt": 1642759281320,
+            "integrity": "sha512-p723MFA+bjnJnnTx4hVueq2al+AyPhA+o4yhFSiYJkyljRT5EuXJCCxhG1+87NQpMteHE2kFu/FMO8djhn4xaA==",
+            "mode": 420,
+            "size": 12865
+        },
+        "package.json": {
+            "checkedAt": 1642759281326,
+            "integrity": "sha512-L/Gtz1v9I3TxZw6y2yISa+uNPVHt0kq6bUNZPoQM8HnLvjXqjp72TzvlX9CtoKSuGSnuyYmEGssDp9GpKhOVPA==",
+            "mode": 420,
+            "size": 1354
+        },
+        "lib/src/index.d.ts.map": {
+            "checkedAt": 1642759281347,
+            "integrity": "sha512-V8g0ri3l9RvZRSAd881KmpoTJo8SOQsAkSYF3e02qyAEDYKgI6gNuLkIZypSiarBegy+qzb7wj9v3bWR3lS9eQ==",
+            "mode": 420,
+            "size": 197
+        },
+        "lib/src/math-block/index.d.ts.map": {
+            "checkedAt": 1642759281335,
+            "integrity": "sha512-NMAP2KqNMtOGGkpFXS61fx5YJ2vnl/SnGkkVYCNzLHzAQEdYKZelW49AwEBPsBzxhrdQooLdSHCY+11fbEaWQw==",
+            "mode": 420,
+            "size": 237
+        },
+        "lib/src/math-inline/index.d.ts.map": {
+            "checkedAt": 1642759281335,
+            "integrity": "sha512-nTuFWpl0XHHgt4aKK8NyuG53Q50KO11gbXvFwb/Itdq6QYZU+PcO2c8mbuHiVHIAsY3G2xDtED/HzQnKeZBonQ==",
+            "mode": 420,
+            "size": 272
+        },
+        "lib/index.d.ts": {
+            "checkedAt": 1642759280807,
+            "integrity": "sha512-1Q6HwajZQXCskPXR5NmjD3/acAPqcntRRcf5Kvxwjfx/WNOTjCrayFCh5HLdpEG203wxMo43erVq1DOahrU7wg==",
+            "mode": 420,
+            "size": 28
+        },
+        "LICENSE": {
+            "checkedAt": 1642759280807,
+            "integrity": "sha512-DnXqxqiAWg0Up3S/UCwvTy/3WoOVA4zx/oYMZw8Xr4JsOL47ADHJUCPWFKI0oNsNgAN3q5zzizw4IpDqFF2ABA==",
+            "mode": 420,
+            "size": 1081
+        },
+        "lib/index.es.js.map": {
+            "checkedAt": 1642759281361,
+            "integrity": "sha512-HKQ4F3pom99Ig2EmJRQZxswVQym6K5YE3A4FD64v3jbYAkpI45AzuxzkeMwHcutvV32QzvMfAhSnBsBhxv4K8Q==",
+            "mode": 420,
+            "size": 22312
+        },
+        "lib/src/math-block/inner-editor.d.ts.map": {
+            "checkedAt": 1642759281361,
+            "integrity": "sha512-T2wgmitf94HmEVrrasB6kkY43nqnQ7vQm7kvm8nN+b4LYoKwk6jNwBYzGa0O3471HZiNPAKJiJfvHdBPoosl5A==",
+            "mode": 420,
+            "size": 249
+        },
+        "lib/src/nodes.d.ts.map": {
+            "checkedAt": 1642759281361,
+            "integrity": "sha512-1dURy+rXoQtV+RxdgenN/9rbFxGGCyaReV/S1GJvuxxz2hRZHwcFMcK2QRSmsQv+ld+kk6D0hPaUGwsDJ3gq1A==",
+            "mode": 420,
+            "size": 217
+        },
+        "README.md": {
+            "checkedAt": 1642759281367,
+            "integrity": "sha512-z+zPNb5a7I9K30nb8j74bGATHuD1oGB2iBoCpY4mHXDYvs5IckrW/kcrflSL+/g2NopRkV5bcUS2aJGdfJxf6Q==",
+            "mode": 420,
+            "size": 674
+        },
+        "lib/src/index.d.ts": {
+            "checkedAt": 1642759281361,
+            "integrity": "sha512-lNYD+gNaYH/lIY8+J0ZDbWq/f+NGunTygdMszSK2BuGuQ75fopotYcS+tHoEAKgtXC9ZUQNkF0yX9Ao7d9b/Ig==",
+            "mode": 420,
+            "size": 369
+        },
+        "lib/src/math-block/index.d.ts": {
+            "checkedAt": 1642759281367,
+            "integrity": "sha512-YSKX3+9A4w8m1Wgjvp4Clhz+5/JYHK23IIXLd8x1wTp77AgEXJdqlYJEnHOg8ro+p/Pt2BWuUWHJ88QmU4AsmQ==",
+            "mode": 420,
+            "size": 506
+        },
+        "lib/src/math-inline/index.d.ts": {
+            "checkedAt": 1642759281367,
+            "integrity": "sha512-Cfn8Sbhu68wPvey9G5Nu0XDIl6WfuFEYXIOiVlyK9ngxAbZSoUb4ARhgc9RilYBuPNNO0sMSV8BFx+V88clyyw==",
+            "mode": 420,
+            "size": 587
+        },
+        "src/index.ts": {
+            "checkedAt": 1642759281371,
+            "integrity": "sha512-gd6MLhQmVjt7U+Qz53XKQZ4qAGX1jhF5ZgK144js4iBmEXl0ELnW0CyhtwCvGAqQ1KbAkch9rcVRdw+2PA+AKw==",
+            "mode": 420,
+            "size": 373
+        },
+        "src/math-block/index.ts": {
+            "checkedAt": 1642759281371,
+            "integrity": "sha512-UQGok+SUEXrBX83v8obMu4yBjx5f9tF7gIsQ8SCes5LcdC07K/k52XKLcGcwrjLQ2NfaLomkbeCHGACuN4xxYA==",
+            "mode": 420,
+            "size": 6689
+        },
+        "src/math-inline/index.ts": {
+            "checkedAt": 1642759281371,
+            "integrity": "sha512-ewFegb3COVtXKWg9NQ6HpZDkQaI8xQRUq3S86sge02xH6QrdrEvdIpFvXmzZB1AJfesSBQxEXrekqvLSqR9TVg==",
+            "mode": 420,
+            "size": 4570
+        },
+        "lib/src/math-block/style.d.ts.map": {
+            "checkedAt": 1642759281371,
+            "integrity": "sha512-YqADE6ctJSomahFPgM/KT84l+NSeSP4TaFOfORnnegqZ9o0g+2WzKiC7uJKLbs+J6quB5QMTVzef17tFrPzIUQ==",
+            "mode": 420,
+            "size": 184
+        },
+        "lib/src/math-block/inner-editor.d.ts": {
+            "checkedAt": 1642759281385,
+            "integrity": "sha512-GQz+aLMFRpl3k/smFCMnn7OvhzYHSOGcEPAt+5qsoxuAJ0o4FUjv9hJxfzn1IQRyPLqtnCl6q7ylrt3EdYZCRQ==",
+            "mode": 420,
+            "size": 350
+        },
+        "src/math-block/inner-editor.ts": {
+            "checkedAt": 1642759281389,
+            "integrity": "sha512-rE9bL0q2D3pDTgMnNwqeCByfgfgOC82a6QWVF0yRT4arnRn+jastWEYleg+Am+kQ9tKFk5gtUXvUNxAPxq5Vcg==",
+            "mode": 420,
+            "size": 2954
+        },
+        "lib/src/nodes.d.ts": {
+            "checkedAt": 1642759281385,
+            "integrity": "sha512-Ph+SqZLWrdf67f+CalYDS3sJ2Pepvuqc8dBdbSQc6XdvAoQlDaBI3FtclCj3AOpovWRqZ68PKU7PYpDU+tWUgg==",
+            "mode": 420,
+            "size": 406
+        },
+        "src/nodes.ts": {
+            "checkedAt": 1642759281389,
+            "integrity": "sha512-Qj00dZIS4eKG5FFXLgIieb+J8JXezHOMTpXqi+VZFcVDRQ1QIwg32cTAwH0ATJwIGApe5w3+fRei2WUAZ7RTjg==",
+            "mode": 420,
+            "size": 302
+        },
+        "lib/src/math-block/style.d.ts": {
+            "checkedAt": 1642759281385,
+            "integrity": "sha512-QBZuWyzRMq10hexQ1cQfLQns1iRThIVx2l5aogMMamOSHbAOYdVfqalxpl9GLAVSgiE3AS1XPxeJSEWlzKtn3g==",
+            "mode": 420,
+            "size": 247
+        },
+        "src/math-block/style.ts": {
+            "checkedAt": 1642759281393,
+            "integrity": "sha512-yHDNAjczrbmYiRgo52KjU9s3KPm/4YDjeth6NQ9zOOk0pbyNJjsMkaqyNQjFcd0zSGnqtrSCE4DecklK75o0xQ==",
+            "mode": 420,
+            "size": 984
+        }
+    }
+}

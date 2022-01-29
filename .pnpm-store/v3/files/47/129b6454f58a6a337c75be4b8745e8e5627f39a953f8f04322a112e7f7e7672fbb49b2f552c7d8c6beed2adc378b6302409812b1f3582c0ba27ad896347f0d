@@ -1,0 +1,119 @@
+import { createSlice, InitReady, SerializerReady, serializerCtx, prosePluginsCtx, EditorViewReady } from "@milkdown/core";
+import { Plugin } from "@milkdown/prose";
+class ListenerManager {
+  constructor() {
+    this.beforeMountedListeners = [];
+    this.mountedListeners = [];
+    this.updatedListeners = [];
+    this.markdownUpdatedListeners = [];
+    this.blurListeners = [];
+    this.focusListeners = [];
+    this.destroyListeners = [];
+    this.beforeMount = (fn) => {
+      this.beforeMountedListeners.push(fn);
+      return this;
+    };
+    this.mounted = (fn) => {
+      this.mountedListeners.push(fn);
+      return this;
+    };
+    this.updated = (fn) => {
+      this.updatedListeners.push(fn);
+      return this;
+    };
+  }
+  get listeners() {
+    return {
+      beforeMounted: this.beforeMountedListeners,
+      mounted: this.mountedListeners,
+      updated: this.updatedListeners,
+      markdownUpdated: this.markdownUpdatedListeners,
+      blur: this.blurListeners,
+      focus: this.focusListeners,
+      destroy: this.destroyListeners
+    };
+  }
+  markdownUpdated(fn) {
+    this.markdownUpdatedListeners.push(fn);
+    return this;
+  }
+  blur(fn) {
+    this.blurListeners.push(fn);
+    return this;
+  }
+  focus(fn) {
+    this.focusListeners.push(fn);
+    return this;
+  }
+  destroy(fn) {
+    this.destroyListeners.push(fn);
+    return this;
+  }
+}
+const listenerCtx = createSlice(new ListenerManager(), "listener");
+const listener = (pre) => {
+  pre.inject(listenerCtx, new ListenerManager());
+  return async (ctx) => {
+    await ctx.wait(InitReady);
+    const listener2 = ctx.get(listenerCtx);
+    if (listener2.doc || listener2.markdown) {
+      throw new Error("listener.doc and listener.markdown are deprecated, use new listener manager API instead");
+    }
+    const { listeners } = listener2;
+    listeners.beforeMounted.forEach((fn) => fn(ctx));
+    await ctx.wait(SerializerReady);
+    const serializer = ctx.get(serializerCtx);
+    let prevDoc = null;
+    let prevMarkdown = null;
+    const plugin = new Plugin({
+      view: () => {
+        return {
+          destroy: () => {
+            listeners.destroy.forEach((fn) => fn(ctx));
+          }
+        };
+      },
+      props: {
+        handleDOMEvents: {
+          focus: () => {
+            listeners.focus.forEach((fn) => fn(ctx));
+            return false;
+          },
+          blur: () => {
+            listeners.blur.forEach((fn) => fn(ctx));
+            return false;
+          }
+        }
+      },
+      state: {
+        init: () => {
+        },
+        apply: (tr) => {
+          if (!tr.docChanged)
+            return;
+          const { doc } = tr;
+          if (listeners.updated.length > 0 && (prevDoc == null || prevDoc !== doc)) {
+            listeners.updated.forEach((fn) => {
+              fn(ctx, doc, prevDoc);
+            });
+          }
+          if (listeners.markdownUpdated.length > 0) {
+            const markdown = serializer(tr.doc);
+            if (prevMarkdown == null || prevMarkdown !== markdown) {
+              listeners.markdownUpdated.forEach((fn) => {
+                fn(ctx, markdown, prevMarkdown);
+              });
+              prevMarkdown = markdown;
+            }
+          }
+          prevDoc = doc;
+        }
+      }
+    });
+    ctx.update(prosePluginsCtx, (x) => x.concat(plugin));
+    await ctx.wait(EditorViewReady);
+    listeners.mounted.forEach((fn) => fn(ctx));
+  };
+};
+export { listener, listenerCtx };
+//# sourceMappingURL=index.es.js.map

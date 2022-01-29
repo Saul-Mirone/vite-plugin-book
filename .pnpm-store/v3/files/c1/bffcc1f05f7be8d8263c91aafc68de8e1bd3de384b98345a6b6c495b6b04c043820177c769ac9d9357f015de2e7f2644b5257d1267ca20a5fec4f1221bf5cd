@@ -1,0 +1,10 @@
+import type { EditorView } from '@milkdown/prose';
+import type { Utils } from '@milkdown/utils';
+import type { ButtonMap } from '../item';
+declare type Tooltip = {
+    dom: HTMLDivElement;
+    render: (editorView: EditorView) => void;
+};
+export declare const createTooltip: (buttonMap: ButtonMap, utils: Utils) => Tooltip;
+export {};
+//# sourceMappingURL=create-tooltip.d.ts.map

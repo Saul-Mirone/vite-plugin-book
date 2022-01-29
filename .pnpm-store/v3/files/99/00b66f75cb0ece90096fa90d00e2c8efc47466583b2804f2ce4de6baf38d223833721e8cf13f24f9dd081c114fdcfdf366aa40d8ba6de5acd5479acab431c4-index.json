@@ -1,0 +1,84 @@
+{
+    "name": "@emotion/utils",
+    "version": "1.0.0",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743207507,
+            "integrity": "sha512-cK1dPk317HPKL3NZFCZh+fP1Xilf9AEzLGQiu0feSSo3CrMOqDqc5yH582PtZZyjEQc/f9K4YbJ+xp/a5ZIPHA==",
+            "mode": 420,
+            "size": 1087
+        },
+        "dist/emotion-utils.cjs.js.flow": {
+            "checkedAt": 1642743207527,
+            "integrity": "sha512-lI+AqtaWPKg7XaY/mloqKuQCt62ZBLN7L2r5tqmYmHAfs+mF5FZhcEXN//NTx4R2PnzRWzZyovwdfsfW/mSfLQ==",
+            "mode": 420,
+            "size": 42
+        },
+        "dist/emotion-utils.browser.cjs.js": {
+            "checkedAt": 1642743207769,
+            "integrity": "sha512-UG60uZSYh1Lu/i6iPSN71p65qmD67pJLlxNpCJsogem10BEK9+7R85qIaHccovCltLacFSQVKsiNeKkIw58A9A==",
+            "mode": 420,
+            "size": 1701
+        },
+        "dist/emotion-utils.browser.esm.js": {
+            "checkedAt": 1642743207769,
+            "integrity": "sha512-4oDsuEuBwol0Pn8Y1uau3AKVFYjw1d7eeoQW8AGNpOz8x5AR5GEJIiwQHwzPwYVOY27n+tceVK5V7PMfJ+ch8Q==",
+            "mode": 420,
+            "size": 1580
+        },
+        "dist/emotion-utils.cjs.dev.js": {
+            "checkedAt": 1642743207769,
+            "integrity": "sha512-cN1wNbvtX3mRhTaQ/pmOUVzmt88KQ9jgHhEx8bZehgZQvGSqe3CoqPJAd9ijaFzwiK1GmYS9C1mGW802N0EIzA==",
+            "mode": 420,
+            "size": 1948
+        },
+        "dist/emotion-utils.cjs.prod.js": {
+            "checkedAt": 1642743207769,
+            "integrity": "sha512-lO+ncY6fpXkue1e7aNMV7YjbQbaEA75xb6dvnwscaWEMPFKRjnnTABaIH4E+jcZyYJvSKR2Z/Ch3aA7opLk5Ww==",
+            "mode": 420,
+            "size": 1240
+        },
+        "src/index.js": {
+            "checkedAt": 1642743207793,
+            "integrity": "sha512-t1BXmv1yw2ynuMlF335Usk4r0AVN/QaLLJ8Bv6i2dOoKh507XbEfG2ZbyUPZWZO+lhemP2lqyrx9oGTpBVi1tQ==",
+            "mode": 420,
+            "size": 2044
+        },
+        "package.json": {
+            "checkedAt": 1642743207793,
+            "integrity": "sha512-Sm68AQRg6HCrJwb2Ry0Opk2POTosxFqk8TH/nKhh8iALNziGSdgPgStJfXJVGKNOpXqGSfm6CWr0v9PoevvSBg==",
+            "mode": 420,
+            "size": 702
+        },
+        "CHANGELOG.md": {
+            "checkedAt": 1642743207793,
+            "integrity": "sha512-bxUb63J0eRYXS8X/Fre0E+FHsLknTfzrILvfIJ4j3RQJiZ+ZQKiX7pGdOLV74WvcKuBleKCQC2+RV5UstLKmcA==",
+            "mode": 420,
+            "size": 2371
+        },
+        "dist/emotion-utils.esm.js": {
+            "checkedAt": 1642743207793,
+            "integrity": "sha512-MOFFkQNdSeMGK/5RYx/+byH7hnPk1YZbmrLrdzHBxk3iLCJEX0tEXmf7YzVKaUX45QRkzVvZW8ZO1k175DuYkg==",
+            "mode": 420,
+            "size": 1827
+        },
+        "src/types.js": {
+            "checkedAt": 1642743207813,
+            "integrity": "sha512-8PXXe08DM6qGPCYh/a7xphJAJLaiwMy2hy9vyJuR2XVzPlsSqduofgNtEgYrkVDOiVJNZNxJJi8jFsTOKcJG1Q==",
+            "mode": 420,
+            "size": 569
+        },
+        "dist/emotion-utils.cjs.js": {
+            "checkedAt": 1642743207813,
+            "integrity": "sha512-719jA5mFPV5HkiyRYipDIhRKZKLeyG12nfZ5G6V023I3K9Euo1aXSTWFmQYAi9MwEAItNn5ev3iamGbicOQQ7Q==",
+            "mode": 420,
+            "size": 188
+        },
+        "types/index.d.ts": {
+            "checkedAt": 1642743207813,
+            "integrity": "sha512-tVjuhinf0tR1b0HRD0R0/7LqP7ROl/vaiSPCv3kosUlXmg3PGF3cAbJPCKCxM4cy3nNH0b7P6VcjZMQvpIlSTg==",
+            "mode": 420,
+            "size": 1042
+        }
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "name": "defu",
+    "version": "5.0.1",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743210457,
+            "integrity": "sha512-Aw5h4dqj+LSi39FHXans9Res5EPJ3UVpXy+qUFkMHg2mzYPm7hUB7MMfRpTGvpLABDLBn+2IqUCYmsGtoURbMw==",
+            "mode": 420,
+            "size": 1085
+        },
+        "dist/defu.cjs": {
+            "checkedAt": 1642743210457,
+            "integrity": "sha512-DYAqpxoh6oa4gkYz+IDQ19kNy9Y6mwiVKslO7v8P/hKtsAQ+gpTx0DSRvdR/lqwghBu8E0NGtBv9x0AdL60jQA==",
+            "mode": 420,
+            "size": 1441
+        },
+        "package.json": {
+            "checkedAt": 1642743210457,
+            "integrity": "sha512-3AdnI/9h9eSOJbM1aPVqH1vHVB8lt0+7pH51NAvJborchyKgVp4yTbH7HAuIOco7+zIKJGpF1qq5aA1I+M9ZHw==",
+            "mode": 420,
+            "size": 957
+        },
+        "README.md": {
+            "checkedAt": 1642743210457,
+            "integrity": "sha512-GhTGYI/8FgZ3ec1L02cW7pXftnGOpd1sBQErckXmvaSgLUBEpzzRm/S2cNL4FHmYHDD7X+7NbJ8smzR6LUwbqA==",
+            "mode": 420,
+            "size": 4239
+        },
+        "dist/defu.mjs": {
+            "checkedAt": 1642743210457,
+            "integrity": "sha512-NX/TR0RcC74EXY9TIcHoLAakCGkdsdC8loR8sBRUl9LVjqNK8JeR6q4YEm4NTm9mQ7xpy2n43ZYNc3ltXFPfuA==",
+            "mode": 420,
+            "size": 1431
+        },
+        "dist/defu.d.ts": {
+            "checkedAt": 1642743210457,
+            "integrity": "sha512-rJoMzsM9NCU5k+WQqgpazgKr0ktanq9zhxIryd66p1s0oS9op19LPbwDazqTUOxmhT3FgNOHGuaVH2/p4URjZg==",
+            "mode": 420,
+            "size": 2150
+        }
+    }
+}

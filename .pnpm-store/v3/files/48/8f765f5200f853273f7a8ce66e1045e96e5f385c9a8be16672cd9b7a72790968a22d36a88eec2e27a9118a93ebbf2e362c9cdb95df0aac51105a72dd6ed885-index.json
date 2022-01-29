@@ -1,0 +1,60 @@
+{
+    "name": "@types/react",
+    "version": "17.0.38",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743208338,
+            "integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+            "mode": 511,
+            "size": 1141
+        },
+        "README.md": {
+            "checkedAt": 1642743209855,
+            "integrity": "sha512-Ces1GK2flAe5YjFnUoeLGlNrjQ4AfAXWwqWGNUS2V1X9pucIcH2AMBAaT4XPCAoBSAWH2GrXVFGh+I/ZMSztUw==",
+            "mode": 511,
+            "size": 1876
+        },
+        "experimental.d.ts": {
+            "checkedAt": 1642743209855,
+            "integrity": "sha512-zXj65QsKNYbognmNYyVDeeXdQzbn7Uz2YW/wfxDILDUTwPhhJzFP/CLv44u1YrvMPBR5m8pkQjrzIV3bbQVk9w==",
+            "mode": 511,
+            "size": 4095
+        },
+        "global.d.ts": {
+            "checkedAt": 1642743209865,
+            "integrity": "sha512-Cqj0jkrtO6q679VMuIfJP/DKSYgxnD0niPxXHGP3QwInwoSB+TX3ir05C3QB1RaUzFdO4aW9+B9+nCUaR66oqw==",
+            "mode": 511,
+            "size": 7176
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743209960,
+            "integrity": "sha512-Voc9AVMgknIN0RS/im8CR7cjjc3NKTqUljDw5yLiuXZl95xqDuXjiOyml41HYkUtgrjDhaophgc6L5vXAD6+DA==",
+            "mode": 511,
+            "size": 152105
+        },
+        "jsx-dev-runtime.d.ts": {
+            "checkedAt": 1642743209960,
+            "integrity": "sha512-3+5ZZpGnKbJmf83U9SfXREAMLx9O3QBqUJhq8at3gCOiYzm4Ub8dYVBMUk5pClPGPYsr0m71J6IdY59clUhL8w==",
+            "mode": 511,
+            "size": 61
+        },
+        "jsx-runtime.d.ts": {
+            "checkedAt": 1642743209960,
+            "integrity": "sha512-3+5ZZpGnKbJmf83U9SfXREAMLx9O3QBqUJhq8at3gCOiYzm4Ub8dYVBMUk5pClPGPYsr0m71J6IdY59clUhL8w==",
+            "mode": 511,
+            "size": 61
+        },
+        "next.d.ts": {
+            "checkedAt": 1642743209971,
+            "integrity": "sha512-rcZAm1n4aCtA5cTHSDwP+OcSaHsW7UjlKqU1b7DRUiciW963V6hyNTx46WNMLMfDpN7s90sJVBecJK5nTr1l+A==",
+            "mode": 511,
+            "size": 6018
+        },
+        "package.json": {
+            "checkedAt": 1642743209980,
+            "integrity": "sha512-x8Ln4lTRnvToBvyoV5KWomB3nkT9+pN7BP0/e8cdWPj0wwXiL12xeybCrAzKSMZnO8ad2JpiSweDlXo861GZWw==",
+            "mode": 511,
+            "size": 4582
+        }
+    }
+}

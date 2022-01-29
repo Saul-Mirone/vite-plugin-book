@@ -1,0 +1,1394 @@
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+import { createMark, createShortcut, createNode, createPlugin, AtomList } from "@milkdown/utils";
+import { css } from "@emotion/css";
+import { createCmdKey, createCmd, schemaCtx, themeToolCtx } from "@milkdown/core";
+import { markRule, toggleMark, TextSelection, InputRule, wrappingInputRule, wrapIn, textblockTypeInputRule, setBlockType, Plugin, PluginKey, ReplaceStep, AddMarkStep, Selection, findSelectedNodeOfType, splitListItem, sinkListItem, liftListItem } from "@milkdown/prose";
+import links from "remark-inline-links";
+const SupportedKeys = {
+  HardBreak: "HardBreak",
+  Blockquote: "Blockquote",
+  BulletList: "BulletList",
+  OrderedList: "OrderedList",
+  CodeFence: "CodeFence",
+  H1: "H1",
+  H2: "H2",
+  H3: "H3",
+  H4: "H4",
+  H5: "H5",
+  H6: "H6",
+  Text: "Text",
+  CodeInline: "CodeInline",
+  Em: "Em",
+  Bold: "Bold",
+  NextListItem: "NextListItem",
+  SinkListItem: "SinkListItem",
+  LiftListItem: "LiftListItem"
+};
+const id$a = "code_inline";
+const ToggleInlineCode = createCmdKey();
+const codeInline = createMark((utils) => {
+  const style = utils.getStyle(({ palette, size, font }) => css`
+                background-color: ${palette("neutral")};
+                color: ${palette("background")};
+                border-radius: ${size.radius};
+                font-weight: 500;
+                font-family: ${font.code};
+                padding: 0 0.2rem;
+            `);
+  return {
+    id: id$a,
+    schema: () => ({
+      priority: 100,
+      code: true,
+      inclusive: false,
+      parseDOM: [{ tag: "code" }],
+      toDOM: (mark) => ["code", { class: utils.getClassName(mark.attrs, "code-inline", style) }],
+      parseMarkdown: {
+        match: (node) => node.type === "inlineCode",
+        runner: (state, node, markType) => {
+          state.openMark(markType);
+          state.addText(node.value);
+          state.closeMark(markType);
+        }
+      },
+      toMarkdown: {
+        match: (mark) => mark.type.name === id$a,
+        runner: (state, mark, node) => {
+          state.withMark(mark, "inlineCode", node.text || "");
+        }
+      }
+    }),
+    inputRules: (markType) => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)],
+    commands: (markType) => [createCmd(ToggleInlineCode, () => toggleMark(markType))],
+    shortcuts: {
+      [SupportedKeys.CodeInline]: createShortcut(ToggleInlineCode, "Mod-e")
+    }
+  };
+});
+const id$9 = "em";
+const ToggleItalic = createCmdKey();
+const em = createMark((utils) => ({
+  id: id$9,
+  schema: () => ({
+    parseDOM: [
+      { tag: "i" },
+      { tag: "em" },
+      { style: "font-style", getAttrs: (value) => value === "italic" }
+    ],
+    toDOM: (mark) => ["em", { class: utils.getClassName(mark.attrs, id$9) }],
+    parseMarkdown: {
+      match: (node) => node.type === "emphasis",
+      runner: (state, node, markType) => {
+        state.openMark(markType);
+        state.next(node.children);
+        state.closeMark(markType);
+      }
+    },
+    toMarkdown: {
+      match: (mark) => mark.type.name === id$9,
+      runner: (state, mark) => {
+        state.withMark(mark, "emphasis");
+      }
+    }
+  }),
+  inputRules: (markType) => [
+    markRule(/(?:^|[^_])(_([^_]+)_)$/, markType),
+    markRule(/(?:^|[^*])(\*([^*]+)\*)$/, markType)
+  ],
+  commands: (markType) => [createCmd(ToggleItalic, () => toggleMark(markType))],
+  shortcuts: {
+    [SupportedKeys.Em]: createShortcut(ToggleItalic, "Mod-i")
+  }
+}));
+const ToggleLink = createCmdKey();
+const ModifyLink = createCmdKey();
+const id$8 = "link";
+const link = createMark((utils) => {
+  const style = utils.getStyle((themeTool) => {
+    const lineColor = themeTool.palette("line");
+    return css`
+            color: ${themeTool.palette("secondary")};
+            cursor: pointer;
+            transition: all 0.4s ease-in-out;
+            font-weight: 500;
+            &:hover {
+                background-color: ${lineColor};
+                box-shadow: 0 0.2rem ${lineColor}, 0 -0.2rem ${lineColor};
+            }
+        `;
+  });
+  return {
+    id: id$8,
+    schema: () => ({
+      attrs: {
+        href: {},
+        title: { default: null }
+      },
+      inclusive: false,
+      parseDOM: [
+        {
+          tag: "a[href]",
+          getAttrs: (dom) => {
+            if (!(dom instanceof HTMLElement)) {
+              throw new Error();
+            }
+            return { href: dom.getAttribute("href"), title: dom.getAttribute("title") };
+          }
+        }
+      ],
+      toDOM: (mark) => ["a", __spreadProps(__spreadValues({}, mark.attrs), { class: utils.getClassName(mark.attrs, id$8, style) })],
+      parseMarkdown: {
+        match: (node) => node.type === "link",
+        runner: (state, node, markType) => {
+          const url = node.url;
+          const title = node.title;
+          state.openMark(markType, { href: url, title });
+          state.next(node.children);
+          state.closeMark(markType);
+        }
+      },
+      toMarkdown: {
+        match: (mark) => mark.type.name === id$8,
+        runner: (state, mark) => {
+          state.withMark(mark, "link", void 0, {
+            title: mark.attrs.title,
+            url: mark.attrs.href
+          });
+        }
+      }
+    }),
+    commands: (markType) => [
+      createCmd(ToggleLink, (href = "") => toggleMark(markType, { href })),
+      createCmd(ModifyLink, (href = "") => (state, dispatch) => {
+        if (!dispatch)
+          return false;
+        const { marks: marks2 } = state.schema;
+        let node;
+        let pos = -1;
+        const { selection } = state;
+        state.doc.nodesBetween(selection.from, selection.to, (n, p) => {
+          if (marks2.link.isInSet(n.marks)) {
+            node = n;
+            pos = p;
+            return false;
+          }
+          return;
+        });
+        if (!node)
+          return false;
+        const mark = node.marks.find(({ type }) => type === markType);
+        if (!mark)
+          return false;
+        const start = pos;
+        const end = pos + node.nodeSize;
+        const { tr } = state;
+        const linkMark = marks2.link.create(__spreadProps(__spreadValues({}, mark.attrs), { href }));
+        dispatch(tr.removeMark(start, end, mark).addMark(start, end, linkMark).setSelection(new TextSelection(tr.selection.$anchor)).scrollIntoView());
+        return true;
+      })
+    ],
+    inputRules: (markType, ctx) => [
+      new InputRule(/\[(?<text>.*?)]\((?<href>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
+        const [okay, text2 = "", href, title] = match;
+        const { tr } = state;
+        if (okay) {
+          const content = text2 || "link";
+          tr.replaceWith(start, end, ctx.get(schemaCtx).text(content)).addMark(start, content.length + start, markType.create({ title, href }));
+        }
+        return tr;
+      })
+    ]
+  };
+});
+const id$7 = "strong";
+const ToggleBold = createCmdKey();
+const strong = createMark((utils) => {
+  const style = utils.getStyle(() => css`
+                font-weight: 600;
+            `);
+  return {
+    id: id$7,
+    schema: () => ({
+      parseDOM: [
+        { tag: "b" },
+        { tag: "strong" },
+        { style: "font-style", getAttrs: (value) => value === "bold" }
+      ],
+      toDOM: (mark) => ["strong", { class: utils.getClassName(mark.attrs, id$7, style) }],
+      parseMarkdown: {
+        match: (node) => node.type === "strong",
+        runner: (state, node, markType) => {
+          state.openMark(markType);
+          state.next(node.children);
+          state.closeMark(markType);
+        }
+      },
+      toMarkdown: {
+        match: (mark) => mark.type.name === id$7,
+        runner: (state, mark) => {
+          state.withMark(mark, "strong");
+        }
+      }
+    }),
+    inputRules: (markType) => [
+      markRule(/(?:__)([^_]+)(?:__)$/, markType),
+      markRule(/(?:\*\*)([^*]+)(?:\*\*)$/, markType)
+    ],
+    commands: (markType) => [createCmd(ToggleBold, () => toggleMark(markType))],
+    shortcuts: {
+      [SupportedKeys.Bold]: createShortcut(ToggleBold, "Mod-b")
+    }
+  };
+});
+const marks = [codeInline(), em(), strong(), link()];
+const id$6 = "blockquote";
+const WrapInBlockquote = createCmdKey();
+const blockquote = createNode((utils) => {
+  const style = utils.getStyle((themeTool) => css`
+                padding-left: 1.875rem;
+                line-height: 1.75rem;
+                border-left: 4px solid ${themeTool.palette("primary")};
+                * {
+                    font-size: 1rem;
+                    line-height: 1.5rem;
+                }
+            `);
+  return {
+    id: id$6,
+    schema: () => ({
+      content: "block+",
+      group: "block",
+      defining: true,
+      parseDOM: [{ tag: "blockquote" }],
+      toDOM: (node) => ["blockquote", { class: utils.getClassName(node.attrs, id$6, style) }, 0],
+      parseMarkdown: {
+        match: ({ type }) => type === id$6,
+        runner: (state, node, type) => {
+          state.openNode(type).next(node.children).closeNode();
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === id$6,
+        runner: (state, node) => {
+          state.openNode("blockquote").next(node.content).closeNode();
+        }
+      }
+    }),
+    inputRules: (nodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)],
+    commands: (nodeType) => [createCmd(WrapInBlockquote, () => wrapIn(nodeType))],
+    shortcuts: {
+      [SupportedKeys.Blockquote]: createShortcut(WrapInBlockquote, "Mod-Shift-b")
+    }
+  };
+});
+const WrapInBulletList = createCmdKey();
+const bulletList = createNode((utils) => {
+  const id2 = "bullet_list";
+  return {
+    id: id2,
+    schema: () => ({
+      content: "listItem+",
+      group: "block",
+      parseDOM: [{ tag: "ul" }],
+      toDOM: (node) => {
+        return ["ul", { class: utils.getClassName(node.attrs, "bullet-list") }, 0];
+      },
+      parseMarkdown: {
+        match: ({ type, ordered }) => type === "list" && !ordered,
+        runner: (state, node, type) => {
+          state.openNode(type).next(node.children).closeNode();
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === id2,
+        runner: (state, node) => {
+          state.openNode("list", void 0, { ordered: false }).next(node.content).closeNode();
+        }
+      }
+    }),
+    inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
+    commands: (nodeType) => [createCmd(WrapInBulletList, () => wrapIn(nodeType))],
+    shortcuts: {
+      [SupportedKeys.BulletList]: createShortcut(WrapInBulletList, "Mod-Alt-8")
+    }
+  };
+});
+const languageOptions = [
+  "",
+  "javascript",
+  "typescript",
+  "bash",
+  "sql",
+  "json",
+  "html",
+  "css",
+  "c",
+  "cpp",
+  "java",
+  "ruby",
+  "python",
+  "go",
+  "rust",
+  "markdown"
+];
+const backtickInputRegex = /^```(?<language>[a-z]*)?[\s\n]$/;
+const tildeInputRegex = /^~~~(?<language>[a-z]*)?[\s\n]$/;
+const TurnIntoCodeFence = createCmdKey();
+const id$5 = "fence";
+const codeFence = createNode((utils, options) => {
+  const style = utils.getStyle(({ palette, mixin, size, font }) => {
+    const { shadow, scrollbar, border } = mixin;
+    const { lineWidth, radius } = size;
+    return css`
+            background-color: ${palette("background")};
+            color: ${palette("neutral")};
+            font-size: 0.85rem;
+            padding: 1.2rem 0.4rem 1.4rem;
+            border-radius: ${radius};
+            font-family: ${font.typography};
+
+            * {
+                margin: 0;
+            }
+
+            .code-fence_select-wrapper {
+                position: relative;
+            }
+
+            .code-fence_value {
+                width: 10.25rem;
+                box-sizing: border-box;
+                border-radius: ${size.radius};
+                margin: 0 1.2rem 1.2rem;
+                ${border()};
+                ${shadow()};
+                cursor: pointer;
+                background-color: ${palette("surface")};
+                position: relative;
+                display: flex;
+                color: ${palette("neutral", 0.87)};
+                letter-spacing: 0.5px;
+                height: 2.625rem;
+                align-items: center;
+
+                & > .icon {
+                    width: 2.625rem;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: ${palette("solid", 0.87)};
+                    border-left: ${lineWidth} solid ${palette("line")};
+
+                    text-align: center;
+                    transition: all 0.2s ease-in-out;
+                    &:hover {
+                        background: ${palette("background")};
+                        color: ${palette("primary")};
+                    }
+                }
+
+                > span:first-child {
+                    padding-left: 1rem;
+                    flex: 1;
+                    font-weight: 500;
+                }
+            }
+
+            .code-fence_select-option {
+                list-style: none;
+                line-height: 2rem;
+                padding-left: 1rem;
+                cursor: pointer;
+                :hover {
+                    background: ${palette("secondary", 0.12)};
+                    color: ${palette("primary")};
+                }
+            }
+
+            .code-fence_select {
+                &[data-fold='true'] {
+                    display: none;
+                }
+
+                font-weight: 500;
+                position: absolute;
+                z-index: 1;
+                top: 2.625rem;
+                box-sizing: border-box;
+                left: 1.2rem;
+                padding: 0.5rem 0;
+                max-height: 16.75rem;
+                width: 10.25rem;
+                ${border()};
+                ${shadow()};
+                background-color: ${palette("surface")};
+                border-top: none;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+
+                ${scrollbar("y")}
+            }
+
+            code {
+                line-height: 1.5;
+                font-family: ${font.code};
+            }
+
+            pre {
+                font-family: ${font.code};
+                margin: 0 1.2rem !important;
+            }
+        `;
+  });
+  return {
+    id: id$5,
+    schema: () => ({
+      content: "text*",
+      group: "block",
+      marks: "",
+      defining: true,
+      code: true,
+      attrs: {
+        language: {
+          default: ""
+        },
+        fold: {
+          default: true
+        }
+      },
+      parseDOM: [
+        {
+          tag: "pre",
+          preserveWhitespace: "full",
+          getAttrs: (dom) => {
+            if (!(dom instanceof HTMLElement)) {
+              throw new Error("Parse DOM error.");
+            }
+            return { language: dom.dataset.language };
+          }
+        }
+      ],
+      toDOM: (node) => {
+        return [
+          "pre",
+          {
+            "data-language": node.attrs.language,
+            class: utils.getClassName(node.attrs, "code-fence", style)
+          },
+          ["code", { spellCheck: "false" }, 0]
+        ];
+      },
+      parseMarkdown: {
+        match: ({ type }) => type === "code",
+        runner: (state, node, type) => {
+          const language = node.lang;
+          const value = node.value;
+          state.openNode(type, { language });
+          if (value) {
+            state.addText(value);
+          }
+          state.closeNode();
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === id$5,
+        runner: (state, node) => {
+          var _a;
+          state.addNode("code", void 0, ((_a = node.content.firstChild) == null ? void 0 : _a.text) || "", {
+            lang: node.attrs.language
+          });
+        }
+      }
+    }),
+    inputRules: (nodeType) => [
+      textblockTypeInputRule(backtickInputRegex, nodeType, (match) => {
+        const [ok, language] = match;
+        if (!ok)
+          return;
+        return { language };
+      }),
+      textblockTypeInputRule(tildeInputRegex, nodeType, (match) => {
+        const [ok, language] = match;
+        if (!ok)
+          return;
+        return { language };
+      })
+    ],
+    commands: (nodeType) => [createCmd(TurnIntoCodeFence, () => setBlockType(nodeType))],
+    shortcuts: {
+      [SupportedKeys.CodeFence]: createShortcut(TurnIntoCodeFence, "Mod-Alt-c")
+    },
+    view: (ctx) => (node, view, getPos) => {
+      const container = document.createElement("div");
+      const selectWrapper = document.createElement("div");
+      const select = document.createElement("ul");
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      const valueWrapper = document.createElement("div");
+      valueWrapper.className = "code-fence_value";
+      const value = document.createElement("span");
+      valueWrapper.appendChild(value);
+      if (view.editable) {
+        valueWrapper.appendChild(ctx.get(themeToolCtx).slots.icon("downArrow"));
+      }
+      select.className = "code-fence_select";
+      select.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!view.editable)
+          return;
+        const el = e.target;
+        if (!(el instanceof HTMLLIElement))
+          return;
+        const { tr } = view.state;
+        view.dispatch(tr.setNodeMarkup(getPos(), void 0, {
+          fold: true,
+          language: el.dataset.value
+        }));
+      });
+      valueWrapper.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!view.editable)
+          return;
+        const { tr } = view.state;
+        view.dispatch(tr.setNodeMarkup(getPos(), void 0, {
+          fold: false,
+          language: container.dataset.language
+        }));
+      });
+      document.addEventListener("mousedown", () => {
+        if (!view.editable || select.dataset.fold === "true")
+          return;
+        const { tr } = view.state;
+        view.dispatch(tr.setNodeMarkup(getPos(), void 0, {
+          fold: true,
+          language: container.dataset.language
+        }));
+      });
+      ((options == null ? void 0 : options.languageList) || languageOptions).forEach((lang) => {
+        const option = document.createElement("li");
+        option.className = "code-fence_select-option";
+        option.innerText = lang || "--";
+        select.appendChild(option);
+        option.setAttribute("data-value", lang);
+      });
+      code.spellcheck = false;
+      selectWrapper.className = "code-fence_select-wrapper";
+      selectWrapper.contentEditable = "false";
+      selectWrapper.append(valueWrapper);
+      selectWrapper.append(select);
+      pre.append(code);
+      const codeContent = document.createElement("div");
+      code.append(codeContent);
+      codeContent.style.whiteSpace = "inherit";
+      container.append(selectWrapper, pre);
+      container.setAttribute("class", utils.getClassName(node.attrs, "code-fence", style));
+      container.setAttribute("data-language", node.attrs.language);
+      value.innerText = node.attrs.language || "--";
+      select.setAttribute("data-fold", node.attrs.fold ? "true" : "false");
+      return {
+        dom: container,
+        contentDOM: codeContent,
+        update: (updatedNode) => {
+          if (updatedNode.type.name !== id$5)
+            return false;
+          const lang = updatedNode.attrs.language;
+          container.dataset.language = lang;
+          value.innerText = lang || "--";
+          select.setAttribute("data-fold", updatedNode.attrs.fold ? "true" : "false");
+          return true;
+        }
+      };
+    }
+  };
+});
+const doc = createNode(() => {
+  return {
+    id: "doc",
+    schema: () => ({
+      content: "block+",
+      parseMarkdown: {
+        match: ({ type }) => type === "root",
+        runner: (state, node, type) => {
+          state.injectRoot(node, type);
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === "doc",
+        runner: (state, node) => {
+          state.openNode("root");
+          state.next(node.content);
+        }
+      }
+    })
+  };
+});
+const InsertHardbreak = createCmdKey();
+const hardbreak = createNode((utils) => {
+  return {
+    id: "hardbreak",
+    schema: () => ({
+      inline: true,
+      group: "inline",
+      selectable: false,
+      parseDOM: [{ tag: "br" }],
+      toDOM: (node) => ["br", { class: utils.getClassName(node.attrs, "hardbreak") }],
+      parseMarkdown: {
+        match: ({ type }) => type === "break",
+        runner: (state, _, type) => {
+          state.addNode(type);
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === "hardbreak",
+        runner: (state) => {
+          state.addNode("break");
+        }
+      }
+    }),
+    commands: (type) => [
+      createCmd(InsertHardbreak, () => (state, dispatch) => {
+        dispatch == null ? void 0 : dispatch(state.tr.setMeta("hardbreak", true).replaceSelectionWith(type.create()).scrollIntoView());
+        return true;
+      })
+    ],
+    shortcuts: {
+      [SupportedKeys.HardBreak]: createShortcut(InsertHardbreak, "Shift-Enter")
+    },
+    prosePlugins: (type) => [
+      new Plugin({
+        key: new PluginKey("hardbreak-marks"),
+        appendTransaction: (trs, _oldState, newState) => {
+          if (!trs.length)
+            return;
+          const [tr] = trs;
+          const [step] = tr.steps;
+          const isInsertHr = tr.getMeta("hardbreak");
+          if (isInsertHr) {
+            if (!(step instanceof ReplaceStep)) {
+              return;
+            }
+            const { from } = step;
+            return newState.tr.setNodeMarkup(from, type, void 0, []);
+          }
+          const isAddMarkStep = step instanceof AddMarkStep;
+          if (isAddMarkStep) {
+            let _tr = newState.tr;
+            const { from, to } = step;
+            newState.doc.nodesBetween(from, to, (node, pos) => {
+              if (node.type === type) {
+                _tr = _tr.setNodeMarkup(pos, type, void 0, []);
+              }
+            });
+            return _tr;
+          }
+          return;
+        }
+      })
+    ]
+  };
+});
+const headingIndex = Array(6).fill(0).map((_, i) => i + 1);
+const TurnIntoHeading = createCmdKey();
+const heading = createNode((utils, options) => {
+  const id2 = "heading";
+  const headingMap = {
+    1: css`
+            font-size: 3rem;
+            line-height: 3.5rem;
+        `,
+    2: css`
+            font-size: 2.125rem;
+            line-height: 2.25rem;
+        `,
+    3: css`
+            font-size: 1.5rem;
+            line-height: 1.5rem;
+        `
+  };
+  const style = (level) => (options == null ? void 0 : options.headless) ? null : css`
+                  ${headingMap[level] || ""}
+                  margin: 2.5rem 0 !important;
+                  font-weight: 400;
+              `;
+  return {
+    id: id2,
+    schema: () => ({
+      content: "inline*",
+      group: "block",
+      defining: true,
+      attrs: {
+        level: {
+          default: 1
+        }
+      },
+      parseDOM: headingIndex.map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
+      toDOM: (node) => {
+        return [
+          `h${node.attrs.level}`,
+          {
+            class: utils.getClassName(node.attrs, `heading h${node.attrs.level}`, style(node.attrs.level))
+          },
+          0
+        ];
+      },
+      parseMarkdown: {
+        match: ({ type }) => type === id2,
+        runner: (state, node, type) => {
+          const depth = node.depth;
+          state.openNode(type, { level: depth });
+          state.next(node.children);
+          state.closeNode();
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === id2,
+        runner: (state, node) => {
+          state.openNode("heading", void 0, { depth: node.attrs.level });
+          state.next(node.content);
+          state.closeNode();
+        }
+      }
+    }),
+    inputRules: (type) => headingIndex.map((x) => textblockTypeInputRule(new RegExp(`^(#{1,${x}})\\s$`), type, () => ({
+      level: x
+    }))),
+    commands: (type) => [createCmd(TurnIntoHeading, (level = 1) => setBlockType(type, { level }))],
+    shortcuts: {
+      [SupportedKeys.H1]: createShortcut(TurnIntoHeading, "Mod-Alt-1", 1),
+      [SupportedKeys.H2]: createShortcut(TurnIntoHeading, "Mod-Alt-2", 2),
+      [SupportedKeys.H3]: createShortcut(TurnIntoHeading, "Mod-Alt-3", 3),
+      [SupportedKeys.H4]: createShortcut(TurnIntoHeading, "Mod-Alt-4", 4),
+      [SupportedKeys.H5]: createShortcut(TurnIntoHeading, "Mod-Alt-5", 5),
+      [SupportedKeys.H6]: createShortcut(TurnIntoHeading, "Mod-Alt-6", 6)
+    }
+  };
+});
+const id$4 = "hr";
+const InsertHr = createCmdKey();
+const hr = createNode((utils) => {
+  const style = utils.getStyle((themeTool) => css`
+            height: ${themeTool.size.lineWidth};
+            background-color: ${themeTool.palette("line")};
+            border-width: 0;
+        `);
+  return {
+    id: id$4,
+    schema: () => ({
+      group: "block",
+      parseDOM: [{ tag: "hr" }],
+      toDOM: (node) => ["hr", { class: utils.getClassName(node.attrs, id$4, style) }],
+      parseMarkdown: {
+        match: ({ type }) => type === "thematicBreak",
+        runner: (state, _, type) => {
+          state.addNode(type);
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === id$4,
+        runner: (state) => {
+          state.addNode("thematicBreak");
+        }
+      }
+    }),
+    inputRules: (type) => [
+      new InputRule(/^(?:---|___\s|\*\*\*\s)$/, (state, match, start, end) => {
+        const { tr } = state;
+        if (match[0]) {
+          tr.replaceWith(start - 1, end, type.create());
+        }
+        return tr;
+      })
+    ],
+    commands: (type, ctx) => [
+      createCmd(InsertHr, () => (state, dispatch) => {
+        if (!dispatch)
+          return true;
+        const { tr, selection } = state;
+        const from = selection.from;
+        const node = type.create();
+        if (!node) {
+          return true;
+        }
+        const _tr = tr.replaceSelectionWith(node).insert(from, ctx.get(schemaCtx).node("paragraph"));
+        const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true);
+        if (!sel) {
+          return true;
+        }
+        dispatch(_tr.setSelection(sel).scrollIntoView());
+        return true;
+      })
+    ]
+  };
+});
+const ModifyImage = createCmdKey();
+const InsertImage = createCmdKey();
+const id$3 = "image";
+const image = createNode((utils, options) => {
+  var _a, _b;
+  const placeholder = __spreadValues({
+    loading: "Loading...",
+    empty: "Add an Image",
+    failed: "Image loads failed"
+  }, (_a = options == null ? void 0 : options.placeholder) != null ? _a : {});
+  const isBlock = (_b = options == null ? void 0 : options.isBlock) != null ? _b : false;
+  const containerStyle = utils.getStyle((themeTool) => css`
+                display: inline-block;
+                position: relative;
+                text-align: center;
+                font-size: 0;
+                vertical-align: text-bottom;
+                line-height: 1;
+
+                ${isBlock ? `
+                width: 100%;
+                margin: 0 auto;
+                ` : ""}
+
+                &.ProseMirror-selectednode::after {
+                    content: '';
+                    background: ${themeTool.palette("secondary", 0.38)};
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                }
+
+                img {
+                    max-width: 100%;
+                    height: auto;
+                    object-fit: contain;
+                    margin: 0 2px;
+                }
+                .icon,
+                .placeholder {
+                    display: none;
+                }
+
+                &.system {
+                    width: 100%;
+                    padding: 0 2rem;
+
+                    img {
+                        width: 0;
+                        height: 0;
+                        display: none;
+                    }
+
+                    .icon,
+                    .placeholder {
+                        display: inline;
+                    }
+
+                    box-sizing: border-box;
+                    height: 3rem;
+                    background-color: ${themeTool.palette("background")};
+                    border-radius: ${themeTool.size.radius};
+                    display: inline-flex;
+                    gap: 2rem;
+                    justify-content: flex-start;
+                    align-items: center;
+                    .placeholder {
+                        margin: 0;
+                        line-height: 1;
+                        &::before {
+                            content: '';
+                            font-size: 0.875rem;
+                            color: ${themeTool.palette("neutral", 0.6)};
+                        }
+                    }
+                }
+
+                &.loading {
+                    .placeholder {
+                        &::before {
+                            content: '${placeholder.loading}';
+                        }
+                    }
+                }
+
+                &.empty {
+                    .placeholder {
+                        &::before {
+                            content: '${placeholder.empty}';
+                        }
+                    }
+                }
+
+                &.failed {
+                    .placeholder {
+                        &::before {
+                            content: '${placeholder.failed}';
+                        }
+                    }
+                }
+            `);
+  const style = utils.getStyle(() => css`
+                display: inline-block;
+                margin: 0 auto;
+                object-fit: contain;
+                width: 100%;
+                position: relative;
+                height: auto;
+                text-align: center;
+            `);
+  return {
+    id: "image",
+    schema: () => ({
+      inline: true,
+      group: "inline",
+      selectable: true,
+      draggable: true,
+      marks: "",
+      atom: true,
+      defining: true,
+      isolating: true,
+      attrs: {
+        src: { default: "" },
+        alt: { default: null },
+        title: { default: null },
+        failed: { default: false },
+        loading: { default: true },
+        width: { default: null }
+      },
+      parseDOM: [
+        {
+          tag: "img[src]",
+          getAttrs: (dom) => {
+            if (!(dom instanceof HTMLElement)) {
+              throw new Error();
+            }
+            return {
+              failed: dom.classList.contains("failed"),
+              loading: dom.classList.contains("loading"),
+              src: dom.getAttribute("src") || "",
+              alt: dom.getAttribute("alt"),
+              title: dom.getAttribute("title") || dom.getAttribute("alt"),
+              width: dom.getAttribute("width")
+            };
+          }
+        }
+      ],
+      toDOM: (node) => {
+        return [
+          "img",
+          __spreadProps(__spreadValues({}, node.attrs), {
+            class: utils.getClassName(node.attrs, id$3, node.attrs.failed ? "failed" : "", node.attrs.loading ? "loading" : "", style)
+          })
+        ];
+      },
+      parseMarkdown: {
+        match: ({ type }) => type === id$3,
+        runner: (state, node, type) => {
+          const url = node.url;
+          const alt = node.alt;
+          const title = node.title;
+          state.addNode(type, {
+            src: url,
+            alt,
+            title
+          });
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === id$3,
+        runner: (state, node) => {
+          state.addNode("image", void 0, void 0, {
+            title: node.attrs.title,
+            url: node.attrs.src,
+            alt: node.attrs.alt
+          });
+        }
+      }
+    }),
+    commands: (type) => [
+      createCmd(InsertImage, (src = "") => (state, dispatch) => {
+        if (!dispatch)
+          return true;
+        const { tr } = state;
+        const node = type.create({ src });
+        if (!node) {
+          return true;
+        }
+        const _tr = tr.replaceSelectionWith(node);
+        dispatch(_tr.scrollIntoView());
+        return true;
+      }),
+      createCmd(ModifyImage, (src = "") => (state, dispatch) => {
+        const node = findSelectedNodeOfType(state.selection, type);
+        if (!node)
+          return false;
+        const { tr } = state;
+        dispatch == null ? void 0 : dispatch(tr.setNodeMarkup(node.pos, void 0, __spreadProps(__spreadValues({}, node.node.attrs), { loading: true, src })).scrollIntoView());
+        return true;
+      })
+    ],
+    inputRules: (type) => [
+      new InputRule(/!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
+        const [okay, alt, src = "", title] = match;
+        const { tr } = state;
+        if (okay) {
+          tr.replaceWith(start, end, type.create({ src, alt, title }));
+        }
+        return tr;
+      })
+    ],
+    view: (ctx) => (node, view, getPos) => {
+      const nodeType = node.type;
+      const createIcon = ctx.get(themeToolCtx).slots.icon;
+      const container = document.createElement("span");
+      container.className = utils.getClassName(node.attrs, id$3, containerStyle);
+      const content = document.createElement("img");
+      container.append(content);
+      let icon = createIcon("image");
+      const placeholder2 = document.createElement("span");
+      placeholder2.classList.add("placeholder");
+      container.append(icon, placeholder2);
+      const setIcon = (name) => {
+        const nextIcon = createIcon(name);
+        container.replaceChild(nextIcon, icon);
+        icon = nextIcon;
+      };
+      const loadImage = (src2) => {
+        container.classList.add("system", "loading");
+        setIcon("loading");
+        const img = document.createElement("img");
+        img.src = src2;
+        img.onerror = () => {
+          const { tr } = view.state;
+          const _tr = tr.setNodeMarkup(getPos(), nodeType, __spreadProps(__spreadValues({}, node.attrs), {
+            src: src2,
+            loading: false,
+            failed: true
+          }));
+          view.dispatch(_tr);
+        };
+        img.onload = () => {
+          const { tr } = view.state;
+          const _tr = tr.setNodeMarkup(getPos(), nodeType, __spreadProps(__spreadValues({}, node.attrs), {
+            width: img.width,
+            src: src2,
+            loading: false,
+            failed: false
+          }));
+          view.dispatch(_tr);
+        };
+      };
+      const { src, loading, title, alt, width } = node.attrs;
+      content.src = src;
+      content.title = title || alt;
+      content.alt = alt;
+      if (width) {
+        content.width = width;
+      }
+      if (src.length === 0) {
+        container.classList.add("system", "empty");
+        setIcon("image");
+      } else if (loading) {
+        loadImage(src);
+      }
+      return {
+        dom: container,
+        update: (updatedNode) => {
+          if (updatedNode.type.name !== id$3)
+            return false;
+          const { src: src2, alt: alt2, title: title2, loading: loading2, failed, width: width2 } = updatedNode.attrs;
+          content.src = src2;
+          content.alt = alt2;
+          content.title = title2 || alt2;
+          if (width2) {
+            content.width = width2;
+          }
+          if (loading2) {
+            loadImage(src2);
+            return true;
+          }
+          if (failed) {
+            container.classList.remove("loading", "empty");
+            container.classList.add("system", "failed");
+            setIcon("brokenImage");
+            return true;
+          }
+          if (src2.length > 0) {
+            container.classList.remove("system", "empty", "loading");
+            return true;
+          }
+          container.classList.add("system", "empty");
+          setIcon("image");
+          return true;
+        },
+        selectNode: () => {
+          container.classList.add("ProseMirror-selectednode");
+        },
+        deselectNode: () => {
+          container.classList.remove("ProseMirror-selectednode");
+        }
+      };
+    }
+  };
+});
+const id$2 = "list_item";
+const SplitListItem = createCmdKey();
+const SinkListItem = createCmdKey();
+const LiftListItem = createCmdKey();
+const listItem = createNode((utils) => {
+  const style = utils.getStyle((themeTool) => css`
+                &,
+                & > * {
+                    margin: 0.5rem 0;
+                }
+
+                &,
+                li {
+                    &::marker {
+                        color: ${themeTool.palette("primary")};
+                    }
+                }
+            `);
+  return {
+    id: id$2,
+    schema: () => ({
+      group: "listItem",
+      content: "paragraph block*",
+      defining: true,
+      parseDOM: [{ tag: "li" }],
+      toDOM: (node) => ["li", { class: utils.getClassName(node.attrs, "list-item", style) }, 0],
+      parseMarkdown: {
+        match: ({ type, checked }) => type === "listItem" && checked === null,
+        runner: (state, node, type) => {
+          state.openNode(type);
+          state.next(node.children);
+          state.closeNode();
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === id$2,
+        runner: (state, node) => {
+          state.openNode("listItem");
+          state.next(node.content);
+          state.closeNode();
+        }
+      }
+    }),
+    inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
+    commands: (nodeType) => [
+      createCmd(SplitListItem, () => splitListItem(nodeType)),
+      createCmd(SinkListItem, () => sinkListItem(nodeType)),
+      createCmd(LiftListItem, () => liftListItem(nodeType))
+    ],
+    shortcuts: {
+      [SupportedKeys.NextListItem]: createShortcut(SplitListItem, "Enter"),
+      [SupportedKeys.SinkListItem]: createShortcut(SinkListItem, "Mod-]"),
+      [SupportedKeys.LiftListItem]: createShortcut(LiftListItem, "Mod-[")
+    }
+  };
+});
+const WrapInOrderedList = createCmdKey();
+const id$1 = "ordered_list";
+const orderedList = createNode((utils) => ({
+  id: id$1,
+  schema: () => ({
+    content: "listItem+",
+    group: "block",
+    attrs: {
+      order: {
+        default: 1
+      }
+    },
+    parseDOM: [
+      {
+        tag: "ol",
+        getAttrs: (dom) => {
+          if (!(dom instanceof HTMLElement)) {
+            throw new Error();
+          }
+          return { order: dom.hasAttribute("start") ? Number(dom.getAttribute("start")) : 1 };
+        }
+      }
+    ],
+    toDOM: (node) => [
+      "ol",
+      __spreadProps(__spreadValues({}, node.attrs.order === 1 ? {} : node.attrs.order), {
+        class: utils.getClassName(node.attrs, "ordered-list")
+      }),
+      0
+    ],
+    parseMarkdown: {
+      match: ({ type, ordered }) => type === "list" && !!ordered,
+      runner: (state, node, type) => {
+        state.openNode(type).next(node.children).closeNode();
+      }
+    },
+    toMarkdown: {
+      match: (node) => node.type.name === id$1,
+      runner: (state, node) => {
+        state.openNode("list", void 0, { ordered: true, start: 1 });
+        state.next(node.content);
+        state.closeNode();
+      }
+    }
+  }),
+  inputRules: (nodeType) => [
+    wrappingInputRule(/^(\d+)\.\s$/, nodeType, (match) => ({ order: Number(match[1]) }), (match, node) => node.childCount + node.attrs.order === Number(match[1]))
+  ],
+  commands: (nodeType) => [createCmd(WrapInOrderedList, () => wrapIn(nodeType))],
+  shortcuts: {
+    [SupportedKeys.OrderedList]: createShortcut(WrapInOrderedList, "Mod-Alt-7")
+  }
+}));
+const TurnIntoText = createCmdKey();
+const id = "paragraph";
+const paragraph = createNode((utils, options) => {
+  const style = (options == null ? void 0 : options.headless) ? null : css`
+              font-size: 1rem;
+              line-height: 1.5;
+              letter-spacing: 0.5px;
+          `;
+  return {
+    id,
+    schema: () => ({
+      content: "inline*",
+      group: "block",
+      parseDOM: [{ tag: "p" }],
+      toDOM: (node) => ["p", { class: utils.getClassName(node.attrs, id, style) }, 0],
+      parseMarkdown: {
+        match: (node) => node.type === "paragraph",
+        runner: (state, node, type) => {
+          state.openNode(type);
+          if (node.children) {
+            state.next(node.children);
+          } else {
+            state.addText(node.value);
+          }
+          state.closeNode();
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === "paragraph",
+        runner: (state, node) => {
+          state.openNode("paragraph");
+          state.next(node.content);
+          state.closeNode();
+        }
+      }
+    }),
+    commands: (nodeType) => [createCmd(TurnIntoText, () => setBlockType(nodeType))],
+    shortcuts: {
+      [SupportedKeys.Text]: createShortcut(TurnIntoText, "Mod-Alt-0")
+    }
+  };
+});
+const text = createNode(() => ({
+  id: "text",
+  schema: () => ({
+    group: "inline",
+    parseMarkdown: {
+      match: ({ type }) => type === "text",
+      runner: (state, node) => {
+        state.addText(node.value);
+      }
+    },
+    toMarkdown: {
+      match: (node) => node.type.name === "text",
+      runner: (state, node) => {
+        state.addNode("text", void 0, node.text);
+      }
+    }
+  })
+}));
+const nodes = [
+  doc(),
+  paragraph(),
+  hardbreak(),
+  blockquote(),
+  codeFence(),
+  bulletList(),
+  orderedList(),
+  listItem(),
+  heading(),
+  hr(),
+  image(),
+  text()
+];
+const isParent = (node) => !!node.children;
+const isHTML = (node) => node.type === "html";
+function flatMapWithDepth(ast, fn) {
+  return transform(ast, 0, null)[0];
+  function transform(node, index, parent) {
+    if (isParent(node)) {
+      const out = [];
+      for (let i = 0, n = node.children.length; i < n; i++) {
+        const xs = transform(node.children[i], i, node);
+        if (xs) {
+          for (let j = 0, m = xs.length; j < m; j++) {
+            out.push(xs[j]);
+          }
+        }
+      }
+      node.children = out;
+    }
+    return fn(node, index, parent);
+  }
+}
+const filterHTMLPlugin = () => {
+  function transformer(tree) {
+    flatMapWithDepth(tree, (node) => {
+      if (!isHTML(node)) {
+        return [node];
+      }
+      return [];
+    });
+  }
+  return transformer;
+};
+const commonmarkPlugins = [
+  createPlugin(() => ({
+    remarkPlugins: () => [links, filterHTMLPlugin]
+  }))()
+];
+const commonmarkNodes = AtomList.create([...nodes, ...marks]);
+const commonmark = AtomList.create([...commonmarkPlugins, ...commonmarkNodes]);
+const commands = {
+  ToggleInlineCode,
+  ToggleItalic,
+  ToggleLink,
+  ToggleBold,
+  ModifyLink,
+  ModifyImage,
+  WrapInBlockquote,
+  WrapInBulletList,
+  WrapInOrderedList,
+  TurnIntoCodeFence,
+  TurnIntoHeading,
+  TurnIntoText,
+  InsertHardbreak,
+  InsertHr,
+  InsertImage,
+  SplitListItem,
+  SinkListItem,
+  LiftListItem
+};
+export { InsertHardbreak, InsertHr, InsertImage, LiftListItem, ModifyImage, ModifyLink, SinkListItem, SplitListItem, SupportedKeys, ToggleBold, ToggleInlineCode, ToggleItalic, ToggleLink, TurnIntoCodeFence, TurnIntoHeading, TurnIntoText, WrapInBlockquote, WrapInBulletList, WrapInOrderedList, backtickInputRegex, blockquote, bulletList, codeFence, codeInline, commands, commonmark, commonmarkNodes, commonmarkPlugins, doc, em, hardbreak, heading, hr, image, link, listItem, marks, nodes, orderedList, paragraph, strong, text, tildeInputRegex };
+//# sourceMappingURL=index.es.js.map

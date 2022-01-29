@@ -1,0 +1,78 @@
+{
+    "name": "@emotion/serialize",
+    "version": "1.0.2",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743207507,
+            "integrity": "sha512-cK1dPk317HPKL3NZFCZh+fP1Xilf9AEzLGQiu0feSSo3CrMOqDqc5yH582PtZZyjEQc/f9K4YbJ+xp/a5ZIPHA==",
+            "mode": 420,
+            "size": 1087
+        },
+        "dist/emotion-serialize.cjs.js.flow": {
+            "checkedAt": 1642743207527,
+            "integrity": "sha512-lI+AqtaWPKg7XaY/mloqKuQCt62ZBLN7L2r5tqmYmHAfs+mF5FZhcEXN//NTx4R2PnzRWzZyovwdfsfW/mSfLQ==",
+            "mode": 420,
+            "size": 42
+        },
+        "dist/emotion-serialize.browser.cjs.js": {
+            "checkedAt": 1642743207658,
+            "integrity": "sha512-+4/VRyGv8w0iCDkIQwcS7HVkDAaPmP4qiOGUsOLwoPBGdpIqxfthwn2VxTJi1o0n2wfMW//0P7cs3OsamGNtXQ==",
+            "mode": 420,
+            "size": 11433
+        },
+        "dist/emotion-serialize.browser.esm.js": {
+            "checkedAt": 1642743207682,
+            "integrity": "sha512-igUf28zq9J7aqwhbiO7iL1Eq4ELBM4jSDUJR9sD3XohjqVo+wWOQVb646K/kZzvQ5zQQK4JTH6GWjoSPlqNIiw==",
+            "mode": 420,
+            "size": 10992
+        },
+        "dist/emotion-serialize.cjs.dev.js": {
+            "checkedAt": 1642743207658,
+            "integrity": "sha512-+4/VRyGv8w0iCDkIQwcS7HVkDAaPmP4qiOGUsOLwoPBGdpIqxfthwn2VxTJi1o0n2wfMW//0P7cs3OsamGNtXQ==",
+            "mode": 420,
+            "size": 11433
+        },
+        "dist/emotion-serialize.esm.js": {
+            "checkedAt": 1642743207682,
+            "integrity": "sha512-igUf28zq9J7aqwhbiO7iL1Eq4ELBM4jSDUJR9sD3XohjqVo+wWOQVb646K/kZzvQ5zQQK4JTH6GWjoSPlqNIiw==",
+            "mode": 420,
+            "size": 10992
+        },
+        "dist/emotion-serialize.cjs.js": {
+            "checkedAt": 1642743207697,
+            "integrity": "sha512-Gekv19WT1nfhoHykqHAi2vdu+0JeBQGBT0qRQS0KB6D7AXyM31VQLYgO455qRBTmHhKkN1fAb9uWLMyCPlWDRQ==",
+            "mode": 420,
+            "size": 196
+        },
+        "dist/emotion-serialize.cjs.prod.js": {
+            "checkedAt": 1642743207713,
+            "integrity": "sha512-BOPZxydacuc05JzumKYzQoYlHbvBaVhP07HlD4tiu7haJbjrbRwbD2CX/idFL1/Xj6ckLIWW8ZlByxcfLVdDrg==",
+            "mode": 420,
+            "size": 5432
+        },
+        "src/index.js": {
+            "checkedAt": 1642743207726,
+            "integrity": "sha512-O5QYP4KRWxIpewfhlURUU7Rit6OGj4M+YGnF24A3BAyHqC/VwCDcAMeWuVblCoskyvD4fJ3WYCrpCr8hHc0GEw==",
+            "mode": 420,
+            "size": 11586
+        },
+        "package.json": {
+            "checkedAt": 1642743207746,
+            "integrity": "sha512-Lw91roOjudL1W7XsHa//MJgzcP+eMr2FdN+PR2TCGZD/LuraATjGiUH9zLM5+oUvvA53H6/pGgywrGx1jqLPKA==",
+            "mode": 420,
+            "size": 918
+        },
+        "types/index.d.ts": {
+            "checkedAt": 1642743207769,
+            "integrity": "sha512-sNCy+2budcpmIJDtIK9yL1R/DyPitm2jyLUYKydPJ1+c4zDwug8Pa2NYMUCwVSIBnMcKiVtjDXQZzub+pCpM5w==",
+            "mode": 420,
+            "size": 1669
+        },
+        "CHANGELOG.md": {
+            "checkedAt": 1642743207794,
+            "integrity": "sha512-08IyvpN9qi1aJrvRCGXL9NoGcIEJfveP99d+uFaZjwiZEgkXFD6jPkTgeX/+QHz9oyqR4C3yATVPeIYbmWZP/Q==",
+            "mode": 420,
+            "size": 12911
+        }
+    }
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"$shortcut.d.ts","sourceRoot":"","sources":["../../src/composable/$shortcut.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,GAAG,EAAE,cAAc,EAAgC,MAAM,gBAAgB,CAAC;AACnF,OAAO,EAAE,MAAM,EAAU,MAAM,iBAAiB,CAAC;AAEjD,oBAAY,SAAS,GAAG,cAAc,GAAG;IACrC,MAAM,EAAE,MAAM,CAAC;CAClB,CAAC;AAEF,eAAO,MAAM,SAAS,mBAAoB,GAAG,KAAK,MAAM,KAAG,SAS1D,CAAC"}

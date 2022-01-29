@@ -1,0 +1,170 @@
+var __defProp = Object.defineProperty;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var __privateGet = (obj, member, getter) => {
+  __accessCheck(obj, member, "read from private field");
+  return getter ? getter.call(obj) : member.get(obj);
+};
+var __privateAdd = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var __privateSet = (obj, member, value, setter) => {
+  __accessCheck(obj, member, "write to private field");
+  setter ? setter.call(obj, value) : member.set(obj, value);
+  return value;
+};
+var _container, _clock, _container2, _clock2;
+import { contextNotFound, ctxCallOutOfScope, timerNotFound } from "@milkdown/exception";
+const createContainer = () => {
+  const sliceMap = new Map();
+  const getSlice = (slice) => {
+    const context = sliceMap.get(slice.id);
+    if (!context) {
+      throw contextNotFound(slice.sliceName);
+    }
+    return context;
+  };
+  const getSliceByName = (sliceName) => {
+    const result = [...sliceMap.values()].find((x) => x.name === sliceName);
+    if (!result) {
+      return null;
+    }
+    return result;
+  };
+  return { getSlice, sliceMap, getSliceByName };
+};
+const shallowClone = (x) => {
+  if (Array.isArray(x)) {
+    return [...x];
+  }
+  if (typeof x === "object") {
+    return __spreadValues({}, x);
+  }
+  return x;
+};
+const createSlice = (value, name) => {
+  const id = Symbol("Context");
+  const factory = (container, resetValue = shallowClone(value)) => {
+    let inner = resetValue;
+    const context = {
+      name,
+      id,
+      set: (next) => {
+        inner = next;
+      },
+      get: () => inner,
+      update: (updater) => {
+        inner = updater(inner);
+      }
+    };
+    container.set(id, context);
+    return context;
+  };
+  factory.sliceName = name;
+  factory.id = id;
+  factory._typeInfo = () => {
+    throw ctxCallOutOfScope();
+  };
+  return factory;
+};
+class Ctx {
+  constructor(container, clock) {
+    __privateAdd(this, _container, void 0);
+    __privateAdd(this, _clock, void 0);
+    this.use = (slice) => __privateGet(this, _container).getSlice(slice);
+    this.useByName = (name) => __privateGet(this, _container).getSliceByName(name);
+    this.get = (slice) => this.use(slice).get();
+    this.set = (slice, value) => this.use(slice).set(value);
+    this.update = (slice, updater) => this.use(slice).update(updater);
+    this.timing = (timer) => __privateGet(this, _clock).get(timer);
+    this.wait = (timer) => this.timing(timer)();
+    this.done = (timer) => this.timing(timer).done();
+    this.waitTimers = async (slice) => {
+      await Promise.all(this.get(slice).map((x) => this.wait(x)));
+      return;
+    };
+    __privateSet(this, _container, container);
+    __privateSet(this, _clock, clock);
+  }
+}
+_container = new WeakMap();
+_clock = new WeakMap();
+class Pre {
+  constructor(container, clock) {
+    __privateAdd(this, _container2, void 0);
+    __privateAdd(this, _clock2, void 0);
+    this.inject = (ctx, defaultValue) => {
+      ctx(__privateGet(this, _container2).sliceMap, defaultValue);
+      return this;
+    };
+    this.record = (timer) => {
+      timer(__privateGet(this, _clock2).store);
+      return this;
+    };
+    __privateSet(this, _container2, container);
+    __privateSet(this, _clock2, clock);
+  }
+}
+_container2 = new WeakMap();
+_clock2 = new WeakMap();
+const createClock = () => {
+  const store = new Map();
+  const get = (timer) => {
+    const meta = store.get(timer.id);
+    if (!meta)
+      throw timerNotFound();
+    return meta;
+  };
+  return {
+    store,
+    get
+  };
+};
+const createTimer = (name, timeout = 3e3) => {
+  const id = Symbol("Timer");
+  const timer = (store) => {
+    const data = Symbol(name);
+    const timing = () => new Promise((resolve, reject) => {
+      setTimeout(() => {
+        reject(`Timing ${name} timeout.`);
+      }, timeout);
+      addEventListener(name, (e) => {
+        if (!(e instanceof CustomEvent)) {
+          return;
+        }
+        if (e.detail.id === data) {
+          resolve(void 0);
+        }
+      });
+    });
+    timing.done = () => {
+      const event = new CustomEvent(name, { detail: { id: data } });
+      dispatchEvent(event);
+    };
+    store.set(id, timing);
+    return timing;
+  };
+  timer.id = id;
+  return timer;
+};
+export { Ctx, Pre, createClock, createContainer, createSlice, createTimer };
+//# sourceMappingURL=index.es.js.map

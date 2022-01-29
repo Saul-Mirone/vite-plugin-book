@@ -1,0 +1,47 @@
+{
+  "name": "@milkdown/prose",
+  "version": "5.4.1",
+  "type": "module",
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "@milkdown/exception": "5.4.1",
+    "@types/prosemirror-commands": "^1.0.4",
+    "@types/prosemirror-dropcursor": "^1.0.2",
+    "@types/prosemirror-gapcursor": "^1.0.4",
+    "@types/prosemirror-history": "^1.0.2",
+    "@types/prosemirror-inputrules": "^1.0.4",
+    "@types/prosemirror-keymap": "^1.0.4",
+    "@types/prosemirror-model": "^1.12.0",
+    "@types/prosemirror-schema-list": "^1.0.3",
+    "@types/prosemirror-state": "^1.2.6",
+    "@types/prosemirror-transform": "^1.1.2",
+    "@types/prosemirror-view": "^1.17.1",
+    "prosemirror-commands": "^1.1.12",
+    "prosemirror-dropcursor": "^1.3.5",
+    "prosemirror-gapcursor": "^1.1.5",
+    "prosemirror-history": "^1.1.3",
+    "prosemirror-inputrules": "^1.1.3",
+    "prosemirror-keymap": "^1.1.5",
+    "prosemirror-model": "^1.15.0",
+    "prosemirror-schema-list": "^1.1.4",
+    "prosemirror-state": "^1.3.4",
+    "prosemirror-tables": "*",
+    "prosemirror-transform": "^1.3.3",
+    "prosemirror-view": "^1.23.2",
+    "tslib": "^2.3.1"
+  },
+  "scripts": {
+    "start": "vite build --watch",
+    "test": "vitest",
+    "tsc": "tsc --noEmit",
+    "build": "vite build"
+  },
+  "readme": "# @milkdown/prose\n\nProsemirror toolkit for [milkdown](https://saul-mirone.github.io/milkdown/).\n\nCheck API on [document website](https://milkdown.dev/#/prose).\n\n# License\n\nMilkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).\n"
+}

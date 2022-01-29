@@ -1,0 +1,483 @@
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+import createCache from "@emotion/cache";
+const font = {
+  typography: "",
+  code: ""
+};
+const size = {
+  radius: "0",
+  lineWidth: "1px"
+};
+const mixin = {
+  scrollbar: () => "",
+  shadow: () => "",
+  border: () => ""
+};
+const slots = {
+  icon: (id) => {
+    const div = document.createElement("div");
+    div.className = "milkdown-icon";
+    div.textContent = id;
+    return div;
+  },
+  label: (id) => {
+    return id;
+  }
+};
+const themeColor = (hex) => {
+  if (hex.startsWith("rgba")) {
+    return hex.slice(5, -1).split(",").slice(0, -1).join(",");
+  }
+  if (hex.startsWith("rgb")) {
+    return hex.slice(4, -1);
+  }
+  const hex2rgb = (hex2) => {
+    const rgbShorthandRegex = /^([a-f\d])([a-f\d])([a-f\d])$/i;
+    const rgbRegex = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+    const parse16 = (x) => parseInt(x, 16);
+    const fullHex = hex2.slice(1).replace(rgbShorthandRegex, (_, r2, g2, b2) => {
+      return r2 + r2 + g2 + g2 + b2 + b2;
+    });
+    const [ok, r, g, b] = fullHex.match(rgbRegex) || [];
+    return ok ? [r, g, b].map(parse16) : null;
+  };
+  const rgb = hex2rgb(hex);
+  if (!rgb) {
+    console.warn(`Invalid hex: ${hex}`);
+    return hex;
+  }
+  return rgb.join(", ");
+};
+const obj2var = (x = {}, transform = (x2) => `${x2}`) => Object.entries(x).map(([k, v]) => {
+  return `--${k}: ${transform(v)};`;
+}).join("\n");
+const obj2color = (x = {}) => obj2var(x, themeColor);
+function murmur2(str) {
+  var h = 0;
+  var k, i = 0, len = str.length;
+  for (; len >= 4; ++i, len -= 4) {
+    k = str.charCodeAt(i) & 255 | (str.charCodeAt(++i) & 255) << 8 | (str.charCodeAt(++i) & 255) << 16 | (str.charCodeAt(++i) & 255) << 24;
+    k = (k & 65535) * 1540483477 + ((k >>> 16) * 59797 << 16);
+    k ^= k >>> 24;
+    h = (k & 65535) * 1540483477 + ((k >>> 16) * 59797 << 16) ^ (h & 65535) * 1540483477 + ((h >>> 16) * 59797 << 16);
+  }
+  switch (len) {
+    case 3:
+      h ^= (str.charCodeAt(i + 2) & 255) << 16;
+    case 2:
+      h ^= (str.charCodeAt(i + 1) & 255) << 8;
+    case 1:
+      h ^= str.charCodeAt(i) & 255;
+      h = (h & 65535) * 1540483477 + ((h >>> 16) * 59797 << 16);
+  }
+  h ^= h >>> 13;
+  h = (h & 65535) * 1540483477 + ((h >>> 16) * 59797 << 16);
+  return ((h ^ h >>> 15) >>> 0).toString(36);
+}
+var unitlessKeys = {
+  animationIterationCount: 1,
+  borderImageOutset: 1,
+  borderImageSlice: 1,
+  borderImageWidth: 1,
+  boxFlex: 1,
+  boxFlexGroup: 1,
+  boxOrdinalGroup: 1,
+  columnCount: 1,
+  columns: 1,
+  flex: 1,
+  flexGrow: 1,
+  flexPositive: 1,
+  flexShrink: 1,
+  flexNegative: 1,
+  flexOrder: 1,
+  gridRow: 1,
+  gridRowEnd: 1,
+  gridRowSpan: 1,
+  gridRowStart: 1,
+  gridColumn: 1,
+  gridColumnEnd: 1,
+  gridColumnSpan: 1,
+  gridColumnStart: 1,
+  msGridRow: 1,
+  msGridRowSpan: 1,
+  msGridColumn: 1,
+  msGridColumnSpan: 1,
+  fontWeight: 1,
+  lineHeight: 1,
+  opacity: 1,
+  order: 1,
+  orphans: 1,
+  tabSize: 1,
+  widows: 1,
+  zIndex: 1,
+  zoom: 1,
+  WebkitLineClamp: 1,
+  fillOpacity: 1,
+  floodOpacity: 1,
+  stopOpacity: 1,
+  strokeDasharray: 1,
+  strokeDashoffset: 1,
+  strokeMiterlimit: 1,
+  strokeOpacity: 1,
+  strokeWidth: 1
+};
+function memoize(fn) {
+  var cache = Object.create(null);
+  return function(arg) {
+    if (cache[arg] === void 0)
+      cache[arg] = fn(arg);
+    return cache[arg];
+  };
+}
+var hyphenateRegex = /[A-Z]|^ms/g;
+var animationRegex = /_EMO_([^_]+?)_([^]*?)_EMO_/g;
+var isCustomProperty = function isCustomProperty2(property) {
+  return property.charCodeAt(1) === 45;
+};
+var isProcessableValue = function isProcessableValue2(value) {
+  return value != null && typeof value !== "boolean";
+};
+var processStyleName = /* @__PURE__ */ memoize(function(styleName) {
+  return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
+});
+var processStyleValue = function processStyleValue2(key, value) {
+  switch (key) {
+    case "animation":
+    case "animationName": {
+      if (typeof value === "string") {
+        return value.replace(animationRegex, function(match, p1, p2) {
+          cursor = {
+            name: p1,
+            styles: p2,
+            next: cursor
+          };
+          return p1;
+        });
+      }
+    }
+  }
+  if (unitlessKeys[key] !== 1 && !isCustomProperty(key) && typeof value === "number" && value !== 0) {
+    return value + "px";
+  }
+  return value;
+};
+function handleInterpolation(mergedProps, registered, interpolation) {
+  if (interpolation == null) {
+    return "";
+  }
+  if (interpolation.__emotion_styles !== void 0) {
+    return interpolation;
+  }
+  switch (typeof interpolation) {
+    case "boolean": {
+      return "";
+    }
+    case "object": {
+      if (interpolation.anim === 1) {
+        cursor = {
+          name: interpolation.name,
+          styles: interpolation.styles,
+          next: cursor
+        };
+        return interpolation.name;
+      }
+      if (interpolation.styles !== void 0) {
+        var next = interpolation.next;
+        if (next !== void 0) {
+          while (next !== void 0) {
+            cursor = {
+              name: next.name,
+              styles: next.styles,
+              next: cursor
+            };
+            next = next.next;
+          }
+        }
+        var styles = interpolation.styles + ";";
+        return styles;
+      }
+      return createStringFromObject(mergedProps, registered, interpolation);
+    }
+    case "function": {
+      if (mergedProps !== void 0) {
+        var previousCursor = cursor;
+        var result = interpolation(mergedProps);
+        cursor = previousCursor;
+        return handleInterpolation(mergedProps, registered, result);
+      }
+      break;
+    }
+  }
+  if (registered == null) {
+    return interpolation;
+  }
+  var cached = registered[interpolation];
+  return cached !== void 0 ? cached : interpolation;
+}
+function createStringFromObject(mergedProps, registered, obj) {
+  var string = "";
+  if (Array.isArray(obj)) {
+    for (var i = 0; i < obj.length; i++) {
+      string += handleInterpolation(mergedProps, registered, obj[i]) + ";";
+    }
+  } else {
+    for (var _key in obj) {
+      var value = obj[_key];
+      if (typeof value !== "object") {
+        if (registered != null && registered[value] !== void 0) {
+          string += _key + "{" + registered[value] + "}";
+        } else if (isProcessableValue(value)) {
+          string += processStyleName(_key) + ":" + processStyleValue(_key, value) + ";";
+        }
+      } else {
+        if (_key === "NO_COMPONENT_SELECTOR" && false) {
+          throw new Error("Component selectors can only be used in conjunction with @emotion/babel-plugin.");
+        }
+        if (Array.isArray(value) && typeof value[0] === "string" && (registered == null || registered[value[0]] === void 0)) {
+          for (var _i = 0; _i < value.length; _i++) {
+            if (isProcessableValue(value[_i])) {
+              string += processStyleName(_key) + ":" + processStyleValue(_key, value[_i]) + ";";
+            }
+          }
+        } else {
+          var interpolated = handleInterpolation(mergedProps, registered, value);
+          switch (_key) {
+            case "animation":
+            case "animationName": {
+              string += processStyleName(_key) + ":" + interpolated + ";";
+              break;
+            }
+            default: {
+              string += _key + "{" + interpolated + "}";
+            }
+          }
+        }
+      }
+    }
+  }
+  return string;
+}
+var labelPattern = /label:\s*([^\s;\n{]+)\s*(;|$)/g;
+var cursor;
+var serializeStyles = function serializeStyles2(args, registered, mergedProps) {
+  if (args.length === 1 && typeof args[0] === "object" && args[0] !== null && args[0].styles !== void 0) {
+    return args[0];
+  }
+  var stringMode = true;
+  var styles = "";
+  cursor = void 0;
+  var strings = args[0];
+  if (strings == null || strings.raw === void 0) {
+    stringMode = false;
+    styles += handleInterpolation(mergedProps, registered, strings);
+  } else {
+    styles += strings[0];
+  }
+  for (var i = 1; i < args.length; i++) {
+    styles += handleInterpolation(mergedProps, registered, args[i]);
+    if (stringMode) {
+      styles += strings[i];
+    }
+  }
+  labelPattern.lastIndex = 0;
+  var identifierName = "";
+  var match;
+  while ((match = labelPattern.exec(styles)) !== null) {
+    identifierName += "-" + match[1];
+  }
+  var name = murmur2(styles) + identifierName;
+  return {
+    name,
+    styles,
+    next: cursor
+  };
+};
+var isBrowser = true;
+function getRegisteredStyles(registered, registeredStyles, classNames) {
+  var rawClassName = "";
+  classNames.split(" ").forEach(function(className) {
+    if (registered[className] !== void 0) {
+      registeredStyles.push(registered[className] + ";");
+    } else {
+      rawClassName += className + " ";
+    }
+  });
+  return rawClassName;
+}
+var insertStyles = function insertStyles2(cache, serialized, isStringTag) {
+  var className = cache.key + "-" + serialized.name;
+  if ((isStringTag === false || isBrowser === false) && cache.registered[className] === void 0) {
+    cache.registered[className] = serialized.styles;
+  }
+  if (cache.inserted[serialized.name] === void 0) {
+    var current = serialized;
+    do {
+      cache.insert(serialized === current ? "." + className : "", current, cache.sheet, true);
+      current = current.next;
+    } while (current !== void 0);
+  }
+};
+function insertWithoutScoping(cache, serialized) {
+  if (cache.inserted[serialized.name] === void 0) {
+    return cache.insert("", serialized, cache.sheet, true);
+  }
+}
+function merge(registered, css, className) {
+  var registeredStyles = [];
+  var rawClassName = getRegisteredStyles(registered, registeredStyles, className);
+  if (registeredStyles.length < 2) {
+    return className;
+  }
+  return rawClassName + css(registeredStyles);
+}
+var createEmotion = function createEmotion2(options) {
+  var cache = createCache(options);
+  cache.sheet.speedy = function(value) {
+    this.isSpeedy = value;
+  };
+  cache.compat = true;
+  var css = function css2() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    var serialized = serializeStyles(args, cache.registered, void 0);
+    insertStyles(cache, serialized, false);
+    return cache.key + "-" + serialized.name;
+  };
+  var keyframes = function keyframes2() {
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+    var serialized = serializeStyles(args, cache.registered);
+    var animation = "animation-" + serialized.name;
+    insertWithoutScoping(cache, {
+      name: serialized.name,
+      styles: "@keyframes " + animation + "{" + serialized.styles + "}"
+    });
+    return animation;
+  };
+  var injectGlobal = function injectGlobal2() {
+    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      args[_key3] = arguments[_key3];
+    }
+    var serialized = serializeStyles(args, cache.registered);
+    insertWithoutScoping(cache, serialized);
+  };
+  var cx = function cx2() {
+    for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+      args[_key4] = arguments[_key4];
+    }
+    return merge(cache.registered, css, classnames(args));
+  };
+  return {
+    css,
+    cx,
+    injectGlobal,
+    keyframes,
+    hydrate: function hydrate(ids) {
+      ids.forEach(function(key) {
+        cache.inserted[key] = true;
+      });
+    },
+    flush: function flush() {
+      cache.registered = {};
+      cache.inserted = {};
+      cache.sheet.flush();
+    },
+    sheet: cache.sheet,
+    cache,
+    getRegisteredStyles: getRegisteredStyles.bind(null, cache.registered),
+    merge: merge.bind(null, cache.registered, css)
+  };
+};
+var classnames = function classnames2(args) {
+  var cls = "";
+  for (var i = 0; i < args.length; i++) {
+    var arg = args[i];
+    if (arg == null)
+      continue;
+    var toAdd = void 0;
+    switch (typeof arg) {
+      case "boolean":
+        break;
+      case "object": {
+        if (Array.isArray(arg)) {
+          toAdd = classnames2(arg);
+        } else {
+          toAdd = "";
+          for (var k in arg) {
+            if (arg[k] && k) {
+              toAdd && (toAdd += " ");
+              toAdd += k;
+            }
+          }
+        }
+        break;
+      }
+      default: {
+        toAdd = arg;
+      }
+    }
+    if (toAdd) {
+      cls && (cls += " ");
+      cls += toAdd;
+    }
+  }
+  return cls;
+};
+const init = (options) => createEmotion(options);
+const injectVar = (themePack, emotion) => {
+  const { color = {}, font: font2, size: size2 = {} } = themePack;
+  const css = emotion.injectGlobal;
+  css`
+        :root {
+            ${obj2color(color)};
+            ${obj2var(font2, (x) => x.join(", "))};
+            ${obj2var(size2)};
+        }
+    `;
+};
+const pack2Tool = (themePack) => {
+  const { font: font$1, size: size$1 = {}, mixin: _mixin, slots: _slots, global } = themePack;
+  const palette = (key, alpha = 1) => {
+    return `rgba(var(--${key}), ${alpha})`;
+  };
+  const toMap = (x = {}) => Object.fromEntries(Object.keys(x).map((k) => {
+    return [k, `var(--${k})`];
+  }));
+  const mixinTool = {
+    palette,
+    size: __spreadValues(__spreadValues({}, size), toMap(size$1)),
+    font: __spreadValues(__spreadValues({}, font), toMap(font$1))
+  };
+  const mixin$1 = __spreadValues(__spreadValues({}, mixin), _mixin == null ? void 0 : _mixin(mixinTool));
+  const slotsTool = __spreadProps(__spreadValues({}, mixinTool), {
+    mixin: mixin$1
+  });
+  const slots$1 = __spreadValues(__spreadValues({}, slots), _slots == null ? void 0 : _slots(slotsTool));
+  const tool = __spreadProps(__spreadValues({}, slotsTool), {
+    slots: slots$1
+  });
+  global == null ? void 0 : global(tool);
+  return tool;
+};
+export { init, injectVar, pack2Tool };
+//# sourceMappingURL=index.es.js.map

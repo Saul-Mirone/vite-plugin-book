@@ -1,0 +1,38 @@
+{
+  "name": "defu",
+  "version": "5.0.1",
+  "description": "Recursively assign default properties. Lightweight and Fast!",
+  "repository": "unjs/defu",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/defu.cjs",
+      "import": "./dist/defu.mjs"
+    }
+  },
+  "main": "./dist/defu.cjs",
+  "module": "./dist/defu.mjs",
+  "types": "./dist/defu.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "lint": "eslint --ext .ts src",
+    "prepack": "yarn build",
+    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
+    "test": "yarn lint && yarn jest"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config-typescript": "latest",
+    "@types/jest": "latest",
+    "@types/node": "latest",
+    "eslint": "latest",
+    "expect-type": "latest",
+    "jest": "latest",
+    "standard-version": "latest",
+    "ts-jest": "latest",
+    "typescript": "latest",
+    "unbuild": "latest"
+  }
+}

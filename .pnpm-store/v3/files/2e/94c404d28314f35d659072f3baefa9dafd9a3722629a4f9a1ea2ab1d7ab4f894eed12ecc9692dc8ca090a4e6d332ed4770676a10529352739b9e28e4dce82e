@@ -1,0 +1,1 @@
+{"version":3,"file":"dropdown.d.ts","sourceRoot":"","sources":["dropdown.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAElC,aAAK,SAAS,GAAG;IACb,UAAU,EAAE,aAAa,CAAC;IAC1B,UAAU,EAAE,aAAa,CAAC;CAC7B,CAAC;AAEF,eAAO,MAAM,cAAc,WAAY,MAAM,mBAAmB,WAAW,aAAa,SAAS,KAAG,OAmCnG,CAAC"}
