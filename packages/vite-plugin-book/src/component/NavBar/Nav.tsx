@@ -6,6 +6,7 @@ import { ItemInfo } from '../../interface';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { isIndexPage, nope } from '../../utils/helper';
 import { Button } from '../Button';
+import { IconButton } from './IconButton';
 import { List } from './List';
 import { ListReducerState } from './listReducer';
 
@@ -24,7 +25,20 @@ export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
                 <NavLink onClick={() => onClick('/')} to={base} className="pl-12px no-underline text-neutral">
                     {title}
                 </NavLink>
-                <Button icon="add" text="New" onClick={nope} />
+                <div className="flex gap-8px mr-8px">
+                    <IconButton
+                        type="post_add"
+                        onClick={() => {
+                            console.error('add post not implemented');
+                        }}
+                    />
+                    <IconButton
+                        type="create_new_folder"
+                        onClick={() => {
+                            console.error('add folder not implemented');
+                        }}
+                    />
+                </div>
             </div>
             <div
                 className="pr-12px overflow-auto"

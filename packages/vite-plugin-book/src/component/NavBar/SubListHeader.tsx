@@ -58,12 +58,6 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     {spread && (
                         <>
                             <IconButton
-                                type="post_add"
-                                onClick={() => {
-                                    console.error('add not implemented');
-                                }}
-                            />
-                            <IconButton
                                 type="delete_outline"
                                 onClick={() => {
                                     show({
