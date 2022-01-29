@@ -1,0 +1,34 @@
+{
+  "name": "@milkdown/preset-commonmark",
+  "version": "5.3.3",
+  "type": "module",
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "milkdown",
+    "milkdown plugin",
+    "markdown",
+    "commonmark"
+  ],
+  "dependencies": {
+    "@milkdown/prose": "5.3.3",
+    "@milkdown/core": "5.3.3",
+    "@milkdown/design-system": "5.3.3",
+    "@milkdown/utils": "5.3.3",
+    "remark-inline-links": "^6.0.0",
+    "tslib": "^2.3.1"
+  },
+  "scripts": {
+    "start": "vite build --watch",
+    "test": "vitest",
+    "tsc": "tsc --noEmit",
+    "build": "vite build"
+  },
+  "readme": "# @milkdown/preset-commonmark\n\nCommon mark preset for [milkdown](https://saul-mirone.github.io/milkdown/).\nAdd support for commonmark.\n\n# Example Usage\n\n```typescript\nimport { Editor } from '@milkdown/core';\nimport { nord } from '@milkdown/theme-nord';\n\nimport { commonmark } from '@milkdown/preset-commonmark';\n\nEditor.make().use(nord).use(commonmark).create();\n```\n\n## Custom Keymap\n\n```typescript\nimport { commonmarkNodes, commonmarkPlugins, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';\n\nconst nodes = commonmarkNodes.configure(blockquote, {\n    keymap: {\n        [SupportedKeys.Blockquote]: 'Mod-Shift-b',\n    },\n});\n\nEditor.make().use(commonmarkPlugins).use(nodes);\n```\n\nKeymap supported:\n\n-   HardBreak\n-   Blockquote\n-   BulletList\n-   OrderedList\n-   CodeFence\n-   H1\n-   H2\n-   H3\n-   H4\n-   H5\n-   H6\n-   Text\n-   CodeInline\n-   Em\n-   Bold\n-   NextListItem\n-   SinkListItem\n-   LiftListItem\n\n## Custom Style\n\n```typescript\nimport { commonmark, Paragraph, Heading } from '@milkdown/commonmark';\n\nconst nodes = commonmark\n    .configure(Paragraph, {\n        className: () =>\n            'my-custom-paragraph'\n    })\n    .configure(Heading, {\n        className: (attrs) =>\n            `my-custom-heading my-h${attrs.level}`\n    })\n\nnew Editor({ ...  }).use(nodes);\n```\n\n## Other Options\n\n### Image\n\n-   placeholder\n    -   loading: _string_. The placeholder of loading status.\n    -   empty: _string_. The placeholder of empty status.\n    -   failed: _string_. The placeholder of failed status.\n\n### CodeFence\n\n-   languageList: _string[]_. The selectable languages list of code fence needs to be enabled.\n\n# License\n\nMilkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).\n"
+}

@@ -1,0 +1,524 @@
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __objRest = (source, exclude) => {
+  var target = {};
+  for (var prop in source)
+    if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
+      target[prop] = source[prop];
+  if (source != null && __getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
+        target[prop] = source[prop];
+    }
+  return target;
+};
+import { createPlugin, AtomList } from "@milkdown/utils";
+import { schemaCtx, themeToolCtx, commandsCtx } from "@milkdown/core";
+import { findParentNode, DecorationSet, Decoration, calculateNodePosition, Plugin, PluginKey } from "@milkdown/prose";
+import scrollIntoView from "smooth-scroll-into-view-if-needed";
+const itemStyle = ({ font, palette }, { css }) => {
+  return css`
+        .slash-dropdown-item {
+            display: flex;
+            gap: 2rem;
+            height: 3rem;
+            padding: 0 1rem;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+            line-height: 2;
+            font-family: ${font.typography};
+            font-size: 0.875rem;
+
+            transition: all 0.2s ease-in-out;
+
+            &,
+            .icon {
+                color: ${palette("neutral", 0.87)};
+                transition: all 0.2s ease-in-out;
+            }
+
+            &.hide {
+                display: none;
+            }
+
+            &.active {
+                background: ${palette("secondary", 0.12)};
+                &,
+                .icon {
+                    color: ${palette("primary")};
+                }
+            }
+            `;
+};
+const injectStyle = (themeTool, emotion) => {
+  var _a, _b, _c;
+  const { mixin, size, palette } = themeTool;
+  const style = emotion.css`
+        width: 20.5rem;
+        max-height: 20.5rem;
+        overflow-y: auto;
+        ${(_a = mixin.border) == null ? void 0 : _a.call(mixin)};
+        border-radius: ${size.radius};
+        position: absolute;
+        background: ${palette("surface")};
+
+        ${(_b = mixin.shadow) == null ? void 0 : _b.call(mixin)};
+
+        &.hide {
+            display: none;
+        }
+
+        ${(_c = mixin.scrollbar) == null ? void 0 : _c.call(mixin)};
+
+        ${itemStyle(themeTool, emotion)}
+    `;
+  return style;
+};
+const createDropdown = (utils) => {
+  const div = document.createElement("div");
+  div.setAttribute("role", "listbox");
+  div.setAttribute("tabindex", "-1");
+  const style = utils.getStyle(injectStyle);
+  if (style) {
+    div.classList.add(style);
+  }
+  div.classList.add("slash-dropdown", "hide");
+  return div;
+};
+const createDropdownItem = (themeTool, text, icon, options) => {
+  var _a;
+  const textClassName = (_a = options == null ? void 0 : options.textClassName) != null ? _a : "text";
+  const div = document.createElement("div");
+  div.setAttribute("role", "option");
+  div.classList.add("slash-dropdown-item");
+  const iconSpan = themeTool.slots.icon(icon);
+  const textSpan = document.createElement("span");
+  textSpan.textContent = text;
+  textSpan.className = textClassName;
+  div.appendChild(iconSpan);
+  div.appendChild(textSpan);
+  return div;
+};
+const cleanUp = (state, dispatch) => {
+  const { selection } = state;
+  const { $from } = selection;
+  const tr = state.tr.deleteRange($from.start(), $from.pos);
+  dispatch == null ? void 0 : dispatch(tr);
+  return false;
+};
+const cleanUpAndCreateNode = (createCommand) => (state, dispatch, view) => {
+  if (view) {
+    cleanUp(state, dispatch);
+    createCommand();
+  }
+  return true;
+};
+const defaultActions = (ctx, input = "/") => {
+  const { nodes } = ctx.get(schemaCtx);
+  const actions = [
+    {
+      id: "h1",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Large Heading", "h1"),
+      command: () => ctx.get(commandsCtx).callByName("TurnIntoHeading", 1),
+      keyword: ["h1", "large heading"],
+      typeName: "heading"
+    },
+    {
+      id: "h2",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Medium Heading", "h2"),
+      command: () => ctx.get(commandsCtx).callByName("TurnIntoHeading", 2),
+      keyword: ["h2", "medium heading"],
+      typeName: "heading"
+    },
+    {
+      id: "h3",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Small Heading", "h3"),
+      command: () => ctx.get(commandsCtx).callByName("TurnIntoHeading", 3),
+      keyword: ["h3", "small heading"],
+      typeName: "heading"
+    },
+    {
+      id: "bulletList",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Bullet List", "bulletList"),
+      command: () => ctx.get(commandsCtx).callByName("WrapInBulletList"),
+      keyword: ["bullet list", "ul"],
+      typeName: "bullet_list"
+    },
+    {
+      id: "orderedList",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Ordered List", "orderedList"),
+      command: () => ctx.get(commandsCtx).callByName("WrapInOrderedList"),
+      keyword: ["ordered list", "ol"],
+      typeName: "ordered_list"
+    },
+    {
+      id: "taskList",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Task List", "taskList"),
+      command: () => ctx.get(commandsCtx).callByName("TurnIntoTaskList"),
+      keyword: ["task list", "task"],
+      typeName: "task_list_item"
+    },
+    {
+      id: "image",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Image", "image"),
+      command: () => ctx.get(commandsCtx).callByName("InsertImage"),
+      keyword: ["image"],
+      typeName: "image"
+    },
+    {
+      id: "blockquote",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Quote", "quote"),
+      command: () => ctx.get(commandsCtx).callByName("WrapInBlockquote"),
+      keyword: ["quote", "blockquote"],
+      typeName: "blockquote"
+    },
+    {
+      id: "table",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Table", "table"),
+      command: () => ctx.get(commandsCtx).callByName("InsertTable"),
+      keyword: ["table"],
+      typeName: "table"
+    },
+    {
+      id: "code",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Code Fence", "code"),
+      command: () => ctx.get(commandsCtx).callByName("TurnIntoCodeFence"),
+      keyword: ["code"],
+      typeName: "fence"
+    },
+    {
+      id: "divider",
+      dom: createDropdownItem(ctx.get(themeToolCtx), "Divide Line", "divider"),
+      command: () => ctx.get(commandsCtx).callByName("InsertHr"),
+      keyword: ["divider", "hr"],
+      typeName: "hr"
+    }
+  ];
+  const userInput = input.slice(1).toLocaleLowerCase();
+  return actions.filter((action) => !!nodes[action.typeName] && action.keyword.some((keyword) => keyword.includes(userInput))).map((_a) => {
+    var _b = _a, { keyword, typeName } = _b, action = __objRest(_b, ["keyword", "typeName"]);
+    return action;
+  });
+};
+const defaultConfig = (ctx) => {
+  return ({ content, isTopLevel }) => {
+    if (!isTopLevel)
+      return null;
+    if (!content) {
+      return { placeholder: "Type / to use the slash commands..." };
+    }
+    if (content.startsWith("/")) {
+      return content === "/" ? {
+        placeholder: "Type to filter...",
+        actions: defaultActions(ctx)
+      } : {
+        actions: defaultActions(ctx, content)
+      };
+    }
+    return null;
+  };
+};
+const createEmptyStyle = ({ font, palette }, { css }) => css`
+    position: relative;
+    &::before {
+        position: absolute;
+        cursor: text;
+        font-family: ${font.typography};
+        font-size: 0.875rem;
+        color: ${palette("neutral", 0.6)};
+        content: attr(data-text);
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+`;
+const createSlashStyle = (_, { css }) => css`
+    &::before {
+        left: 0.5rem;
+    }
+`;
+const createProps = (status, utils) => {
+  const emptyStyle = utils.getStyle(createEmptyStyle);
+  const slashStyle = utils.getStyle(createSlashStyle);
+  return {
+    handleKeyDown: (_, event) => {
+      if (status.isEmpty()) {
+        return false;
+      }
+      if (!(event instanceof KeyboardEvent)) {
+        return false;
+      }
+      if (!["ArrowUp", "ArrowDown", "Enter"].includes(event.key)) {
+        return false;
+      }
+      return true;
+    },
+    decorations: (state) => {
+      const paragraph = findParentNode(({ type }) => type.name === "paragraph")(state.selection);
+      const uploadPlugin = state.plugins.find((x) => x.key === "MILKDOWN_PLUGIN_UPLOAD$");
+      const decorations = uploadPlugin == null ? void 0 : uploadPlugin.getState(state);
+      if (decorations != null && decorations.find(state.selection.from, state.selection.to).length > 0) {
+        status.clear();
+        return;
+      }
+      if (!paragraph || paragraph.node.childCount > 1 || state.selection.$from.parentOffset !== paragraph.node.textContent.length || paragraph.node.firstChild && paragraph.node.firstChild.type.name !== "text") {
+        status.clear();
+        return;
+      }
+      const { placeholder, actions } = status.update({
+        parentNode: state.selection.$from.node(state.selection.$from.depth - 1),
+        isTopLevel: state.selection.$from.depth === 1,
+        content: paragraph.node.textContent,
+        state
+      });
+      if (!placeholder) {
+        return null;
+      }
+      const createDecoration = (text, className) => {
+        const pos = paragraph.pos;
+        return DecorationSet.create(state.doc, [
+          Decoration.node(pos, pos + paragraph.node.nodeSize, {
+            class: className.filter((x) => x).join(" "),
+            "data-text": text
+          })
+        ]);
+      };
+      if (actions.length) {
+        return createDecoration(placeholder, [emptyStyle, slashStyle, "empty-node", "is-slash"]);
+      }
+      return createDecoration(placeholder, [emptyStyle, "empty-node"]);
+    }
+  };
+};
+const transformAction = (action) => ({
+  id: action.id,
+  $: action.dom,
+  command: cleanUpAndCreateNode(action.command)
+});
+const createStatusCtx = () => {
+  return {
+    placeholder: null,
+    actions: []
+  };
+};
+const createStatus = (builder) => {
+  const statusCtx = createStatusCtx();
+  return {
+    get: () => statusCtx,
+    clear: () => {
+      statusCtx.placeholder = null;
+      statusCtx.actions = [];
+    },
+    update: (builderParams) => {
+      var _a, _b;
+      const config = builder(builderParams);
+      statusCtx.placeholder = (_a = config == null ? void 0 : config.placeholder) != null ? _a : null;
+      statusCtx.actions = ((_b = config == null ? void 0 : config.actions) != null ? _b : []).map(transformAction);
+      return statusCtx;
+    },
+    isEmpty: () => statusCtx.actions.length === 0
+  };
+};
+const renderDropdown = (status, dropdownElement, listeners) => {
+  const { actions } = status.get();
+  if (!actions.length) {
+    dropdownElement.classList.add("hide");
+    return false;
+  }
+  dropdownElement.childNodes.forEach((child) => {
+    child.removeEventListener("mouseenter", listeners.mouseEnter);
+    child.removeEventListener("mouseleave", listeners.mouseLeave);
+  });
+  dropdownElement.textContent = "";
+  actions.forEach(({ $ }) => {
+    $.classList.remove("active");
+    $.addEventListener("mouseenter", listeners.mouseEnter);
+    $.addEventListener("mouseleave", listeners.mouseLeave);
+    dropdownElement.appendChild($);
+  });
+  dropdownElement.classList.remove("hide");
+  actions[0].$.classList.add("active");
+  requestAnimationFrame(() => {
+    scrollIntoView(actions[0].$, {
+      scrollMode: "if-needed",
+      block: "nearest",
+      inline: "nearest"
+    });
+  });
+  return true;
+};
+const createMouseManager = () => {
+  let mouseLock = false;
+  return {
+    isLock: () => mouseLock,
+    lock: () => {
+      mouseLock = true;
+    },
+    unlock: () => {
+      mouseLock = false;
+    }
+  };
+};
+const handleMouseMove = (mouseManager) => () => {
+  mouseManager.unlock();
+};
+const handleMouseEnter = (status, mouseManager) => (e) => {
+  if (mouseManager.isLock())
+    return;
+  const { actions } = status.get();
+  const active = actions.findIndex((x) => x.$.classList.contains("active"));
+  if (active >= 0) {
+    actions[active].$.classList.remove("active");
+  }
+  const { target } = e;
+  if (!(target instanceof HTMLElement))
+    return;
+  target.classList.add("active");
+};
+const handleMouseLeave = () => (e) => {
+  const { target } = e;
+  if (!(target instanceof HTMLElement))
+    return;
+  target.classList.remove("active");
+};
+const handleClick = (status, view, dropdownElement) => (e) => {
+  const { target } = e;
+  if (!(target instanceof HTMLElement))
+    return;
+  if (!view)
+    return;
+  const stop = () => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+  const { actions } = status.get();
+  const el = Object.values(actions).find(({ $ }) => $.contains(target));
+  if (!el) {
+    if (status.isEmpty())
+      return;
+    status.clear();
+    dropdownElement.classList.add("hide");
+    stop();
+    return;
+  }
+  stop();
+  el.command(view.state, view.dispatch, view);
+};
+const handleKeydown = (status, view, dropdownElement, mouseManager) => (e) => {
+  if (!(e instanceof KeyboardEvent))
+    return;
+  if (!mouseManager.isLock())
+    mouseManager.lock();
+  const { key: key2 } = e;
+  if (status.isEmpty())
+    return;
+  if (!["ArrowDown", "ArrowUp", "Enter", "Escape"].includes(key2))
+    return;
+  const { actions } = status.get();
+  let active = actions.findIndex(({ $ }) => $.classList.contains("active"));
+  if (active < 0)
+    active = 0;
+  const moveActive = (next) => {
+    actions[active].$.classList.remove("active");
+    actions[next].$.classList.add("active");
+    scrollIntoView(actions[next].$, {
+      scrollMode: "if-needed",
+      block: "nearest",
+      inline: "nearest"
+    });
+  };
+  if (key2 === "ArrowDown") {
+    const next = active === actions.length - 1 ? 0 : active + 1;
+    moveActive(next);
+    return;
+  }
+  if (key2 === "ArrowUp") {
+    const next = active === 0 ? actions.length - 1 : active - 1;
+    moveActive(next);
+    return;
+  }
+  if (key2 === "Escape") {
+    if (status.isEmpty())
+      return;
+    status.clear();
+    dropdownElement.classList.add("hide");
+    return;
+  }
+  actions[active].command(view.state, view.dispatch, view);
+  actions[active].$.classList.remove("active");
+};
+const calculatePosition = (view, dropdownElement) => {
+  calculateNodePosition(view, dropdownElement, (selected, target, parent) => {
+    const $editor = dropdownElement.parentElement;
+    if (!$editor) {
+      throw new Error();
+    }
+    let left = selected.left - parent.left;
+    let top = selected.bottom - parent.top + 14 + $editor.scrollTop;
+    if (left < 0) {
+      left = 0;
+    }
+    if (window.innerHeight - selected.bottom < target.height) {
+      top = selected.top - parent.top - target.height - 14 + $editor.scrollTop;
+    }
+    return [top, left];
+  });
+};
+const createView = (status, view, utils) => {
+  const wrapper = view.dom.parentNode;
+  if (!wrapper)
+    return {};
+  const dropdownElement = createDropdown(utils);
+  const mouseManager = createMouseManager();
+  wrapper.appendChild(dropdownElement);
+  const _mouseMove = handleMouseMove(mouseManager);
+  const _mouseDown = handleClick(status, view, dropdownElement);
+  const _keydown = handleKeydown(status, view, dropdownElement, mouseManager);
+  const _mouseEnter = handleMouseEnter(status, mouseManager);
+  const _mouseLeave = handleMouseLeave();
+  wrapper.addEventListener("mousemove", _mouseMove);
+  wrapper.addEventListener("mousedown", _mouseDown);
+  wrapper.addEventListener("keydown", _keydown);
+  return {
+    update: (view2) => {
+      const show = renderDropdown(status, dropdownElement, {
+        mouseEnter: _mouseEnter,
+        mouseLeave: _mouseLeave
+      });
+      if (!show)
+        return;
+      calculatePosition(view2, dropdownElement);
+    },
+    destroy: () => {
+      wrapper.removeEventListener("mousemove", _mouseMove);
+      wrapper.removeEventListener("mousedown", _mouseDown);
+      wrapper.removeEventListener("keydown", _keydown);
+      dropdownElement.remove();
+    }
+  };
+};
+const key = "MILKDOWN_PLUGIN_SLASH";
+const createSlashPlugin = (utils, builder) => {
+  const status = createStatus(builder);
+  return new Plugin({
+    key: new PluginKey(key),
+    props: createProps(status, utils),
+    view: (view) => createView(status, view, utils)
+  });
+};
+const slashPlugin = createPlugin((utils, options) => {
+  var _a;
+  const slashConfig = (_a = options == null ? void 0 : options.config) != null ? _a : defaultConfig;
+  return {
+    prosePlugins: (_, ctx) => {
+      const config = slashConfig(ctx);
+      const plugin = createSlashPlugin(utils, config);
+      return [plugin];
+    }
+  };
+});
+const slash = AtomList.create([slashPlugin()]);
+export { createDropdownItem, defaultActions, defaultConfig, slash, slashPlugin };
+//# sourceMappingURL=index.es.js.map

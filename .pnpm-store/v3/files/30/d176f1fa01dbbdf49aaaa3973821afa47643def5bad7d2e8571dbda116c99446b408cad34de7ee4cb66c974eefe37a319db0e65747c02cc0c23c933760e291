@@ -1,0 +1,1 @@
+{"version":3,"file":"$inputRule.d.ts","sourceRoot":"","sources":["$inputRule.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,GAAG,EAAiB,cAAc,EAAe,MAAM,gBAAgB,CAAC;AACjF,OAAO,EAAE,SAAS,EAAE,MAAM,iBAAiB,CAAC;AAE5C,oBAAY,UAAU,GAAG,cAAc,GAAG;IACtC,SAAS,EAAE,SAAS,CAAC;CACxB,CAAC;AAEF,eAAO,MAAM,UAAU,oBAAqB,GAAG,KAAK,SAAS,KAAG,UAS/D,CAAC"}

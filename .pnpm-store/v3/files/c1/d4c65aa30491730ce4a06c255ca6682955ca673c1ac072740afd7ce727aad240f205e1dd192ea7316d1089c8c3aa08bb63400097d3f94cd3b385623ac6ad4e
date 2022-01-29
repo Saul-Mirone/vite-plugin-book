@@ -1,0 +1,5 @@
+import { ThemePack, ThemeTool } from './types';
+export declare const injectVar: (themePack: ThemePack) => void;
+export declare const pack2Tool: (themePack: ThemePack) => ThemeTool;
+export type { Color, Font, Icon, Size, ThemePack, ThemeTool } from './types';
+//# sourceMappingURL=index.d.ts.map

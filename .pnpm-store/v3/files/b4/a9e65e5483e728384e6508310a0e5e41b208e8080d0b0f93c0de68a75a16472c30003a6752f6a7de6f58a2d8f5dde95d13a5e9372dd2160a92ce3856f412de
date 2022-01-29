@@ -1,0 +1,264 @@
+import { SchemaReady, commandsCtx, inputRulesCtx, marksCtx, schemaCtx, nodesCtx, prosePluginsCtx, InitReady, remarkPluginsCtx, viewCtx, themeToolCtx, emotionCtx, ConfigReady } from "@milkdown/core";
+import { keymap } from "@milkdown/prose";
+import { themeMustInstalled } from "@milkdown/exception";
+const hasMetadata = (x) => Object.prototype.hasOwnProperty.call(x, "origin");
+class AtomList extends Array {
+  findThenRun(target, callback) {
+    const index = this.findIndex((x) => hasMetadata(x) && x.origin === target);
+    if (index < 0)
+      return this;
+    callback(index);
+    return this;
+  }
+  configure(target, config) {
+    return this.findThenRun(target, (index) => {
+      this.splice(index, 1, target(config));
+    });
+  }
+  replace(target, next) {
+    return this.findThenRun(target, (index) => {
+      this.splice(index, 1, next);
+    });
+  }
+  remove(target) {
+    return this.findThenRun(target, (index) => {
+      this.splice(index, 1);
+    });
+  }
+  headless() {
+    this.filter(hasMetadata).forEach((x) => {
+      this.configure(x.origin, { headless: true });
+    });
+    return this;
+  }
+  static create(from) {
+    return new AtomList(...from);
+  }
+}
+const $command = (cmd) => {
+  const plugin = () => async (ctx) => {
+    await ctx.wait(SchemaReady);
+    const [key, command] = cmd(ctx);
+    ctx.get(commandsCtx).create(key, command);
+    plugin.run = (info) => ctx.get(commandsCtx).call(key, info);
+    plugin.key = key;
+  };
+  return plugin;
+};
+const $inputRule = (inputRule) => {
+  const plugin = () => async (ctx) => {
+    await ctx.wait(SchemaReady);
+    const ir = inputRule(ctx);
+    ctx.update(inputRulesCtx, (irs) => [...irs, ir]);
+    plugin.inputRule = ir;
+  };
+  return plugin;
+};
+const $mark = (id, schema) => {
+  const plugin = () => async (ctx) => {
+    const markSchema = schema(ctx);
+    ctx.update(marksCtx, (ns) => [...ns, [id, markSchema]]);
+    plugin.id = id;
+    plugin.schema = markSchema;
+    await ctx.wait(SchemaReady);
+    plugin.type = ctx.get(schemaCtx).marks[id];
+  };
+  return plugin;
+};
+const $node = (id, schema) => {
+  const plugin = () => async (ctx) => {
+    const nodeSchema = schema(ctx);
+    ctx.update(nodesCtx, (ns) => [...ns, [id, nodeSchema]]);
+    plugin.id = id;
+    plugin.schema = nodeSchema;
+    await ctx.wait(SchemaReady);
+    plugin.type = ctx.get(schemaCtx).nodes[id];
+  };
+  return plugin;
+};
+const $prose = (prose) => {
+  const plugin = () => async (ctx) => {
+    await ctx.wait(SchemaReady);
+    const prosePlugin = prose(ctx);
+    ctx.update(prosePluginsCtx, (ps) => [...ps, prosePlugin]);
+    plugin.plugin = prosePlugin;
+  };
+  return plugin;
+};
+const $remark = (remark) => {
+  const plugin = () => async (ctx) => {
+    await ctx.wait(InitReady);
+    const re = remark(ctx);
+    ctx.update(remarkPluginsCtx, (rp) => [...rp, re]);
+    plugin.plugin = re;
+  };
+  return plugin;
+};
+const $shortcut = (shortcut) => {
+  const plugin = () => async (ctx) => {
+    await ctx.wait(SchemaReady);
+    const k = shortcut(ctx);
+    ctx.update(prosePluginsCtx, (ps) => [...ps, keymap(k)]);
+    plugin.keymap = k;
+  };
+  return plugin;
+};
+const $view = (type, view) => {
+  const plugin = () => async (ctx) => {
+    await ctx.wait(SchemaReady);
+    const v = view(ctx);
+    ctx.update(viewCtx, (ps) => [...ps, [type.id, v]]);
+    plugin.view = v;
+    plugin.type = type;
+  };
+  return plugin;
+};
+const getClassName = (className) => (attrs, ...defaultValue) => {
+  var _a;
+  const classList = (_a = className == null ? void 0 : className(attrs)) != null ? _a : defaultValue;
+  return Array.isArray(classList) ? classList.filter((x) => x).join(" ") : classList;
+};
+const createShortcut = (commandKey, defaultKey, args) => [commandKey, defaultKey, args];
+const getUtils = (ctx, options) => {
+  try {
+    const themeTool = ctx.get(themeToolCtx);
+    const emotion = ctx.get(emotionCtx);
+    if (!emotion.css) {
+      throw themeMustInstalled();
+    }
+    return {
+      getClassName: getClassName(options == null ? void 0 : options.className),
+      getStyle: (style) => (options == null ? void 0 : options.headless) ? "" : style(themeTool, emotion),
+      themeTool
+    };
+  } catch {
+    throw themeMustInstalled();
+  }
+};
+const applyMethods = async (ctx, plugin, getType, options) => {
+  await ctx.wait(InitReady);
+  if (plugin.remarkPlugins) {
+    const remarkPlugins = plugin.remarkPlugins(ctx);
+    ctx.update(remarkPluginsCtx, (ps) => [...ps, ...remarkPlugins]);
+  }
+  const type = await getType();
+  if (plugin.commands) {
+    const commands = plugin.commands(type, ctx);
+    commands.forEach(([key, command]) => {
+      ctx.get(commandsCtx).create(key, command);
+    });
+  }
+  if (plugin.inputRules) {
+    const inputRules = plugin.inputRules(type, ctx);
+    ctx.update(inputRulesCtx, (ir) => [...ir, ...inputRules]);
+  }
+  if (plugin.shortcuts) {
+    const getKey = (key, defaultValue) => {
+      var _a, _b;
+      return (_b = (_a = options == null ? void 0 : options.keymap) == null ? void 0 : _a[key]) != null ? _b : defaultValue;
+    };
+    const tuples = Object.entries(plugin.shortcuts).flatMap(([id, [commandKey, defaultKey, args]]) => {
+      const runner = () => ctx.get(commandsCtx).call(commandKey, args);
+      const key = getKey(id, defaultKey);
+      if (Array.isArray(key)) {
+        return key.map((k) => ({ key: k, runner }));
+      }
+      return { key, runner };
+    }).map((x) => [x.key, x.runner]);
+    ctx.update(prosePluginsCtx, (ps) => ps.concat(keymap(Object.fromEntries(tuples))));
+  }
+  if (plugin.prosePlugins) {
+    const prosePlugins = plugin.prosePlugins(type, ctx);
+    ctx.update(prosePluginsCtx, (ps) => [...ps, ...prosePlugins]);
+  }
+};
+const addMetadata = (x) => {
+  const fn = (options) => {
+    const result = x(options);
+    result.origin = fn;
+    return result;
+  };
+  return fn;
+};
+const withExtend = (factory, origin, creator) => {
+  const next = origin;
+  const extend = (extendFactory) => creator((...args) => extendFactory(factory(...args), ...args));
+  next.extend = extend;
+  return next;
+};
+const createMark = (factory) => withExtend(factory, addMetadata((options) => () => async (ctx) => {
+  var _a;
+  await ctx.wait(ConfigReady);
+  const utils = getUtils(ctx, options);
+  const plugin = factory(utils, options);
+  plugin.view = (_a = options == null ? void 0 : options.view) != null ? _a : plugin.view;
+  await applyMethods(ctx, plugin, async () => {
+    const node = plugin.schema(ctx);
+    ctx.update(marksCtx, (ns) => [...ns, [plugin.id, node]]);
+    await ctx.wait(SchemaReady);
+    const schema = ctx.get(schemaCtx);
+    return schema.marks[plugin.id];
+  }, options);
+  if (plugin.view) {
+    const view = plugin.view(ctx);
+    ctx.update(viewCtx, (v) => [...v, [plugin.id, view]]);
+  }
+}), createMark);
+const createNode = (factory) => withExtend(factory, addMetadata((options) => () => async (ctx) => {
+  var _a;
+  await ctx.wait(ConfigReady);
+  const utils = getUtils(ctx, options);
+  const plugin = factory(utils, options);
+  plugin.view = (_a = options == null ? void 0 : options.view) != null ? _a : plugin.view;
+  await applyMethods(ctx, plugin, async () => {
+    const node = plugin.schema(ctx);
+    ctx.update(nodesCtx, (ns) => [...ns, [plugin.id, node]]);
+    await ctx.wait(SchemaReady);
+    const schema = ctx.get(schemaCtx);
+    return schema.nodes[plugin.id];
+  }, options);
+  if (plugin.view) {
+    const view = plugin.view(ctx);
+    ctx.update(viewCtx, (v) => [...v, [plugin.id, view]]);
+  }
+}), createNode);
+const createPlugin = (factory) => withExtend(factory, addMetadata((options) => () => async (ctx) => {
+  await ctx.wait(ConfigReady);
+  const utils = getUtils(ctx, options);
+  const plugin = factory(utils, options);
+  await applyMethods(ctx, plugin, async () => {
+    let node = {};
+    let mark = {};
+    if (plugin.schema) {
+      const schemas = plugin.schema(ctx);
+      if (schemas.node) {
+        node = schemas.node;
+        const nodes = Object.entries(schemas.node);
+        ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
+      }
+      if (schemas.mark) {
+        mark = schemas.mark;
+        const marks = Object.entries(schemas.mark);
+        ctx.update(marksCtx, (ms) => [...ms, ...marks]);
+      }
+    }
+    await ctx.wait(SchemaReady);
+    const schema = ctx.get(schemaCtx);
+    const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]]);
+    const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]]);
+    const type = Object.fromEntries([
+      ...nodeTypes,
+      ...markTypes
+    ]);
+    return type;
+  }, options);
+  if (plugin.view) {
+    const view = plugin.view(ctx);
+    ctx.update(viewCtx, (v) => [
+      ...v,
+      ...Object.entries(view)
+    ]);
+  }
+}), createPlugin);
+export { $command, $inputRule, $mark, $node, $prose, $remark, $shortcut, $view, AtomList, addMetadata, applyMethods, createMark, createNode, createPlugin, createShortcut, getClassName, getUtils, withExtend };
+//# sourceMappingURL=index.es.js.map

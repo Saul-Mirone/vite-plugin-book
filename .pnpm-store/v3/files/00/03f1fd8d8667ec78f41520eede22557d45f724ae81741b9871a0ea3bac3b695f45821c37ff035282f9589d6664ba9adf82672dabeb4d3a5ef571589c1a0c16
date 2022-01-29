@@ -1,0 +1,10 @@
+import { SupportedKeys } from '../supported-keys';
+declare type Keys = SupportedKeys['H1'] | SupportedKeys['H2'] | SupportedKeys['H3'] | SupportedKeys['H4'] | SupportedKeys['H5'] | SupportedKeys['H6'];
+export declare const TurnIntoHeading: import("@milkdown/core").CmdKey<number>;
+export declare const heading: import("@milkdown/utils/lib/types").WithExtend<Keys, import("@milkdown/utils").UnknownRecord, import("prosemirror-model").NodeType<any>, {
+    id: string;
+    schema: (ctx: import("@milkdown/core").Ctx) => import("@milkdown/core").NodeSchema;
+    view?: ((ctx: import("@milkdown/core").Ctx) => import("@milkdown/prose").NodeViewFactory) | undefined;
+}>;
+export {};
+//# sourceMappingURL=heading.d.ts.map

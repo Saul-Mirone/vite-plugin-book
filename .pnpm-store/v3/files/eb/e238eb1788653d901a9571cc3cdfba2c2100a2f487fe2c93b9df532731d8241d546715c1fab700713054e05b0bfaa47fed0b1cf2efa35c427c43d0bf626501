@@ -1,0 +1,21 @@
+import { PluginKey } from '@milkdown/prose';
+import { AtomList } from '@milkdown/utils';
+import { InputOptions } from './item';
+export declare const key: PluginKey<any, any>;
+export declare const tooltipPlugin: import("@milkdown/utils/lib/src/types").WithExtend<string, InputOptions, {
+    [x: string]: import("prosemirror-model").NodeType<any>;
+} & {
+    [x: string]: import("prosemirror-model").MarkType<any>;
+}, {
+    schema?: ((ctx: import("@milkdown/core").Ctx) => {
+        node?: Record<string, import("@milkdown/core").NodeSchema> | undefined;
+        mark?: Record<string, import("@milkdown/core").MarkSchema> | undefined;
+    }) | undefined;
+    view?: ((ctx: import("@milkdown/core").Ctx) => Partial<{
+        [x: string]: import("@milkdown/prose").NodeViewFactory;
+    } & {
+        [x: string]: import("@milkdown/prose").MarkViewFactory;
+    }>) | undefined;
+}>;
+export declare const tooltip: AtomList<import("@milkdown/utils/lib/src/types").Metadata<import("@milkdown/utils/lib/src/types").GetPlugin<string, InputOptions>> & import("@milkdown/core").MilkdownPlugin>;
+//# sourceMappingURL=index.d.ts.map

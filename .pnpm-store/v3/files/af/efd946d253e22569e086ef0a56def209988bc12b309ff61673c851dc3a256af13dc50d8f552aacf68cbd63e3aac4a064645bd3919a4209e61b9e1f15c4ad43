@@ -1,0 +1,7 @@
+import type { Utils } from '@milkdown/utils';
+export declare const createInput: (utils: Utils) => {
+    readonly div: HTMLDivElement;
+    readonly input: HTMLInputElement;
+    readonly button: HTMLButtonElement;
+};
+//# sourceMappingURL=create-input.d.ts.map

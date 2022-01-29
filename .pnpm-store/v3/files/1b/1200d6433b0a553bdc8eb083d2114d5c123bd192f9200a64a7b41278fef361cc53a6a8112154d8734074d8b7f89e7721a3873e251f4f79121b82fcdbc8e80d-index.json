@@ -1,0 +1,30 @@
+{
+    "name": "@types/react-redux",
+    "version": "7.1.22",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1643023643881,
+            "integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+            "mode": 511,
+            "size": 1141
+        },
+        "README.md": {
+            "checkedAt": 1643023643905,
+            "integrity": "sha512-lZG2mcmi08JYFQnT5YMHIoAG7fFfxa23hSzv/xAVH0H2y82bCfzlIUH8nvzmzDM5Ujyo6Vkno6Kn77yMBpd38w==",
+            "mode": 511,
+            "size": 1505
+        },
+        "index.d.ts": {
+            "checkedAt": 1643023643958,
+            "integrity": "sha512-msi+sLyL/UUm5L46149V5ge+l0a9jMqV60UYUTk29j8T6Pu37RYZ0gQFyUhVaONGxynBupR68PYdDMPXPqPtdw==",
+            "mode": 511,
+            "size": 28878
+        },
+        "package.json": {
+            "checkedAt": 1643023643958,
+            "integrity": "sha512-EBvCUEJxC5yOT8LtGf/fmhBQylm/+sPwUps1WEoqv8DuJmWw1Rup532e4ap33qNsSJMoY78556x6rY3uAi1Zkw==",
+            "mode": 511,
+            "size": 3528
+        }
+    }
+}

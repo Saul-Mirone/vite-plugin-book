@@ -1,0 +1,4 @@
+import { EditorView } from '@milkdown/prose';
+import { ButtonMap } from '../item';
+export declare const filterButton: (buttonMap: ButtonMap, view: EditorView) => boolean;
+//# sourceMappingURL=filter-button.d.ts.map

@@ -1,0 +1,60 @@
+{
+    "name": "kleur",
+    "version": "4.1.4",
+    "files": {
+        "license": {
+            "checkedAt": 1642743207383,
+            "integrity": "sha512-LbHCVS6fVjLVsjN/qfzzpl8E/Kyt6J7TssYbnq/1iV+QoD7PWt5zm3ZLSVE5kOnDFIX7fVVI4/VgkcyqYOGA1g==",
+            "mode": 420,
+            "size": 1114
+        },
+        "colors.js": {
+            "checkedAt": 1642743208999,
+            "integrity": "sha512-U0bNPWUz99YL6dGi+gkj5nyPFx0CEHaJO7ZbS7g8rWkHoTfzpTjYBmGein5nhTJYkjze3qumLmVncLtZFDuWTA==",
+            "mode": 420,
+            "size": 1514
+        },
+        "index.js": {
+            "checkedAt": 1642743208999,
+            "integrity": "sha512-H9wdS+JsLSw8frtmJdSPpFclG07tK5UUZU0Lyb8pQ568wUghx/kRXT9fDHaZbmevcPjJMerNTcGx2m3tLFs4WQ==",
+            "mode": 420,
+            "size": 2739
+        },
+        "package.json": {
+            "checkedAt": 1642743208999,
+            "integrity": "sha512-bwhpzjpGJvwQTu7BlsaixwW/HbaIal8OBnoPjcJ03+ofsVRHO1irm7RgZdIoN1AnFPoRfbPv0NKR/lkyJicxXw==",
+            "mode": 420,
+            "size": 927
+        },
+        "colors.mjs": {
+            "checkedAt": 1642743209020,
+            "integrity": "sha512-EgqTWpx/v+TQLtZSXncqwdyktPPR+CzXoOFTJj8C+lo2l1xTazrUlg+yjhDl7AmwnH5wNgI3C2NhqHWC20JqyA==",
+            "mode": 420,
+            "size": 1639
+        },
+        "index.mjs": {
+            "checkedAt": 1642743209020,
+            "integrity": "sha512-d4X92TckH8TuuNp3Ylg9nCksV+tvdKN40TZROtx9k4E6VwpB9EmBKReosNAoWOud4cZO2O0mW65l+j8eC+vdOA==",
+            "mode": 420,
+            "size": 2737
+        },
+        "colors.d.ts": {
+            "checkedAt": 1642743209020,
+            "integrity": "sha512-d9Mbge6vwVEeAfLU4f3Iv+9lYreOS5C27woMduTDmPCIdlQ4461uOAodxt8goFRw1gvhoktEVL1vSCK7MyhN3g==",
+            "mode": 420,
+            "size": 1300
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743209020,
+            "integrity": "sha512-vn/QXY5JN91pSGJf8S1fSC3TeCc2PsfZr/vER4sS/PszwB6vMKsC+jA+apX5NA7s3k5AITfFlxHu8QCKH4wBZQ==",
+            "mode": 420,
+            "size": 813
+        },
+        "readme.md": {
+            "checkedAt": 1642743209020,
+            "integrity": "sha512-GKXNRqt3aGzidEtxL8jk3quorxTmOtA0WquS72vyWlYnu1NIQ2YMrVjukwat4zzNMnsH0f/FAtWfnfzcVhT3wA==",
+            "mode": 420,
+            "size": 7380
+        }
+    }
+}

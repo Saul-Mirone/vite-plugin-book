@@ -1,0 +1,10 @@
+import type { EditorView } from '@milkdown/prose';
+import type { Utils } from '@milkdown/utils';
+import type { ButtonMap } from '../item';
+export declare const createButtonManager: (buttonMap: ButtonMap, utils: Utils) => {
+    destroy: () => void;
+    hide: () => void;
+    update: (editorView: EditorView) => void;
+    render: (editorView: EditorView<any>) => void;
+};
+//# sourceMappingURL=index.d.ts.map

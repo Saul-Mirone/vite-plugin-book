@@ -1,0 +1,32 @@
+{
+  "name": "@milkdown/theme-nord",
+  "version": "5.3.3",
+  "type": "module",
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "peerDependencies": {
+    "@milkdown/core": "*"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "milkdown",
+    "milkdown theme",
+    "nord"
+  ],
+  "dependencies": {
+    "@milkdown/prose": "5.3.3",
+    "@milkdown/core": "5.3.3",
+    "@milkdown/design-system": "5.3.3"
+  },
+  "scripts": {
+    "start": "vite build --watch",
+    "tsc": "tsc --noEmit",
+    "build": "vite build"
+  },
+  "readme": "# @milkdown/theme-nord\n\n[Nord theme](https://www.nordtheme.com/) for [milkdown](https://saul-mirone.github.io/milkdown/).\n\nDesigned by [Meo](https://github.com/Saul-Meo). Powered by [Theme Nord](https://www.nordtheme.com/) and [Material Design](https://material.io/design).\n\n# Example Usage\n\n```typescript\nimport { Editor } from '@milkdown/core';\nimport { nord } from '@milkdown/theme-nord';\n\nimport { commonmark } from '@milkdown/preset-commonmark';\n\nEditor.make().use(nord).use(commonmark).create();\n```\n\n# License\n\nMilkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).\n"
+}

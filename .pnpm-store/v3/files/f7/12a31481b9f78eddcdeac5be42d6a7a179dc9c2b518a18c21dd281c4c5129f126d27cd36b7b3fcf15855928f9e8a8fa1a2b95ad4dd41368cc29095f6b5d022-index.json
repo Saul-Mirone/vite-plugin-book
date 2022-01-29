@@ -1,0 +1,30 @@
+{
+    "name": "@types/prosemirror-gapcursor",
+    "version": "1.0.4",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743208338,
+            "integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+            "mode": 511,
+            "size": 1141
+        },
+        "README.md": {
+            "checkedAt": 1642743208498,
+            "integrity": "sha512-dwIDf8q1mHopJN0BXQyMhZuK2ItgtRDs7AuO4zlZuJDOw5jTmxFvBf4mQksPKtJkxt9oIICHl1Ji1VaM/lzJ0g==",
+            "mode": 511,
+            "size": 2708
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743208498,
+            "integrity": "sha512-JXath1yhWSaVCRrqGyihDLjchTMl9Vrqna2PE7kWvywEmRUCyoI1ydGBCz+o4SRAyYy/2dvuGPTiu/xC8NU/CA==",
+            "mode": 511,
+            "size": 1726
+        },
+        "package.json": {
+            "checkedAt": 1642743208498,
+            "integrity": "sha512-f3lARutryhdm3aQ4EI6VZixu7avLk68S0ZgA+QEvkORObXJcWUTUOhVBrTjKpH48PF6KFzzuREjDlI7SktIm/w==",
+            "mode": 511,
+            "size": 1375
+        }
+    }
+}

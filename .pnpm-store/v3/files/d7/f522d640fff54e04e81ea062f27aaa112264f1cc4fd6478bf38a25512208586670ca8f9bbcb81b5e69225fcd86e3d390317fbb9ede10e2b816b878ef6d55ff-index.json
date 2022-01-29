@@ -1,0 +1,54 @@
+{
+    "name": "smooth-scroll-into-view-if-needed",
+    "version": "1.1.32",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743209435,
+            "integrity": "sha512-o06FJJxUE8c1kOeEeMMLYbKuFfBVpedVnp2AqttC0Hpl5oBzYiVei5OahyJ0nWSrzf7tXhi37qTbHO/RTdb5oA==",
+            "mode": 420,
+            "size": 1067
+        },
+        "es/index.js": {
+            "checkedAt": 1642743209436,
+            "integrity": "sha512-CgvE2xe/LwDwN2KBErtOyHPkDrGVJQOz/fGpoWUW6kR0Trqie45XHlaTEmyTcxrFdsmU8xvKAGT7sYPoO3FsgQ==",
+            "mode": 420,
+            "size": 2734
+        },
+        "index.js": {
+            "checkedAt": 1642743209436,
+            "integrity": "sha512-FCqomhwkcSlpLeKgSxWtkvofCMppXyxjc7j2nwgMVVC6Mr3xNxajYGQUojVwG4F8hKDjcUxcwO8MN7FXtIZMLw==",
+            "mode": 420,
+            "size": 3057
+        },
+        "umd/smooth-scroll-into-view-if-needed.js": {
+            "checkedAt": 1642743209439,
+            "integrity": "sha512-lBhLCZknYICFtjJ5rThMJru88CAM4Ec908L04BUQqjKgP4arlursLnykup4qSfX3TTZR7Z/mzNxiF2lS6YncYA==",
+            "mode": 420,
+            "size": 7096
+        },
+        "umd/smooth-scroll-into-view-if-needed.min.js": {
+            "checkedAt": 1642743209439,
+            "integrity": "sha512-oc9Gp6uOtJNVXXQUWFFp/IcyFjq2p6LQg61V1KQw3AMoENJcbQwzIqW9D+jETJgTH0FjPtPVpIFWTIZYJ0OxBA==",
+            "mode": 420,
+            "size": 4360
+        },
+        "package.json": {
+            "checkedAt": 1642743209439,
+            "integrity": "sha512-0YkPORd1SV1BgbtW7s/VDI2zUBjA7ytksh6b7KjQGaDWFVFB7lHpOeYP0a2uGxlDFdDOy1jiqKgVFkl5zYcrng==",
+            "mode": 420,
+            "size": 4231
+        },
+        "README.md": {
+            "checkedAt": 1642743209446,
+            "integrity": "sha512-r4S8/ulAjWQhsDrK9TW+YIvMnUAEWerA9Gi887WO8Bn6l/+Zfz+RPD/46KjMX9W8C5u9DnD9B4VFNb/L5frG7Q==",
+            "mode": 420,
+            "size": 5332
+        },
+        "typings/index.d.ts": {
+            "checkedAt": 1642743209446,
+            "integrity": "sha512-WbYzG0aCDkk3gJrDRtRBuuV/SkrtnvZeyK5hE9+XlAkFfOn8R9Qk2CGpv4U83pS1CPlJynewWkd4zM8/Z1P4GQ==",
+            "mode": 420,
+            "size": 635
+        }
+    }
+}

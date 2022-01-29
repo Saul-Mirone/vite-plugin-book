@@ -1,0 +1,144 @@
+{
+    "name": "micromark-extension-math",
+    "version": "2.0.2",
+    "files": {
+        "license": {
+            "checkedAt": 1642743208798,
+            "integrity": "sha512-fzvkEDDVqhfCJpKNt4nSfCdql95dXnYBu6QTwaEDV5dX/EtSGYys2u3y/9LaRjp4jUgB4qbz5csHGjJjcZAb2Q==",
+            "mode": 420,
+            "size": 1099
+        },
+        "dev/lib/html.js": {
+            "checkedAt": 1642743209519,
+            "integrity": "sha512-/M+34oIfqWIINbqkdZOBcjIZeFx64KcoQjF1SRhBGZrvmEpEEOL+V0Kib2drUnICLeb/Gx8phGg6iwhltG+yWA==",
+            "mode": 420,
+            "size": 1749
+        },
+        "lib/html.js": {
+            "checkedAt": 1642743209519,
+            "integrity": "sha512-7BG4gX9+D/WxX2pYB38WauU9Fyjgq2DCtVLzpVHUPsneQ35JvJjS2hbqIWOXBHB5XyBro1xKEUGIWQyUiWITOQ==",
+            "mode": 420,
+            "size": 1771
+        },
+        "dev/index.js": {
+            "checkedAt": 1642743209519,
+            "integrity": "sha512-J33maEdibydTPAIGVLbSpXkX5LO7fuwc2xlwEUqMc0oGsnacR4ocGz30sRtq6iws8r36jwc0ChP4884pNfJ21w==",
+            "mode": 420,
+            "size": 199
+        },
+        "index.js": {
+            "checkedAt": 1642743209519,
+            "integrity": "sha512-1o9e/0Z6V2+7rLqiMpG6hL8bfyPpCoIPEhQa233gZesdpF/LNAz92/HIkKwT1Av4fMal1etKOzhDl53TdJSh2A==",
+            "mode": 420,
+            "size": 198
+        },
+        "dev/lib/math-flow.js": {
+            "checkedAt": 1642743209523,
+            "integrity": "sha512-vvdheVjY/L692pctaw4ZgtFvV0IHb+POIeGOXIejOxeO/YnSUfbS9H4tmMDau82vT+dr9iS8J1RfpJqfn0ypZg==",
+            "mode": 420,
+            "size": 4800
+        },
+        "lib/math-flow.js": {
+            "checkedAt": 1642743209524,
+            "integrity": "sha512-J4v7Fx1tGyA+Be0oimbX0CZm4QEAoe9e5lxaRTl2jJ0BB7ExjjkXdMREQ1bOr6zOKSkZaJiTD0NYbhAdBsXauA==",
+            "mode": 420,
+            "size": 4288
+        },
+        "dev/lib/math-text.js": {
+            "checkedAt": 1642743209524,
+            "integrity": "sha512-LRprszlI+bxLTw0qEiKcfCD+q9MoSutWQKh4yiAT8SBV9YcLjYLDfgQiltpc8NhomaWD/V9N7/lcqFkPNMryBQ==",
+            "mode": 420,
+            "size": 5466
+        },
+        "lib/math-text.js": {
+            "checkedAt": 1642743209524,
+            "integrity": "sha512-ERgPJu15jrw7bDGIj6OfaGFirQ6d/fu7paZLSWSvtp4pBfOig3sWNAcSZvniaz/BPY4yjwzebSxweAKYvjDxHg==",
+            "mode": 420,
+            "size": 4994
+        },
+        "dev/lib/syntax.js": {
+            "checkedAt": 1642743209524,
+            "integrity": "sha512-pv2gb06sciHymRKYXoBK2icTkhks55HnqW6XXfbD9XthsLlH2Sx0TTV4f8P9l3ZihbYUk2Fo+05vjLn7oix8nQ==",
+            "mode": 420,
+            "size": 463
+        },
+        "lib/syntax.js": {
+            "checkedAt": 1642743209546,
+            "integrity": "sha512-bLeDYrHHDTw+0zqzgS/ErC6Os253qIYx4Tsv87Ko84UvzTK/zuE4LPYx1sbDYG6sd4nn9Gmmtum/MgeJdmhKJw==",
+            "mode": 420,
+            "size": 405
+        },
+        "package.json": {
+            "checkedAt": 1642743209546,
+            "integrity": "sha512-wFTZdESapDSWP15+fuwaywEhB0v/Htwg6JPgdvWNDZZJcrmGK4UdUb++0401IwIuVW/FKcC4us5J1Gf/+SX34g==",
+            "mode": 420,
+            "size": 2577
+        },
+        "readme.md": {
+            "checkedAt": 1642743209546,
+            "integrity": "sha512-clViEYNu1D0sM3JH8C48PFL9VnMr2gORasksq7I0EC/Es5YGiLZ2yWjNIodqROA0tqYEijiGm59DhI5i31xZXQ==",
+            "mode": 420,
+            "size": 6287
+        },
+        "dev/lib/html.d.ts": {
+            "checkedAt": 1642743209546,
+            "integrity": "sha512-PJFWTt/x2BicaaBDD1+qslOv2Tq86TFwGXefLZdSxDO1aBSn4gk5uE7ZFGPBoTFgHHu5ihLY8hiE5T4L3meFpQ==",
+            "mode": 420,
+            "size": 322
+        },
+        "lib/html.d.ts": {
+            "checkedAt": 1642743209546,
+            "integrity": "sha512-PJFWTt/x2BicaaBDD1+qslOv2Tq86TFwGXefLZdSxDO1aBSn4gk5uE7ZFGPBoTFgHHu5ihLY8hiE5T4L3meFpQ==",
+            "mode": 420,
+            "size": 322
+        },
+        "dev/index.d.ts": {
+            "checkedAt": 1642743209546,
+            "integrity": "sha512-LnlTqq/lxCh5gEdcZbPO+6F6nVGWXrCTs3r8DrnK0Jz7+VFnMi4el7H+StDe61p3c9BY0z/vG/WFoW+ie3Ta9A==",
+            "mode": 420,
+            "size": 190
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743209546,
+            "integrity": "sha512-LnlTqq/lxCh5gEdcZbPO+6F6nVGWXrCTs3r8DrnK0Jz7+VFnMi4el7H+StDe61p3c9BY0z/vG/WFoW+ie3Ta9A==",
+            "mode": 420,
+            "size": 190
+        },
+        "dev/lib/math-flow.d.ts": {
+            "checkedAt": 1642743209552,
+            "integrity": "sha512-B7jcbKOF/1RxkOaqOIFdDW9ZXF5Whgh+cs/U9fyfMNYgd7EK2LlsNKimzYI7rDuz4to/l4Cosa7kPB+fuGW1aQ==",
+            "mode": 420,
+            "size": 245
+        },
+        "lib/math-flow.d.ts": {
+            "checkedAt": 1642743209552,
+            "integrity": "sha512-B7jcbKOF/1RxkOaqOIFdDW9ZXF5Whgh+cs/U9fyfMNYgd7EK2LlsNKimzYI7rDuz4to/l4Cosa7kPB+fuGW1aQ==",
+            "mode": 420,
+            "size": 245
+        },
+        "dev/lib/math-text.d.ts": {
+            "checkedAt": 1642743209552,
+            "integrity": "sha512-6B8tVUkqvmWrXcyTT566Cjb+XxqZstrtfkBlWKON/m+p/zQ7207wg5blQFCt4ZUS8gKZm3hitFl8uFE0IMDj6A==",
+            "mode": 420,
+            "size": 792
+        },
+        "lib/math-text.d.ts": {
+            "checkedAt": 1642743209552,
+            "integrity": "sha512-6B8tVUkqvmWrXcyTT566Cjb+XxqZstrtfkBlWKON/m+p/zQ7207wg5blQFCt4ZUS8gKZm3hitFl8uFE0IMDj6A==",
+            "mode": 420,
+            "size": 792
+        },
+        "dev/lib/syntax.d.ts": {
+            "checkedAt": 1642743209552,
+            "integrity": "sha512-LflSOjawgo2LG6sfRUUUOKqRckymsASwDUGH0j4MgUhyfE0nabTZuCG2JDqPNSECKU6XmenOxDtBHLUFVnqxgg==",
+            "mode": 420,
+            "size": 271
+        },
+        "lib/syntax.d.ts": {
+            "checkedAt": 1642743209552,
+            "integrity": "sha512-LflSOjawgo2LG6sfRUUUOKqRckymsASwDUGH0j4MgUhyfE0nabTZuCG2JDqPNSECKU6XmenOxDtBHLUFVnqxgg==",
+            "mode": 420,
+            "size": 271
+        }
+    }
+}

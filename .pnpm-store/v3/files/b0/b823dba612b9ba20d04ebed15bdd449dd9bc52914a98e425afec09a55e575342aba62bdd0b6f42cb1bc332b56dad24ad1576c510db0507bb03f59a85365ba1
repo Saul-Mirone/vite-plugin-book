@@ -1,0 +1,17 @@
+export declare const font: {
+    typography: string[];
+    code: string[];
+};
+export declare const size: {
+    radius: string;
+    lineWidth: string;
+};
+export declare const nordLight: import("@milkdown/core").MilkdownPlugin;
+export declare const nordDark: import("@milkdown/core").MilkdownPlugin;
+export declare const nord: import("@milkdown/core").MilkdownPlugin;
+export { mixin } from './mixin';
+export { color, darkColor, lightColor } from './nord';
+export { override } from './override';
+export { slots } from './slots';
+export { view } from './view';
+//# sourceMappingURL=index.d.ts.map

@@ -1,0 +1,137 @@
+'use strict';
+
+const promises = require('fs/promises');
+const pathe = require('pathe');
+const fg = require('fast-glob');
+const consola = require('consola');
+const colorette = require('colorette');
+const core = require('@unocss/core');
+const config = require('@unocss/config');
+const presetUno = require('@unocss/preset-uno');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e["default"] : e; }
+
+const fg__default = /*#__PURE__*/_interopDefaultLegacy(fg);
+const consola__default = /*#__PURE__*/_interopDefaultLegacy(consola);
+const presetUno__default = /*#__PURE__*/_interopDefaultLegacy(presetUno);
+
+const version = "0.22.4";
+
+class PrettyError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = this.constructor.name;
+    if (typeof Error.captureStackTrace === "function")
+      Error.captureStackTrace(this, this.constructor);
+    else
+      this.stack = new Error(message).stack;
+  }
+}
+function handleError(error) {
+  if (error instanceof PrettyError)
+    consola__default.error(error.message);
+  process.exitCode = 1;
+}
+
+function debouncePromise(fn, delay, onError) {
+  let timeout;
+  let promiseInFly;
+  let callbackPending;
+  return function debounced(...args) {
+    if (promiseInFly) {
+      callbackPending = () => {
+        debounced(...args);
+        callbackPending = void 0;
+      };
+    } else {
+      if (timeout)
+        clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        timeout = void 0;
+        promiseInFly = fn(...args).catch(onError).finally(() => {
+          promiseInFly = void 0;
+          if (callbackPending)
+            callbackPending();
+        });
+      }, delay);
+    }
+  };
+}
+
+const defaultConfig = {
+  envMode: "build",
+  presets: [
+    presetUno__default()
+  ]
+};
+
+const name = "unocss";
+let uno;
+const fileCache = /* @__PURE__ */ new Map();
+async function generate(options) {
+  const outFile = options.outFile ?? pathe.resolve(process.cwd(), "uno.css");
+  const { css, matched } = await uno.generate([...fileCache].join("\n"));
+  await promises.writeFile(outFile, css, "utf-8");
+  if (!options.watch) {
+    consola__default.success(`${[...matched].length} utilities generated to ${colorette.cyan(pathe.relative(process.cwd(), outFile))}
+`);
+  }
+}
+async function resolveOptions(options) {
+  if (!options.patterns?.length) {
+    throw new PrettyError(`No glob patterns, try ${colorette.cyan(`${name} <path/to/**/*>`)}`);
+  }
+  return options;
+}
+async function build(_options) {
+  const options = await resolveOptions(_options);
+  const loadConfig = config.createConfigLoader();
+  const { config: config$1, sources: configSources } = await loadConfig();
+  uno = core.createGenerator(config$1, defaultConfig);
+  const files = await fg__default(options.patterns);
+  await Promise.all(files.map(async (file) => {
+    fileCache.set(file, await promises.readFile(file, "utf8"));
+  }));
+  consola__default.log(colorette.green(`${name} v${version}`));
+  consola__default.start(`UnoCSS ${options.watch ? "in watch mode..." : "for production..."}`);
+  const debouncedBuild = debouncePromise(async () => {
+    generate(options);
+  }, 100, handleError);
+  const startWatcher = async () => {
+    if (!options.watch)
+      return;
+    const { watch } = await import('chokidar');
+    const { patterns } = options;
+    const ignored = ["**/{.git,node_modules}/**"];
+    consola__default.info(`Watching for changes in ${core.toArray(patterns).map((i) => colorette.cyan(i)).join(", ")}`);
+    const watcher = watch(patterns, {
+      ignoreInitial: true,
+      ignorePermissionErrors: true,
+      ignored
+    });
+    if (configSources.length) {
+      watcher.add(configSources);
+      watcher.on("all", async (type, file) => {
+        if (configSources.includes(file)) {
+          uno.setConfig((await loadConfig()).config);
+          consola__default.info(`${colorette.cyan(pathe.basename(file))} changed, setting new config`);
+        } else {
+          consola__default.log(`${colorette.green(type)} ${colorette.dim(file)}`);
+          if (type.startsWith("unlink"))
+            fileCache.delete(file);
+          else
+            fileCache.set(file, await promises.readFile(file, "utf8"));
+        }
+        debouncedBuild();
+      });
+    }
+  };
+  await generate(options);
+  startWatcher();
+}
+
+exports.build = build;
+exports.generate = generate;
+exports.handleError = handleError;
+exports.resolveOptions = resolveOptions;
+exports.version = version;

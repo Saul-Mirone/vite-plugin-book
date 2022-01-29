@@ -1,0 +1,1 @@
+{"version":3,"file":"$prose.d.ts","sourceRoot":"","sources":["../../src/composable/$prose.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,GAAG,EAAE,cAAc,EAAgC,MAAM,gBAAgB,CAAC;AACnF,OAAO,EAAE,MAAM,EAAE,MAAM,iBAAiB,CAAC;AAEzC,oBAAY,MAAM,GAAG,cAAc,GAAG;IAClC,MAAM,EAAE,MAAM,CAAC;CAClB,CAAC;AAEF,eAAO,MAAM,MAAM,gBAAiB,GAAG,KAAK,MAAM,KAAG,MASpD,CAAC"}

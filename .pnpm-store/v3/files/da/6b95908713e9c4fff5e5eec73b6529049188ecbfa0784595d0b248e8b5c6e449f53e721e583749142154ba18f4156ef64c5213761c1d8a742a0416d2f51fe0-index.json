@@ -1,0 +1,90 @@
+{
+    "name": "git-cz",
+    "version": "4.8.0",
+    "files": {
+        ".prettierrc": {
+            "checkedAt": 1642743214999,
+            "integrity": "sha512-zIIlqp1z4XX3GrnmIiwvO/MAAc4dnua/6+q4RDfVkeNiJdPROjPe/IDbvbLj/b/bsFiN7RjmXGu/siuQpqyl9Q==",
+            "mode": 420,
+            "size": 183
+        },
+        "binaries/cli-linux": {
+            "checkedAt": 1642743221043,
+            "integrity": "sha512-Qb+MzGWxgLJ3PsQS5anY4L/lLjCr4jPg+ggvaAmSro3m6qIv9oOR7FgyfjeKPRN7LfqiWN8cQMP8BwFL31GOTg==",
+            "mode": 493,
+            "size": 76292471
+        },
+        "binaries/cli-macos": {
+            "checkedAt": 1642743222607,
+            "integrity": "sha512-uVPg//0pZ9sgPC099CxMB7xhmrD2biYR94dQq+Dk9MvZwdb7lgUHCCojyjVD+x9EPmST4zJL8Az6JdDqi3R6wQ==",
+            "mode": 493,
+            "size": 76537975
+        },
+        "dist/cli.js": {
+            "checkedAt": 1642743224574,
+            "integrity": "sha512-8YIRztwQxCjOt+oqumGvbVM/4evjCN7sfXeBQpmGGXBMIbCRFiLrLnREyRhoal6deuxeF9tA+D7Q4BOyxdApjA==",
+            "mode": 420,
+            "size": 1297870
+        },
+        "dist/cz.js": {
+            "checkedAt": 1642743224590,
+            "integrity": "sha512-2Pb/xVgui2iXJ9sqCHFJIQAg1SxqAyBdKEiDRVvy+JtXZC8e2AbFouLzsNSwr5ezlccfw5WwCVj4Th4sRNbxMg==",
+            "mode": 420,
+            "size": 1280708
+        },
+        "bin/git-cz.js": {
+            "checkedAt": 1642743224591,
+            "integrity": "sha512-lP64wj6WNk6K8GL7+bq3W57n6C2aH5lV29794Fu5mZybU1SKYBM3Vx8l67zlrmbC/cH20RnacSlYlXMLHm6MGA==",
+            "mode": 493,
+            "size": 124
+        },
+        ".eslintrc.json": {
+            "checkedAt": 1642743224591,
+            "integrity": "sha512-IcwRtXp9F6tpiBlqo6yutHUfC4mL4zygWTxTUWsi3rnI/9PbiL+orouEHKRyqJ5ROtvoOWZrYeyzwq0GzOtaGA==",
+            "mode": 420,
+            "size": 12761
+        },
+        ".git-cz.json": {
+            "checkedAt": 1642743224591,
+            "integrity": "sha512-7ZQJ5dG5ku6wlKK6iT2XkR/LwMfMVdnTlaVYt6JDHOSgoh91iGOfGDxgD9t6xfCVNvuuPlBjGEhfzkvyR7wyiA==",
+            "mode": 420,
+            "size": 75
+        },
+        "package.json": {
+            "checkedAt": 1642743224591,
+            "integrity": "sha512-M8l34H6bkx5GVB6IF3shdxBF9Yhik7X36nH+zIWWTiACTiJu/puhnMz5fFMMFm9NfuvCxB5/8yCO9C42qDehWg==",
+            "mode": 420,
+            "size": 2468
+        },
+        "renovate.json": {
+            "checkedAt": 1642743224591,
+            "integrity": "sha512-vp4mGdr6D4Wy8Wmcawo0ebajIvhU06HtaOdd1Lp/Shg8Nr9ujTImKdAg6hL3O48iiAJkScgvRAJg9JXM24vOeg==",
+            "mode": 420,
+            "size": 202
+        },
+        "CHANGELOG.md": {
+            "checkedAt": 1642743224592,
+            "integrity": "sha512-SbZLhlfd04m9U8k2rkFnZLl2BnZym71i3f47b/qQ+5o54qzUEAMcZLQcFoK+4s+JRAcyqedGCtLBUkLJt88VAw==",
+            "mode": 420,
+            "size": 9368
+        },
+        "README.md": {
+            "checkedAt": 1642743224592,
+            "integrity": "sha512-AHsSIYh3vOzyvXpEqW/WRO6dvc9byKjKAv1qXBTLDDEmaemTtanjNGqVFylZLjILNO4xd+6fwqIVpcsIy6kYiA==",
+            "mode": 420,
+            "size": 5040
+        },
+        ".circleci/config.yml": {
+            "checkedAt": 1642743224592,
+            "integrity": "sha512-+Fl6yKe/n/hWDmeEqwu1xInHTvM4w3Ycugo1T+3Ai6vJXdtpEIeM1Y8bewkxKgZTI+iVefn+hJGmTKe2yIibGg==",
+            "mode": 420,
+            "size": 2156
+        },
+        "binaries/cli-win.exe": {
+            "checkedAt": 1642743224624,
+            "integrity": "sha512-wW1VE8yPn2gNyMIx8Nfrjxno4w4CexlF4KTxSP2dvgy4Z9H3IzasABsx07gtQ58n4c7FklQoTa7iA7rSzcEvJQ==",
+            "mode": 420,
+            "size": 77910193
+        }
+    }
+}

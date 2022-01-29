@@ -1,0 +1,30 @@
+{
+    "name": "@types/orderedmap",
+    "version": "1.0.0",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743207857,
+            "integrity": "sha512-OA1NKix/qrKxxfRisVCbGmX70dPqjsRn88PFfBoDRzStaYjo80MtZWn8vDOnalp8LU4MLPJBnqCFq/O/53Wd/w==",
+            "mode": 438,
+            "size": 1183
+        },
+        "README.md": {
+            "checkedAt": 1642743208342,
+            "integrity": "sha512-FWeA+VSqX+fT/UGraBxzYJWQtQd1bYu9YFmnTfws+gUrW3UTBu+KJnkQEB6kBKD8bgLLYCXgHZIzLNDNnKwdfA==",
+            "mode": 438,
+            "size": 504
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743208342,
+            "integrity": "sha512-Dpt7aaV4P4jKOpcI8BZIwJ3kuNray9Lb37PPGpicRVa8kCDGd+UM3C6Xb6agxTGMto6p03oVtJO+tMbThPi9fg==",
+            "mode": 438,
+            "size": 927
+        },
+        "package.json": {
+            "checkedAt": 1642743208342,
+            "integrity": "sha512-s9Lq/zCijh4P4o5OaOLz9G/DVTybZHtVJ/RNbOq3Re3jg/2m3MOaqf99E3KK9wegjnX6/ut0mXkMTMtnKHQs8Q==",
+            "mode": 438,
+            "size": 626
+        }
+    }
+}

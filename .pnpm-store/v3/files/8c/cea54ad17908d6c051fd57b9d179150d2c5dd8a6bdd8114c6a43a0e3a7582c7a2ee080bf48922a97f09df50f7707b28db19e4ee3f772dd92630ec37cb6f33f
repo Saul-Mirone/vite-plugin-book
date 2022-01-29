@@ -1,0 +1,5 @@
+import { T as Theme } from './types-c14b808b';
+
+declare const colors: Theme['colors'];
+
+export { colors as c };

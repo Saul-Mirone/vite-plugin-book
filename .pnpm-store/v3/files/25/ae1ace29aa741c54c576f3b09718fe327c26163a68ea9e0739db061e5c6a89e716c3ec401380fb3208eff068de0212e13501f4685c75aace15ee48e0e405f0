@@ -1,0 +1,7 @@
+export declare const InsertHardbreak: import("@milkdown/core").CmdKey<undefined>;
+export declare const hardbreak: import("@milkdown/utils/lib/src/types").WithExtend<"HardBreak", import("@milkdown/utils").UnknownRecord, import("prosemirror-model").NodeType<any>, {
+    id: string;
+    schema: (ctx: import("@milkdown/core").Ctx) => import("@milkdown/core").NodeSchema;
+    view?: ((ctx: import("@milkdown/core").Ctx) => import("@milkdown/prose").NodeViewFactory) | undefined;
+}>;
+//# sourceMappingURL=hardbreak.d.ts.map

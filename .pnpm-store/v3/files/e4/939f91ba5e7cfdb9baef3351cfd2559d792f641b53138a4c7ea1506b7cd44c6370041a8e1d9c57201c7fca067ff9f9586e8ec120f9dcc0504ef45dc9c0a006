@@ -1,0 +1,11 @@
+import { Preset } from '@unocss/core';
+import { Theme, PresetMiniOptions } from '@unocss/preset-mini';
+export { Theme, colors } from '@unocss/preset-mini';
+
+declare const theme: Theme;
+
+interface UnoOptions extends PresetMiniOptions {
+}
+declare const presetWind: (options?: UnoOptions) => Preset<Theme>;
+
+export { UnoOptions, presetWind as default, presetWind, theme };

@@ -1,0 +1,7 @@
+export declare const TurnIntoText: import("@milkdown/core").CmdKey<undefined>;
+export declare const paragraph: import("@milkdown/utils/lib/src/types").WithExtend<"Text", import("@milkdown/utils").UnknownRecord, import("prosemirror-model").NodeType<any>, {
+    id: string;
+    schema: (ctx: import("@milkdown/core").Ctx) => import("@milkdown/core").NodeSchema;
+    view?: ((ctx: import("@milkdown/core").Ctx) => import("@milkdown/prose").NodeViewFactory) | undefined;
+}>;
+//# sourceMappingURL=paragraph.d.ts.map

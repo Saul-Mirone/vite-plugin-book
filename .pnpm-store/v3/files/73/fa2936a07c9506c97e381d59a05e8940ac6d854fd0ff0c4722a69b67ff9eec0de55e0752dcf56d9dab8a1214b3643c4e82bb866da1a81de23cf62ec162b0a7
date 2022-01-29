@@ -1,0 +1,53 @@
+import { Ctx } from '@milkdown/core';
+import { EditorView, Schema } from '@milkdown/prose';
+export declare type Pred = (view: EditorView) => boolean;
+export declare type Updater = (view: EditorView, $: HTMLElement) => void;
+export declare type Event2Command = (e: Event) => void;
+export declare type ButtonItem = {
+    $: HTMLElement;
+    command: () => void;
+    active: Pred;
+    disable?: Pred;
+    enable: Pred;
+};
+export declare type InputItem = {
+    command: Event2Command;
+    display: Pred;
+    update: Updater;
+    placeholder: string;
+} & ({
+    bind: true;
+} | {
+    bind?: false;
+    buttonText: string;
+});
+export declare enum ButtonAction {
+    ToggleBold = 0,
+    ToggleItalic = 1,
+    ToggleStrike = 2,
+    ToggleCode = 3,
+    ToggleLink = 4
+}
+export declare enum InputAction {
+    ModifyLink = 0,
+    ModifyImage = 1,
+    ModifyInlineMath = 2
+}
+export declare type ButtonMap = Record<ButtonAction, ButtonItem>;
+export declare type InputMap = Record<InputAction, InputItem>;
+export declare type InputOptions = {
+    link: {
+        placeholder: string;
+        buttonText: string;
+    };
+    image: {
+        placeholder: string;
+        buttonText: string;
+    };
+    inlineMath: {
+        placeholder: string;
+    };
+};
+export declare const inputMap: (schema: Schema, ctx: Ctx, inputOptions: InputOptions) => InputMap;
+export declare const buttonMap: (schema: Schema, ctx: Ctx) => ButtonMap;
+//# sourceMappingURL=item.d.ts.map

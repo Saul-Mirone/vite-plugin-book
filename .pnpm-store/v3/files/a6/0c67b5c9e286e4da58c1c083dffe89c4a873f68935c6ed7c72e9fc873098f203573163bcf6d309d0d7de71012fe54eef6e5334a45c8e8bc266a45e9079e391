@@ -1,0 +1,46 @@
+{
+  "name": "@unocss/inspector",
+  "version": "0.22.4",
+  "description": "The inspector UI for UnoCSS",
+  "keywords": [
+    "unocss",
+    "inspector",
+    "debugger"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/inspector#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/inspector"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "gzip-size": "^6.0.0",
+    "sirv": "^2.0.0"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "build-post": "vite build",
+    "stub": "unbuild --stub",
+    "dev": "nr play",
+    "play": "nr stub && vite"
+  }
+}

@@ -1,0 +1,9 @@
+import { Ctx } from '@milkdown/core';
+import { Event2Command, Updater } from '../item';
+export declare const modifyLink: (ctx: Ctx) => Event2Command;
+export declare const modifyInlineMath: (ctx: Ctx) => Event2Command;
+export declare const modifyImage: (ctx: Ctx) => Event2Command;
+export declare const updateLinkView: Updater;
+export declare const updateInlineMathView: Updater;
+export declare const updateImageView: Updater;
+//# sourceMappingURL=input.d.ts.map

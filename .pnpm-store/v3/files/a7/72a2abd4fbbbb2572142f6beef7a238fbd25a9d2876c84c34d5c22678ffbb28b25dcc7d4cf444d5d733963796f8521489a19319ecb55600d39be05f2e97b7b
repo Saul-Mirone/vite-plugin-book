@@ -1,0 +1,48 @@
+{
+  "name": "@windicss/plugin-utils",
+  "version": "1.6.3",
+  "description": "Common utils for building integrations of Windi CSS",
+  "keywords": [
+    "windicss",
+    "tailwindcss"
+  ],
+  "homepage": "https://github.com/antfu/vite-plugin-windicss",
+  "bugs": "https://github.com/antfu/vite-plugin-windicss/issues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antfu/vite-plugin-windicss"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "author": "antfu <anthonyfu117@hotmail.com>",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@antfu/utils": "^0.4.0",
+    "@windicss/config": "1.6.3",
+    "debug": "^4.3.3",
+    "fast-glob": "^3.2.11",
+    "magic-string": "^0.25.7",
+    "micromatch": "^4.0.4",
+    "windicss": "^3.4.3"
+  },
+  "devDependencies": {
+    "pug": "^3.0.2"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm --no-splitting --external sucrase/register/ts,pug,windicss/utils/style,windicss/utils/parser,windicss/utils",
+    "dev": "npm run build -- --watch"
+  },
+  "readme": "# @windicss/plugin-utils\n\nCommon utils for building integrations of [Windi CSS](https://github.com/voorjaar/windicss).\n\nSee [`vite-plugin-windicss`](https://github.com/antfu/vite-plugin-windicss) for more details.\n\n## Configuration\n\nSee [options.ts](https://github.com/windicss/vite-plugin-windicss/blob/main/packages/plugin-utils/src/options.ts).\n\n## License\n\nMIT License © 2021 [Anthony Fu](https://github.com/antfu)\n\n"
+}

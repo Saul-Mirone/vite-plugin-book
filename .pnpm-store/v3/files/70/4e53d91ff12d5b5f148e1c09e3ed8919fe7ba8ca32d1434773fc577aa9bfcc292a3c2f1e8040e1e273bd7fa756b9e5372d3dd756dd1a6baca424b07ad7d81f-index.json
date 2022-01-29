@@ -1,0 +1,30 @@
+{
+    "name": "remark-math",
+    "version": "5.1.1",
+    "files": {
+        "index.js": {
+            "checkedAt": 1642743209475,
+            "integrity": "sha512-78RFFZMGEc6ieB7ZlJh44fViM4BsCXsI27FGGSHeo27igLyopdkkQjqZlYlzII4/VAN+Ity+QZ8t3eIz8Tb66g==",
+            "mode": 420,
+            "size": 925
+        },
+        "package.json": {
+            "checkedAt": 1642743209475,
+            "integrity": "sha512-6nuEfV+1XfFE2kVy6l0zxAY1cJCk+ShHYTZj68SYfMcajXJSe/9aMlPRnUVVbmul1xydSwY0FkI5BS27A+24tA==",
+            "mode": 420,
+            "size": 1385
+        },
+        "readme.md": {
+            "checkedAt": 1642743209475,
+            "integrity": "sha512-nF8jCHqzzF0YVNu//VO9vIJnp62o8oZF4/Nny8Uf7vizD/hhfyPriPQQWq6zcuEH9uGUDvz8Pe3GI913DVqIHw==",
+            "mode": 420,
+            "size": 8071
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743209475,
+            "integrity": "sha512-JPcPlxM4mFuvnKa86aX/zE4wbpUGWizizK4CEWZiiJNNAw9JRjxtHg/Yod9lzO99LHRS3JnYkAIAFp4hiu1KMQ==",
+            "mode": 420,
+            "size": 488
+        }
+    }
+}

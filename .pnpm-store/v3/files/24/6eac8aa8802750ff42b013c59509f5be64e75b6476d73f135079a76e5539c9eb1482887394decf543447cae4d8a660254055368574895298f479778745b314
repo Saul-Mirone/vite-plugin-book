@@ -1,0 +1,3 @@
+import { Emotion } from '@milkdown/design-system';
+export declare const view: ({ css }: Emotion) => string;
+//# sourceMappingURL=view.d.ts.map

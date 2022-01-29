@@ -1,0 +1,731 @@
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+function escapeSelector(str) {
+  const length = str.length;
+  let index = -1;
+  let codeUnit;
+  let result = "";
+  const firstCodeUnit = str.charCodeAt(0);
+  while (++index < length) {
+    codeUnit = str.charCodeAt(index);
+    if (codeUnit === 0) {
+      result += "\uFFFD";
+      continue;
+    }
+    if (codeUnit === 44) {
+      result += "\\2c ";
+      continue;
+    }
+    if (codeUnit >= 1 && codeUnit <= 31 || codeUnit === 127 || index === 0 && codeUnit >= 48 && codeUnit <= 57 || index === 1 && codeUnit >= 48 && codeUnit <= 57 && firstCodeUnit === 45) {
+      result += `\\${codeUnit.toString(16)} `;
+      continue;
+    }
+    if (index === 0 && length === 1 && codeUnit === 45) {
+      result += `\\${str.charAt(index)}`;
+      continue;
+    }
+    if (codeUnit >= 128 || codeUnit === 45 || codeUnit === 95 || codeUnit >= 48 && codeUnit <= 57 || codeUnit >= 65 && codeUnit <= 90 || codeUnit >= 97 && codeUnit <= 122) {
+      result += str.charAt(index);
+      continue;
+    }
+    result += `\\${str.charAt(index)}`;
+  }
+  return result;
+}
+const e = escapeSelector;
+
+function normalizeCSSEntries(obj) {
+  return (!Array.isArray(obj) ? Object.entries(obj) : obj).filter((i) => i[1] != null);
+}
+function normalizeCSSValues(obj) {
+  if (Array.isArray(obj)) {
+    if (obj.find((i) => !Array.isArray(i) || Array.isArray(i[0])))
+      return obj.map((i) => normalizeCSSEntries(i));
+    else
+      return [obj];
+  } else {
+    return [normalizeCSSEntries(obj)];
+  }
+}
+function clearIdenticalEntries(entry) {
+  return entry.filter(([k, v], idx) => {
+    if (k.startsWith("$$"))
+      return false;
+    for (let i = idx - 1; i >= 0; i--) {
+      if (entry[i][0] === k && entry[i][1] === v)
+        return false;
+    }
+    return true;
+  });
+}
+function entriesToCss(arr) {
+  if (arr == null)
+    return "";
+  return clearIdenticalEntries(arr).map(([key, value]) => value != null ? `${key}:${value};` : void 0).filter(Boolean).join("");
+}
+function isObject(item) {
+  return item && typeof item === "object" && !Array.isArray(item);
+}
+function mergeDeep(original, patch) {
+  const o = original;
+  const p = patch;
+  if (Array.isArray(o) && Array.isArray(p))
+    return [...o, ...p];
+  if (Array.isArray(o))
+    return [...o];
+  const output = { ...o };
+  if (isObject(o) && isObject(p)) {
+    Object.keys(p).forEach((key) => {
+      if (isObject(p[key])) {
+        if (!(key in o))
+          Object.assign(output, { [key]: p[key] });
+        else
+          output[key] = mergeDeep(o[key], p[key]);
+      } else {
+        Object.assign(output, { [key]: p[key] });
+      }
+    });
+  }
+  return output;
+}
+function clone(val) {
+  let k, out, tmp;
+  if (Array.isArray(val)) {
+    out = Array(k = val.length);
+    while (k--)
+      out[k] = (tmp = val[k]) && typeof tmp === "object" ? clone(tmp) : tmp;
+    return out;
+  }
+  if (Object.prototype.toString.call(val) === "[object Object]") {
+    out = {};
+    for (k in val) {
+      if (k === "__proto__") {
+        Object.defineProperty(out, k, {
+          value: clone(val[k]),
+          configurable: true,
+          enumerable: true,
+          writable: true
+        });
+      } else {
+        out[k] = (tmp = val[k]) && typeof tmp === "object" ? clone(tmp) : tmp;
+      }
+    }
+    return out;
+  }
+  return val;
+}
+function isStaticRule(rule) {
+  return typeof rule[0] === "string";
+}
+function isStaticShortcut(sc) {
+  return typeof sc[0] === "string";
+}
+
+function toArray(value = []) {
+  return Array.isArray(value) ? value : [value];
+}
+function uniq(value) {
+  return Array.from(new Set(value));
+}
+function mergeSet(target, append) {
+  append.forEach((i) => target.add(i));
+  return target;
+}
+
+const hexRE = /^#?([\da-f]+)$/i;
+function hex2rgba(hex = "") {
+  const [, body] = hex.match(hexRE) || [];
+  if (!body)
+    return;
+  switch (body.length) {
+    case 3:
+    case 4:
+      const digits = Array.from(body, (s) => Number.parseInt(s, 16)).map((n) => n << 4 | n);
+      if (body.length === 3)
+        return digits;
+      digits[3] = Math.round(digits[3] / 255 * 100) / 100;
+      return digits;
+    case 6:
+    case 8:
+      const value = Number.parseInt(body, 16);
+      if (body.length === 6)
+        return [value >> 16 & 255, value >> 8 & 255, value & 255];
+      return [value >> 24 & 255, value >> 16 & 255, value >> 8 & 255, Math.round((value & 255) / 255 * 100) / 100];
+  }
+}
+
+const attributifyRE = /^\[(.+?)~?="(.*)"\]$/;
+const validateFilterRE = /(?!\d|-{2}|-\d)[a-zA-Z0-9\u00A0-\uFFFF-_:%-?]/;
+const CONTROL_SHORTCUT_NO_MERGE = "$$shortcut-no-merge";
+function isAttributifySelector(selector) {
+  return selector.match(attributifyRE);
+}
+function isValidSelector(selector = "") {
+  return validateFilterRE.test(selector);
+}
+function normalizeVariant(variant) {
+  return typeof variant === "function" ? { match: variant } : variant;
+}
+function isRawUtil(util) {
+  return util.length === 3;
+}
+function notNull(value) {
+  return value != null;
+}
+
+class TwoKeyMap {
+  constructor() {
+    this._map = /* @__PURE__ */ new Map();
+  }
+  get(key1, key2) {
+    const m2 = this._map.get(key1);
+    if (m2)
+      return m2.get(key2);
+  }
+  getFallback(key1, key2, fallback) {
+    let m2 = this._map.get(key1);
+    if (!m2) {
+      m2 = /* @__PURE__ */ new Map();
+      this._map.set(key1, m2);
+    }
+    if (!m2.has(key2))
+      m2.set(key2, fallback);
+    return m2.get(key2);
+  }
+  set(key1, key2, value) {
+    let m2 = this._map.get(key1);
+    if (!m2) {
+      m2 = /* @__PURE__ */ new Map();
+      this._map.set(key1, m2);
+    }
+    m2.set(key2, value);
+    return this;
+  }
+  has(key1, key2) {
+    return this._map.get(key1)?.has(key2);
+  }
+  delete(key1, key2) {
+    return this._map.get(key1)?.delete(key2) || false;
+  }
+  deleteTop(key1) {
+    return this._map.delete(key1);
+  }
+  map(fn) {
+    return Array.from(this._map.entries()).flatMap(([k1, m2]) => Array.from(m2.entries()).map(([k2, v]) => {
+      return fn(v, k1, k2);
+    }));
+  }
+}
+class BetterMap extends Map {
+  map(mapFn) {
+    const result = [];
+    this.forEach((v, k) => {
+      result.push(mapFn(v, k));
+    });
+    return result;
+  }
+}
+
+function withLayer(layer, rules) {
+  rules.forEach((r) => {
+    if (!r[2])
+      r[2] = { layer };
+    else
+      r[2].layer = layer;
+  });
+  return rules;
+}
+
+const regexClassGroup = /([!\w+:_/-]+?)([:-])\(((?:[!\w\s:/\\,%#.$-]|\[.*?\])*?)\)/gm;
+function expandVariantGroup(str) {
+  const replaces = [];
+  let match;
+  while (match = regexClassGroup.exec(str)) {
+    const start = match.index;
+    const end = start + match[0].length;
+    const [, pre, sep, body] = match;
+    const replacement = body.split(/\s/g).map((i) => i.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)).join(" ");
+    replaces.unshift([start, end, replacement]);
+  }
+  let result = str;
+  replaces.forEach(([start, end, replacement]) => {
+    result = result.slice(0, start) + replacement + result.slice(end);
+  });
+  return result;
+}
+
+const warned = /* @__PURE__ */ new Set();
+function warnOnce(msg) {
+  if (warned.has(msg))
+    return;
+  console.warn("[unocss]", msg);
+  warned.add(msg);
+}
+
+function createValueHandler(handlers) {
+  const handler = function(str) {
+    const s = this.__options?.sequence || [];
+    this.__options.sequence = [];
+    for (const n of s) {
+      const res = handlers[n](str);
+      if (res != null)
+        return res;
+    }
+  };
+  function addProcessor(that, name) {
+    if (!that.__options) {
+      that.__options = {
+        sequence: []
+      };
+    }
+    that.__options.sequence.push(name);
+    return that;
+  }
+  for (const name of Object.keys(handlers)) {
+    Object.defineProperty(handler, name, {
+      enumerable: true,
+      get() {
+        return addProcessor(this, name);
+      }
+    });
+  }
+  return handler;
+}
+
+const splitCode = (code) => code.split(/[\s'"`;>=]+/g).filter(isValidSelector);
+const extractorSplit = {
+  name: "split",
+  order: 0,
+  extract({ code }) {
+    return new Set(splitCode(code));
+  }
+};
+
+const extractorSvelte = {
+  name: "svelte",
+  order: 0,
+  extract({ code, id }) {
+    let result = splitCode(code);
+    if (id && id.endsWith(".svelte")) {
+      result = result.map((r) => {
+        return r.startsWith("class:") ? r.slice(6) : r;
+      });
+    }
+    return new Set(result);
+  }
+};
+
+function resolveShortcuts(shortcuts) {
+  return toArray(shortcuts).flatMap((s) => {
+    if (Array.isArray(s))
+      return [s];
+    return Object.entries(s);
+  });
+}
+const defaultLayers = {
+  shortcuts: -1,
+  default: 0
+};
+function resolveConfig(userConfig = {}, defaults = {}) {
+  const config = Object.assign({}, defaults, userConfig);
+  const rawPresets = (config.presets || []).flatMap(toArray);
+  const sortedPresets = [
+    ...rawPresets.filter((p) => p.enforce === "pre"),
+    ...rawPresets.filter((p) => !p.enforce),
+    ...rawPresets.filter((p) => p.enforce === "post")
+  ];
+  const layers = Object.assign(defaultLayers, ...rawPresets.map((i) => i.layers), userConfig.layers);
+  function mergePresets(key) {
+    return uniq([
+      ...sortedPresets.flatMap((p) => toArray(p[key] || [])),
+      ...toArray(config[key] || [])
+    ]);
+  }
+  const extractors = mergePresets("extractors");
+  if (!extractors.length)
+    extractors.push(extractorSplit);
+  extractors.sort((a, b) => (a.order || 0) - (b.order || 0));
+  const rules = mergePresets("rules");
+  const rulesStaticMap = {};
+  const rulesSize = rules.length;
+  rules.forEach((rule, i) => {
+    if (isStaticRule(rule)) {
+      rulesStaticMap[rule[0]] = [i, rule[1], rule[2]];
+      delete rules[i];
+    }
+  });
+  const theme = clone([
+    ...sortedPresets.map((p) => p.theme || {}),
+    config.theme || {}
+  ].reduce((a, p) => mergeDeep(a, p), {}));
+  mergePresets("extendTheme").forEach((extendTheme) => extendTheme(theme));
+  return {
+    mergeSelectors: true,
+    warn: true,
+    blocklist: [],
+    safelist: [],
+    sortLayers: (layers2) => layers2,
+    ...config,
+    presets: sortedPresets,
+    envMode: config.envMode || "build",
+    shortcutsLayer: config.shortcutsLayer || "shortcuts",
+    layers,
+    theme,
+    rulesSize,
+    rulesDynamic: rules,
+    rulesStaticMap,
+    preprocess: mergePresets("preprocess"),
+    postprocess: mergePresets("postprocess"),
+    preflights: mergePresets("preflights"),
+    variants: mergePresets("variants").map(normalizeVariant),
+    shortcuts: resolveShortcuts(mergePresets("shortcuts")),
+    extractors
+  };
+}
+
+const version = "0.22.4";
+
+class UnoGenerator {
+  constructor(userConfig = {}, defaults = {}) {
+    this.userConfig = userConfig;
+    this.defaults = defaults;
+    this.version = version;
+    this._cache = /* @__PURE__ */ new Map();
+    this.blocked = /* @__PURE__ */ new Set();
+    this.parentOrders = /* @__PURE__ */ new Map();
+    this.config = resolveConfig(userConfig, defaults);
+  }
+  setConfig(userConfig, defaults) {
+    if (!userConfig)
+      return;
+    if (defaults)
+      this.defaults = defaults;
+    this.userConfig = userConfig;
+    this.config = resolveConfig(userConfig, this.defaults);
+    this.blocked.clear();
+    this.parentOrders.clear();
+    this._cache.clear();
+  }
+  async applyExtractors(code, id, set = /* @__PURE__ */ new Set()) {
+    const context = {
+      get original() {
+        return code;
+      },
+      code,
+      id
+    };
+    for (const extractor of this.config.extractors) {
+      const result = await extractor.extract(context);
+      result?.forEach((t) => set.add(t));
+    }
+    return set;
+  }
+  async generate(input, {
+    id,
+    scope,
+    preflights = true,
+    safelist = true,
+    minify = false
+  } = {}) {
+    const tokens = typeof input === "string" ? await this.applyExtractors(input, id) : input;
+    if (safelist)
+      this.config.safelist.forEach((s) => tokens.add(s));
+    const nl = minify ? "" : "\n";
+    const layerSet = /* @__PURE__ */ new Set(["default"]);
+    const matched = /* @__PURE__ */ new Set();
+    const sheet = /* @__PURE__ */ new Map();
+    const hit = (raw, payload) => {
+      this._cache.set(raw, payload);
+      matched.add(raw);
+      for (const item of payload) {
+        const parent = item[3] || "";
+        if (!sheet.has(parent))
+          sheet.set(parent, []);
+        sheet.get(parent).push(item);
+        if (item[4]?.layer)
+          layerSet.add(item[4].layer);
+      }
+    };
+    const block = (raw) => {
+      this.blocked.add(raw);
+      this._cache.set(raw, null);
+    };
+    await Promise.all(Array.from(tokens).map(async (raw) => {
+      if (matched.has(raw) || this.blocked.has(raw))
+        return;
+      if (this._cache.has(raw)) {
+        const r = this._cache.get(raw);
+        if (r)
+          hit(raw, r);
+        return;
+      }
+      let current = raw;
+      for (const p of this.config.preprocess)
+        current = p(raw);
+      if (this.isBlocked(current))
+        return block(current);
+      const applied = this.matchVariants(raw, current);
+      if (!applied || this.isBlocked(applied[1]))
+        return block(raw);
+      const context = {
+        rawSelector: raw,
+        currentSelector: applied[1],
+        theme: this.config.theme,
+        generator: this,
+        variantHandlers: applied[2],
+        constructCSS: (...args) => this.constructCustomCSS(context, ...args)
+      };
+      const expanded = this.expandShortcut(applied[1], context);
+      if (expanded) {
+        const utils = await this.stringifyShortcuts(applied, context, expanded[0], expanded[1]);
+        if (utils?.length)
+          return hit(raw, utils);
+      } else {
+        const utils = (await this.parseUtil(applied, context))?.map((i) => this.stringifyUtil(i)).filter(notNull);
+        if (utils?.length)
+          return hit(raw, utils);
+      }
+      this._cache.set(raw, null);
+    }));
+    if (preflights) {
+      this.config.preflights.forEach((i) => {
+        if (i.layer)
+          layerSet.add(i.layer);
+      });
+    }
+    const layerCache = {};
+    const layers = this.config.sortLayers(Array.from(layerSet).sort((a, b) => (this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0) || a.localeCompare(b)));
+    let preflightsMap = {};
+    if (preflights) {
+      preflightsMap = Object.fromEntries(await Promise.all(layers.map(async (layer) => {
+        const preflights2 = await Promise.all(this.config.preflights.filter((i) => (i.layer || "default") === layer).map(async (i) => await i.getCSS()));
+        const css = preflights2.filter(Boolean).join(nl);
+        return [layer, css];
+      })));
+    }
+    const getLayer = (layer) => {
+      if (layerCache[layer])
+        return layerCache[layer];
+      let css = Array.from(sheet).sort((a, b) => (this.parentOrders.get(a[0]) ?? 0) - (this.parentOrders.get(b[0]) ?? 0) || a[0]?.localeCompare(b[0] || "") || 0).map(([parent, items]) => {
+        const size = items.length;
+        const sorted = items.filter((i) => (i[4]?.layer || "default") === layer).sort((a, b) => a[0] - b[0] || a[1]?.localeCompare(b[1] || "") || 0).map((a) => [a[1] ? applyScope(a[1], scope) : a[1], a[2], !!a[4]?.noMerge]).map((a) => [a[0] == null ? a[0] : [a[0]], a[1], a[2]]);
+        if (!sorted.length)
+          return void 0;
+        const rules = sorted.reverse().map(([selector, body, noMerge], idx) => {
+          if (!noMerge && selector && this.config.mergeSelectors) {
+            for (let i = idx + 1; i < size; i++) {
+              const current = sorted[i];
+              if (current && !current[2] && current[0] && current[1] === body) {
+                current[0].push(...selector);
+                return null;
+              }
+            }
+          }
+          return selector ? `${[...new Set(selector)].join(`,${nl}`)}{${body}}` : body;
+        }).filter(Boolean).reverse().join(nl);
+        return parent ? `${parent}{${nl}${rules}${nl}}` : rules;
+      }).filter(Boolean).join(nl);
+      if (preflights) {
+        css = [preflightsMap[layer], css].filter(Boolean).join(nl);
+      }
+      return layerCache[layer] = !minify && css ? `/* layer: ${layer} */${nl}${css}` : css;
+    };
+    const getLayers = (includes = layers, excludes) => {
+      return includes.filter((i) => !excludes?.includes(i)).map((i) => getLayer(i) || "").filter(Boolean).join(nl);
+    };
+    return {
+      get css() {
+        return getLayers();
+      },
+      layers,
+      getLayers,
+      getLayer,
+      matched
+    };
+  }
+  matchVariants(raw, current) {
+    const usedVariants = /* @__PURE__ */ new Set();
+    const handlers = [];
+    let processed = current || raw;
+    let applied = false;
+    const context = {
+      rawSelector: raw,
+      theme: this.config.theme,
+      generator: this
+    };
+    while (true) {
+      applied = false;
+      for (const v of this.config.variants) {
+        if (!v.multiPass && usedVariants.has(v))
+          continue;
+        let handler = v.match(processed, context);
+        if (!handler)
+          continue;
+        if (typeof handler === "string")
+          handler = { matcher: handler };
+        if (handler) {
+          processed = handler.matcher;
+          if (Array.isArray(handler.parent))
+            this.parentOrders.set(handler.parent[0], handler.parent[1]);
+          handlers.push(handler);
+          usedVariants.add(v);
+          applied = true;
+          break;
+        }
+      }
+      if (!applied)
+        break;
+      if (handlers.length > 500)
+        throw new Error(`Too many variants applied to "${raw}"`);
+    }
+    return [raw, processed, handlers];
+  }
+  applyVariants(parsed, variantHandlers = parsed[4], raw = parsed[1]) {
+    const handlers = [...variantHandlers].sort((a, b) => (a.order || 0) - (b.order || 0));
+    const entries = handlers.reduce((p, v) => v.body?.(p) || p, parsed[2]);
+    const obj = {
+      selector: handlers.reduce((p, v) => v.selector?.(p, entries) || p, toEscapedSelector(raw)),
+      entries,
+      parent: handlers.reduce((p, v) => Array.isArray(v.parent) ? v.parent[0] : v.parent || p, void 0)
+    };
+    for (const p of this.config.postprocess)
+      p(obj);
+    return obj;
+  }
+  constructCustomCSS(context, body, overrideSelector) {
+    body = normalizeCSSEntries(body);
+    const { selector, entries, parent } = this.applyVariants([0, overrideSelector || context.rawSelector, body, void 0, context.variantHandlers]);
+    const cssBody = `${selector}{${entriesToCss(entries)}}`;
+    if (parent)
+      return `${parent}{${cssBody}}`;
+    return cssBody;
+  }
+  async parseUtil(input, context, internal = false) {
+    const [raw, processed, variantHandlers] = typeof input === "string" ? this.matchVariants(input) : input;
+    const staticMatch = this.config.rulesStaticMap[processed];
+    if (staticMatch) {
+      if (staticMatch[1] && (internal || !staticMatch[2]?.internal))
+        return [[staticMatch[0], raw, normalizeCSSEntries(staticMatch[1]), staticMatch[2], variantHandlers]];
+    }
+    context.variantHandlers = variantHandlers;
+    const { rulesDynamic, rulesSize } = this.config;
+    for (let i = rulesSize; i >= 0; i--) {
+      const rule = rulesDynamic[i];
+      if (!rule)
+        continue;
+      if (rule[2]?.internal && !internal)
+        continue;
+      const [matcher, handler, meta] = rule;
+      const match = processed.match(matcher);
+      if (!match)
+        continue;
+      const result = await handler(match, context);
+      if (!result)
+        continue;
+      if (typeof result === "string")
+        return [[i, result, meta]];
+      const entries = normalizeCSSValues(result).filter((i2) => i2.length);
+      if (entries.length)
+        return entries.map((e2) => [i, raw, e2, meta, variantHandlers]);
+    }
+  }
+  stringifyUtil(parsed) {
+    if (!parsed)
+      return;
+    if (isRawUtil(parsed))
+      return [parsed[0], void 0, parsed[1], void 0, parsed[2]];
+    const { selector, entries, parent } = this.applyVariants(parsed);
+    const body = entriesToCss(entries);
+    if (!body)
+      return;
+    return [parsed[0], selector, body, parent, parsed[3]];
+  }
+  expandShortcut(processed, context, depth = 3) {
+    if (depth === 0)
+      return;
+    let meta;
+    let result;
+    for (const s of this.config.shortcuts) {
+      if (isStaticShortcut(s)) {
+        if (s[0] === processed) {
+          meta = meta || s[2];
+          result = s[1];
+          break;
+        }
+      } else {
+        const match = processed.match(s[0]);
+        if (match)
+          result = s[1](match, context);
+        if (result) {
+          meta = meta || s[2];
+          break;
+        }
+      }
+    }
+    if (typeof result === "string")
+      result = expandVariantGroup(result).split(/\s+/g);
+    if (!result)
+      return;
+    return [
+      result.flatMap((r) => this.expandShortcut(r, context, depth - 1)?.[0] || [r]).filter((r) => r !== ""),
+      meta
+    ];
+  }
+  async stringifyShortcuts(parent, context, expanded, meta = { layer: this.config.shortcutsLayer }) {
+    const selectorMap = new TwoKeyMap();
+    const parsed = (await Promise.all(uniq(expanded).map(async (i) => {
+      const result = await this.parseUtil(i, context, true);
+      if (!result)
+        warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`);
+      return result || [];
+    }))).flat(1).filter(Boolean).sort((a, b) => a[0] - b[0]);
+    const [raw, , parentVariants] = parent;
+    for (const item of parsed) {
+      if (isRawUtil(item))
+        continue;
+      const { selector, entries, parent: parent2 } = this.applyVariants(item, [...item[4], ...parentVariants], raw);
+      const mapItem = selectorMap.getFallback(selector, parent2, [[], item[0]]);
+      mapItem[0].push([entries, !!item[3]?.noMerge]);
+    }
+    return selectorMap.map(([e2, index], selector, mediaQuery) => {
+      const stringify = (noMerge) => (entries) => {
+        const body = entriesToCss(entries);
+        if (body)
+          return [index, selector, body, mediaQuery, { ...meta, noMerge }];
+        return void 0;
+      };
+      const merges = [
+        [e2.filter(([, noMerge]) => noMerge).map(([entries]) => entries), true],
+        [e2.filter(([, noMerge]) => !noMerge).map(([entries]) => entries), false]
+      ];
+      return merges.map(([e3, noMerge]) => {
+        const splits = e3.filter((entries) => entries.some((entry) => entry[0] === CONTROL_SHORTCUT_NO_MERGE));
+        const rests = e3.filter((entries) => entries.every((entry) => entry[0] !== CONTROL_SHORTCUT_NO_MERGE));
+        return [...splits.map(stringify(noMerge)), ...[rests.flat(1)].map(stringify(noMerge))];
+      });
+    }).flat(2).filter(Boolean);
+  }
+  isBlocked(raw) {
+    return !raw || this.config.blocklist.some((e2) => typeof e2 === "string" ? e2 === raw : e2.test(raw));
+  }
+}
+function createGenerator(config, defaults) {
+  return new UnoGenerator(config, defaults);
+}
+const reScopePlaceholder = / \$\$ /;
+const hasScopePlaceholder = (css) => css.match(reScopePlaceholder);
+function applyScope(css, scope) {
+  if (hasScopePlaceholder(css))
+    return css.replace(reScopePlaceholder, scope ? ` ${scope} ` : " ");
+  else
+    return scope ? `${scope} ${css}` : css;
+}
+const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/;
+function toEscapedSelector(raw) {
+  if (attributifyRe.test(raw))
+    return raw.replace(attributifyRe, (_, n, s, i) => `[${e(n)}${s}"${e(i)}"]`);
+  return `.${e(raw)}`;
+}
+
+export { BetterMap, CONTROL_SHORTCUT_NO_MERGE, TwoKeyMap, UnoGenerator, attributifyRE, clearIdenticalEntries, clone, createGenerator, createValueHandler, e, entriesToCss, escapeRegExp, escapeSelector, expandVariantGroup, extractorSplit, extractorSvelte, hasScopePlaceholder, hex2rgba, isAttributifySelector, isObject, isRawUtil, isStaticRule, isStaticShortcut, isValidSelector, mergeDeep, mergeSet, normalizeCSSEntries, normalizeCSSValues, normalizeVariant, notNull, regexClassGroup, toArray, uniq, validateFilterRE, warnOnce, withLayer };

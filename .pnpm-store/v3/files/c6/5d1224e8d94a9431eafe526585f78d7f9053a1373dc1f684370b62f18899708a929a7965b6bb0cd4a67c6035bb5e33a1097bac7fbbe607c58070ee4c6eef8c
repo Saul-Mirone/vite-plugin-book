@@ -1,0 +1,50 @@
+{
+  "name": "@unocss/vite",
+  "version": "0.22.4",
+  "description": "The Vite plugin for UnoCSS",
+  "keywords": [
+    "unocss",
+    "vite",
+    "vite-plugin"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/vite#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/vite"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@rollup/pluginutils": "^4.1.2",
+    "@unocss/config": "0.22.4",
+    "@unocss/core": "0.22.4",
+    "@unocss/inspector": "0.22.4",
+    "@unocss/scope": "0.22.4"
+  },
+  "devDependencies": {
+    "vite": "^2.7.12"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  }
+}

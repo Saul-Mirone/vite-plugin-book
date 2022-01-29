@@ -1,0 +1,408 @@
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+import { createNode, AtomList, createPlugin } from "@milkdown/utils";
+import remarkMath from "remark-math";
+import { EditorView, EditorState, keymap, newlineInCode, TextSelection, StepMap, textblockTypeInputRule, findSelectedNodeOfType, NodeSelection, InputRule } from "@milkdown/prose";
+import katex from "katex";
+import { createCmdKey, createCmd } from "@milkdown/core";
+const createInnerEditor = (outerView, getPos) => {
+  let isEditing = false;
+  let innerView;
+  const openEditor = ($, doc) => {
+    innerView = new EditorView($, {
+      state: EditorState.create({
+        doc,
+        plugins: [
+          keymap({
+            Tab: (state2, dispatch) => {
+              if (dispatch) {
+                dispatch(state2.tr.insertText("	"));
+              }
+              return true;
+            },
+            Enter: newlineInCode,
+            "Mod-Enter": (_, dispatch) => {
+              if (dispatch) {
+                const { state: state2 } = outerView;
+                const { to } = state2.selection;
+                const tr = state2.tr.replaceWith(to, to, state2.schema.nodes.paragraph.createAndFill());
+                outerView.dispatch(tr.setSelection(TextSelection.create(tr.doc, to)));
+                outerView.focus();
+              }
+              return true;
+            }
+          })
+        ]
+      }),
+      dispatchTransaction: (tr) => {
+        if (!innerView)
+          return;
+        const { state: state2, transactions } = innerView.state.applyTransaction(tr);
+        innerView.updateState(state2);
+        if (!tr.getMeta("fromOutside")) {
+          const outerTr = outerView.state.tr;
+          const offsetMap = StepMap.offset(getPos() + 1);
+          transactions.forEach((transaction) => {
+            const { steps } = transaction;
+            steps.forEach((step) => {
+              const mapped = step.map(offsetMap);
+              if (!mapped) {
+                throw Error("step discarded!");
+              }
+              outerTr.step(mapped);
+            });
+          });
+          if (outerTr.docChanged)
+            outerView.dispatch(outerTr);
+        }
+      }
+    });
+    innerView.focus();
+    const { state } = innerView;
+    innerView.dispatch(state.tr.setSelection(TextSelection.create(state.doc, 0)));
+    isEditing = true;
+  };
+  const closeEditor = () => {
+    if (innerView) {
+      innerView.destroy();
+    }
+    innerView = void 0;
+    isEditing = false;
+  };
+  return {
+    isEditing: () => isEditing,
+    innerView: () => innerView,
+    openEditor,
+    closeEditor
+  };
+};
+const getStyle = (utils) => {
+  const codeStyle = utils.getStyle(({ palette, size, font }, { css }) => css`
+            color: ${palette("neutral", 0.87)};
+            background-color: ${palette("background")};
+            border-radius: ${size.radius};
+            padding: 1rem 2rem;
+            font-size: 0.875rem;
+            font-family: ${font.code};
+            overflow: hidden;
+            .ProseMirror {
+                outline: none;
+            }
+        `);
+  const hideCodeStyle = utils.getStyle((_, { css }) => css`
+            display: none;
+        `);
+  const previewPanelStyle = utils.getStyle((_, { css }) => css`
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        `);
+  return {
+    codeStyle,
+    hideCodeStyle,
+    previewPanelStyle
+  };
+};
+const inputRegex = /^\$\$\s$/;
+const mathBlock = createNode((utils, options) => {
+  var _a;
+  const { codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(utils);
+  const id = "math_block";
+  const placeholder = __spreadValues({
+    empty: "Empty",
+    error: "Syntax Error"
+  }, (_a = options == null ? void 0 : options.placeholder) != null ? _a : {});
+  return {
+    id,
+    schema: () => ({
+      content: "text*",
+      group: "block",
+      marks: "",
+      defining: true,
+      atom: true,
+      code: true,
+      isolating: true,
+      attrs: {
+        value: {
+          default: ""
+        }
+      },
+      parseDOM: [
+        {
+          tag: `div[data-type="${id}"]`,
+          preserveWhitespace: "full",
+          getAttrs: (dom) => {
+            if (!(dom instanceof HTMLElement)) {
+              throw new Error();
+            }
+            return {
+              value: dom.dataset.value
+            };
+          }
+        }
+      ],
+      toDOM: (node) => {
+        return [
+          "div",
+          {
+            class: utils.getClassName(node.attrs, "mermaid"),
+            "data-type": id,
+            "data-value": node.attrs.value
+          },
+          0
+        ];
+      },
+      parseMarkdown: {
+        match: ({ type }) => type === "math",
+        runner: (state, node, type) => {
+          const value = node.value;
+          state.openNode(type, { value });
+          if (value) {
+            state.addText(value);
+          }
+          state.closeNode();
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === id,
+        runner: (state, node) => {
+          let text = "";
+          node.forEach((n) => {
+            text += n.text;
+          });
+          state.addNode("math", void 0, text);
+        }
+      }
+    }),
+    view: () => (node, view, getPos) => {
+      const innerEditor = createInnerEditor(view, getPos);
+      let currentNode = node;
+      const dom = document.createElement("div");
+      dom.classList.add("math-block");
+      const code = document.createElement("div");
+      code.dataset.type = id;
+      code.dataset.value = node.attrs.value;
+      if (codeStyle && hideCodeStyle) {
+        code.classList.add(codeStyle, hideCodeStyle);
+      }
+      const rendered = document.createElement("div");
+      if (previewPanelStyle) {
+        rendered.classList.add(previewPanelStyle);
+      }
+      dom.append(code);
+      const render = (code2) => {
+        try {
+          if (!code2) {
+            rendered.innerHTML = placeholder.empty;
+          } else {
+            katex.render(code2, rendered);
+          }
+        } catch {
+          rendered.innerHTML = placeholder.error;
+        } finally {
+          dom.appendChild(rendered);
+        }
+      };
+      render(node.attrs.value);
+      return {
+        dom,
+        update: (updatedNode) => {
+          var _a2;
+          if (!updatedNode.sameMarkup(currentNode))
+            return false;
+          currentNode = updatedNode;
+          const innerView = innerEditor.innerView();
+          if (innerView) {
+            const state = innerView.state;
+            const start = updatedNode.content.findDiffStart(state.doc.content);
+            if (start !== null && start !== void 0) {
+              const diff = updatedNode.content.findDiffEnd(state.doc.content);
+              if (diff) {
+                let { a: endA, b: endB } = diff;
+                const overlap = start - Math.min(endA, endB);
+                if (overlap > 0) {
+                  endA += overlap;
+                  endB += overlap;
+                }
+                innerView.dispatch(state.tr.replace(start, endB, node.slice(start, endA)).setMeta("fromOutside", true));
+              }
+            }
+          }
+          const newVal = ((_a2 = updatedNode.content.firstChild) == null ? void 0 : _a2.text) || "";
+          code.dataset.value = newVal;
+          render(newVal);
+          return true;
+        },
+        selectNode: () => {
+          if (!view.editable)
+            return;
+          if (hideCodeStyle) {
+            code.classList.remove(hideCodeStyle);
+          }
+          innerEditor.openEditor(code, currentNode);
+          dom.classList.add("ProseMirror-selectednode");
+        },
+        deselectNode: () => {
+          if (hideCodeStyle) {
+            code.classList.add(hideCodeStyle);
+          }
+          innerEditor.closeEditor();
+          dom.classList.remove("ProseMirror-selectednode");
+        },
+        stopEvent: (event) => {
+          const innerView = innerEditor.innerView();
+          const { target } = event;
+          const isChild = target && (innerView == null ? void 0 : innerView.dom.contains(target));
+          return !!(innerView && isChild);
+        },
+        ignoreMutation: () => true,
+        destroy() {
+          rendered.remove();
+          code.remove();
+          dom.remove();
+        }
+      };
+    },
+    inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType)]
+  };
+});
+const ModifyInlineMath = createCmdKey();
+const mathInline = createNode((utils, options) => {
+  var _a;
+  const placeholder = __spreadValues({
+    empty: "(empty)",
+    error: "(error)"
+  }, (_a = options == null ? void 0 : options.placeholder) != null ? _a : {});
+  const style = utils.getStyle(({ size, palette }, { css }) => {
+    return css`
+            font-size: unset;
+
+            &.ProseMirror-selectednode {
+                outline: none;
+                border: ${size.lineWidth} solid ${palette("line")};
+            }
+        `;
+  });
+  const id = "math_inline";
+  return {
+    id,
+    schema: () => ({
+      group: "inline",
+      inline: true,
+      atom: true,
+      attrs: {
+        value: {
+          default: ""
+        }
+      },
+      parseDOM: [
+        {
+          tag: `span[data-type="${id}"]`,
+          getAttrs: (dom) => {
+            if (!(dom instanceof HTMLElement)) {
+              throw new Error();
+            }
+            return {
+              value: dom.dataset.value
+            };
+          }
+        }
+      ],
+      toDOM: (node) => ["span", { class: style, "data-type": id, "data-value": node.attrs.value }],
+      parseMarkdown: {
+        match: (node) => node.type === "inlineMath",
+        runner: (state, node, type) => {
+          const code = node.value;
+          state.addNode(type, { value: code });
+        }
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === id,
+        runner: (state, node) => {
+          state.addNode("inlineMath", void 0, node.attrs.value);
+        }
+      }
+    }),
+    commands: (nodeType) => [
+      createCmd(ModifyInlineMath, (value = "") => (state, dispatch) => {
+        const node = findSelectedNodeOfType(state.selection, nodeType);
+        if (!node)
+          return false;
+        const { tr } = state;
+        const _tr = tr.setNodeMarkup(node.pos, void 0, __spreadProps(__spreadValues({}, node.node.attrs), { value }));
+        dispatch == null ? void 0 : dispatch(_tr.setSelection(NodeSelection.create(_tr.doc, node.pos)));
+        return true;
+      })
+    ],
+    view: () => (node) => {
+      let currentNode = node;
+      const dom = document.createElement("span");
+      if (style) {
+        dom.classList.add(style);
+      }
+      const render = (code) => {
+        try {
+          if (!code) {
+            dom.innerHTML = placeholder.empty;
+          } else {
+            katex.render(code, dom);
+          }
+        } catch {
+          dom.innerHTML = placeholder.error;
+        }
+      };
+      render(node.attrs.value);
+      return {
+        dom,
+        update: (updatedNode) => {
+          if (!updatedNode.sameMarkup(currentNode))
+            return false;
+          currentNode = updatedNode;
+          const newVal = updatedNode.attrs.value;
+          render(newVal);
+          return true;
+        }
+      };
+    },
+    inputRules: (nodeType) => [
+      new InputRule(/\$(.+)\$/, (state, match, start, end) => {
+        const $start = state.doc.resolve(start);
+        const index = $start.index();
+        const $end = state.doc.resolve(end);
+        if (!$start.parent.canReplaceWith(index, $end.index(), nodeType)) {
+          return null;
+        }
+        const value = match[1];
+        return state.tr.replaceRangeWith(start, end, nodeType.create({
+          value
+        }, nodeType.schema.text(value)));
+      })
+    ]
+  };
+});
+const nodes = AtomList.create([mathInline(), mathBlock()]);
+const remarkPlugin = createPlugin(() => {
+  return {
+    remarkPlugins: () => [remarkMath]
+  };
+});
+const math = AtomList.create([remarkPlugin(), ...nodes]);
+export { ModifyInlineMath, math, mathBlock, mathInline, nodes };
+//# sourceMappingURL=index.es.js.map

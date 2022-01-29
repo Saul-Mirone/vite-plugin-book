@@ -1,0 +1,988 @@
+'use strict';
+
+const utilities = require('./utilities.cjs');
+const core = require('@unocss/core');
+
+const verticalAlignAlias = {
+  mid: "middle",
+  base: "baseline",
+  btm: "bottom"
+};
+const verticalAligns = [
+  [/^(?:vertical|align|v)-(baseline|top|middle|bottom|text-top|text-bottom|sub|super|mid|base|btm)$/, ([, v]) => ({ "vertical-align": verticalAlignAlias[v] || v })]
+];
+const textAligns = [
+  ["text-center", { "text-align": "center" }],
+  ["text-left", { "text-align": "left" }],
+  ["text-right", { "text-align": "right" }],
+  ["text-justify", { "text-align": "justify" }]
+];
+
+const outline = [
+  [/^outline-(?:width-|size-)?(.+)$/, ([, d]) => ({ "outline-width": utilities.handler.bracket.cssvar.fraction.rem(d) })],
+  [/^outline-(?:color-)?(.+)$/, utilities.colorResolver("outline-color", "outline-color")],
+  [/^outline-offset-(.+)$/, ([, d]) => ({ "outline-offset": utilities.handler.bracket.cssvar.fraction.rem(d) })],
+  ["outline", { "outline-style": "solid" }],
+  [/^outline-(auto|dashed|dotted|double|hidden|solid|groove|ridge|inset|outset|inherit|initial|revert|unset)$/, ([, c]) => ({ "outline-style": c })],
+  ["outline-none", { "outline": "2px solid transparent", "outline-offset": "2px" }]
+];
+const appearance = [
+  ["appearance-none", {
+    "appearance": "none",
+    "-webkit-appearance": "none"
+  }]
+];
+const willChangeProperty = (prop) => {
+  return utilities.handler.properties.auto.global(prop) ?? {
+    contents: "contents",
+    scroll: "scroll-position"
+  }[prop];
+};
+const willChange = [
+  [/^will-change-(.+)/, ([, p]) => ({ "will-change": willChangeProperty(p) })]
+];
+
+const borders = [
+  [/^(?:border|b)()(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-([xy])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-([rltbse])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-(block|inline)(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-([bi][se])(?:-(.+))?$/, handlerBorder],
+  [/^(?:border|b)-()(?:width|size)-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([xy])-(?:width|size)-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([rltbse])-(?:width|size)-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-(block|inline)-(?:width|size)-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-([bi][se])-(?:width|size)-(.+)$/, handlerBorderSize],
+  [/^(?:border|b)-()(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([xy])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([rltbse])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-(block|inline)-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-([bi][se])-(?:color-)?(.+)$/, handlerBorderColor],
+  [/^(?:border|b)-()op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-([xy])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-([rltbse])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-(block|inline)-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border|b)-([bi][se])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
+  [/^(?:border-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([rltb])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([rltb]{2})(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([bi][se])(?:-(.+))?$/, handlerRounded],
+  [/^(?:border-)?(?:rounded|rd)-([bi][se]-[bi][se])(?:-(.+))?$/, handlerRounded],
+  ["border-solid", { "border-style": "solid" }],
+  ["border-dashed", { "border-style": "dashed" }],
+  ["border-dotted", { "border-style": "dotted" }],
+  ["border-double", { "border-style": "double" }],
+  ["border-hidden", { "border-style": "hidden" }],
+  ["border-none", { "border-style": "none" }]
+];
+const borderHasColor = (color, { theme }) => {
+  return color !== void 0 && !!utilities.parseColor(color, theme)?.color;
+};
+const borderColorResolver = (direction) => ([, body], { theme }) => {
+  const data = utilities.parseColor(body, theme);
+  if (!data)
+    return;
+  const { alpha, opacity, color, rgba } = data;
+  if (!color)
+    return;
+  if (rgba) {
+    if (alpha != null) {
+      return {
+        [`border${direction}-color`]: `rgba(${rgba.join(",")})`
+      };
+    } else {
+      if (direction === "") {
+        return {
+          "--un-border-opacity": (opacity && utilities.handler.cssvar(opacity)) ?? 1,
+          [`border${direction}-color`]: `rgba(${rgba.join(",")},var(--un-border${direction}-opacity))`
+        };
+      } else {
+        return {
+          "--un-border-opacity": (opacity && utilities.handler.cssvar(opacity)) ?? 1,
+          [`--un-border${direction}-opacity`]: "var(--un-border-opacity)",
+          [`border${direction}-color`]: `rgba(${rgba.join(",")},var(--un-border${direction}-opacity))`
+        };
+      }
+    }
+  } else {
+    return {
+      [`border${direction}-color`]: color.replace("%alpha", `${alpha || 1}`)
+    };
+  }
+};
+function handlerBorder(m) {
+  const borderSizes = handlerBorderSize(m);
+  if (borderSizes) {
+    return [
+      ...borderSizes,
+      ["border-style", "solid"]
+    ];
+  }
+}
+function handlerBorderSize([, a = "", b = "1"]) {
+  const v = utilities.handler.bracket.cssvar.px(b);
+  if (a in utilities.directionMap && v != null)
+    return utilities.directionMap[a].map((i) => [`border${i}-width`, v]);
+}
+function handlerBorderColor([, a = "", c], ctx) {
+  if (a in utilities.directionMap && borderHasColor(c, ctx)) {
+    return Object.assign({}, ...utilities.directionMap[a].map((i) => borderColorResolver(i)(["", c], ctx)));
+  }
+}
+function handlerBorderOpacity([, a = "", opacity]) {
+  const v = utilities.handler.bracket.percent(opacity);
+  if (a in utilities.directionMap && v != null)
+    return utilities.directionMap[a].map((i) => [`--un-border${i}-opacity`, v]);
+}
+function handlerRounded([, a = "", s = "DEFAULT"], { theme }) {
+  const v = theme.borderRadius?.[s] || utilities.handler.bracket.cssvar.fraction.rem(s);
+  if (a in utilities.cornerMap && v != null)
+    return utilities.cornerMap[a].map((i) => [`border${i}-radius`, v]);
+}
+
+const opacity = [
+  [/^op(?:acity)?-?(.+)$/, ([, d]) => ({ opacity: utilities.handler.bracket.percent.cssvar(d) })]
+];
+const textColors = [
+  [/^(?:text|color|c)-(.+)$/, utilities.colorResolver("color", "text")],
+  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity2]) => ({ "--un-text-opacity": utilities.handler.bracket.percent(opacity2) })]
+];
+const bgColors = [
+  [/^bg-(.+)$/, utilities.colorResolver("background-color", "bg")],
+  [/^bg-op(?:acity)?-?(.+)$/, ([, opacity2]) => ({ "--un-bg-opacity": utilities.handler.bracket.percent(opacity2) })]
+];
+
+const transitionPropertyGroup = {
+  all: "all",
+  colors: ["color", "background-color", "border-color", "text-decoration-color", "fill", "stroke"].join(","),
+  opacity: "opacity",
+  shadow: "box-shadow",
+  transform: "transform"
+};
+const transitionProperty = (prop) => {
+  return utilities.handler.properties(prop) ?? transitionPropertyGroup[prop];
+};
+const transitions = [
+  [/^transition(?:-([a-z-]+(?:,[a-z-]+)*))?(?:-(\d+))?$/, ([, prop, duration = "150"]) => {
+    const p = prop != null ? transitionProperty(prop) : [transitionPropertyGroup.colors, "opacity", "box-shadow", "transform", "filter", "backdrop-filter"].join(",");
+    if (p) {
+      return {
+        "transition-property": p,
+        "transition-timing-function": "cubic-bezier(0.4,0,0.2,1)",
+        "transition-duration": `${duration}ms`
+      };
+    }
+  }],
+  [/^(?:transition-)?duration-(.+)$/, ([, d]) => ({ "transition-duration": utilities.handler.bracket.cssvar.time(d) })],
+  [/^(?:transition-)?delay-(.+)$/, ([, d]) => ({ "transition-delay": utilities.handler.bracket.cssvar.time(d) })],
+  [/^ease-(.+)$/, ([, d]) => ({ "transition-timing-function": utilities.handler.bracket.cssvar(d) })],
+  ["ease", { "transition-timing-function": "cubic-bezier(0.4, 0, 0.2, 1)" }],
+  ["ease-linear", { "transition-timing-function": "linear" }],
+  ["ease-in", { "transition-timing-function": "cubic-bezier(0.4, 0, 1, 1)" }],
+  ["ease-out", { "transition-timing-function": "cubic-bezier(0, 0, 0.2, 1)" }],
+  ["ease-in-out", { "transition-timing-function": "cubic-bezier(0.4, 0, 0.2, 1)" }],
+  [/^(?:transition-)?property-(.+)$/, ([, v]) => ({ "transition-property": utilities.handler.global(v) || transitionProperty(v) })],
+  ["transition-property-none", { "transition-property": "none" }],
+  ["property-none", { "transition-property": "none" }],
+  ["transition-none", { transition: "none" }]
+];
+
+const flex = [
+  ["flex", { display: "flex" }],
+  ["inline-flex", { display: "inline-flex" }],
+  ["flex-inline", { display: "inline-flex" }],
+  ["flex-1", { flex: "1 1 0%" }],
+  ["flex-auto", { flex: "1 1 auto" }],
+  ["flex-initial", { flex: "0 1 auto" }],
+  ["flex-none", { flex: "none" }],
+  [/^flex-(\[.+\])$/, ([, d]) => ({ flex: utilities.handler.bracket(d).replace(/\d+\/\d+/, ($1) => utilities.handler.fraction($1)) })],
+  [/^(?:flex-)?shrink$/, () => ({ "flex-shrink": 1 })],
+  [/^(?:flex-)?shrink-0$/, () => ({ "flex-shrink": 0 })],
+  [/^(?:flex-)?grow$/, () => ({ "flex-grow": 1 })],
+  [/^(?:flex-)?grow-0$/, () => ({ "flex-grow": 0 })],
+  [/^(?:flex-)?basis-(.+)$/, ([, d]) => ({ "flex-basis": utilities.handler.bracket.cssvar.auto.fraction.rem(d) })],
+  ["flex-row", { "flex-direction": "row" }],
+  ["flex-row-reverse", { "flex-direction": "row-reverse" }],
+  ["flex-col", { "flex-direction": "column" }],
+  ["flex-col-reverse", { "flex-direction": "column-reverse" }],
+  ["flex-wrap", { "flex-wrap": "wrap" }],
+  ["flex-wrap-reverse", { "flex-wrap": "wrap-reverse" }],
+  ["flex-nowrap", { "flex-wrap": "nowrap" }]
+];
+
+const varEmpty = "var(--un-empty,/*!*/ /*!*/)";
+const displays = [
+  ["inline", { display: "inline" }],
+  ["block", { display: "block" }],
+  ["inline-block", { display: "inline-block" }],
+  ["contents", { display: "contents" }],
+  ["flow-root", { display: "flow-root" }],
+  ["list-item", { display: "list-item" }],
+  ["hidden", { display: "none" }]
+];
+const appearances = [
+  ["visible", { visibility: "visible" }],
+  ["invisible", { visibility: "hidden" }],
+  ["backface-visible", { "backface-visibility": "visible" }],
+  ["backface-hidden", { "backface-visibility": "hidden" }]
+];
+const cursors = [
+  [/^cursor-(.+)$/, ([, c]) => ({ cursor: utilities.handler.bracket.cssvar(c) || c })]
+];
+const pointerEvents = [
+  ["pointer-events-auto", { "pointer-events": "auto" }],
+  ["pointer-events-none", { "pointer-events": "none" }]
+];
+const resizes = [
+  ["resize-x", { resize: "horizontal" }],
+  ["resize-y", { resize: "vertical" }],
+  ["resize", { resize: "both" }],
+  ["resize-none", { resize: "none" }]
+];
+const userSelects = [
+  ["select-auto", { "user-select": "auto" }],
+  ["select-all", { "user-select": "all" }],
+  ["select-text", { "user-select": "text" }],
+  ["select-none", { "user-select": "none" }]
+];
+const whitespaces = [
+  [/^(?:whitespace|ws)-(normal|nowrap|pre|pre-line|pre-wrap)$/, ([, v]) => ({ "white-space": v })]
+];
+const contents = [
+  ["content-empty", { content: '""' }],
+  ["content-none", { content: '""' }]
+];
+const breaks = [
+  ["break-normal", { "overflow-wrap": "normal", "word-break": "normal" }],
+  ["break-words", { "overflow-wrap": "break-word" }],
+  ["break-all", { "word-break": "break-all" }]
+];
+const textOverflows = [
+  ["truncate", { "overflow": "hidden", "text-overflow": "ellipsis", "white-space": "nowrap" }],
+  ["text-ellipsis", { "text-overflow": "ellipsis" }],
+  ["text-clip", { "text-overflow": "clip" }]
+];
+const textTransforms = [
+  ["case-upper", { "text-transform": "uppercase" }],
+  ["case-lower", { "text-transform": "lowercase" }],
+  ["case-capital", { "text-transform": "capitalize" }],
+  ["case-normal", { "text-transform": "none" }]
+];
+const fontStyles = [
+  ["italic", { "font-style": "italic" }],
+  ["not-italic", { "font-style": "normal" }]
+];
+const fontSmoothings = [
+  ["antialiased", {
+    "-webkit-font-smoothing": "antialiased",
+    "-moz-osx-font-smoothing": "grayscale",
+    "font-smoothing": "grayscale"
+  }],
+  ["subpixel-antialiased", {
+    "-webkit-font-smoothing": "auto",
+    "-moz-osx-font-smoothing": "auto",
+    "font-smoothing": "auto"
+  }]
+];
+
+const shadowBase = {
+  [core.CONTROL_SHORTCUT_NO_MERGE]: "",
+  "--un-ring-offset-shadow": "0 0 #0000",
+  "--un-ring-shadow": "0 0 #0000",
+  "--un-shadow-inset": varEmpty,
+  "--un-shadow": "0 0 #0000"
+};
+const colorableShadows = (shadows, colorVar) => {
+  const colored = [];
+  shadows = core.toArray(shadows);
+  for (let i = 0; i < shadows.length; i++) {
+    const [size, color] = shadows[i].split(/\s(\S+)$/);
+    if (color.split("(").length !== color.split(")").length)
+      return shadows;
+    colored.push(`${size} var(${colorVar}, ${color})`);
+  }
+  return colored;
+};
+const boxShadows = [
+  [/^shadow(?:-(.+))?$/, ([, d], { theme }) => {
+    const v = theme.boxShadow?.[d || "DEFAULT"];
+    if (v) {
+      return [
+        shadowBase,
+        {
+          "--un-shadow": colorableShadows(v, "--un-shadow-color").join(","),
+          "box-shadow": "var(--un-ring-offset-shadow, 0 0 #0000), var(--un-ring-shadow, 0 0 #0000), var(--un-shadow)"
+        }
+      ];
+    }
+  }],
+  [/^shadow-(.+)$/, utilities.colorResolver("--un-shadow-color", "shadow")],
+  [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ "--un-shadow-opacity": utilities.handler.bracket.percent(opacity) })],
+  ["shadow-inset", { "--un-shadow-inset": "inset" }]
+];
+
+const weightMap = {
+  thin: "100",
+  extralight: "200",
+  light: "300",
+  normal: "400",
+  medium: "500",
+  semibold: "600",
+  bold: "700",
+  extrabold: "800",
+  black: "900"
+};
+const fonts = [
+  [/^font-(\w+)$/, ([, d], { theme }) => ({ "font-family": theme.fontFamily?.[d] })],
+  [/^text-(.+)$/, ([, s = "base"], { theme }) => {
+    const themed = core.toArray(theme.fontSize?.[s]);
+    if (themed?.[0]) {
+      const [size, height = "1"] = themed;
+      return {
+        "font-size": size,
+        "line-height": height
+      };
+    }
+    return { "font-size": utilities.handler.bracket.rem(s) };
+  }],
+  [/^text-size-(.+)$/, ([, s]) => ({ "font-size": utilities.handler.bracket.cssvar.rem(s) })],
+  [/^(?:font|fw)-?([^-]+)$/, ([, s]) => ({ "font-weight": weightMap[s] || utilities.handler.number(s) })],
+  [/^(?:leading|lh)-([^-]+)$/, ([, s], { theme }) => ({ "line-height": theme.lineHeight?.[s] || utilities.handler.bracket.rem(s) })],
+  [/^tracking-([^-]+)$/, ([, s], { theme }) => ({ "letter-spacing": theme.letterSpacing?.[s] || utilities.handler.bracket.rem(s) })],
+  [/^word-spacing-([^-]+)$/, ([, s], { theme }) => ({ "word-spacing": theme.wordSpacing?.[s] || utilities.handler.bracket.rem(s) })]
+];
+const tabSizes = [
+  [/^tab(?:-(.+))?$/, ([, s]) => {
+    const v = utilities.handler.bracket.cssvar.global.number(s || "4");
+    if (v != null) {
+      return {
+        "-moz-tab-size": v,
+        "-o-tab-size": v,
+        "tab-size": v
+      };
+    }
+  }]
+];
+const textIndents = [
+  [/^indent(?:-(.+))?$/, ([, s], { theme }) => ({ "text-indent": theme.textIndent?.[s || "DEFAULT"] || utilities.handler.bracket.cssvar.fraction.rem(s) })]
+];
+const textStrokes = [
+  [/^text-stroke(?:-(.+))?$/, ([, s], { theme }) => ({ "-webkit-text-stroke-width": theme.textStrokeWidth?.[s || "DEFAULT"] || utilities.handler.bracket.cssvar.px(s) })],
+  [/^text-stroke-(.+)$/, utilities.colorResolver("-webkit-text-stroke-color", "text-stroke")],
+  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ "--un-text-stroke-opacity": utilities.handler.bracket.percent(opacity) })]
+];
+const textShadows = [
+  [/^text-shadow(?:-(.+))?$/, ([, s], { theme }) => {
+    const v = theme.textShadow?.[s || "DEFAULT"];
+    if (v != null) {
+      return {
+        "--un-text-shadow": colorableShadows(v, "--un-text-shadow-color").join(","),
+        "text-shadow": "var(--un-text-shadow)"
+      };
+    }
+    return { "text-shadow": utilities.handler.bracket.cssvar(s) };
+  }],
+  [/^text-shadow-color-(.+)$/, utilities.colorResolver("--un-text-shadow-color", "text-shadow")],
+  [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ "--un-text-shadow-opacity": utilities.handler.bracket.percent(opacity) })]
+];
+
+const directions = {
+  "": "",
+  "x": "column-",
+  "y": "row-"
+};
+const handleGap = ([, d = "", s]) => {
+  const v = utilities.handler.bracket.cssvar.rem(s);
+  if (v != null) {
+    return {
+      [`grid-${directions[d]}gap`]: v,
+      [`${directions[d]}gap`]: v
+    };
+  }
+};
+const gaps = [
+  [/^(?:flex-|grid-)?gap-()([^-]+)$/, handleGap],
+  [/^(?:flex-|grid-)?gap-([xy])-([^-]+)$/, handleGap]
+];
+
+const rowCol = (s) => s.replace("col", "column");
+const autoDirection = (selector, theme) => {
+  const v = theme.fontSize?.[selector];
+  if (v != null)
+    return core.toArray(v)[0];
+  switch (selector) {
+    case "min":
+      return "min-content";
+    case "max":
+      return "max-content";
+    case "fr":
+      return "minmax(0,1fr)";
+  }
+  return utilities.handler.bracket.cssvar.auto.rem(selector);
+};
+const grids = [
+  ["grid", { display: "grid" }],
+  ["inline-grid", { display: "inline-grid" }],
+  [/^(?:grid-)?(row|col)-(.+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}`]: utilities.handler.bracket.cssvar.auto(v) })],
+  [/^(?:grid-)?(row|col)-span-(.+)$/, ([, c, s]) => {
+    if (s === "full")
+      return { [`grid-${rowCol(c)}`]: "1/-1" };
+    const v = utilities.handler.bracket.number(s);
+    if (v != null)
+      return { [`grid-${rowCol(c)}`]: `span ${v}/span ${v}` };
+  }],
+  [/^(?:grid-)?(row|col)-start-(.+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}-start`]: utilities.handler.bracket.cssvar(v) ?? v })],
+  [/^(?:grid-)?(row|col)-end-(.+)$/, ([, c, v]) => ({ [`grid-${rowCol(c)}-end`]: utilities.handler.bracket.cssvar(v) ?? v })],
+  [/^(?:grid-)?auto-(rows|cols)-(.+)$/, ([, c, v], { theme }) => ({ [`grid-auto-${rowCol(c)}`]: autoDirection(v, theme) })],
+  [/^(?:grid-auto-flow|auto-flow|grid-flow)-(.+)$/, ([, v]) => ({ "grid-auto-flow": utilities.handler.bracket.cssvar(v) })],
+  [/^(?:grid-auto-flow|auto-flow|grid-flow)-((?:row|col)(?:-dense)?)$/, ([, v]) => ({ "grid-auto-flow": rowCol(v).replace("-", " ") })],
+  [/^grid-(rows|cols)-(.+)$/, ([, c, v]) => ({ [`grid-template-${rowCol(c)}`]: utilities.handler.bracket.cssvar(v) })],
+  [/^grid-(rows|cols)-minmax-([\w.-]+)$/, ([, c, d]) => ({ [`grid-template-${rowCol(c)}`]: `repeat(auto-fill,minmax(${d},1fr))` })],
+  [/^grid-(rows|cols)-(\d+)$/, ([, c, d]) => ({ [`grid-template-${rowCol(c)}`]: `repeat(${d},minmax(0,1fr))` })],
+  ["grid-rows-none", { "grid-template-rows": "none" }],
+  ["grid-cols-none", { "grid-template-columns": "none" }]
+];
+
+const overflowValues = [
+  "auto",
+  "hidden",
+  "clip",
+  "visible",
+  "scroll"
+];
+const overflows = [
+  [/^(?:overflow|of)-(.+)$/, ([, v]) => overflowValues.includes(v) ? { overflow: v } : void 0],
+  [/^(?:overflow|of)-([xy])-(.+)$/, ([, d, v]) => overflowValues.includes(v) ? { [`overflow-${d}`]: v } : void 0]
+];
+
+const positions = [
+  [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v })],
+  [/^(?:position-|pos-)?(static)$/, ([, v]) => ({ position: v })]
+];
+const justifies = [
+  ["justify-start", { "justify-content": "flex-start" }],
+  ["justify-end", { "justify-content": "flex-end" }],
+  ["justify-center", { "justify-content": "center" }],
+  ["justify-between", { "justify-content": "space-between" }],
+  ["justify-around", { "justify-content": "space-around" }],
+  ["justify-evenly", { "justify-content": "space-evenly" }],
+  ["justify-items-start", { "justify-items": "start" }],
+  ["justify-items-end", { "justify-items": "end" }],
+  ["justify-items-center", { "justify-items": "center" }],
+  ["justify-items-stretch", { "justify-items": "stretch" }],
+  ["justify-self-auto", { "justify-self": "auto" }],
+  ["justify-self-start", { "justify-self": "start" }],
+  ["justify-self-end", { "justify-self": "end" }],
+  ["justify-self-center", { "justify-self": "center" }],
+  ["justify-self-stretch", { "justify-self": "stretch" }]
+];
+const orders = [
+  [/^order-(.+)$/, ([, v]) => ({ order: utilities.handler.bracket.cssvar.number(v) })],
+  ["order-first", { order: "-9999" }],
+  ["order-last", { order: "9999" }],
+  ["order-none", { order: "0" }]
+];
+const alignments = [
+  ["content-center", { "align-content": "center" }],
+  ["content-start", { "align-content": "flex-start" }],
+  ["content-end", { "align-content": "flex-end" }],
+  ["content-between", { "align-content": "space-between" }],
+  ["content-around", { "align-content": "space-around" }],
+  ["content-evenly", { "align-content": "space-evenly" }],
+  ["items-start", { "align-items": "flex-start" }],
+  ["items-end", { "align-items": "flex-end" }],
+  ["items-center", { "align-items": "center" }],
+  ["items-baseline", { "align-items": "baseline" }],
+  ["items-stretch", { "align-items": "stretch" }],
+  ["self-auto", { "align-self": "auto" }],
+  ["self-start", { "align-self": "flex-start" }],
+  ["self-end", { "align-self": "flex-end" }],
+  ["self-center", { "align-self": "center" }],
+  ["self-stretch", { "align-self": "stretch" }],
+  ["self-baseline", { "align-self": "baseline" }]
+];
+const placements = [
+  ["place-content-center", { "place-content": "center" }],
+  ["place-content-start", { "place-content": "start" }],
+  ["place-content-end", { "place-content": "end" }],
+  ["place-content-between", { "place-content": "space-between" }],
+  ["place-content-around", { "place-content": "space-around" }],
+  ["place-content-evenly", { "place-content": "space-evenly" }],
+  ["place-content-stretch", { "place-content": "stretch" }],
+  ["place-items-start", { "place-items": "start" }],
+  ["place-items-end", { "place-items": "end" }],
+  ["place-items-center", { "place-items": "center" }],
+  ["place-items-stretch", { "place-items": "stretch" }],
+  ["place-self-auto", { "place-self": "auto" }],
+  ["place-self-start", { "place-self": "start" }],
+  ["place-self-end", { "place-self": "end" }],
+  ["place-self-center", { "place-self": "center" }],
+  ["place-self-stretch", { "place-self": "stretch" }]
+];
+function handleInsetValue(v) {
+  return utilities.handler.bracket.cssvar.auto.fraction.rem(v);
+}
+function handleInsetValues([, d, v]) {
+  const r = handleInsetValue(v);
+  if (r != null && d in utilities.insetMap)
+    return utilities.insetMap[d].map((i) => [i.slice(1), r]);
+}
+const insets = [
+  [/^(?:position-|pos-)?inset-(.+)$/, ([, v]) => ({ inset: handleInsetValue(v) })],
+  [/^(?:position-|pos-)?inset-([xy])-(.+)$/, handleInsetValues],
+  [/^(?:position-|pos-)?inset-([rltbse])-(.+)$/, handleInsetValues],
+  [/^(?:position-|pos-)?inset-(block|inline)-(.+)$/, handleInsetValues],
+  [/^(?:position-|pos-)?inset-([bi][se])-(.+)$/, handleInsetValues],
+  [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })]
+];
+const floats = [
+  ["float-left", { float: "left" }],
+  ["float-right", { float: "right" }],
+  ["float-none", { float: "none" }],
+  ["clear-left", { clear: "left" }],
+  ["clear-right", { clear: "right" }],
+  ["clear-both", { clear: "both" }],
+  ["clear-none", { clear: "none" }]
+];
+const zIndexes = [
+  [/^z-(.+)$/, ([, v]) => ({ "z-index": utilities.handler.bracket.cssvar.number(v) })],
+  ["z-auto", { "z-index": "auto" }]
+];
+const boxSizing = [
+  ["box-border", { "box-sizing": "border-box" }],
+  ["box-content", { "box-sizing": "content-box" }]
+];
+
+const ringBase = {
+  "--un-ring-inset": varEmpty,
+  "--un-ring-offset-width": "0px",
+  "--un-ring-offset-color": "#fff",
+  "--un-ring-color": "rgba(147,197,253,0.5)",
+  ...shadowBase
+};
+const rings = [
+  [/^ring(?:-(.+))?$/, ([, d]) => {
+    const value = utilities.handler.px(d || "1");
+    if (value) {
+      return [
+        ringBase,
+        {
+          "--un-ring-offset-shadow": "var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color)",
+          "--un-ring-shadow": `var(--un-ring-inset) 0 0 0 calc(${value} + var(--un-ring-offset-width)) var(--un-ring-color)`,
+          "box-shadow": "var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow, 0 0 #0000)"
+        }
+      ];
+    }
+  }],
+  ["ring-offset", { "--un-ring-offset-width": "1px" }],
+  [/^ring-offset-(?:width-|size-)?(.+)$/, ([, d]) => ({ "--un-ring-offset-width": utilities.handler.bracket.cssvar.px(d) })],
+  [/^ring-(.+)$/, utilities.colorResolver("--un-ring-color", "ring")],
+  [/^ring-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ "--un-ring-opacity": utilities.handler.bracket.percent(opacity) })],
+  [/^ring-offset-(.+)$/, utilities.colorResolver("--un-ring-offset-color", "ring-offset")],
+  [/^ring-offset-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ "--un-ring-offset-opacity": utilities.handler.bracket.percent(opacity) })],
+  ["ring-inset", { "--un-ring-inset": "inset" }]
+];
+
+const sizeMapping = {
+  h: "height",
+  w: "width",
+  inline: "inline-size",
+  block: "block-size"
+};
+function getPropName(minmax, hw) {
+  return `${minmax || ""}${sizeMapping[hw]}`;
+}
+function getSizeValue(minmax, hw, theme, prop) {
+  const str = getPropName(minmax, hw).replace(/-(\w)/g, (_, p) => p.toUpperCase());
+  const v = theme[str]?.[prop];
+  if (v != null)
+    return v;
+  switch (prop) {
+    case "fit":
+    case "max":
+    case "min":
+      return `${prop}-content`;
+  }
+  return utilities.handler.bracket.cssvar.auto.fraction.rem(prop);
+}
+const sizes = [
+  [/^(min-|max-)?([wh])-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
+  [/^(min-|max-)?(block|inline)-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: getSizeValue(m, w, theme, s) })],
+  [/^(min-|max-)?(w)-screen-(.+)$/, ([, m, w, s], { theme }) => ({ [getPropName(m, w)]: theme.breakpoints?.[s] })]
+];
+function getAspectRatio(prop) {
+  if (/^\d+\/\d+$/.test(prop))
+    return prop;
+  switch (prop) {
+    case "square":
+      return "1/1";
+    case "video":
+      return "16/9";
+  }
+  return utilities.handler.bracket.cssvar.auto.number(prop);
+}
+const aspectRatio = [
+  [/^aspect-(?:ratio-)?(.+)$/, ([, d]) => ({ "aspect-ratio": getAspectRatio(d) })]
+];
+
+const paddings = [
+  [/^pa?()-?(-?.+)$/, utilities.directionSize("padding")],
+  [/^p-?([xy])-?(-?.+)$/, utilities.directionSize("padding")],
+  [/^p-?([rltbse])-?(-?.+)$/, utilities.directionSize("padding")],
+  [/^p-(block|inline)-(-?.+)$/, utilities.directionSize("padding")],
+  [/^p-?([bi][se])-?(-?.+)$/, utilities.directionSize("padding")]
+];
+const margins = [
+  [/^ma?()-?(-?.+)$/, utilities.directionSize("margin")],
+  [/^m-?([xy])-?(-?.+)$/, utilities.directionSize("margin")],
+  [/^m-?([rltbse])-?(-?.+)$/, utilities.directionSize("margin")],
+  [/^m-(block|inline)-(-?.+)$/, utilities.directionSize("margin")],
+  [/^m-?([bi][se])-?(-?.+)$/, utilities.directionSize("margin")]
+];
+
+const transformGpu = {
+  "--un-transform": [
+    "translate3d(var(--un-translate-x), var(--un-translate-y), var(--un-translate-z))",
+    "rotate(var(--un-rotate))",
+    "rotateX(var(--un-rotate-x))",
+    "rotateY(var(--un-rotate-y))",
+    "rotateZ(var(--un-rotate-z))",
+    "skewX(var(--un-skew-x))",
+    "skewY(var(--un-skew-y))",
+    "scaleX(var(--un-scale-x))",
+    "scaleY(var(--un-scale-y))",
+    "scaleZ(var(--un-scale-z))"
+  ].join(" ")
+};
+const transformCpu = {
+  "--un-transform": [
+    "translateX(var(--un-translate-x))",
+    "translateY(var(--un-translate-y))",
+    "translateZ(var(--un-translate-z))",
+    "rotate(var(--un-rotate))",
+    "rotateX(var(--un-rotate-x))",
+    "rotateY(var(--un-rotate-y))",
+    "rotateZ(var(--un-rotate-z))",
+    "skewX(var(--un-skew-x))",
+    "skewY(var(--un-skew-y))",
+    "scaleX(var(--un-scale-x))",
+    "scaleY(var(--un-scale-y))",
+    "scaleZ(var(--un-scale-z))"
+  ].join(" ")
+};
+const transformBase = {
+  "--un-rotate": 0,
+  "--un-rotate-x": 0,
+  "--un-rotate-y": 0,
+  "--un-rotate-z": 0,
+  "--un-scale-x": 1,
+  "--un-scale-y": 1,
+  "--un-scale-z": 1,
+  "--un-skew-x": 0,
+  "--un-skew-y": 0,
+  "--un-translate-x": 0,
+  "--un-translate-y": 0,
+  "--un-translate-z": 0,
+  ...transformCpu,
+  [core.CONTROL_SHORTCUT_NO_MERGE]: ""
+};
+const transforms = [
+  [/^origin-(.+)$/, ([, s]) => ({ "transform-origin": utilities.positionMap[s] ?? utilities.handler.bracket.cssvar(s) })],
+  [/^perspect-(.+)$/, ([, s]) => {
+    const v = utilities.handler.bracket.cssvar.px.numberWithUnit(s);
+    if (v != null) {
+      return {
+        "-webkit-perspective": v,
+        "perspective": v
+      };
+    }
+  }],
+  [/^perspect-origin-(.+)$/, ([, s]) => {
+    const v = utilities.handler.bracket.cssvar(s) ?? (s.length >= 3 ? utilities.positionMap[s] : void 0);
+    if (v != null) {
+      return {
+        "-webkit-perspective-origin": v,
+        "perspective-origin": v
+      };
+    }
+  }],
+  [/^translate-()(.+)$/, handleTranslate],
+  [/^translate-([xyz])-(.+)$/, handleTranslate],
+  [/^rotate-()(.+)$/, handleRotate],
+  [/^rotate-([xyz])-(.+)$/, handleRotate],
+  [/^skew-([xy])-(.+)$/, handleSkew],
+  [/^scale-()(.+)$/, handleScale],
+  [/^scale-([xyz])-(.+)$/, handleScale],
+  ["preserve-3d", { "transform-style": "preserve-3d" }],
+  ["preserve-flat", { "transform-style": "flat" }],
+  [/^transform$/, () => [
+    transformBase,
+    { transform: "var(--un-transform)" }
+  ]],
+  ["transform-gpu", transformGpu],
+  ["transform-cpu", transformCpu],
+  ["transform-none", { transform: "none" }]
+];
+function handleTranslate([, d, b]) {
+  const v = utilities.handler.bracket.cssvar.fraction.rem(b);
+  if (v != null) {
+    return [
+      transformBase,
+      [
+        ...utilities.xyzMap[d].map((i) => [`--un-translate${i}`, v]),
+        ["transform", "var(--un-transform)"]
+      ]
+    ];
+  }
+}
+function handleScale([, d, b]) {
+  const v = utilities.handler.bracket.cssvar.fraction.percent(b);
+  if (v != null) {
+    return [
+      transformBase,
+      [
+        ...utilities.xyzMap[d].map((i) => [`--un-scale${i}`, v]),
+        ["transform", "var(--un-transform)"]
+      ]
+    ];
+  }
+}
+function handleRotate([, d = "", b]) {
+  const v = utilities.handler.bracket.cssvar.degree(b);
+  if (v != null) {
+    if (d) {
+      return [
+        transformBase,
+        {
+          "--un-rotate": 0,
+          [`--un-rotate-${d}`]: v,
+          "transform": "var(--un-transform)"
+        }
+      ];
+    } else {
+      return [
+        transformBase,
+        {
+          "--un-rotate-x": 0,
+          "--un-rotate-y": 0,
+          "--un-rotate-z": 0,
+          "--un-rotate": v,
+          "transform": "var(--un-transform)"
+        }
+      ];
+    }
+  }
+}
+function handleSkew([, d, b]) {
+  const v = utilities.handler.bracket.cssvar.degree(b);
+  if (v != null) {
+    return [
+      transformBase,
+      {
+        [`--un-skew-${d}`]: v,
+        transform: "var(--un-transform)"
+      }
+    ];
+  }
+}
+
+const variablesAbbrMap = {
+  "backface": "backface-visibility",
+  "break": "word-break",
+  "case": "text-transform",
+  "content": "align-content",
+  "flex": "flex",
+  "fw": "font-weight",
+  "items": "align-items",
+  "justify": "justify-content",
+  "leading": "line-height",
+  "lh": "line-height",
+  "select": "user-select",
+  "self": "align-self",
+  "tracking": "letter-spacing",
+  "vertical": "vertical-align",
+  "visible": "visibility",
+  "whitespace": "white-space",
+  "word-spacing": "word-spacing",
+  "ws": "white-space"
+};
+const cssVariables = [
+  [/^([^$]+)(?<=-)\$(.+)$/, ([, name, varname]) => {
+    const prop = variablesAbbrMap[name.slice(0, -1)];
+    if (prop)
+      return { [prop]: `var(--${varname})` };
+  }]
+];
+const cssProperty = [
+  [/^\[([^:]+):(.+)\]$/, ([, prop, value]) => ({ [prop]: utilities.handler.bracket(`[${value}]`) })]
+];
+
+const questionMark = [
+  [
+    /^(where|\?)$/,
+    (_, { constructCSS, generator }) => {
+      if (generator.userConfig.envMode === "dev")
+        return `@keyframes __un_qm{0%{box-shadow:inset 4px 4px #ff1e90, inset -4px -4px #ff1e90}100%{box-shadow:inset 8px 8px #3399ff, inset -8px -8px #3399ff}}
+${constructCSS({ animation: "__un_qm 0.5s ease-in-out alternate infinite" })}`;
+    }
+  ]
+];
+
+const textDecorations = [
+  ["underline", { "text-decoration-line": "underline" }],
+  ["overline", { "text-decoration-line": "overline" }],
+  ["line-through", { "text-decoration-line": "line-through" }],
+  ["decoration-underline", { "text-decoration-line": "underline" }],
+  ["decoration-line-through", { "text-decoration-line": "line-through" }],
+  [/^(?:underline|decoration)-(?:size-)?(.+)$/, ([, s]) => ({ "text-decoration-thickness": utilities.handler.bracket.cssvar.px(s) })],
+  [/^(?:underline|decoration)-(auto|from-font)$/, ([, s]) => ({ "text-decoration-thickness": s })],
+  [/^(?:underline|decoration)-(.+)$/, (match, ctx) => {
+    const result = utilities.colorResolver("text-decoration-color", "line")(match, ctx);
+    if (result) {
+      return {
+        "-webkit-text-decoration-color": result["text-decoration-color"],
+        ...result
+      };
+    }
+  }],
+  [/^(?:underline|decoration)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ "--un-line-opacity": utilities.handler.bracket.percent(opacity) })],
+  [/^(?:underline|decoration)-offset-(.+)$/, ([, s]) => ({ "text-underline-offset": utilities.handler.auto.bracket.cssvar.px(s) })],
+  [/^(?:underline|decoration)-(solid|double|dotted|dashed|wavy|inherit|initial|revert|unset)$/, ([, d]) => ({ "text-decoration-style": d })],
+  ["no-underline", { "text-decoration": "none" }],
+  ["decoration-none", { "text-decoration": "none" }]
+];
+
+const svgUtilities = [
+  [/^fill-(.+)$/, utilities.colorResolver("fill", "fill")],
+  [/^fill-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ "--un-fill-opacity": utilities.handler.bracket.percent(opacity) })],
+  ["fill-none", { fill: "none" }],
+  [/^stroke-(?:width-|size-)?(.+)$/, ([, s]) => ({ "stroke-width": utilities.handler.bracket.fraction.px.number(s) })],
+  [/^stroke-dash-(.+)$/, ([, s]) => ({ "stroke-dasharray": utilities.handler.bracket.cssvar.number(s) })],
+  [/^stroke-offset-(.+)$/, ([, s]) => ({ "stroke-dashoffset": utilities.handler.bracket.cssvar.px.numberWithUnit(s) })],
+  [/^stroke-(.+)$/, utilities.colorResolver("stroke", "stroke")],
+  [/^stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ "--un-stroke-opacity": utilities.handler.bracket.percent(opacity) })],
+  ["stroke-cap-square", { "stroke-linecap": "square" }],
+  ["stroke-cap-round", { "stroke-linecap": "round" }],
+  ["stroke-cap-auto", { "stroke-linecap": "butt" }],
+  ["stroke-join-arcs", { "stroke-linejoin": "arcs" }],
+  ["stroke-join-bevel", { "stroke-linejoin": "bevel" }],
+  ["stroke-join-clip", { "stroke-linejoin": "miter-clip" }],
+  ["stroke-join-round", { "stroke-linejoin": "round" }],
+  ["stroke-join-auto", { "stroke-linejoin": "miter" }],
+  ["stroke-none", { stroke: "none" }]
+];
+
+const rules = [
+  cssVariables,
+  cssProperty,
+  paddings,
+  margins,
+  displays,
+  opacity,
+  bgColors,
+  svgUtilities,
+  borders,
+  contents,
+  fonts,
+  tabSizes,
+  textIndents,
+  textOverflows,
+  textDecorations,
+  textStrokes,
+  textShadows,
+  textTransforms,
+  textAligns,
+  textColors,
+  fontStyles,
+  fontSmoothings,
+  boxShadows,
+  rings,
+  flex,
+  grids,
+  gaps,
+  positions,
+  sizes,
+  aspectRatio,
+  cursors,
+  appearances,
+  pointerEvents,
+  resizes,
+  verticalAligns,
+  userSelects,
+  whitespaces,
+  breaks,
+  overflows,
+  outline,
+  appearance,
+  positions,
+  orders,
+  justifies,
+  alignments,
+  placements,
+  insets,
+  floats,
+  zIndexes,
+  boxSizing,
+  transitions,
+  transforms,
+  willChange,
+  questionMark
+].flat(1);
+
+exports.alignments = alignments;
+exports.appearance = appearance;
+exports.appearances = appearances;
+exports.aspectRatio = aspectRatio;
+exports.bgColors = bgColors;
+exports.borders = borders;
+exports.boxShadows = boxShadows;
+exports.boxSizing = boxSizing;
+exports.breaks = breaks;
+exports.colorableShadows = colorableShadows;
+exports.contents = contents;
+exports.cssProperty = cssProperty;
+exports.cssVariables = cssVariables;
+exports.cursors = cursors;
+exports.displays = displays;
+exports.flex = flex;
+exports.floats = floats;
+exports.fontSmoothings = fontSmoothings;
+exports.fontStyles = fontStyles;
+exports.fonts = fonts;
+exports.gaps = gaps;
+exports.grids = grids;
+exports.insets = insets;
+exports.justifies = justifies;
+exports.margins = margins;
+exports.opacity = opacity;
+exports.orders = orders;
+exports.outline = outline;
+exports.overflows = overflows;
+exports.paddings = paddings;
+exports.placements = placements;
+exports.pointerEvents = pointerEvents;
+exports.positions = positions;
+exports.questionMark = questionMark;
+exports.resizes = resizes;
+exports.rings = rings;
+exports.rules = rules;
+exports.shadowBase = shadowBase;
+exports.sizes = sizes;
+exports.svgUtilities = svgUtilities;
+exports.tabSizes = tabSizes;
+exports.textAligns = textAligns;
+exports.textColors = textColors;
+exports.textDecorations = textDecorations;
+exports.textIndents = textIndents;
+exports.textOverflows = textOverflows;
+exports.textShadows = textShadows;
+exports.textStrokes = textStrokes;
+exports.textTransforms = textTransforms;
+exports.transforms = transforms;
+exports.transitions = transitions;
+exports.userSelects = userSelects;
+exports.varEmpty = varEmpty;
+exports.verticalAligns = verticalAligns;
+exports.whitespaces = whitespaces;
+exports.willChange = willChange;
+exports.zIndexes = zIndexes;

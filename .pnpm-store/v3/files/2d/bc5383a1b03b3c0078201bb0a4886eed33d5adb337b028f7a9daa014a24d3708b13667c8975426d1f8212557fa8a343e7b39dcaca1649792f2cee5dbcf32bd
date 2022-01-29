@@ -1,0 +1,26 @@
+{
+  "name": "@milkdown/utils",
+  "version": "5.3.4",
+  "type": "module",
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "@milkdown/prose": "5.3.4",
+    "@milkdown/core": "5.3.4",
+    "@milkdown/exception": "5.3.4",
+    "tslib": "^2.3.1"
+  },
+  "scripts": {
+    "start": "vite build --watch",
+    "test": "vitest",
+    "tsc": "tsc --noEmit",
+    "build": "vite build"
+  },
+  "readme": "# @milkdown/utils\n\nUtils package for [milkdown](https://saul-mirone.github.io/milkdown/).\n\nCheck API on [document website](https://milkdown.dev/#/using-utils-package).\n\n# License\n\nMilkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).\n"
+}

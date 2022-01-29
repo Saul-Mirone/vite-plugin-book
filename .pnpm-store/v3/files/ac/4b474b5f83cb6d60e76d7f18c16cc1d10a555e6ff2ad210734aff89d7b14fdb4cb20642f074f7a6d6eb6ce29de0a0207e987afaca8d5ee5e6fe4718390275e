@@ -1,0 +1,9 @@
+import { DecorationSet, EditorState, EditorView } from '@milkdown/prose';
+import { Utils } from '@milkdown/utils';
+import type { Status } from './status';
+export declare type Props = ReturnType<typeof createProps>;
+export declare const createProps: (status: Status, utils: Utils) => {
+    handleKeyDown: (_: EditorView, event: Event) => boolean;
+    decorations: (state: EditorState) => DecorationSet<any> | null | undefined;
+};
+//# sourceMappingURL=props.d.ts.map

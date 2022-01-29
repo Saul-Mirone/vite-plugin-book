@@ -1,0 +1,67 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const _default = require('./chunks/default2.cjs');
+require('./chunks/utilities.cjs');
+require('@unocss/core');
+
+
+
+exports.alignments = _default.alignments;
+exports.appearance = _default.appearance;
+exports.appearances = _default.appearances;
+exports.aspectRatio = _default.aspectRatio;
+exports.bgColors = _default.bgColors;
+exports.borders = _default.borders;
+exports.boxShadows = _default.boxShadows;
+exports.boxSizing = _default.boxSizing;
+exports.breaks = _default.breaks;
+exports.colorableShadows = _default.colorableShadows;
+exports.contents = _default.contents;
+exports.cssProperty = _default.cssProperty;
+exports.cssVariables = _default.cssVariables;
+exports.cursors = _default.cursors;
+exports.displays = _default.displays;
+exports.flex = _default.flex;
+exports.floats = _default.floats;
+exports.fontSmoothings = _default.fontSmoothings;
+exports.fontStyles = _default.fontStyles;
+exports.fonts = _default.fonts;
+exports.gaps = _default.gaps;
+exports.grids = _default.grids;
+exports.insets = _default.insets;
+exports.justifies = _default.justifies;
+exports.margins = _default.margins;
+exports.opacity = _default.opacity;
+exports.orders = _default.orders;
+exports.outline = _default.outline;
+exports.overflows = _default.overflows;
+exports.paddings = _default.paddings;
+exports.placements = _default.placements;
+exports.pointerEvents = _default.pointerEvents;
+exports.positions = _default.positions;
+exports.questionMark = _default.questionMark;
+exports.resizes = _default.resizes;
+exports.rings = _default.rings;
+exports.rules = _default.rules;
+exports.shadowBase = _default.shadowBase;
+exports.sizes = _default.sizes;
+exports.svgUtilities = _default.svgUtilities;
+exports.tabSizes = _default.tabSizes;
+exports.textAligns = _default.textAligns;
+exports.textColors = _default.textColors;
+exports.textDecorations = _default.textDecorations;
+exports.textIndents = _default.textIndents;
+exports.textOverflows = _default.textOverflows;
+exports.textShadows = _default.textShadows;
+exports.textStrokes = _default.textStrokes;
+exports.textTransforms = _default.textTransforms;
+exports.transforms = _default.transforms;
+exports.transitions = _default.transitions;
+exports.userSelects = _default.userSelects;
+exports.varEmpty = _default.varEmpty;
+exports.verticalAligns = _default.verticalAligns;
+exports.whitespaces = _default.whitespaces;
+exports.willChange = _default.willChange;
+exports.zIndexes = _default.zIndexes;

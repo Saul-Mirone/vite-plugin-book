@@ -1,0 +1,10 @@
+import type { EditorView } from '@milkdown/prose';
+import { Utils } from '@milkdown/utils';
+import type { InputMap } from '../item';
+export declare const createInputManager: (inputMap: InputMap, utils: Utils) => {
+    destroy: () => void;
+    hide: () => void;
+    update: (editorView: EditorView) => void;
+    render: (editorView: EditorView) => void;
+};
+//# sourceMappingURL=index.d.ts.map

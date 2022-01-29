@@ -1,0 +1,144 @@
+{
+    "name": "@milkdown/plugin-math",
+    "version": "5.3.2",
+    "files": {
+        "lib/index.es.js": {
+            "checkedAt": 1642743209865,
+            "integrity": "sha512-G0QhhlzWoBuuVkZQJFB51ZNu1gfRXPnO3cEb6akk9w0KBMjrLLFBTQpgSVGHM/XvONa1vpvt6CfBaJ1f5XeWhA==",
+            "mode": 420,
+            "size": 12689
+        },
+        "package.json": {
+            "checkedAt": 1642743209865,
+            "integrity": "sha512-TsUBb05nryQjxEG2XuYoDvm07PCDH69DnvpHLfyuC2Q42w3oKJrawSZvq40EW8oAFxaJp1+FYxq+2/O647t01Q==",
+            "mode": 420,
+            "size": 1414
+        },
+        "lib/index.d.ts.map": {
+            "checkedAt": 1642743209865,
+            "integrity": "sha512-Ph4Ck1Qb9hQ48U4ZG7T7kE17iJSVwJAT7Q40BqkVUfZdf7x1Ci0dRBR63bkaWM6Mz3gwCk0usTwh67xycayTiA==",
+            "mode": 420,
+            "size": 204
+        },
+        "lib/math-block/index.d.ts.map": {
+            "checkedAt": 1642743209873,
+            "integrity": "sha512-HkmnJoHhr1d3ESxp5omuGil6ByUBgh3CM6cYkGK7YVbn+9weA6koYvWnIRs8YZZC0V2S6o4HTxalTYK3gDK+0g==",
+            "mode": 420,
+            "size": 258
+        },
+        "lib/math-inline/index.d.ts.map": {
+            "checkedAt": 1642743209873,
+            "integrity": "sha512-cME1duXMbZDCUTNKKCobS+DToJo/jtaxBL+uH/HiSkdfGJ1qlKR+E2lZiZcxIMU/LMtzzvbA/1NlwsCMe6Hn6g==",
+            "mode": 420,
+            "size": 294
+        },
+        "lib/index.es.js.map": {
+            "checkedAt": 1642743209901,
+            "integrity": "sha512-EEW9Om6BJqm+HYe2xTsBrb25eNhuMRjnVD9wdqf7wBPx96uKio3J4Iotn3Por5aVe3DlVMEzYlxbbUVicESycg==",
+            "mode": 420,
+            "size": 21968
+        },
+        "lib/math-block/inner-editor.d.ts.map": {
+            "checkedAt": 1642743209901,
+            "integrity": "sha512-HzknhOsPcoDhtZ0P4hehokXMHvoKpf1Yf3O/JBPUBClxrPX+1alBGJaG7D4mHyOMegYqx/hTcWXd7UhSLHcKow==",
+            "mode": 420,
+            "size": 270
+        },
+        "lib/nodes.d.ts.map": {
+            "checkedAt": 1642743209901,
+            "integrity": "sha512-YrNmOcboVcM4SnTJCWTB1Nn4zOLUn0Eu2Pn9wMKWsD3rT1iveFJ1ES3HvKtlx5IaTdCwqND7Nych3Sbsgg/NCg==",
+            "mode": 420,
+            "size": 224
+        },
+        "lib/math-block/style.d.ts.map": {
+            "checkedAt": 1642743209901,
+            "integrity": "sha512-3W47Z+tBlajjs3gcOIMAHTCZcztL1hDYbqvlN3Ur3E8VpmTU/iq+ukA6TMIkyn9uIWa3OBlVuDUgK81Ce0qkOw==",
+            "mode": 420,
+            "size": 205
+        },
+        "README.md": {
+            "checkedAt": 1642743209901,
+            "integrity": "sha512-z+zPNb5a7I9K30nb8j74bGATHuD1oGB2iBoCpY4mHXDYvs5IckrW/kcrflSL+/g2NopRkV5bcUS2aJGdfJxf6Q==",
+            "mode": 420,
+            "size": 674
+        },
+        "lib/index.d.ts": {
+            "checkedAt": 1642743209901,
+            "integrity": "sha512-nxWtJC//lQYa8k5REyHrXd3O3KTID7EHh3GKbnQ4PaLNmX3ZD1+rbZUoTDrVLZEtlzEJiLngR+l8FK3H5Y2Jbw==",
+            "mode": 420,
+            "size": 361
+        },
+        "lib/math-block/index.d.ts": {
+            "checkedAt": 1642743209901,
+            "integrity": "sha512-kX4Odl0HxWSQuPF+l1wPG3fspQMpZNno2FsNl1eBho+mBZ9EAeSvsvqpheO1BwXNRV+Lk/hbSTwAxajvdoEf0A==",
+            "mode": 420,
+            "size": 502
+        },
+        "LICENSE": {
+            "checkedAt": 1642743207934,
+            "integrity": "sha512-DnXqxqiAWg0Up3S/UCwvTy/3WoOVA4zx/oYMZw8Xr4JsOL47ADHJUCPWFKI0oNsNgAN3q5zzizw4IpDqFF2ABA==",
+            "mode": 420,
+            "size": 1081
+        },
+        "lib/math-inline/index.d.ts": {
+            "checkedAt": 1642743209905,
+            "integrity": "sha512-8DPwrS6BQm7qJrDFXl/UVWvUw2Bx9cEYX8kl/Opsxtd9azetSKIOi9v3SfANUDpZ/3eH2lTqL0DmgVyQUXkchQ==",
+            "mode": 420,
+            "size": 583
+        },
+        "src/index.ts": {
+            "checkedAt": 1642743209915,
+            "integrity": "sha512-gd6MLhQmVjt7U+Qz53XKQZ4qAGX1jhF5ZgK144js4iBmEXl0ELnW0CyhtwCvGAqQ1KbAkch9rcVRdw+2PA+AKw==",
+            "mode": 420,
+            "size": 373
+        },
+        "src/math-block/index.ts": {
+            "checkedAt": 1642743209916,
+            "integrity": "sha512-6gbVwz+3LMuzf/kA9xOupOl6jNrIjQzNoJQ4R45h5GEwEeFSY+znxfcQFQnzWr56iov902Xe7K0r9q3apttzNA==",
+            "mode": 420,
+            "size": 6479
+        },
+        "src/math-inline/index.ts": {
+            "checkedAt": 1642743209916,
+            "integrity": "sha512-BnDqWBObJVwnz3GiaQWU84as4n0j3UrFkBlU/SUHSrN5Nci/wAyUD4libtS5NzeBM+t5Zj1marZABTqhnkAt+A==",
+            "mode": 420,
+            "size": 4597
+        },
+        "lib/math-block/inner-editor.d.ts": {
+            "checkedAt": 1642743209925,
+            "integrity": "sha512-GQz+aLMFRpl3k/smFCMnn7OvhzYHSOGcEPAt+5qsoxuAJ0o4FUjv9hJxfzn1IQRyPLqtnCl6q7ylrt3EdYZCRQ==",
+            "mode": 420,
+            "size": 350
+        },
+        "src/math-block/inner-editor.ts": {
+            "checkedAt": 1642743209940,
+            "integrity": "sha512-rE9bL0q2D3pDTgMnNwqeCByfgfgOC82a6QWVF0yRT4arnRn+jastWEYleg+Am+kQ9tKFk5gtUXvUNxAPxq5Vcg==",
+            "mode": 420,
+            "size": 2954
+        },
+        "lib/nodes.d.ts": {
+            "checkedAt": 1642743209940,
+            "integrity": "sha512-igZF3Og0l1UDzynrnJLwHSQujbKzY6N6fjvqHWoenWEK4mC9pYl11qcMGUXquE4EH02/yEEGyj39B/CbpY5cVQ==",
+            "mode": 420,
+            "size": 398
+        },
+        "src/nodes.ts": {
+            "checkedAt": 1642743209940,
+            "integrity": "sha512-Qj00dZIS4eKG5FFXLgIieb+J8JXezHOMTpXqi+VZFcVDRQ1QIwg32cTAwH0ATJwIGApe5w3+fRei2WUAZ7RTjg==",
+            "mode": 420,
+            "size": 302
+        },
+        "lib/math-block/style.d.ts": {
+            "checkedAt": 1642743209940,
+            "integrity": "sha512-oYdF9j+1e5IYBeUn4z91RUIN7FWSuAiBgLvqIMY2+5OBP4OP9IgtTec/CqX2pNyDaUMgF3e2h2sb9r76aUnNbw==",
+            "mode": 420,
+            "size": 235
+        },
+        "src/math-block/style.ts": {
+            "checkedAt": 1642743209940,
+            "integrity": "sha512-1pyP+9so5aGxDSTq/6s6FE79KExUaO3mz9JvzyIVsv758Q9hAFhSBRpnNxbmYT4F0kOoxiJssF7q/kD531knOA==",
+            "mode": 420,
+            "size": 946
+        }
+    }
+}

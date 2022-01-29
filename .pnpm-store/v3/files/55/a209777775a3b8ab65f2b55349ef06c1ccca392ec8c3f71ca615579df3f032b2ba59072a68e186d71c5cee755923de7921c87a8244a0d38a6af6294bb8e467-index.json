@@ -1,0 +1,42 @@
+{
+    "name": "@antfu/install-pkg",
+    "version": "0.1.0",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743207384,
+            "integrity": "sha512-ucwY6xKL5RTA98hlqyeQ6r0InbGViplATiQKqiVL+wmcoFSJwIl4t4MRTeIaQEFxdsSQcEVu2AXg9AN4Pfe7rw==",
+            "mode": 420,
+            "size": 1094
+        },
+        "dist/index.js": {
+            "checkedAt": 1642743211265,
+            "integrity": "sha512-lzKOvjlfMJzdUGiwRagIDQHm8qnTpu+nLQ9JeEWgYohyJfOijAJIRc8xoyJZrw0okZqHfo6e8qU0YiqTmOMa0A==",
+            "mode": 420,
+            "size": 2541
+        },
+        "package.json": {
+            "checkedAt": 1642743211265,
+            "integrity": "sha512-CV0PYOMsYbFbjEqayqxvB0xRzkNsvUeLompqtBUIVFQgXJgswPRg5go0pZFXb52CRoa0R6ZFmYPspXOCe8v3dg==",
+            "mode": 420,
+            "size": 1349
+        },
+        "README.md": {
+            "checkedAt": 1642743211265,
+            "integrity": "sha512-XOW01uCSFqma7LibdlH4M13Fq46g7nyRQKeVIzZMiF+NKJ++Dvbh6bJUn1TW8HnKku5Kf1j3OLrNDid6MQjUKg==",
+            "mode": 420,
+            "size": 669
+        },
+        "dist/index.mjs": {
+            "checkedAt": 1642743211265,
+            "integrity": "sha512-JlYTQq7Ih2VkCrUkYwGpQBINw3MFU/2mTwUaJkARrlmZwf5e2ZD9P2NC70GoWiiiflLMm540sjB5qK2sc9V/Gw==",
+            "mode": 420,
+            "size": 997
+        },
+        "dist/index.d.ts": {
+            "checkedAt": 1642743211265,
+            "integrity": "sha512-PkiGt4CUXLzmMekRXoSWzLgoyOfKVzaidIT0d4orqcIbT/wG0l3ZQBXg2CxoEjDISHyobcPaXJnXzhwEyB205g==",
+            "mode": 420,
+            "size": 575
+        }
+    }
+}

@@ -1,0 +1,3 @@
+export { c as colorResolver, a as cornerMap, d as directionMap, b as directionSize, f as h, h as handler, i as insetMap, p as parseColor, e as positionMap, v as valueHandlers, x as xyzMap } from './chunks/utilities.mjs';
+export { v as variantMatcher, a as variantParentMatcher } from './chunks/variants.mjs';
+import '@unocss/core';

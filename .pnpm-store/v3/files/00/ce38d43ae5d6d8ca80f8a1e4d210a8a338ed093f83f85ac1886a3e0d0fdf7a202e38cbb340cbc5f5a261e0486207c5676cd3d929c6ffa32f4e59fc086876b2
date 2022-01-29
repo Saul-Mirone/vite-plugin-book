@@ -1,0 +1,32 @@
+export declare const SupportedKeys: {
+    readonly NextCell: "NextCell";
+    readonly PrevCell: "PrevCell";
+    readonly ExitTable: "ExitTable";
+};
+export declare type SupportedKeys = typeof SupportedKeys;
+export declare const PrevCell: import("@milkdown/core").CmdKey<undefined>;
+export declare const NextCell: import("@milkdown/core").CmdKey<undefined>;
+export declare const BreakTable: import("@milkdown/core").CmdKey<undefined>;
+export declare const InsertTable: import("@milkdown/core").CmdKey<undefined>;
+export declare const table: import("@milkdown/utils/lib/src/types").WithExtend<"NextCell" | "PrevCell" | "ExitTable", Record<string, unknown>, {
+    table: import("prosemirror-model").NodeType<any>;
+    table_row: import("prosemirror-model").NodeType<any>;
+    table_cell: import("prosemirror-model").NodeType<any>;
+    table_header: import("prosemirror-model").NodeType<any>;
+} & {
+    [x: string]: import("prosemirror-model").MarkType<any>;
+}, {
+    schema?: ((ctx: import("@milkdown/core").Ctx) => {
+        node?: Record<keyof import("@milkdown/prose").TableNodes, import("@milkdown/core").NodeSchema> | undefined;
+        mark?: Record<string, import("@milkdown/core").MarkSchema> | undefined;
+    }) | undefined;
+    view?: ((ctx: import("@milkdown/core").Ctx) => Partial<{
+        table: import("@milkdown/prose").NodeViewFactory;
+        table_row: import("@milkdown/prose").NodeViewFactory;
+        table_cell: import("@milkdown/prose").NodeViewFactory;
+        table_header: import("@milkdown/prose").NodeViewFactory;
+    } & {
+        [x: string]: import("@milkdown/prose").MarkViewFactory;
+    }>) | undefined;
+}>;
+//# sourceMappingURL=index.d.ts.map

@@ -1,0 +1,6 @@
+import { Ctx } from '@milkdown/core';
+import type { Icon } from '@milkdown/design-system';
+import type { MarkType } from '@milkdown/prose';
+import type { ButtonItem } from '../item';
+export declare const createToggleIcon: (ctx: Ctx, iconName: Icon, key: string, mark: MarkType, disableForMark: MarkType) => ButtonItem;
+//# sourceMappingURL=toggle.d.ts.map

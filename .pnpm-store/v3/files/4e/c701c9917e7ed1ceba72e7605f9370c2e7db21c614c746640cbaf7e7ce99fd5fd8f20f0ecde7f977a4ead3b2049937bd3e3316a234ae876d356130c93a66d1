@@ -1,0 +1,147 @@
+export { c as colors } from './colors-338f482c';
+export { t as theme } from './default-17948303';
+import { T as Theme } from './types-c14b808b';
+export { T as Theme, a as ThemeAnimation } from './types-c14b808b';
+
+declare const blur: {
+    DEFAULT: string;
+    '0': string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+};
+declare const dropShadow: {
+    DEFAULT: string[];
+    sm: string;
+    md: string[];
+    lg: string[];
+    xl: string[];
+    '2xl': string;
+    none: string;
+};
+
+declare const fontFamily: {
+    sans: string;
+    serif: string;
+    mono: string;
+};
+declare const fontSize: Theme['fontSize'];
+declare const textIndent: Theme['textIndent'];
+declare const textStrokeWidth: Theme['textStrokeWidth'];
+declare const textShadow: Theme['textShadow'];
+declare const lineHeight: Theme['lineHeight'];
+declare const letterSpacing: Theme['letterSpacing'];
+declare const wordSpacing: Theme['wordSpacing'];
+
+declare const breakpoints: {
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+};
+declare const borderRadius: {
+    DEFAULT: string;
+    none: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+    full: string;
+};
+declare const boxShadow: {
+    DEFAULT: string[];
+    sm: string;
+    md: string[];
+    lg: string[];
+    xl: string[];
+    '2xl': string;
+    inner: string;
+    none: string;
+};
+
+declare const baseSize: {
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+    '4xl': string;
+    '5xl': string;
+    '6xl': string;
+    '7xl': string;
+    prose: string;
+};
+declare const width: {
+    screen: string;
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+    '4xl': string;
+    '5xl': string;
+    '6xl': string;
+    '7xl': string;
+    prose: string;
+    auto: string;
+};
+declare const maxWidth: {
+    screen: string;
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+    '4xl': string;
+    '5xl': string;
+    '6xl': string;
+    '7xl': string;
+    prose: string;
+    none: string;
+};
+declare const height: {
+    screen: string;
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+    '4xl': string;
+    '5xl': string;
+    '6xl': string;
+    '7xl': string;
+    prose: string;
+    auto: string;
+};
+declare const maxHeight: {
+    screen: string;
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+    '4xl': string;
+    '5xl': string;
+    '6xl': string;
+    '7xl': string;
+    prose: string;
+    none: string;
+};
+
+export { baseSize, blur, borderRadius, boxShadow, breakpoints, dropShadow, fontFamily, fontSize, height, letterSpacing, lineHeight, maxHeight, maxWidth, textIndent, textShadow, textStrokeWidth, width, wordSpacing };

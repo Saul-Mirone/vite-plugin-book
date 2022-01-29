@@ -1,0 +1,28 @@
+import { escapeRegExp } from '@unocss/core';
+
+const variantMatcher = (name, selector) => {
+  const re = new RegExp(`^${escapeRegExp(name)}[:-]`);
+  return (input) => {
+    const match = input.match(re);
+    if (match) {
+      return {
+        matcher: input.slice(match[0].length),
+        selector
+      };
+    }
+  };
+};
+const variantParentMatcher = (name, parent) => {
+  const re = new RegExp(`^${escapeRegExp(name)}[:-]`);
+  return (input) => {
+    const match = input.match(re);
+    if (match) {
+      return {
+        matcher: input.slice(match[0].length),
+        parent
+      };
+    }
+  };
+};
+
+export { variantParentMatcher as a, variantMatcher as v };

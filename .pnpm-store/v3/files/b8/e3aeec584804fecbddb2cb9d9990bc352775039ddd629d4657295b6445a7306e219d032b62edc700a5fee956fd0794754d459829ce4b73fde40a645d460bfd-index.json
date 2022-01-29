@@ -1,0 +1,60 @@
+{
+    "name": "@milkdown/plugin-history",
+    "version": "5.4.1",
+    "files": {
+        "lib/index.d.ts": {
+            "checkedAt": 1643385960208,
+            "integrity": "sha512-1Q6HwajZQXCskPXR5NmjD3/acAPqcntRRcf5Kvxwjfx/WNOTjCrayFCh5HLdpEG203wxMo43erVq1DOahrU7wg==",
+            "mode": 420,
+            "size": 28
+        },
+        "LICENSE": {
+            "checkedAt": 1643385960213,
+            "integrity": "sha512-DnXqxqiAWg0Up3S/UCwvTy/3WoOVA4zx/oYMZw8Xr4JsOL47ADHJUCPWFKI0oNsNgAN3q5zzizw4IpDqFF2ABA==",
+            "mode": 420,
+            "size": 1081
+        },
+        "README.md": {
+            "checkedAt": 1643385960451,
+            "integrity": "sha512-gdmR33Dd4b8PWHSCT5CS3dxGsn2x/pPVVY8g2xzu2kyLi6V15PyGDqSOsSQhTILA2BGXzZxf6osx08c/QZSfUQ==",
+            "mode": 420,
+            "size": 545
+        },
+        "lib/src/index.d.ts": {
+            "checkedAt": 1643385960452,
+            "integrity": "sha512-nD14kZe0FlXbDTlPS2jWj9XTzh/dDutmf4oIm+CF0BJxotq6zvxAOYXVvu5t49o9MX1LWRADA66Vf8mhDUn1/g==",
+            "mode": 420,
+            "size": 399
+        },
+        "lib/index.es.js": {
+            "checkedAt": 1643385960457,
+            "integrity": "sha512-u2vfXvZ7cMVc1/aykpysNY1Hv5PtfjuhBa3E0500VahofI3gYpvLb0o94swcdjKt733iAhayPsVWbBVhGHQD/Q==",
+            "mode": 420,
+            "size": 577
+        },
+        "package.json": {
+            "checkedAt": 1643385960462,
+            "integrity": "sha512-Idxa3HE0kGmNffKY1uJs+2dixvn82oqnNAz9cjnp2TfYuVlaSjnrfSIw/9TIo4C60e+2sdjDxclJ6OAA7hZH8g==",
+            "mode": 420,
+            "size": 1258
+        },
+        "lib/src/index.d.ts.map": {
+            "checkedAt": 1643385960462,
+            "integrity": "sha512-v+DfeKfSzCTnYdwGSzXaOHKFvZ9qAe9u3gE6te1HA9Lriymfxd6+AHGZYsi1tuoMFEKl0junmiubK2bU5DnwaA==",
+            "mode": 420,
+            "size": 193
+        },
+        "lib/index.es.js.map": {
+            "checkedAt": 1643385960462,
+            "integrity": "sha512-Bbn5NlJ7aL6YFJHNqqabWkuLe7r3J+k4TmEw/kz039jzA8Pj9rgyZzqYyNblh42lh3yIAfBBEdYef1VBCwJQzA==",
+            "mode": 420,
+            "size": 1034
+        },
+        "src/index.ts": {
+            "checkedAt": 1643385960462,
+            "integrity": "sha512-MYx9s6vTQWayhSGAp6T/PNKz7rmeNP8Hv/9xMZ8DfZLuQ8Bjz8CdVFeWZJSSGtXWmZbzLlMWHWPp8iR7UIol6g==",
+            "mode": 420,
+            "size": 652
+        }
+    }
+}

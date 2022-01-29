@@ -1,0 +1,31 @@
+import { Variant, VariantFunction, VariantObject } from '@unocss/core';
+import { T as Theme } from './types-c14b808b';
+import { PresetMiniOptions } from './index';
+import './default-17948303';
+import './colors-338f482c';
+import './utilities-29b01158';
+
+declare const variantBreakpoints: Variant<Theme>;
+
+declare const variantCombinators: Variant[];
+
+declare const variantMotions: VariantFunction[];
+declare const variantOrientations: VariantFunction[];
+declare const variantPrint: VariantFunction;
+
+declare const variantColorsMediaOrClass: (options?: PresetMiniOptions) => VariantFunction[];
+
+declare const variants: (options: PresetMiniOptions) => Variant<Theme>[];
+
+declare const variantLanguageDirections: Variant[];
+
+declare const variantImportant: Variant;
+declare const variantNegative: Variant;
+
+declare const variantPseudoElements: VariantFunction;
+declare const variantPseudoClasses: VariantObject;
+declare const variantPseudoClassFunctions: VariantObject;
+declare const variantTaggedPseudoClasses: (options?: PresetMiniOptions) => VariantObject[];
+declare const partClasses: VariantObject;
+
+export { partClasses, variantBreakpoints, variantColorsMediaOrClass, variantCombinators, variantImportant, variantLanguageDirections, variantMotions, variantNegative, variantOrientations, variantPrint, variantPseudoClassFunctions, variantPseudoClasses, variantPseudoElements, variantTaggedPseudoClasses, variants };

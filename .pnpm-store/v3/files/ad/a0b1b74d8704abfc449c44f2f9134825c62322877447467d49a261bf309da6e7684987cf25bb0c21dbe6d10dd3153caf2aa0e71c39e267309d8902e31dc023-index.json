@@ -1,0 +1,42 @@
+{
+    "name": "esbuild",
+    "version": "0.13.15",
+    "files": {
+        "bin/esbuild": {
+            "checkedAt": 1642743215565,
+            "integrity": "sha512-aKdZENY3QTv4/1+GvTBJIqAU1QXwijiSAZ+3EyyZaebfCH0TOfLv5v+aRJ6UvYS7xySOOAMytsSfi86VTkpLRA==",
+            "mode": 493,
+            "size": 4078
+        },
+        "install.js": {
+            "checkedAt": 1642743215568,
+            "integrity": "sha512-Bh89FOgSfiSg33PJp6VOpx0KNGuNkk6env3U1FYKY/Y0WYoONN61FfPFMw5Lg2xYWQ4zM2wl9RXD5nwlX/9ruA==",
+            "mode": 420,
+            "size": 9214
+        },
+        "lib/main.js": {
+            "checkedAt": 1642743215642,
+            "integrity": "sha512-SoGew0+bzHlGn1+nBLEUg29D5qbFIak9UJIQwEfLOYaVJIVEaoRESaAx+SJfRr7rhOzAuZqcmAer0TuOPlxLKw==",
+            "mode": 420,
+            "size": 74434
+        },
+        "package.json": {
+            "checkedAt": 1642743215642,
+            "integrity": "sha512-jQs84FIJY56luvQYjWXJfii/nqfO1mhnQGeH+LMWC2qO+JbSc7g6lf5j0c2iFzbx+GY7+ShoXCg0irgXekZooQ==",
+            "mode": 420,
+            "size": 1025
+        },
+        "README.md": {
+            "checkedAt": 1642743215642,
+            "integrity": "sha512-d8nFKDXLOjrfvX2ysOMMH70lmd6JzrJCMUDtSrlqRENr7wchIAA9o1hMX6i1xG+1AX6+N2fbGqAKklwnjx8wxA==",
+            "mode": 420,
+            "size": 175
+        },
+        "lib/main.d.ts": {
+            "checkedAt": 1642743215654,
+            "integrity": "sha512-pPI2fvqffvZwISaInFo6+oQp0Ws1BuO7sXZ/samhvK5qX7uXtJgQ08Ghx26CiKRzWBgFsJsDJ/73iqpaVu0cBA==",
+            "mode": 420,
+            "size": 15369
+        }
+    }
+}

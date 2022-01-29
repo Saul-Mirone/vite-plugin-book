@@ -1,0 +1,41 @@
+{
+  "name": "@windicss/config",
+  "version": "1.6.3",
+  "description": "Windi CSS configurations loader",
+  "keywords": [
+    "windicss",
+    "tailwindcss"
+  ],
+  "homepage": "https://github.com/antfu/vite-plugin-windicss",
+  "bugs": "https://github.com/antfu/vite-plugin-windicss/issues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antfu/vite-plugin-windicss"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "author": "antfu <anthonyfu117@hotmail.com>",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "debug": "^4.3.3",
+    "jiti": "^1.12.9",
+    "windicss": "^3.4.3"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm --no-splitting --external sucrase/register/ts,pug,windicss/utils/style,windicss/utils/parser,windicss/utils",
+    "dev": "npm run build -- --watch"
+  },
+  "readme": "# @windicss/config\n\n[Windi CSS](https://github.com/windicss/windicss) configurations loader.\n\n```ts\nimport { loadConfiguration } from '@windicss/config'\n\n// search for configuration file and load it from disk\n// supports \"{windi,windicss,tailwind}.config.{js,ts,mjs,cjs}\"\nconst { config } = loadConfiguration({ root: __dirname })\n```\n\n## Configuration\n\nSee [src/index.ts](https://github.com/windicss/vite-plugin-windicss/blob/main/packages/config/src/index.ts).\n\n## License\n\nMIT License © 2021 [Anthony Fu](https://github.com/antfu)\n\n"
+}

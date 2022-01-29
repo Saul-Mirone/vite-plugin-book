@@ -1,0 +1,56 @@
+{
+  "name": "@unocss/preset-icons",
+  "version": "0.22.4",
+  "description": "Pure CSS Icons for UnoCSS",
+  "keywords": [
+    "unocss",
+    "unocss-preset",
+    "icons",
+    "css-icons",
+    "iconify"
+  ],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/preset-icons#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/preset-icons"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./fs": {
+      "require": "./dist/fs.cjs",
+      "import": "./dist/fs.mjs",
+      "types": "./dist/fs.d.ts"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "*.css"
+  ],
+  "dependencies": {
+    "@iconify/utils": "^1.0.21",
+    "@unocss/core": "0.22.4",
+    "local-pkg": "^0.4.1"
+  },
+  "devDependencies": {
+    "@iconify/types": "^1.0.12"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  }
+}

@@ -1,0 +1,10 @@
+import type { EditorState, EditorView } from '@milkdown/prose';
+import { Utils } from '@milkdown/utils';
+import type { ButtonMap, InputMap } from './item';
+export declare const createPlugin: (buttonMap: ButtonMap, inputMap: InputMap, utils: Utils) => {
+    update: (view: EditorView, prevState?: EditorState<any> | undefined) => void;
+    destroy: () => void;
+    render: (editorView: EditorView) => void;
+    setHide: (isTyping: boolean) => void;
+};
+//# sourceMappingURL=selection-marks-tooltip.d.ts.map

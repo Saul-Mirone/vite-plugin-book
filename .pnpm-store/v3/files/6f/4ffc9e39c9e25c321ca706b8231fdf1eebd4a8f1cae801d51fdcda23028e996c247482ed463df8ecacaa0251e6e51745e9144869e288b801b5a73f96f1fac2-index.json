@@ -1,0 +1,30 @@
+{
+    "name": "@types/prosemirror-dropcursor",
+    "version": "1.0.3",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743208338,
+            "integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+            "mode": 511,
+            "size": 1141
+        },
+        "README.md": {
+            "checkedAt": 1642743208498,
+            "integrity": "sha512-WUNN2+lvOcdeRsh6EmD0OujYLHNHGnTx0iSGOP+zLM9Vu0ag6YIGwzKq27ebf8kVe5Ig4/5iCCb6HO8AgpVp9Q==",
+            "mode": 511,
+            "size": 1914
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743208498,
+            "integrity": "sha512-hhnMOTdRgDkAB2wKJlNJUI1nqNCsnNf0CN0FYr9N9b/LiRaTnR0NCvVyRKAqB+3ILvavIK1H7Yhlm71WXs/trA==",
+            "mode": 511,
+            "size": 1053
+        },
+        "package.json": {
+            "checkedAt": 1642743208498,
+            "integrity": "sha512-SPmRUhSgq2w86UMVDoVuT/9i/7dNs3ONTBsKlxZFLnuPHZFddvMkPX8h2vYUJeHGGpRBU31v0z76Ggw5/4YJQg==",
+            "mode": 511,
+            "size": 1193
+        }
+    }
+}

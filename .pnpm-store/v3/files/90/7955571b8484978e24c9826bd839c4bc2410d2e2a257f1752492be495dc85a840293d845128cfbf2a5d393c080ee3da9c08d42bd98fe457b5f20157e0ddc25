@@ -1,0 +1,38 @@
+{
+  "name": "@milkdown/plugin-slash",
+  "version": "5.4.1",
+  "type": "module",
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "milkdown",
+    "milkdown plugin"
+  ],
+  "devDependencies": {
+    "@milkdown/core": "5.4.1",
+    "@milkdown/prose": "5.4.1",
+    "@milkdown/design-system": "5.4.1"
+  },
+  "peerDependencies": {
+    "@milkdown/core": "^5.4.0",
+    "@milkdown/prose": "^5.4.0"
+  },
+  "dependencies": {
+    "@milkdown/utils": "5.4.1",
+    "smooth-scroll-into-view-if-needed": "^1.1.32",
+    "tslib": "^2.3.1"
+  },
+  "scripts": {
+    "start": "vite build --watch",
+    "test": "vitest",
+    "tsc": "tsc --noEmit",
+    "build": "vite build"
+  },
+  "readme": "# @milkdown/plugin-slash\n\nSlash plugin for [milkdown](https://saul-mirone.github.io/milkdown/).\nAdd support for slash commands.\n\n# Example Usage\n\n```typescript\nimport { Editor } from '@milkdown/core';\nimport { commonmark } from '@milkdown/preset-commonmark';\nimport { nord } from '@milkdown/theme-nord';\n\nimport { slash } from '@milkdown/plugin-slash';\n\nEditor.make().use(nord).use(commonmark).use(slash).create();\n```\n\n# Options\n\n## config\n\nConfigure the slash plugin placeholders & items with custom status builder.\n\nExample:\n\n```typescript\nimport { slashPlugin, slash, createDropdownItem, defaultActions } from '@milkdown/plugin-slash';\nimport { themeToolCtx, commandsCtx } from '@milkdown/core';\n\nEditor.make().use(\n    slash.configure(slashPlugin, {\n        config: (ctx) => {\n            // Get default slash plugin items\n            const actions = defaultActions(ctx);\n\n            // Define a status builder\n            return ({ isTopLevel, content, parentNode }) => {\n                // You can only show something at root level\n                if (!isTopLevel) return null;\n\n                // Empty content ? Set your custom empty placeholder !\n                if (!content) {\n                    return { placeholder: 'Type / to use the slash commands...' };\n                }\n\n                // Define the placeholder & actions (dropdown items) you want to display depending on content\n                if (content.startsWith('/')) {\n                    // Add some actions depending on your content's parent node\n                    if (parentNode.type.name === 'customNode') {\n                        actions.push({\n                            id: 'custom',\n                            dom: createDropdownItem(ctx.get(themeToolCtx), 'Custom', 'h1'),\n                            command: () => ctx.get(commandsCtx).call(/* Add custom command here */),\n                            keyword: ['custom'],\n                            enable: () => true,\n                        });\n                    }\n\n                    return content === '/'\n                        ? {\n                              placeholder: 'Type to filter...',\n                              actions,\n                          }\n                        : {\n                              actions: actions.filter(({ keyword }) =>\n                                  keyword.some((key) => key.includes(content.slice(1).toLocaleLowerCase())),\n                              ),\n                          };\n                }\n            };\n        },\n    }),\n);\n```\n\n# License\n\nMilkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).\n"
+}

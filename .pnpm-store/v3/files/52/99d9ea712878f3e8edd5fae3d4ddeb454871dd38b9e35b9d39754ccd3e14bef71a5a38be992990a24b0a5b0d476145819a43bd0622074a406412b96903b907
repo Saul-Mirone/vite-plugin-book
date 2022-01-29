@@ -1,0 +1,311 @@
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var __privateGet = (obj, member, getter) => {
+  __accessCheck(obj, member, "read from private field");
+  return getter ? getter.call(obj) : member.get(obj);
+};
+var __privateAdd = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var __privateSet = (obj, member, value, setter) => {
+  __accessCheck(obj, member, "write to private field");
+  setter ? setter.call(obj, value) : member.set(obj, value);
+  return value;
+};
+var _container, _clock, _plugins, _configureList, _ctx, _pre, _loadInternal;
+import { createTimer, createSlice, createContainer, createClock, Ctx, Pre } from "@milkdown/ctx";
+export * from "@milkdown/ctx";
+import { docTypeError, callCommandBeforeEditorView } from "@milkdown/exception";
+import { Schema, EditorState, customInputRules, keymap, baseKeymap, DOMParser, Node, EditorView } from "@milkdown/prose";
+import { remark } from "remark";
+import { createParser, createSerializer } from "@milkdown/transformer";
+export * from "@milkdown/transformer";
+import { init as init$1, injectVar, pack2Tool } from "@milkdown/design-system";
+const ConfigReady = createTimer("ConfigReady");
+const config = (configure) => (pre) => {
+  pre.record(ConfigReady);
+  return async (ctx) => {
+    await configure(ctx);
+    ctx.done(ConfigReady);
+  };
+};
+const InitReady = createTimer("InitReady");
+const initTimerCtx = createSlice([], "initTimer");
+const editorCtx = createSlice({}, "editor");
+const inputRulesCtx = createSlice([], "inputRules");
+const prosePluginsCtx = createSlice([], "prosePlugins");
+const remarkPluginsCtx = createSlice([], "remarkPlugins");
+const viewCtx = createSlice([], "nodeView");
+const remarkCtx = createSlice(remark(), "remark");
+const init = (editor) => (pre) => {
+  pre.inject(editorCtx, editor).inject(prosePluginsCtx).inject(remarkPluginsCtx).inject(inputRulesCtx).inject(viewCtx).inject(remarkCtx, remark()).inject(initTimerCtx, [ConfigReady]).record(InitReady);
+  return async (ctx) => {
+    await ctx.waitTimers(initTimerCtx);
+    ctx.done(InitReady);
+  };
+};
+const SchemaReady = createTimer("schemaReady");
+const schemaCtx = createSlice({}, "schema");
+const schemaTimerCtx = createSlice([], "schemaTimer");
+const nodesCtx = createSlice([], "nodes");
+const marksCtx = createSlice([], "marks");
+const extendPriority = (x) => {
+  var _a;
+  return __spreadProps(__spreadValues({}, x), {
+    parseDOM: (_a = x.parseDOM) == null ? void 0 : _a.map((rule) => __spreadValues({ priority: x.priority }, rule))
+  });
+};
+const schema = (pre) => {
+  pre.inject(schemaCtx).inject(nodesCtx).inject(marksCtx).inject(schemaTimerCtx, [InitReady]).record(SchemaReady);
+  return async (ctx) => {
+    await ctx.waitTimers(schemaTimerCtx);
+    const remark2 = ctx.get(remarkCtx);
+    const remarkPlugins = ctx.get(remarkPluginsCtx);
+    const processor = remarkPlugins.reduce((acc, plug) => acc.use(plug), remark2);
+    ctx.set(remarkCtx, processor);
+    const nodes = Object.fromEntries(ctx.get(nodesCtx).map(([key, x]) => [key, extendPriority(x)]));
+    const marks = Object.fromEntries(ctx.get(marksCtx).map(([key, x]) => [key, extendPriority(x)]));
+    ctx.set(schemaCtx, new Schema({
+      nodes,
+      marks
+    }));
+    ctx.done(SchemaReady);
+  };
+};
+const parserCtx = createSlice(() => null, "parser");
+const parserTimerCtx = createSlice([], "parserTimer");
+const ParserReady = createTimer("ParserReady");
+const parser = (pre) => {
+  pre.inject(parserCtx).inject(parserTimerCtx, [SchemaReady]).record(ParserReady);
+  return async (ctx) => {
+    await ctx.waitTimers(parserTimerCtx);
+    const nodes = ctx.get(nodesCtx);
+    const marks = ctx.get(marksCtx);
+    const remark2 = ctx.get(remarkCtx);
+    const schema2 = ctx.get(schemaCtx);
+    const children = [
+      ...nodes.map(([id, v]) => __spreadValues({ id }, v)).map((node) => __spreadProps(__spreadValues({}, node), { is: "node" })),
+      ...marks.map(([id, v]) => __spreadValues({ id }, v)).map((mark) => __spreadProps(__spreadValues({}, mark), { is: "mark" }))
+    ];
+    const spec = Object.fromEntries(children.map(({ id, parseMarkdown, is }) => [id, __spreadProps(__spreadValues({}, parseMarkdown), { is, key: id })]));
+    ctx.set(parserCtx, createParser(schema2, spec, remark2));
+    ctx.done(ParserReady);
+  };
+};
+const serializerCtx = createSlice(() => "", "serializer");
+const serializerTimerCtx = createSlice([], "serializerTimer");
+const SerializerReady = createTimer("SerializerReady");
+const serializer = (pre) => {
+  pre.inject(serializerCtx).inject(serializerTimerCtx, [SchemaReady]).record(SerializerReady);
+  return async (ctx) => {
+    await ctx.waitTimers(serializerTimerCtx);
+    const nodes = ctx.get(nodesCtx);
+    const marks = ctx.get(marksCtx);
+    const remark2 = ctx.get(remarkCtx);
+    const schema2 = ctx.get(schemaCtx);
+    const children = [...nodes, ...marks];
+    const spec = Object.fromEntries(children.map(([id, child]) => [id, child.toMarkdown]));
+    ctx.set(serializerCtx, createSerializer(schema2, spec, remark2));
+    ctx.done(SerializerReady);
+  };
+};
+const defaultValueCtx = createSlice("", "defaultValue");
+const editorStateCtx = createSlice({}, "editorState");
+const editorStateOptionsCtx = createSlice({}, "stateOptions");
+const editorStateTimerCtx = createSlice([], "editorStateTimer");
+const EditorStateReady = createTimer("EditorStateReady");
+const getDoc = (defaultValue, parser2, schema2) => {
+  if (typeof defaultValue === "string") {
+    return parser2(defaultValue);
+  }
+  if (defaultValue.type === "html") {
+    return DOMParser.fromSchema(schema2).parse(defaultValue.dom);
+  }
+  if (defaultValue.type === "json") {
+    return Node.fromJSON(schema2, defaultValue.value);
+  }
+  throw docTypeError(defaultValue);
+};
+const editorState = (pre) => {
+  pre.inject(defaultValueCtx).inject(editorStateCtx).inject(editorStateOptionsCtx).inject(editorStateTimerCtx, [ParserReady, SerializerReady, CommandsReady]).record(EditorStateReady);
+  return async (ctx) => {
+    await ctx.waitTimers(editorStateTimerCtx);
+    const schema2 = ctx.get(schemaCtx);
+    const parser2 = ctx.get(parserCtx);
+    const rules = ctx.get(inputRulesCtx);
+    const options = ctx.get(editorStateOptionsCtx);
+    const prosePlugins = ctx.get(prosePluginsCtx);
+    const defaultValue = ctx.get(defaultValueCtx);
+    const doc = getDoc(defaultValue, parser2, schema2);
+    const state = EditorState.create(__spreadValues({
+      schema: schema2,
+      doc,
+      plugins: [...prosePlugins, customInputRules({ rules }), keymap(baseKeymap)]
+    }, options));
+    ctx.set(editorStateCtx, state);
+    ctx.done(EditorStateReady);
+  };
+};
+const editorViewCtx = createSlice({}, "editorView");
+const editorViewOptionsCtx = createSlice({}, "editorViewOptions");
+const rootCtx = createSlice(document.body, "root");
+const editorViewTimerCtx = createSlice([], "editorViewTimer");
+const EditorViewReady = createTimer("EditorViewReady");
+const createViewContainer = (root) => {
+  const container = document.createElement("div");
+  container.className = "milkdown";
+  root.appendChild(container);
+  return container;
+};
+const prepareViewDom = (dom) => {
+  dom.classList.add("editor");
+  dom.setAttribute("role", "textbox");
+};
+const editorView = (pre) => {
+  pre.inject(rootCtx, document.body).inject(editorViewCtx).inject(editorViewOptionsCtx).inject(editorViewTimerCtx, [EditorStateReady]).record(EditorViewReady);
+  return async (ctx) => {
+    await ctx.waitTimers(editorViewTimerCtx);
+    const state = ctx.get(editorStateCtx);
+    const options = ctx.get(editorViewOptionsCtx);
+    const nodeViews = Object.fromEntries(ctx.get(viewCtx));
+    const root = ctx.get(rootCtx);
+    const el = typeof root === "string" ? document.querySelector(root) : root;
+    const container = el ? createViewContainer(el) : void 0;
+    const view = new EditorView(container, __spreadValues({
+      state,
+      nodeViews
+    }, options));
+    prepareViewDom(view.dom);
+    ctx.set(editorViewCtx, view);
+    ctx.done(EditorViewReady);
+  };
+};
+const createCmd = (key, value) => [key, value];
+const commandsCtx = createSlice({}, "commands");
+const createCmdKey = () => createSlice(() => () => false, "cmdKey");
+const commandsTimerCtx = createSlice([], "commandsTimer");
+const CommandsReady = createTimer("CommandsReady");
+const commands = (pre) => {
+  const container = createContainer();
+  const commandManager = {
+    create: (slice, value) => slice(container.sliceMap, value),
+    get: (slice) => container.getSlice(slice).get(),
+    call: () => {
+      throw callCommandBeforeEditorView();
+    }
+  };
+  pre.inject(commandsCtx, commandManager).inject(commandsTimerCtx, [SchemaReady]).record(CommandsReady);
+  return async (ctx) => {
+    await ctx.waitTimers(commandsTimerCtx);
+    ctx.done(CommandsReady);
+    await ctx.wait(EditorViewReady);
+    ctx.update(commandsCtx, (prev) => __spreadProps(__spreadValues({}, prev), {
+      call: (meta, info) => {
+        const cmd = commandManager.get(meta);
+        const command = cmd(info);
+        const view = ctx.get(editorViewCtx);
+        return command(view.state, view.dispatch, view);
+      }
+    }));
+  };
+};
+const themeToolCtx = createSlice({
+  mixin: {},
+  font: {},
+  size: {},
+  slots: {},
+  palette: () => ""
+}, "ThemeTool");
+const emotionConfigCtx = createSlice({ key: "milkdown" }, "EmotionConfig");
+const emotionCtx = createSlice({}, "Emotion");
+const themeFactory = (createThemePack) => (pre) => {
+  pre.inject(themeToolCtx).inject(emotionConfigCtx).inject(emotionCtx);
+  return async (ctx) => {
+    await ctx.wait(ConfigReady);
+    const emotion = init$1(ctx.get(emotionConfigCtx));
+    const themePack = createThemePack(emotion);
+    injectVar(themePack, emotion);
+    const tool = pack2Tool(themePack);
+    ctx.set(emotionCtx, emotion);
+    ctx.set(themeToolCtx, tool);
+  };
+};
+const _Editor = class {
+  constructor() {
+    __privateAdd(this, _container, void 0);
+    __privateAdd(this, _clock, void 0);
+    __privateAdd(this, _plugins, void 0);
+    __privateAdd(this, _configureList, void 0);
+    __privateAdd(this, _ctx, void 0);
+    __privateAdd(this, _pre, void 0);
+    __privateAdd(this, _loadInternal, void 0);
+    __privateSet(this, _container, createContainer());
+    __privateSet(this, _clock, createClock());
+    __privateSet(this, _plugins, new Set());
+    __privateSet(this, _configureList, []);
+    __privateSet(this, _ctx, new Ctx(__privateGet(this, _container), __privateGet(this, _clock)));
+    __privateSet(this, _pre, new Pre(__privateGet(this, _container), __privateGet(this, _clock)));
+    __privateSet(this, _loadInternal, () => {
+      const internalPlugins = [schema, parser, serializer, commands, editorState, editorView];
+      const configPlugin = config(async (x) => {
+        await Promise.all(__privateGet(this, _configureList).map((fn) => fn(x)));
+      });
+      this.use(internalPlugins.concat(init(this)).concat(configPlugin));
+    });
+    this.use = (plugins) => {
+      [plugins].flat().forEach((plugin) => {
+        __privateGet(this, _plugins).add(plugin(__privateGet(this, _pre)));
+      });
+      return this;
+    };
+    this.config = (configure) => {
+      __privateGet(this, _configureList).push(configure);
+      return this;
+    };
+    this.create = async () => {
+      __privateGet(this, _loadInternal).call(this);
+      await Promise.all([...__privateGet(this, _plugins)].map((loader) => loader(__privateGet(this, _ctx))));
+      return this;
+    };
+    this.action = (action) => action(__privateGet(this, _ctx));
+  }
+  static make() {
+    return new _Editor();
+  }
+  get ctx() {
+    return __privateGet(this, _ctx);
+  }
+};
+let Editor = _Editor;
+_container = new WeakMap();
+_clock = new WeakMap();
+_plugins = new WeakMap();
+_configureList = new WeakMap();
+_ctx = new WeakMap();
+_pre = new WeakMap();
+_loadInternal = new WeakMap();
+export { CommandsReady, ConfigReady, Editor, EditorStateReady, EditorViewReady, InitReady, ParserReady, SchemaReady, SerializerReady, commands, commandsCtx, commandsTimerCtx, config, createCmd, createCmdKey, defaultValueCtx, editorCtx, editorState, editorStateCtx, editorStateOptionsCtx, editorStateTimerCtx, editorView, editorViewCtx, editorViewOptionsCtx, editorViewTimerCtx, emotionConfigCtx, emotionCtx, init, initTimerCtx, inputRulesCtx, marksCtx, nodesCtx, parser, parserCtx, parserTimerCtx, prosePluginsCtx, remarkCtx, remarkPluginsCtx, rootCtx, schema, schemaCtx, schemaTimerCtx, serializer, serializerCtx, serializerTimerCtx, themeFactory, themeToolCtx, viewCtx };
+//# sourceMappingURL=index.es.js.map

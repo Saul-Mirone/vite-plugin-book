@@ -1,0 +1,668 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const UnocssInspector = require('@unocss/inspector');
+const pluginutils = require('@rollup/pluginutils');
+const config = require('@unocss/config');
+const core = require('@unocss/core');
+const crypto = require('crypto');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e["default"] : e; }
+
+const UnocssInspector__default = /*#__PURE__*/_interopDefaultLegacy(UnocssInspector);
+
+const defaultExclude = [/\.(css|postcss|sass|scss|less|stylus|styl)$/];
+const defaultInclude = [/\.vue$/, /\.vue\?vue/, /\.svelte$/, /\.[jt]sx$/, /\.mdx?$/, /\.astro$/, /\.elm$/];
+
+const VIRTUAL_ENTRY_ALIAS = [
+  /^(?:virtual:)?uno(?::(.+))?\.css(\?.*)?$/
+];
+const LAYER_MARK_ALL = "__ALL__";
+function resolveId(id) {
+  for (const alias of VIRTUAL_ENTRY_ALIAS) {
+    const match = id.match(alias);
+    if (match) {
+      return match[1] ? {
+        id: `/__uno_${match[1]}.css`,
+        layer: match[1]
+      } : {
+        id: "/__uno.css",
+        layer: LAYER_MARK_ALL
+      };
+    }
+  }
+}
+const LAYER_PLACEHOLDER_RE = /(\\?")?#--unocss--\s*{\s*layer\s*:\s*(.+?);?\s*}/g;
+function getLayerPlaceholder(layer) {
+  return `#--unocss--{layer:${layer}}`;
+}
+const HASH_PLACEHOLDER_RE = /#--unocss-hash--\s*{\s*content\s*:\s*"(.+?)";?\s*}/g;
+function getHashPlaceholder(hash) {
+  return `#--unocss-hash--{content:"${hash}"}`;
+}
+
+const INCLUDE_COMMENT = "@unocss-include";
+const CSS_PLACEHOLDER = "@unocss-placeholder";
+
+function createContext(configOrPath, defaults = {}, extraConfigSources = []) {
+  const loadConfig = config.createConfigLoader(configOrPath, extraConfigSources);
+  let rawConfig = {};
+  const uno = core.createGenerator(rawConfig, defaults);
+  let rollupFilter = pluginutils.createFilter(defaultInclude, defaultExclude);
+  const invalidations = [];
+  const modules = new core.BetterMap();
+  const tokens = /* @__PURE__ */ new Set();
+  const ready = reloadConfig();
+  async function reloadConfig() {
+    const result = await loadConfig();
+    rawConfig = result.config;
+    uno.setConfig(rawConfig);
+    uno.config.envMode = "dev";
+    rollupFilter = pluginutils.createFilter(rawConfig.include || defaultInclude, rawConfig.exclude || defaultExclude);
+    tokens.clear();
+    await Promise.all(modules.map((code, id) => uno.applyExtractors(code, id, tokens)));
+    invalidate();
+    return result;
+  }
+  function invalidate() {
+    invalidations.forEach((cb) => cb());
+  }
+  async function extract(code, id) {
+    if (id)
+      modules.set(id, code);
+    const len = tokens.size;
+    await uno.applyExtractors(code, id, tokens);
+    if (tokens.size > len)
+      invalidate();
+  }
+  const filter = (code, id) => {
+    return code.includes(INCLUDE_COMMENT) || code.includes(CSS_PLACEHOLDER) || rollupFilter(id);
+  };
+  async function getConfig() {
+    await ready;
+    return rawConfig;
+  }
+  return {
+    ready,
+    tokens,
+    modules,
+    invalidate,
+    onInvalidate(fn) {
+      invalidations.push(fn);
+    },
+    filter,
+    reloadConfig,
+    uno,
+    extract,
+    getConfig
+  };
+}
+
+function getHash(input, length = 8) {
+  return crypto.createHash("sha256").update(input).digest("hex").slice(0, length);
+}
+function getPath(id) {
+  return id.replace(/\?.*$/, "");
+}
+
+function ChunkModeBuildPlugin({ uno, filter }) {
+  let cssPlugin;
+  const files = {};
+  return {
+    name: "unocss:chunk",
+    apply: "build",
+    enforce: "pre",
+    configResolved(config) {
+      cssPlugin = config.plugins.find((i) => i.name === "vite:css-post");
+    },
+    transform(code, id) {
+      if (!filter(code, id))
+        return;
+      files[id] = code;
+      return null;
+    },
+    async renderChunk(_, chunk) {
+      const chunks = Object.keys(chunk.modules).map((i) => files[i]).filter(Boolean);
+      if (!chunks.length)
+        return null;
+      const tokens = /* @__PURE__ */ new Set();
+      await Promise.all(chunks.map((c) => uno.applyExtractors(c, void 0, tokens)));
+      const { css } = await uno.generate(tokens);
+      const fakeCssId = `${chunk.fileName}.css`;
+      await cssPlugin.transform(css, fakeCssId);
+      chunk.modules[fakeCssId] = {
+        code: null,
+        originalLength: 0,
+        removedExports: [],
+        renderedExports: [],
+        renderedLength: 0
+      };
+      return null;
+    },
+    async transformIndexHtml(code) {
+      const { css } = await uno.generate(code);
+      if (css)
+        return `${code}<style>${css}</style>`;
+    }
+  };
+}
+
+function GlobalModeBuildPlugin({ uno, ready, extract, tokens, modules, filter }) {
+  const vfsLayerMap = /* @__PURE__ */ new Map();
+  let tasks = [];
+  let cssPlugin;
+  return [
+    {
+      name: "unocss:global:build:scan",
+      apply: "build",
+      enforce: "pre",
+      buildStart() {
+        tasks = [];
+        vfsLayerMap.clear();
+      },
+      transform(code, id) {
+        if (filter(code, id))
+          tasks.push(extract(code, id));
+        return null;
+      },
+      transformIndexHtml: {
+        enforce: "pre",
+        transform(code, { filename }) {
+          tasks.push(extract(code, filename));
+        }
+      },
+      resolveId(id) {
+        const entry = resolveId(id);
+        if (entry) {
+          vfsLayerMap.set(entry.id, entry.layer);
+          return entry.id;
+        }
+      },
+      load(id) {
+        const layer = vfsLayerMap.get(getPath(id));
+        if (layer)
+          return getLayerPlaceholder(layer);
+      },
+      async configResolved(config) {
+        cssPlugin = config.plugins.find((i) => i.name === "vite:css-post");
+        await ready;
+      },
+      async renderChunk(_, chunk) {
+        if (!cssPlugin)
+          return null;
+        const chunks = Object.keys(chunk.modules).filter((i) => modules.has(i));
+        if (!chunks.length)
+          return null;
+        const tokens2 = /* @__PURE__ */ new Set();
+        await Promise.all(chunks.map((c) => uno.applyExtractors(modules.get(c) || "", c, tokens2)));
+        const { css } = await uno.generate(tokens2, { minify: true });
+        if (!css)
+          return null;
+        const hash = getHash(css);
+        const fakeCssId = `${chunk.fileName}-unocss-hash.css`;
+        await cssPlugin.transform(getHashPlaceholder(hash), fakeCssId);
+        chunk.modules[fakeCssId] = {
+          code: null,
+          originalLength: 0,
+          removedExports: [],
+          renderedExports: [],
+          renderedLength: 0
+        };
+        return null;
+      }
+    },
+    {
+      name: "unocss:global:build:generate",
+      apply(options, { command }) {
+        return command === "build" && !options.build?.ssr;
+      },
+      enforce: "post",
+      async generateBundle(_, bundle) {
+        const files = Object.keys(bundle);
+        const cssFiles = files.filter((i) => i.endsWith(".css"));
+        if (!cssFiles.length)
+          return;
+        await Promise.all(tasks);
+        const result = await uno.generate(tokens, { minify: true });
+        let replaced = false;
+        for (const file of cssFiles) {
+          const chunk = bundle[file];
+          if (chunk.type === "asset" && typeof chunk.source === "string") {
+            chunk.source = chunk.source.replace(HASH_PLACEHOLDER_RE, "").replace(LAYER_PLACEHOLDER_RE, (_2, __, layer) => {
+              replaced = true;
+              return layer === LAYER_MARK_ALL ? result.getLayers(void 0, Array.from(vfsLayerMap.values())) : result.getLayer(layer) || "";
+            });
+          }
+        }
+        if (!replaced)
+          this.error(new Error("[unocss] does not found CSS placeholder in the generated chunks,\nthis is likely an internal bug of unocss vite plugin"));
+      }
+    }
+  ];
+}
+
+const READY_CALLBACK_DEFAULT = "/__unocss_ready";
+
+const WARN_TIMEOUT = 2e3;
+function GlobalModeDevPlugin({ uno, tokens, onInvalidate, extract, filter }) {
+  const servers = [];
+  let base = "";
+  const tasks = [];
+  const entries = /* @__PURE__ */ new Map();
+  let invalidateTimer;
+  let lastUpdate = Date.now();
+  let lastServed = 0;
+  let resolved = false;
+  let resolvedWarnTimer;
+  function configResolved(config) {
+    base = config.base || "";
+    if (base === "/")
+      base = "";
+    else if (base.endsWith("/"))
+      base = base.slice(0, base.length - 1);
+  }
+  function invalidate(timer = 10) {
+    for (const server of servers) {
+      for (const id of entries.keys()) {
+        const mod = server.moduleGraph.getModuleById(id);
+        if (!mod)
+          continue;
+        server.moduleGraph.invalidateModule(mod);
+      }
+    }
+    clearTimeout(invalidateTimer);
+    invalidateTimer = setTimeout(sendUpdate, timer);
+  }
+  function sendUpdate() {
+    lastUpdate = Date.now();
+    for (const server of servers) {
+      server.ws.send({
+        type: "update",
+        updates: Array.from(entries.keys()).map((i) => ({
+          acceptedPath: i,
+          path: i,
+          timestamp: lastUpdate,
+          type: "js-update"
+        }))
+      });
+    }
+  }
+  function setWarnTimer() {
+    if (!resolved && !resolvedWarnTimer) {
+      resolvedWarnTimer = setTimeout(() => {
+        if (!resolved) {
+          const msg = "[unocss] entry module not found, have you add `import 'uno.css'` in your main entry?";
+          console.warn(msg);
+          servers.forEach(({ ws }) => ws.send({
+            type: "error",
+            err: { message: msg, stack: "" }
+          }));
+        }
+      }, WARN_TIMEOUT);
+    }
+  }
+  onInvalidate(invalidate);
+  return [
+    {
+      name: "unocss:global",
+      apply: "serve",
+      enforce: "pre",
+      configResolved,
+      async configureServer(_server) {
+        servers.push(_server);
+        _server.middlewares.use(async (req, res, next) => {
+          let url = req.url;
+          if (url && base.length > 0 && url.startsWith(base))
+            url = url.slice(base.length);
+          setWarnTimer();
+          if (url?.startsWith(READY_CALLBACK_DEFAULT)) {
+            const servedTime = +url.slice(READY_CALLBACK_DEFAULT.length + 1);
+            if (servedTime < lastUpdate)
+              invalidate(0);
+            res.statusCode = 200;
+            res.end();
+          } else {
+            return next();
+          }
+        });
+      },
+      transform(code, id) {
+        if (filter(code, id))
+          extract(code, id);
+        return null;
+      },
+      transformIndexHtml: {
+        enforce: "pre",
+        transform(code, { filename }) {
+          extract(code, filename);
+        }
+      },
+      resolveId(id) {
+        const entry = resolveId(id);
+        if (entry) {
+          resolved = true;
+          entries.set(entry.id, entry.layer);
+          return entry.id;
+        }
+      },
+      async load(id) {
+        const layer = entries.get(getPath(id));
+        if (!layer)
+          return null;
+        await Promise.all(tasks);
+        const result = await uno.generate(tokens);
+        lastServed = Date.now();
+        return layer === LAYER_MARK_ALL ? result.getLayers(void 0, Array.from(entries.values())) : result.getLayer(layer);
+      }
+    },
+    {
+      name: "unocss:global:post",
+      configResolved,
+      apply(config, env) {
+        return env.command === "serve" && !config.build?.ssr;
+      },
+      enforce: "post",
+      transform(code, id) {
+        if (entries.has(getPath(id)) && code.includes("import.meta.hot"))
+          return `${code}
+await fetch("${base}${READY_CALLBACK_DEFAULT}/${lastServed}")`;
+      }
+    }
+  ];
+}
+
+function GlobalModePlugin(ctx) {
+  return [
+    ...GlobalModeBuildPlugin(ctx),
+    ...GlobalModeDevPlugin(ctx)
+  ];
+}
+
+const VIRTUAL_PREFIX = "/@unocss/";
+const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/;
+function PerModuleModePlugin({ uno, filter }) {
+  const moduleMap = /* @__PURE__ */ new Map();
+  let server;
+  const invalidate = (hash) => {
+    if (!server)
+      return;
+    const id = `${VIRTUAL_PREFIX}${hash}.css`;
+    const mod = server.moduleGraph.getModuleById(id);
+    if (!mod)
+      return;
+    server.moduleGraph.invalidateModule(mod);
+    server.ws.send({
+      type: "update",
+      updates: [{
+        acceptedPath: id,
+        path: id,
+        timestamp: +Date.now(),
+        type: "js-update"
+      }]
+    });
+  };
+  return {
+    name: "unocss:module-scope",
+    enforce: "post",
+    configureServer(_server) {
+      server = _server;
+    },
+    async transform(code, id) {
+      if (!filter(code, id))
+        return;
+      const hash = getHash(id);
+      const hasScope = code.match(SCOPE_IMPORT_RE);
+      const { css } = await uno.generate(code, { id, scope: hasScope ? `.${hash}` : void 0, preflights: false });
+      if (!css && !hasScope)
+        return null;
+      if (hasScope)
+        code = code.replace(SCOPE_IMPORT_RE, ` from 'data:text/javascript;base64,${Buffer.from(`export default () => "${hash}"`).toString("base64")}'`);
+      moduleMap.set(hash, [id, css]);
+      invalidate(hash);
+      return {
+        code: `import "${VIRTUAL_PREFIX}${hash}.css";${code}`,
+        map: null
+      };
+    },
+    resolveId(id) {
+      return id.startsWith(VIRTUAL_PREFIX) ? id : null;
+    },
+    load(id) {
+      if (!id.startsWith(VIRTUAL_PREFIX))
+        return null;
+      const hash = id.slice(VIRTUAL_PREFIX.length, -".css".length);
+      const [source, css] = moduleMap.get(hash) || [];
+      if (source)
+        this.addWatchFile(source);
+      return `
+/* unocss ${source} */
+${css}`;
+    }
+  };
+}
+
+function VueScopedPlugin({ uno, ready }) {
+  let filter = pluginutils.createFilter([/\.vue$/], defaultExclude);
+  async function transformSFC(code) {
+    const { css } = await uno.generate(code);
+    if (!css)
+      return null;
+    return `${code}
+<style scoped>${css}</style>`;
+  }
+  return {
+    name: "unocss:vue-scoped",
+    enforce: "pre",
+    async configResolved() {
+      const { config } = await ready;
+      filter = pluginutils.createFilter(config.include || [/\.vue$/], config.exclude || defaultExclude);
+    },
+    transform(code, id) {
+      if (!filter(id))
+        return;
+      return transformSFC(code);
+    },
+    handleHotUpdate(ctx) {
+      const read = ctx.read;
+      if (filter(ctx.file)) {
+        ctx.read = async () => {
+          const code = await read();
+          return await transformSFC(code) || code;
+        };
+      }
+    }
+  };
+}
+
+function SvelteScopedPlugin({ uno, ready }) {
+  let filter = pluginutils.createFilter([/\.svelte$/], defaultExclude);
+  async function transformSFC(code) {
+    const { css } = await uno.generate(code);
+    if (!css)
+      return null;
+    if (code.match(/<style[^>]*>[\s\S]*?<\/style\s*>/))
+      return code.replace(/(<style[^>]*>)/, `$1${css}`);
+    return `${code}
+<style>${css}</style>`;
+  }
+  return {
+    name: "unocss:svelte-scoped",
+    enforce: "pre",
+    async configResolved() {
+      const { config } = await ready;
+      filter = pluginutils.createFilter(config.include || [/\.svelte$/], config.exclude || defaultExclude);
+    },
+    transform(code, id) {
+      if (!filter(id))
+        return;
+      return transformSFC(code);
+    },
+    handleHotUpdate(ctx) {
+      const read = ctx.read;
+      if (filter(ctx.file)) {
+        ctx.read = async () => {
+          const code = await read();
+          return await transformSFC(code) || code;
+        };
+      }
+    }
+  };
+}
+
+function ShadowDomModuleModePlugin({ uno }) {
+  const partExtractorRegex = /^part-\[(.+)]:/;
+  const nameRegexp = /<([^\s^!>]+)\s*([^>]*)>/;
+  const checkElement = (useParts, idxResolver, element) => {
+    if (!element)
+      return null;
+    const applyParts = useParts.filter((p) => element[2].includes(p.rule));
+    if (applyParts.length === 0)
+      return null;
+    const name = element[1];
+    const idx = idxResolver(name);
+    return {
+      name,
+      entries: applyParts.map(({ rule, part }) => [
+        `.${rule.replace(/[:[\]]/g, "\\$&")}::part(${part})`,
+        `${name}:nth-of-type(${idx})::part(${part})`
+      ])
+    };
+  };
+  const idxMapFactory = () => {
+    const elementIdxMap = /* @__PURE__ */ new Map();
+    return {
+      idxResolver: (name) => {
+        let idx = elementIdxMap.get(name);
+        if (!idx) {
+          idx = 1;
+          elementIdxMap.set(name, idx);
+        }
+        return idx;
+      },
+      incrementIdx: (name) => {
+        elementIdxMap.set(name, elementIdxMap.get(name) + 1);
+      }
+    };
+  };
+  const transformWebComponent = async (code) => {
+    if (!code.match(CSS_PLACEHOLDER))
+      return code;
+    let { css, matched } = await uno.generate(code, { preflights: false });
+    if (css && matched) {
+      const useParts = Array.from(matched).reduce((acc, rule) => {
+        const matcher = rule.match(partExtractorRegex);
+        if (matcher)
+          acc.push({ part: matcher[1], rule });
+        return acc;
+      }, new Array());
+      if (useParts.length > 0) {
+        let useCode = code;
+        let element;
+        const partsToApply = /* @__PURE__ */ new Map();
+        const { idxResolver, incrementIdx } = idxMapFactory();
+        while (element = nameRegexp.exec(useCode)) {
+          const result = checkElement(useParts, idxResolver, element);
+          if (result) {
+            result.entries.forEach(([name, replacement]) => {
+              let list = partsToApply.get(name);
+              if (!list) {
+                list = [];
+                partsToApply.set(name, list);
+              }
+              list.push(replacement);
+            });
+            incrementIdx(result.name);
+          }
+          useCode = useCode.slice(element[0].length + 1);
+        }
+        if (partsToApply.size > 0) {
+          css = Array.from(partsToApply.entries()).reduce((k, [r, name]) => {
+            return k.replace(r, name.join(",\n"));
+          }, css);
+        }
+      }
+    }
+    return code.replace(CSS_PLACEHOLDER, css || "");
+  };
+  return {
+    name: "unocss:shadow-dom",
+    enforce: "pre",
+    async transform(code) {
+      return transformWebComponent(code);
+    },
+    handleHotUpdate(ctx) {
+      const read = ctx.read;
+      ctx.read = async () => {
+        const code = await read();
+        return await transformWebComponent(code);
+      };
+    }
+  };
+}
+
+function ConfigHMRPlugin(ctx) {
+  const { ready, uno } = ctx;
+  return {
+    name: "unocss:config",
+    async configResolved() {
+      await ready;
+    },
+    async configureServer(server) {
+      uno.config.envMode = "dev";
+      const { sources } = await ready;
+      if (!sources.length)
+        return;
+      server.watcher.add(sources);
+      server.watcher.on("change", async (p) => {
+        if (!sources.includes(p))
+          return;
+        await ctx.reloadConfig();
+        server.ws.send({
+          type: "custom",
+          event: "unocss:config-changed"
+        });
+      });
+    }
+  };
+}
+
+function defineConfig(config) {
+  return config;
+}
+function UnocssPlugin(configOrPath, defaults = {}) {
+  const ctx = createContext(configOrPath, defaults);
+  const inlineConfig = configOrPath && typeof configOrPath !== "string" ? configOrPath : {};
+  const mode = inlineConfig.mode ?? "global";
+  const plugins = [
+    ConfigHMRPlugin(ctx)
+  ];
+  if (inlineConfig.inspector !== false)
+    plugins.push(UnocssInspector__default(ctx));
+  if (mode === "per-module") {
+    plugins.push(PerModuleModePlugin(ctx));
+  } else if (mode === "vue-scoped") {
+    plugins.push(VueScopedPlugin(ctx));
+  } else if (mode === "svelte-scoped") {
+    plugins.push(SvelteScopedPlugin(ctx));
+  } else if (mode === "shadow-dom") {
+    plugins.push(ShadowDomModuleModePlugin(ctx));
+  } else if (mode === "global") {
+    plugins.push(...GlobalModePlugin(ctx));
+  } else if (mode === "dist-chunk") {
+    plugins.push(ChunkModeBuildPlugin(ctx), ...GlobalModeDevPlugin(ctx));
+  } else {
+    throw new Error(`[unocss] unknown mode "${mode}"`);
+  }
+  return plugins.filter(Boolean);
+}
+
+exports.ChunkModeBuildPlugin = ChunkModeBuildPlugin;
+exports.GlobalModeBuildPlugin = GlobalModeBuildPlugin;
+exports.GlobalModeDevPlugin = GlobalModeDevPlugin;
+exports.GlobalModePlugin = GlobalModePlugin;
+exports.PerModuleModePlugin = PerModuleModePlugin;
+exports.SvelteScopedPlugin = SvelteScopedPlugin;
+exports.VueScopedPlugin = VueScopedPlugin;
+exports["default"] = UnocssPlugin;
+exports.defineConfig = defineConfig;

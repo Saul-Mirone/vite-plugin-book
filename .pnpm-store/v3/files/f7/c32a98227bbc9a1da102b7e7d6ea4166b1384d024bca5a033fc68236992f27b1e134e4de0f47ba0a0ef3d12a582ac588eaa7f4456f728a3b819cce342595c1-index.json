@@ -1,0 +1,36 @@
+{
+    "name": "eslint-plugin-prettier",
+    "version": "4.0.0",
+    "files": {
+        "LICENSE.md": {
+            "checkedAt": 1642743214871,
+            "integrity": "sha512-+7xsHGiml7w7SiejfO/0/DMCNl25aUP7EDd5wlFZFNoRY5Wzrz5fPTUIWWVH8l0J/eYkTRTiDUz4RgHpXFwE8g==",
+            "mode": 420,
+            "size": 1104
+        },
+        "CHANGELOG.md": {
+            "checkedAt": 1642743214891,
+            "integrity": "sha512-vdofz9H9vW0abAGJwdjW5EXel2lz6vM2aQ9z/+EUq2gCyOk50HQD9dE29ViMpURDUNwP3KVYl9wTUniR8Hh2vw==",
+            "mode": 420,
+            "size": 33472
+        },
+        "README.md": {
+            "checkedAt": 1642743214891,
+            "integrity": "sha512-BP7KLg/uTL3VMPvGkomg6uJKo//TkKKZwdYEQsNUvG30akz1Jmv1BJFGpri+TBjCvG/yc+rlQSKql5ZFwZB87A==",
+            "mode": 420,
+            "size": 6526
+        },
+        "eslint-plugin-prettier.js": {
+            "checkedAt": 1642743214898,
+            "integrity": "sha512-zB0KHYvulbLsDuPQKdaESCOsm0d5Ye0JmmOBNxXf5Nsk8XuawX41hB6Dy8dasvNS29R8AFg6SkTRCqsCcAA2Sw==",
+            "mode": 420,
+            "size": 9275
+        },
+        "package.json": {
+            "checkedAt": 1642743214898,
+            "integrity": "sha512-J80+gM+TszYemhkdBsfw6DCwMHprilk/Dos3If08jUaVAtKqHTTVP3aDZgnGQE7dtweqI0IkjY9qtCKu44yxQw==",
+            "mode": 420,
+            "size": 1582
+        }
+    }
+}

@@ -1,0 +1,405 @@
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __objRest = (source, exclude) => {
+  var target = {};
+  for (var prop in source)
+    if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
+      target[prop] = source[prop];
+  if (source != null && __getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
+        target[prop] = source[prop];
+    }
+  return target;
+};
+var __accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var __privateAdd = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var __privateMethod = (obj, member, method) => {
+  __accessCheck(obj, member, "access private method");
+  return method;
+};
+var _matchTarget, matchTarget_fn, _runNode, runNode_fn, _matchTarget2, matchTarget_fn2, _runProseNode, runProseNode_fn, _runProseMark, runProseMark_fn, _runNode2, runNode_fn2;
+import { stackOverFlow, createNodeInParserFail, parserMatchError, serializerMatchError } from "@milkdown/exception";
+import { Mark } from "@milkdown/prose";
+const getStackUtil = () => {
+  const size2 = (ctx) => ctx.elements.length;
+  const top2 = (ctx) => ctx.elements[size2(ctx) - 1];
+  const push2 = (ctx) => (node) => {
+    var _a;
+    (_a = top2(ctx)) == null ? void 0 : _a.push(node);
+  };
+  const open2 = (ctx) => (node) => {
+    ctx.elements.push(node);
+  };
+  const close2 = (ctx) => {
+    const el = ctx.elements.pop();
+    if (!el)
+      throw stackOverFlow();
+    return el;
+  };
+  return {
+    size: size2,
+    top: top2,
+    push: push2,
+    open: open2,
+    close: close2
+  };
+};
+const pushElement$1 = (element, node, ...rest) => {
+  element.content.push(node, ...rest);
+};
+const popElement$1 = (element) => element.content.pop();
+const createElement$1 = (type, content, attrs) => {
+  const element = {
+    type,
+    content,
+    attrs,
+    push: (...args) => pushElement$1(element, ...args),
+    pop: () => popElement$1(element)
+  };
+  return element;
+};
+const { size: size$1, push: push$1, top, open: open$1, close: close$1 } = getStackUtil();
+const hasText = (node) => node.isText;
+const maybeMerge = (schema, a, b) => {
+  if (hasText(a) && hasText(b) && Mark.sameSet(a.marks, b.marks)) {
+    return schema.text(a.text + b.text, a.marks);
+  }
+  return;
+};
+const openNode$1 = (ctx) => (nodeType, attrs) => open$1(ctx)(createElement$1(nodeType, [], attrs));
+const addNode$1 = (ctx) => (nodeType, attrs, content) => {
+  const node = nodeType.createAndFill(attrs, content, ctx.marks);
+  if (!node)
+    throw createNodeInParserFail(nodeType, attrs, content);
+  push$1(ctx)(node);
+  return node;
+};
+const closeNode$1 = (ctx) => () => {
+  ctx.marks = Mark.none;
+  const element = close$1(ctx);
+  return addNode$1(ctx)(element.type, element.attrs, element.content);
+};
+const openMark$1 = (ctx) => (markType, attrs) => {
+  const mark = markType.create(attrs);
+  ctx.marks = mark.addToSet(ctx.marks);
+};
+const closeMark$1 = (ctx) => (markType) => {
+  ctx.marks = markType.removeFromSet(ctx.marks);
+};
+const addText = (ctx) => (text) => {
+  const topElement = top(ctx);
+  if (!topElement)
+    throw stackOverFlow();
+  const prevNode = topElement.pop();
+  const currNode = ctx.schema.text(text, ctx.marks);
+  if (!prevNode) {
+    topElement.push(currNode);
+    return;
+  }
+  const merged = maybeMerge(ctx.schema, prevNode, currNode);
+  if (merged) {
+    topElement.push(merged);
+    return;
+  }
+  topElement.push(prevNode, currNode);
+};
+const build$1 = (ctx) => () => {
+  let doc = null;
+  do {
+    doc = closeNode$1(ctx)();
+  } while (size$1(ctx));
+  return doc;
+};
+const createStack$1 = (schema) => {
+  const ctx = {
+    marks: [],
+    elements: [],
+    schema
+  };
+  return {
+    build: build$1(ctx),
+    openMark: openMark$1(ctx),
+    closeMark: closeMark$1(ctx),
+    addText: addText(ctx),
+    openNode: openNode$1(ctx),
+    addNode: addNode$1(ctx),
+    closeNode: closeNode$1(ctx)
+  };
+};
+class State$1 {
+  constructor(stack, schema, specMap) {
+    __privateAdd(this, _matchTarget);
+    __privateAdd(this, _runNode);
+    this.stack = stack;
+    this.schema = schema;
+    this.specMap = specMap;
+    this.run = (remark, markdown) => {
+      const tree = remark.runSync(remark.parse(markdown));
+      this.next(tree);
+      return this;
+    };
+    this.next = (nodes = []) => {
+      [nodes].flat().forEach((node) => __privateMethod(this, _runNode, runNode_fn).call(this, node));
+      return this;
+    };
+    this.toDoc = () => this.stack.build();
+    this.injectRoot = (node, nodeType, attrs) => {
+      this.stack.openNode(nodeType, attrs);
+      this.next(node.children);
+      return this;
+    };
+    this.addText = (text = "") => {
+      this.stack.addText(text);
+      return this;
+    };
+    this.addNode = (...args) => {
+      this.stack.addNode(...args);
+      return this;
+    };
+    this.openNode = (...args) => {
+      this.stack.openNode(...args);
+      return this;
+    };
+    this.closeNode = (...args) => {
+      this.stack.closeNode(...args);
+      return this;
+    };
+    this.openMark = (...args) => {
+      this.stack.openMark(...args);
+      return this;
+    };
+    this.closeMark = (...args) => {
+      this.stack.closeMark(...args);
+      return this;
+    };
+  }
+}
+_matchTarget = new WeakSet();
+matchTarget_fn = function(node) {
+  const result = Object.values(this.specMap).find((x) => x.match(node));
+  if (!result)
+    throw parserMatchError(node);
+  return result;
+};
+_runNode = new WeakSet();
+runNode_fn = function(node) {
+  const { key, runner, is } = __privateMethod(this, _matchTarget, matchTarget_fn).call(this, node);
+  const proseType = this.schema[is === "node" ? "nodes" : "marks"][key];
+  runner(this, node, proseType);
+};
+const createParser = (schema, specMap, remark) => (text) => {
+  const state = new State$1(createStack$1(schema), schema, specMap);
+  state.run(remark, text);
+  return state.toDoc();
+};
+const pushElement = (element, node, ...rest) => {
+  if (!element.children) {
+    element.children = [];
+  }
+  element.children.push(node, ...rest);
+};
+const popElement = (element) => {
+  var _a;
+  return (_a = element.children) == null ? void 0 : _a.pop();
+};
+const createElement = (type, children, value, props = {}) => {
+  const element = {
+    type,
+    children,
+    props,
+    value,
+    push: (...args) => pushElement(element, ...args),
+    pop: () => popElement(element)
+  };
+  return element;
+};
+const { size, push, open, close } = getStackUtil();
+const maybeMergeChildren = (element) => {
+  const { children } = element;
+  if (!children)
+    return element;
+  element.children = children.reduce((nextChildren, child, index) => {
+    if (index === 0) {
+      return [child];
+    }
+    const last = nextChildren[nextChildren.length - 1];
+    if (child.isMark && child.type === last.type) {
+      const _a = child, { children: currChildren } = _a, currRest = __objRest(_a, ["children"]);
+      const _b = last, { children: prevChildren } = _b, prevRest = __objRest(_b, ["children"]);
+      if (currChildren && prevChildren && JSON.stringify(currRest) === JSON.stringify(prevRest)) {
+        const next = __spreadProps(__spreadValues({}, prevRest), {
+          children: [...prevChildren, ...currChildren]
+        });
+        return nextChildren.slice(0, -1).concat(maybeMergeChildren(next));
+      }
+    }
+    return nextChildren.concat(child);
+  }, []);
+  return element;
+};
+const createMarkdownNode = (element) => {
+  const node = __spreadProps(__spreadValues({}, element.props), {
+    type: element.type
+  });
+  if (element.children) {
+    node.children = element.children;
+  }
+  if (element.value) {
+    node.value = element.value;
+  }
+  return node;
+};
+const openNode = (ctx) => (type, value, props) => open(ctx)(createElement(type, [], value, props));
+const addNode = (ctx) => (type, children, value, props) => {
+  const element = createElement(type, children, value, props);
+  const node = maybeMergeChildren(createMarkdownNode(element));
+  push(ctx)(node);
+  return node;
+};
+const closeNode = (ctx) => () => {
+  const element = close(ctx);
+  return addNode(ctx)(element.type, element.children, element.value, element.props);
+};
+const openMark = (ctx) => (mark, type, value, props) => {
+  const isIn = mark.isInSet(ctx.marks);
+  if (isIn) {
+    return;
+  }
+  ctx.marks = mark.addToSet(ctx.marks);
+  openNode(ctx)(type, value, __spreadProps(__spreadValues({}, props), { isMark: true }));
+};
+const closeMark = (ctx) => (mark) => {
+  if (!mark.isInSet(ctx.marks))
+    return null;
+  ctx.marks = mark.type.removeFromSet(ctx.marks);
+  return closeNode(ctx)();
+};
+const build = (ctx) => () => {
+  let doc = null;
+  do {
+    doc = closeNode(ctx)();
+  } while (size(ctx));
+  return doc;
+};
+const createStack = () => {
+  const ctx = {
+    marks: [],
+    elements: []
+  };
+  return {
+    build: build(ctx),
+    openMark: openMark(ctx),
+    closeMark: closeMark(ctx),
+    openNode: openNode(ctx),
+    addNode: addNode(ctx),
+    closeNode: closeNode(ctx)
+  };
+};
+const isFragment = (x) => Object.prototype.hasOwnProperty.call(x, "size");
+class State {
+  constructor(stack, schema, specMap) {
+    __privateAdd(this, _matchTarget2);
+    __privateAdd(this, _runProseNode);
+    __privateAdd(this, _runProseMark);
+    __privateAdd(this, _runNode2);
+    this.stack = stack;
+    this.schema = schema;
+    this.specMap = specMap;
+    this.toString = (remark) => remark.stringify(this.stack.build());
+    this.next = (nodes) => {
+      if (isFragment(nodes)) {
+        nodes.forEach((node) => {
+          __privateMethod(this, _runNode2, runNode_fn2).call(this, node);
+        });
+        return this;
+      }
+      __privateMethod(this, _runNode2, runNode_fn2).call(this, nodes);
+      return this;
+    };
+    this.addNode = (...args) => {
+      this.stack.addNode(...args);
+      return this;
+    };
+    this.openNode = (...args) => {
+      this.stack.openNode(...args);
+      return this;
+    };
+    this.closeNode = (...args) => {
+      this.stack.closeNode(...args);
+      return this;
+    };
+    this.withMark = (...args) => {
+      this.stack.openMark(...args);
+      return this;
+    };
+  }
+  run(tree) {
+    this.next(tree);
+    return this;
+  }
+}
+_matchTarget2 = new WeakSet();
+matchTarget_fn2 = function(node) {
+  const result = Object.entries(this.specMap).map(([key, spec]) => __spreadValues({
+    key
+  }, spec)).find((x) => x.match(node));
+  if (!result)
+    throw serializerMatchError(node.type);
+  return result;
+};
+_runProseNode = new WeakSet();
+runProseNode_fn = function(node) {
+  const { runner } = __privateMethod(this, _matchTarget2, matchTarget_fn2).call(this, node);
+  runner(this, node);
+};
+_runProseMark = new WeakSet();
+runProseMark_fn = function(mark, node) {
+  const { runner } = __privateMethod(this, _matchTarget2, matchTarget_fn2).call(this, mark);
+  return runner(this, mark, node);
+};
+_runNode2 = new WeakSet();
+runNode_fn2 = function(node) {
+  const { marks } = node;
+  const getPriority = (x) => {
+    var _a;
+    return (_a = x.type.spec.priority) != null ? _a : 50;
+  };
+  const tmp = [...marks].sort((a, b) => getPriority(a) - getPriority(b));
+  const unPreventNext = tmp.every((mark) => !__privateMethod(this, _runProseMark, runProseMark_fn).call(this, mark, node));
+  if (unPreventNext) {
+    __privateMethod(this, _runProseNode, runProseNode_fn).call(this, node);
+  }
+  marks.forEach((mark) => this.stack.closeMark(mark));
+};
+const createSerializer = (schema, specMap, remark) => (content) => {
+  const state = new State(createStack(), schema, specMap);
+  state.run(content);
+  return state.toString(remark);
+};
+export { createParser, createSerializer, getStackUtil };
+//# sourceMappingURL=index.es.js.map

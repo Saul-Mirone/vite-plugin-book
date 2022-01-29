@@ -1,0 +1,42 @@
+{
+    "name": "@unocss/preset-web-fonts",
+    "version": "0.22.4",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743207384,
+            "integrity": "sha512-ucwY6xKL5RTA98hlqyeQ6r0InbGViplATiQKqiVL+wmcoFSJwIl4t4MRTeIaQEFxdsSQcEVu2AXg9AN4Pfe7rw==",
+            "mode": 420,
+            "size": 1094
+        },
+        "dist/index.cjs": {
+            "checkedAt": 1642743211410,
+            "integrity": "sha512-TiEu2X9CdRx7Rw7Ei1RTYmHF14ClA8m3kv69MOAxOrOnmrzkmlfTT8IjEqTk60KnMgifrVo5I6pMehgnErl9JQ==",
+            "mode": 420,
+            "size": 3763
+        },
+        "package.json": {
+            "checkedAt": 1642743211410,
+            "integrity": "sha512-vkrcc4iL5MEyTi5pVokVSjrRfyOzph9rxn35wcg+vjBhWuQ5xeVuVSAohJEbyzbvi1kDv0mtvpTv+fAnfB7Giw==",
+            "mode": 420,
+            "size": 1213
+        },
+        "README.md": {
+            "checkedAt": 1642743211410,
+            "integrity": "sha512-gKf1w8Ej2kwLm2j4lSNjm+iIzryYR1lYmk9WL674WfHC8t84ufXgWAsr5dShWFz1ynCte3Nb8fDXgzuG4+/XQw==",
+            "mode": 420,
+            "size": 2015
+        },
+        "dist/index.mjs": {
+            "checkedAt": 1642743211410,
+            "integrity": "sha512-VxYXruOkSP+QJQPmy5UB8ktgpT8uqNpn8QDWEIyK3m72Sb65J7LFH+Le/H1C2puLbSDRgpLsICZad0aQumruVw==",
+            "mode": 420,
+            "size": 3653
+        },
+        "dist/index.d.ts": {
+            "checkedAt": 1642743211410,
+            "integrity": "sha512-M1JpyDNKsvBq8F0+Rkmj2D67BYYZqtR7TsDEHU40tdK29jORc1iRKhyH3AqeGbzi4Qruq2Wtw8qcN+4t6iHgqg==",
+            "mode": 420,
+            "size": 1366
+        }
+    }
+}

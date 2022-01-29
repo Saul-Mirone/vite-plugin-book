@@ -1,0 +1,30 @@
+{
+    "name": "@types/throttle-debounce",
+    "version": "2.1.0",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642743207857,
+            "integrity": "sha512-OA1NKix/qrKxxfRisVCbGmX70dPqjsRn88PFfBoDRzStaYjo80MtZWn8vDOnalp8LU4MLPJBnqCFq/O/53Wd/w==",
+            "mode": 438,
+            "size": 1183
+        },
+        "README.md": {
+            "checkedAt": 1642743216058,
+            "integrity": "sha512-aD9H3Ze2Gerrz/T7WjfDzVQikGbdZ6J167TS3ij2cAeo5Orn4794RpKnTF/GGEIpGA3W4uepF6pqBD7W9yxS6Q==",
+            "mode": 438,
+            "size": 614
+        },
+        "index.d.ts": {
+            "checkedAt": 1642743216058,
+            "integrity": "sha512-n+QbX1gA5Pe4hNVI6BmqX3/PsAq+FWke2rEbYzJvoP8eiG9FPOtae7gOtMHoy4BHbsVwigmnLjolsZVe2LOX8w==",
+            "mode": 438,
+            "size": 4443
+        },
+        "package.json": {
+            "checkedAt": 1642743216058,
+            "integrity": "sha512-4W5qG9dCESbqUZ+7ZlGFj6w7DlzUhB7rgPWkX3XlN1H1cMSN8NImCBvT6X3ZHNirbyPZCPMcj3FWP0cc3LqJKA==",
+            "mode": 438,
+            "size": 1015
+        }
+    }
+}

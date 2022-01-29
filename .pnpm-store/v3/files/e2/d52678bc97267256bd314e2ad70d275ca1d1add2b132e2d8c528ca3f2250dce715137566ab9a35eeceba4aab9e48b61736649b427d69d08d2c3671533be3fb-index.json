@@ -1,0 +1,48 @@
+{
+    "name": "@ts-morph/common",
+    "version": "0.12.3",
+    "files": {
+        "LICENSE": {
+            "checkedAt": 1642986969172,
+            "integrity": "sha512-vuioGZSXDMQbjHPJdzVUax2f9nth+gNhscI2Wkm2EbdHeLCvNC2530ArYGktc+MrGJwC2GBY8Y8mzdVRzbXZAQ==",
+            "mode": 420,
+            "size": 1101
+        },
+        "dist/ts-morph-common.js": {
+            "checkedAt": 1642986969952,
+            "integrity": "sha512-lKCEhKVtlPg+D5qg250wAS9Rf9diHXeWOabBt0u5vjebSad/oDkOnGBNQ6jnlpdBrzAO7y9f7XVeiuK+iA0gFQ==",
+            "mode": 420,
+            "size": 905408
+        },
+        "dist/typescript.js": {
+            "checkedAt": 1642986971707,
+            "integrity": "sha512-oJqG5Ue1mcnetrdrA7kAor+dYyNlJi8/0WaSCC7O3+HpMR2zGIq2CfYp4EYiujWhsREEglxiHUKQTHXKa44BnA==",
+            "mode": 420,
+            "size": 9961346
+        },
+        "package.json": {
+            "checkedAt": 1642986971688,
+            "integrity": "sha512-nLBFG6i8+E1yRFaPVCLuVbTqK95s9GMNDTvbBnvN2eZm7Nt0R34eHGqqH+ClweI50jpaAekcY9iCsX9ouat5Ww==",
+            "mode": 420,
+            "size": 1978
+        },
+        "readme.md": {
+            "checkedAt": 1642986971689,
+            "integrity": "sha512-pTlRnT9b0McD6GL0JFhyjpYLtCEYh/QclWbuTE0+mKD8SCjMUADYh6uAzyPIjQPhDbziUsD8tBpqbPkNCaH8xg==",
+            "mode": 420,
+            "size": 149
+        },
+        "lib/ts-morph-common.d.ts": {
+            "checkedAt": 1642986971706,
+            "integrity": "sha512-1d0ahb+BYcTge+a+yxPqISEane0UcTeJQzxkbHOyjeoJMZr17mHP4Ld/KX0nckyTbaK8fxDfK64IwXhGFlQn7A==",
+            "mode": 420,
+            "size": 45482
+        },
+        "lib/typescript.d.ts": {
+            "checkedAt": 1642986971838,
+            "integrity": "sha512-gdQor5VQte5WSx5mnGl5lPIDxKqmGTH6K6Lbc4C6DTpUMUVM4auSr07XGoQu7Cc7S4AYfI3h3pYqEXnj9yp3yA==",
+            "mode": 420,
+            "size": 470912
+        }
+    }
+}

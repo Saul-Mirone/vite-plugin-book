@@ -1,0 +1,50 @@
+{
+  "name": "@unocss/cli",
+  "version": "0.22.4",
+  "description": "CLI for UnoCSS",
+  "keywords": [],
+  "homepage": "https://github.com/antfu/unocss/tree/main/packages/cli#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/unocss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/unocss.git",
+    "directory": "packages/cli"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "license": "MIT",
+  "author": {
+    "name": "Johann Schopplich",
+    "email": "pkg@johannschopplich.com",
+    "url": "https://johannschopplich.com"
+  },
+  "exports": "./dist/index.cjs",
+  "main": "./dist/index.cjs",
+  "bin": {
+    "unocss": "./bin/unocss.cjs"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "@unocss/config": "0.22.4",
+    "@unocss/core": "0.22.4",
+    "@unocss/preset-uno": "0.22.4",
+    "cac": "^6.7.12",
+    "chokidar": "^3.5.2",
+    "colorette": "^2.0.16",
+    "consola": "^2.15.3",
+    "fast-glob": "^3.2.11",
+    "pathe": "^0.2.0"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  }
+}

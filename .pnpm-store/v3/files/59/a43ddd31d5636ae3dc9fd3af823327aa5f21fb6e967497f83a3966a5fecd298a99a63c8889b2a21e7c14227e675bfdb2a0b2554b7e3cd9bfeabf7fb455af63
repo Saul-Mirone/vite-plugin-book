@@ -1,0 +1,3 @@
+import { ThemeTool } from '@milkdown/design-system';
+export declare const override: ({ palette, mixin, size, font }: ThemeTool) => string;
+//# sourceMappingURL=override.d.ts.map
