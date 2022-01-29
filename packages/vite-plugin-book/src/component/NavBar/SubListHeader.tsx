@@ -3,6 +3,7 @@ import { FC, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
+import { useDialog } from '../../hook/useDialog';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
@@ -20,6 +21,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     const navigate = useNavigate();
     const [spread, setSpread] = useState(pathname.includes(url));
     const dragging = useContext(DraggingCtx);
+    const { show, hide } = useDialog();
 
     useEffect(() => {
         if (isActive) return;
@@ -56,21 +58,39 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     {spread && (
                         <>
                             <IconButton
-                                type="add_circle_outline"
+                                type="post_add"
                                 onClick={() => {
                                     console.error('add not implemented');
                                 }}
                             />
                             <IconButton
-                                type="remove_circle_outline"
+                                type="delete_outline"
                                 onClick={() => {
-                                    console.error('delete not implemented');
+                                    show({
+                                        icon: 'delete',
+                                        title: 'Delete the menu',
+                                        description: (
+                                            <div className="text-neutral">
+                                                <p>Are you sure you want to do this?</p>
+                                                <div className="text-sm mt-2 text-neutral text-opacity-60">
+                                                    All contents in this folder will be deleted.
+                                                </div>
+                                            </div>
+                                        ),
+                                        onConfirm: () => {
+                                            // TODO: delete folder
+                                            hide();
+                                        },
+                                        onCancel: () => {
+                                            hide();
+                                        },
+                                    });
                                 }}
                             />
                         </>
                     )}
                     <span className="material-icons-outlined text-neutral text-opacity-60 text-lg">
-                        {!spread ? 'arrow_drop_down' : 'arrow_drop_up'}
+                        {!spread ? 'expand' : 'unfold_less'}
                     </span>
                 </div>
             </div>

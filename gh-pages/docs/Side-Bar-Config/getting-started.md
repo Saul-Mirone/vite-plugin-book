@@ -1,4 +1,4 @@
-# vite-plugin-book
+# Getting Started
 
 A magical vite plugin that helps you to generate and manage documentation website.
 

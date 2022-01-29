@@ -3,6 +3,7 @@ import { FC, memo, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
+import { useDialog } from '../../hook/useDialog';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
@@ -16,6 +17,7 @@ type ListItemProps = {
 export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
     const dragging = useContext(DraggingCtx);
     const { to, isActive } = useActive(url);
+    const { show, hide } = useDialog();
     return (
         <li
             className={`transition cursor-pointer rounded-8px ${
@@ -25,7 +27,7 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
             <NavLink
                 to={to}
                 className={({ isActive }) =>
-                    `transition py-18px block no-underline text-sm flex justify-between items-center px-24px h-56px ${
+                    `transition py-18px block no-underline text-sm flex justify-between items-center pl-24px pr-8px h-56px ${
                         dragging ? '' : 'hover:text-primary hover:text-opacity-100'
                     } ${isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'}`
                 }
@@ -36,8 +38,25 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
                     <IconButton
                         type="remove_circle_outline"
                         onClick={() => {
-                            // TODO
-                            console.error('delete item not implemented');
+                            show({
+                                icon: 'delete',
+                                title: 'Delete the menu',
+                                description: (
+                                    <div className="text-neutral">
+                                        <p>Are you sure you want to do this?</p>
+                                        <div className="text-sm mt-2 text-neutral text-opacity-60">
+                                            You file will be deleted.
+                                        </div>
+                                    </div>
+                                ),
+                                onConfirm: () => {
+                                    // TODO: delete folder
+                                    hide();
+                                },
+                                onCancel: () => {
+                                    hide();
+                                },
+                            });
                         }}
                     />
                 )}

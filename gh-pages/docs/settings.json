@@ -22,9 +22,9 @@
                     },
                     {
                         "type": "file",
-                        "name": "getting-started.md",
-                        "url": "Side-Bar-Config/getting-started",
-                        "id": "Side-Bar-Config/getting-started",
+                        "name": "Getting-Started.md",
+                        "url": "Side-Bar-Config/Getting-Started",
+                        "id": "Side-Bar-Config/Getting-Started",
                         "chosen": false,
                         "selected": false
                     },

@@ -5,8 +5,9 @@ import { Dialog } from '../component/Dialog';
 import { nope } from '../utils/helper';
 
 export type DialogData = {
+    icon?: string;
     title: string;
-    description: string;
+    description: string | JSX.Element;
     onConfirm: () => void;
     onCancel: () => void;
 };
