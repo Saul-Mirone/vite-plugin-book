@@ -83,7 +83,16 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                             />
                         </>
                     )}
-                    <IconButton type={!spread ? 'expand' : 'unfold_less'} onClick={nope} />
+                    <IconButton
+                        type={!spread ? 'expand' : 'unfold_less'}
+                        onClick={() => {
+                            onClick(url);
+                            setSpread(!spread);
+                            if (hasIndex) {
+                                navigate(to);
+                            }
+                        }}
+                    />
                 </div>
             </div>
             {spread && <>{children}</>}
