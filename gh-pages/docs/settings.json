@@ -3,14 +3,6 @@
         "name": "vite-book",
         "list": [
             {
-                "type": "file",
-                "name": "QA-List.md",
-                "url": "QA-List",
-                "id": "QA-List",
-                "selected": false,
-                "chosen": false
-            },
-            {
                 "list": [
                     {
                         "type": "file",
@@ -27,37 +19,6 @@
                         "id": "Side-Bar-Config/Getting-Started",
                         "chosen": false,
                         "selected": false
-                    },
-                    {
-                        "list": [
-                            {
-                                "type": "file",
-                                "name": "installation.md",
-                                "url": "Side-Bar-Config/guide/installation",
-                                "id": "Side-Bar-Config/guide/installation",
-                                "chosen": false,
-                                "selected": false
-                            },
-                            {
-                                "type": "file",
-                                "name": "Nananana.md",
-                                "url": "Side-Bar-Config/guide/Nananana",
-                                "id": "Side-Bar-Config/guide/Nananana"
-                            },
-                            {
-                                "type": "file",
-                                "name": "Fine.md",
-                                "url": "Side-Bar-Config/guide/Fine",
-                                "id": "Side-Bar-Config/guide/Fine"
-                            }
-                        ],
-                        "type": "dir",
-                        "name": "guide",
-                        "id": "Side-Bar-Config/guide",
-                        "url": "Side-Bar-Config/guide",
-                        "hasIndex": false,
-                        "selected": false,
-                        "chosen": false
                     }
                 ],
                 "type": "dir",
@@ -69,16 +30,47 @@
                 "selected": false
             },
             {
-                "type": "file",
-                "name": "Test.md",
-                "url": "Test",
-                "id": "Test"
+                "type": "dir",
+                "name": "Guide",
+                "url": "Guide",
+                "id": "Guide",
+                "hasIndex": true,
+                "list": [
+                    {
+                        "type": "file",
+                        "name": "installation.md",
+                        "url": "Guide/installation",
+                        "id": "Guide/installation",
+                        "chosen": false,
+                        "selected": false
+                    },
+                    {
+                        "type": "file",
+                        "name": "Test.md",
+                        "url": "Guide/Test",
+                        "id": "Guide/Test",
+                        "selected": false,
+                        "chosen": false
+                    },
+                    {
+                        "type": "file",
+                        "name": "Another.md",
+                        "url": "Guide/Another",
+                        "id": "Guide/Another",
+                        "chosen": false,
+                        "selected": false
+                    }
+                ],
+                "chosen": false,
+                "selected": false
             },
             {
                 "type": "file",
-                "name": "Not-Count.md",
-                "url": "Not-Count",
-                "id": "Not-Count"
+                "name": "QA-List.md",
+                "url": "QA-List",
+                "id": "QA-List",
+                "selected": false,
+                "chosen": false
             }
         ]
     }

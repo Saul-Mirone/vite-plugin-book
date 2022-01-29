@@ -46,8 +46,13 @@ export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
                     />
                     <IconButton
                         type="create_new_folder"
-                        onClick={() => {
-                            console.error('add folder not implemented');
+                        onClick={async () => {
+                            if (ctx.status !== 'connected') return;
+                            const nextId = await ctx.rpc.createFile(url, true);
+                            await getConfig();
+                            const to = `${base}${nextId}`;
+                            navigate(to);
+                            onClick(nextId);
                         }}
                     />
                 </div>

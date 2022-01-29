@@ -3,7 +3,10 @@ import { FC, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
+import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
+import { useRpc } from '../../hook/useRpc';
+import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { nope, transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
@@ -22,10 +25,13 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     const [spread, setSpread] = useState(pathname.includes(url));
     const dragging = useContext(DraggingCtx);
     const { show, hide } = useDialog();
+    const ctx = useRpc();
+    const base = useContext(RouteBaseCtx);
+    const { getConfig } = useConfig();
 
     useEffect(() => {
         if (isActive) return;
-        setSpread(pathname.includes(url));
+        // setSpread(pathname.includes(url));
     }, [isActive, pathname, url]);
 
     return (
@@ -35,10 +41,10 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     dragging ? '' : 'hover:bg-primary hover:bg-opacity-38'
                 } transition py-18px pl-24px pr-8px text-neutral flex justify-between items-center ${
                     hasIndex ? 'hover:text-primary' : ''
-                }`}
+                } ${isActive ? 'bg-secondary bg-opacity-12' : ''}`}
                 onClick={() => {
                     onClick(url);
-                    setSpread(!spread);
+                    setSpread(true);
                     if (hasIndex) {
                         navigate(to);
                     }
@@ -71,8 +77,16 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                                                 </div>
                                             </div>
                                         ),
-                                        onConfirm: () => {
-                                            // TODO: delete folder
+                                        onConfirm: async () => {
+                                            if (ctx.status !== 'connected') {
+                                                hide();
+                                                return;
+                                            }
+                                            const nextId = await ctx.rpc.deleteFile(url);
+                                            await getConfig();
+                                            navigate(base + nextId, { replace: true });
+                                            onClick(nextId);
+
                                             hide();
                                         },
                                         onCancel: () => {
@@ -86,11 +100,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     <IconButton
                         type={!spread ? 'expand' : 'unfold_less'}
                         onClick={() => {
-                            onClick(url);
                             setSpread(!spread);
-                            if (hasIndex) {
-                                navigate(to);
-                            }
                         }}
                     />
                 </div>

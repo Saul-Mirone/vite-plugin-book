@@ -65,24 +65,38 @@ export class ContentManager implements WebSocketServerEvents {
         }
     }
 
-    async createFile(near: string): Promise<string> {
+    async createFile(near: string, folder = false): Promise<string> {
         // TODO: Check if has untitled
         let id = '';
         const date = new Date().toISOString().split('T')[0];
         const fullPath = this.resolveFilePath(near);
         const dir = dirname(fullPath);
-        const filePath = resolve(dir, date + '.md');
-        await fs.writeFile(filePath, `# ${date}\n`);
+        const filePath = resolve(dir, date + (!folder ? '.md' : ''));
+        if (folder) {
+            await fs.ensureDir(filePath);
+            await fs.writeFile(resolve(filePath, 'index.md'), `# ${date}\n`);
+        } else {
+            await fs.writeFile(filePath, `# ${date}\n`);
+        }
         const config = this.configService.get();
         const newList = produce(config.projectInfo.list, (draft) => {
             const relativeUrl = relative(this.docDir, filePath);
             id = withOutExt(relativeUrl);
-            const fileInfo: FileInfo = {
-                type: 'file',
-                name: date + '.md',
-                url: id,
-                id,
-            };
+            const fileInfo: ItemInfo = folder
+                ? {
+                      type: 'dir',
+                      name: date,
+                      url: id,
+                      id,
+                      hasIndex: true,
+                      list: [],
+                  }
+                : {
+                      type: 'file',
+                      name: date + '.md',
+                      url: id,
+                      id,
+                  };
             if (this.docDir === dir) {
                 draft.push(fileInfo);
                 return;
@@ -112,7 +126,7 @@ export class ContentManager implements WebSocketServerEvents {
             let parent: ItemInfo[] | undefined;
             let index = -1;
             walkThroughTree(draft, (x, p, i) => {
-                if (x.type === 'file' && x.id === url) {
+                if (x.id === url) {
                     index = i[i.length - 1];
                     if (!p) {
                         parent = draft;
