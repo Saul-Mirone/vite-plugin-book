@@ -8,6 +8,5 @@ declare global {
     var __VITE_PLUGIN_BOOK__: {
         mapping: Record<string, () => Promise<{ default: string }>>;
         config: BookConfig;
-        items: ItemInfo[];
     };
 }

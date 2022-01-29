@@ -5,13 +5,12 @@ import MagicString from 'magic-string';
 import { dirname, extname, relative, resolve } from 'pathe';
 import type { Plugin } from 'vite';
 
-import { ItemInfo } from '../interface';
 import { withOutExt } from '../utils/helper';
+import { ConfigService } from './config-service';
 import { ContentManager } from './content-manager';
 
 export function vitePluginBookRuntimeInject(): Plugin {
     let root = '';
-    let docMapping: ItemInfo[];
     let docConfig: Record<string, unknown>;
     let injected = false;
     return {
@@ -20,10 +19,11 @@ export function vitePluginBookRuntimeInject(): Plugin {
         async configResolved(resolvedConfig) {
             root = resolvedConfig.root;
 
-            const docsDir = resolve(root, 'docs');
-            const contentManager = new ContentManager(docsDir);
+            const docDir = resolve(root, 'docs');
+            const configService = new ConfigService(docDir);
+            await configService.ready;
+            const contentManager = new ContentManager(docDir, configService);
 
-            docMapping = await contentManager.getFiles();
             docConfig = await contentManager.getConfig();
         },
         async transform(code: string, id: string) {
@@ -75,7 +75,6 @@ export function vitePluginBookRuntimeInject(): Plugin {
             // TODO: inject json config here
             console.log(docConfig);
             magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__.config = ${JSON.stringify(docConfig)};`);
-            magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__.items = ${JSON.stringify(docMapping)};`);
             magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__ = { mapping: {} };`);
 
             injected = true;

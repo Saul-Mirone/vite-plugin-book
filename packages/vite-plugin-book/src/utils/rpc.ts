@@ -30,7 +30,7 @@ export class RuntimeRpc implements WebSocketServerEvents {
     }
 
     getFiles() {
-        return Promise.resolve(this.store.items);
+        throw new Error();
     }
 
     writeFile(): Promise<void> {
@@ -38,6 +38,18 @@ export class RuntimeRpc implements WebSocketServerEvents {
     }
 
     writeConfig(): Promise<void> {
+        throw new Error();
+    }
+
+    createFile(): Promise<string> {
+        throw new Error();
+    }
+
+    deleteFile(): Promise<string> {
+        throw new Error();
+    }
+
+    sort(): Promise<boolean> {
         throw new Error();
     }
 }
