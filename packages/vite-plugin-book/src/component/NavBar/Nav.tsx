@@ -14,13 +14,12 @@ import { List } from './List';
 type NavProps = {
     title: string;
     state: ItemInfo[];
-    onClick: (url: string) => void;
     setDragging: Dispatch<SetStateAction<boolean>>;
 };
 
-export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
+export const Nav: FC<NavProps> = ({ title, state, setDragging }) => {
     const base = useContext(RouteBaseCtx);
-    const { url } = useFile();
+    const { url, setUrl } = useFile();
     const ctx = useRpc();
     const { getConfig } = useConfig();
     const navigate = useNavigate();
@@ -28,7 +27,7 @@ export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
     return (
         <nav className="h-full w-full flex flex-col bg-surface py-12px">
             <div className="cursor-pointer mx-12px text-base flex justify-between items-center h-42px my-8px">
-                <NavLink onClick={() => onClick('/')} to={base} className="pl-12px no-underline text-neutral">
+                <NavLink onClick={() => setUrl('/')} to={base} className="pl-12px no-underline text-neutral">
                     {title}
                 </NavLink>
                 {mode === 'editable' && (
@@ -41,7 +40,7 @@ export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
                                 await getConfig();
                                 const to = `${base}${nextId}`;
                                 navigate(to);
-                                onClick(nextId);
+                                setUrl(nextId);
                             }}
                         />
                         <IconButton
@@ -52,7 +51,7 @@ export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
                                 await getConfig();
                                 const to = `${base}${nextId}`;
                                 navigate(to);
-                                onClick(nextId);
+                                setUrl(nextId);
                             }}
                         />
                     </div>
@@ -67,7 +66,7 @@ export const Nav: FC<NavProps> = ({ title, state, onClick, setDragging }) => {
                     setDragging(false);
                 }}
             >
-                <List indexList={[]} id="root" items={state} onClick={onClick} />
+                <List indexList={[]} id="root" items={state} />
             </div>
         </nav>
     );

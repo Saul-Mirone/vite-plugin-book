@@ -1,4 +1,4 @@
-.list-item-container {
+.book_list-item-container {
     @apply transition cursor-pointer rounded-8px;
 
     &.not-dragging {
@@ -10,7 +10,7 @@
     }
 }
 
-.list-item {
+.book_list-item {
     @apply transition
         block
         pl-24px

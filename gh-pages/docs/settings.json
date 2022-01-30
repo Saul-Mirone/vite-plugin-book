@@ -14,9 +14,9 @@
                     },
                     {
                         "type": "file",
-                        "name": "Getting-Started.md",
-                        "url": "Side-Bar-Config/Getting-Started",
-                        "id": "Side-Bar-Config/Getting-Started",
+                        "name": "Getting-Start.md",
+                        "url": "Side-Bar-Config/Getting-Start",
+                        "id": "Side-Bar-Config/Getting-Start",
                         "chosen": false,
                         "selected": false
                     }

@@ -11,11 +11,10 @@ import { ListItem } from './ListItem';
 type ListProps = {
     id: string;
     items: ItemInfo[];
-    onClick: (url: string) => void;
     indexList: number[];
 };
 
-export const List: FC<ListProps> = memo(({ items, onClick, id, indexList }) => {
+export const List: FC<ListProps> = memo(({ items, id, indexList }) => {
     const dispatch = useContext(DispatchCtx);
     const mode = useMode();
 
@@ -23,7 +22,7 @@ export const List: FC<ListProps> = memo(({ items, onClick, id, indexList }) => {
         () =>
             items.map((item, index) =>
                 item.type === 'file' ? (
-                    <ListItem key={item.id} url={item.id} name={item.name} onClick={onClick} />
+                    <ListItem key={item.id} url={item.id} name={item.name} />
                 ) : (
                     <DirItem
                         hasIndex={item.hasIndex}
@@ -31,12 +30,11 @@ export const List: FC<ListProps> = memo(({ items, onClick, id, indexList }) => {
                         key={item.name}
                         url={item.id}
                         name={item.name}
-                        onClick={onClick}
                         list={item.list}
                     />
                 ),
             ),
-        [indexList, items, onClick],
+        [indexList, items],
     );
 
     if (mode === 'preview') {

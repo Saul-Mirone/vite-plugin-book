@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useActive } from '../../hook/useActive';
 import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
+import { useFile } from '../../hook/useFile';
 import { useMode } from '../../hook/useMode';
 import { useRpc } from '../../hook/useRpc';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
@@ -15,17 +16,17 @@ import { IconButton } from './IconButton';
 type SubListHeaderProps = {
     name: string;
     url: string;
-    onClick: (url: string) => void;
     hasIndex: boolean;
 };
 
-export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, children, onClick }) => {
+export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, children }) => {
     const { to, isActive } = useActive(url);
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [spread, setSpread] = useState(pathname.includes(url));
     const dragging = useContext(DraggingCtx);
     const { show, hide } = useDialog();
+    const { setUrl } = useFile();
     const ctx = useRpc();
     const base = useContext(RouteBaseCtx);
     const { getConfig } = useConfig();
@@ -45,7 +46,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     hasIndex ? 'hover:text-primary' : ''
                 } ${isActive ? 'bg-secondary bg-opacity-12' : ''}`}
                 onClick={() => {
-                    onClick(url);
+                    setUrl(url);
                     setSpread(true);
                     if (hasIndex) {
                         navigate(to);
@@ -57,7 +58,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                         className={`leading-24px cursor-pointer no-underline text-sm hover:text-primary hover:text-opacity-100 ${
                             isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
                         }`}
-                        onClick={() => hasIndex && onClick(url)}
+                        onClick={() => hasIndex && setUrl(url)}
                     >
                         {transformName(name)}
                     </span>
@@ -87,7 +88,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                                             const nextId = await ctx.rpc.deleteFile(url);
                                             await getConfig();
                                             navigate(base + nextId, { replace: true });
-                                            onClick(nextId);
+                                            setUrl(nextId);
 
                                             hide();
                                         },

@@ -48,6 +48,7 @@
     "devDependencies": {
         "@fontsource/roboto": "^4.5.2",
         "@milkdown/core": "^5.4.1",
+        "@milkdown/plugin-cursor": "^5.4.1",
         "@milkdown/plugin-emoji": "^5.4.1",
         "@milkdown/plugin-history": "^5.4.1",
         "@milkdown/plugin-listener": "^5.4.1",

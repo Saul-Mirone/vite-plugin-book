@@ -1,6 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import { defaultValueCtx, Editor, editorCtx, editorStateCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
+import { cursor } from '@milkdown/plugin-cursor';
 import { emoji } from '@milkdown/plugin-emoji';
 import { history } from '@milkdown/plugin-history';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
@@ -72,6 +73,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
             .use(gfm)
             .use(slash)
             .use(tooltip)
+            .use(cursor)
             .create();
 
         return () => {

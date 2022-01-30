@@ -72,6 +72,7 @@ importers:
     specifiers:
       '@fontsource/roboto': ^4.5.2
       '@milkdown/core': ^5.4.1
+      '@milkdown/plugin-cursor': ^5.4.1
       '@milkdown/plugin-emoji': ^5.4.1
       '@milkdown/plugin-history': ^5.4.1
       '@milkdown/plugin-listener': ^5.4.1
@@ -125,6 +126,7 @@ importers:
     devDependencies:
       '@fontsource/roboto': 4.5.2
       '@milkdown/core': 5.4.1_@milkdown+prose@5.4.1
+      '@milkdown/plugin-cursor': 5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e
       '@milkdown/plugin-emoji': 5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e
       '@milkdown/plugin-history': 5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e
       '@milkdown/plugin-listener': 5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e
@@ -1039,6 +1041,18 @@ packages:
   /@milkdown/exception/5.4.1:
     resolution: {integrity: sha512-IDSdMS/pZZAyshQWyyY+Kk9EnkdqqyBgX3+r9swrcvTpAQFDGM83lHxGWDBXTw2G/xDixWNfO5voQX98Y5x/OQ==}
     dependencies:
+      tslib: 2.3.1
+    dev: true
+
+  /@milkdown/plugin-cursor/5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e:
+    resolution: {integrity: sha512-JHPCrYA9jNZyoVzRAvsxJjSRChy+t3QggMzf3XgAoZQsmSuD7ycmSPDULqo06AxBgYNldRAv5r82POR+/qIGww==}
+    peerDependencies:
+      '@milkdown/core': ^5.4.0
+      '@milkdown/prose': ^5.4.0
+    dependencies:
+      '@milkdown/core': 5.4.1_@milkdown+prose@5.4.1
+      '@milkdown/prose': 5.4.1
+      '@milkdown/utils': 5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e
       tslib: 2.3.1
     dev: true
 

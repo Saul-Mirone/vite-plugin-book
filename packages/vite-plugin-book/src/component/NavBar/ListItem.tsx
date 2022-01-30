@@ -7,6 +7,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useActive } from '../../hook/useActive';
 import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
+import { useFile } from '../../hook/useFile';
 import { useMode } from '../../hook/useMode';
 import { useRpc } from '../../hook/useRpc';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
@@ -17,10 +18,9 @@ import { IconButton } from './IconButton';
 type ListItemProps = {
     name: string;
     url: string;
-    onClick: (url: string) => void;
 };
 
-export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
+export const ListItem: FC<ListItemProps> = memo(({ url, name }) => {
     const ctx = useRpc();
     const dragging = useContext(DraggingCtx);
     const base = useContext(RouteBaseCtx);
@@ -29,14 +29,15 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
     const { show, hide } = useDialog();
     const navigate = useNavigate();
     const mode = useMode();
+    const { setUrl } = useFile();
     return (
-        <li className={`list-item-container ${dragging ? '' : 'not-dragging'} ${isActive ? 'active' : ''}`}>
+        <li className={`book_list-item-container ${dragging ? '' : 'not-dragging'} ${isActive ? 'active' : ''}`}>
             <NavLink
                 to={to}
                 className={({ isActive }) =>
-                    `list-item ${dragging ? '' : 'not-dragging'} ${isActive ? 'active' : 'inactive'}`
+                    `book_list-item ${dragging ? '' : 'not-dragging'} ${isActive ? 'active' : 'inactive'}`
                 }
-                onClick={() => onClick(url)}
+                onClick={() => setUrl(url)}
             >
                 {transformName(name)}
                 {isActive && mode === 'editable' && (
@@ -62,7 +63,7 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
                                     const nextId = await ctx.rpc.deleteFile(url);
                                     await getConfig();
                                     navigate(base + nextId, { replace: true });
-                                    onClick(nextId);
+                                    setUrl(nextId);
 
                                     hide();
                                 },
