@@ -1,11 +1,8 @@
 .milkdown {
     height: calc(100vh - 64px - 30px);
     overflow: auto;
-    & > .editor {
-        @apply !px-8 !py-6;
-    }
 
     .code-inline {
-        background: rgba(var(--primary), 0.7);
+        background: rgba(var(--primary), 0.8);
     }
 }

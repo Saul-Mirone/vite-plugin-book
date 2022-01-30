@@ -2,7 +2,6 @@
 
 import { createContext, Dispatch, FC, useEffect, useReducer, useState } from 'react';
 
-import { useFile } from '../../hook/useFile';
 import { useFileFetcher } from '../../hook/useFileFetcher';
 import { ItemInfo, ProjectInfo } from '../../interface';
 import { nope } from '../../utils/helper';
@@ -14,7 +13,6 @@ export const DispatchCtx = createContext<Dispatch<ListReducerAction>>(nope);
 
 export const NavBar: FC<{ projectInfo: ProjectInfo }> = ({ projectInfo }) => {
     const [dragging, setDragging] = useState(false);
-    const { setUrl } = useFile();
     const [state, dispatch] = useReducer(listReducer, { count: 0, curr: [] as ItemInfo[] });
     useEffect(() => {
         dispatch({ type: 'ReplaceAll', list: projectInfo.list });
@@ -24,7 +22,7 @@ export const NavBar: FC<{ projectInfo: ProjectInfo }> = ({ projectInfo }) => {
     return (
         <DispatchCtx.Provider value={dispatch}>
             <DraggingCtx.Provider value={dragging}>
-                <Nav setDragging={setDragging} title={projectInfo.name} state={state.curr} onClick={setUrl} />
+                <Nav setDragging={setDragging} title={projectInfo.name} state={state.curr} />
             </DraggingCtx.Provider>
         </DispatchCtx.Provider>
     );
