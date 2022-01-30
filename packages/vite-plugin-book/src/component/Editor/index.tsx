@@ -1,7 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import './style.css';
 
-import { FC, useContext, useRef } from 'react';
+import { FC, memo, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useConfig } from '../../hook/useConfig';
@@ -14,7 +14,7 @@ import { useRpc } from '../../hook/useRpc';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { Toolbar } from '../Toolbar';
 
-export const Editor: FC<{ readonly: boolean }> = ({ readonly }) => {
+export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const mode = useMode();
     const ctx = useRpc();
     const { file, url, setFile, setUrl } = useFile();
@@ -70,4 +70,4 @@ export const Editor: FC<{ readonly: boolean }> = ({ readonly }) => {
             {mode === 'editable' && <Toolbar changed={changed} onSave={onSave} onCancel={onCancel} />}
         </>
     );
-};
+});

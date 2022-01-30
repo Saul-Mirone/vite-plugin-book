@@ -3,7 +3,7 @@ import '@fontsource/roboto';
 import 'material-icons/iconfont/outlined.css';
 import 'prism-themes/themes/prism-material-light.css';
 
-import { FC, StrictMode, useMemo } from 'react';
+import { FC, memo, StrictMode, useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { ConfigProvider } from '../provider/ConfigProvider';
@@ -22,7 +22,7 @@ const base = location.pathname.includes('__vite_plugin_book__')
         : '/__vite_plugin_book__/'
     : '/';
 
-export const Root: FC<{ isRuntime?: boolean }> = ({ isRuntime = false }) => {
+export const Root: FC<{ isRuntime?: boolean }> = memo(({ isRuntime = false }) => {
     const RpcProvider = useMemo(() => (isRuntime ? RuntimeRpcProvider : DevRpcProvider), [isRuntime]);
     const mode = isRuntime || isPreview || base === '/' ? 'preview' : 'editable';
     return (
@@ -46,4 +46,4 @@ export const Root: FC<{ isRuntime?: boolean }> = ({ isRuntime = false }) => {
             </BrowserRouter>
         </StrictMode>
     );
-};
+});

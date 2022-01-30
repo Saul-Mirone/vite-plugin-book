@@ -1,6 +1,14 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { defaultValueCtx, Editor, editorCtx, editorStateCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
+import {
+    defaultValueCtx,
+    Editor,
+    editorCtx,
+    editorStateCtx,
+    editorViewCtx,
+    editorViewOptionsCtx,
+    rootCtx,
+} from '@milkdown/core';
 import { cursor } from '@milkdown/plugin-cursor';
 import { emoji } from '@milkdown/plugin-emoji';
 import { history } from '@milkdown/plugin-history';
@@ -12,6 +20,7 @@ import { gfm } from '@milkdown/preset-gfm';
 import { nordLight } from '@milkdown/theme-nord';
 import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { nope } from '../utils/helper';
 import { useOutline } from './useOutline';
 
 export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: string, readOnly = false) {
@@ -30,7 +39,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
     useEffect(() => {
         const ref = containerRef.current;
         if (!ref) return;
-        Editor.make()
+        const editor = Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, ref);
                 ctx.set(defaultValueCtx, defaultValue);
@@ -77,8 +86,15 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
             .create();
 
         return () => {
-            if (!ref) return;
-            ref.innerHTML = '';
+            editor
+                .then(($) =>
+                    $.action((ctx) => {
+                        ctx.get(editorViewCtx).destroy();
+                        if (!ref) return;
+                        ref.innerHTML = '';
+                    }),
+                )
+                .catch(nope);
         };
     }, [containerRef, defaultValue, readOnly, setOutline, flag]);
 
