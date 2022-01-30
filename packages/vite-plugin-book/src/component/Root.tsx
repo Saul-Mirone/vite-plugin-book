@@ -1,4 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
+import '@fontsource/roboto';
+import 'material-icons/iconfont/outlined.css';
+import 'prism-themes/themes/prism-material-light.css';
 
 import { FC, StrictMode, useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';

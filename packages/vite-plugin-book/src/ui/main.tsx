@@ -1,6 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import 'virtual:windi.css';
-import './style.css';
 
 import { render } from 'react-dom';
 

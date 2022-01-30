@@ -46,6 +46,7 @@
     "author": "Saul-Mirone",
     "license": "MIT",
     "devDependencies": {
+        "@fontsource/roboto": "^4.5.2",
         "@milkdown/core": "^5.4.1",
         "@milkdown/plugin-history": "^5.4.1",
         "@milkdown/plugin-listener": "^5.4.1",
@@ -66,6 +67,8 @@
         "@types/ws": "^8.2.2",
         "@vitejs/plugin-react": "^1.1.4",
         "immer": "^9.0.12",
+        "material-icons": "^1.10.6",
+        "prism-themes": "^1.9.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-router-dom": "^6.2.1",

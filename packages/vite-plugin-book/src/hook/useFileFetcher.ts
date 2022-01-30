@@ -5,12 +5,14 @@ import { ListReducerState } from '../component/NavBar/listReducer';
 import { flatItems } from '../utils/helper';
 import { useConfig } from './useConfig';
 import { useFile } from './useFile';
+import { useMode } from './useMode';
 import { useRpc } from './useRpc';
 
 export const useFileFetcher = (state: ListReducerState) => {
     const ctx = useRpc();
     const { setFile, url } = useFile();
     const { getConfig } = useConfig();
+    const mode = useMode();
     useEffect(() => {
         if (ctx.status !== 'connected') {
             return;
@@ -26,6 +28,10 @@ export const useFileFetcher = (state: ListReducerState) => {
     }, [url, setFile, ctx]);
 
     useEffect(() => {
+        if (mode !== 'editable') {
+            return;
+        }
+
         if (ctx.status !== 'connected') {
             return;
         }
@@ -42,5 +48,5 @@ export const useFileFetcher = (state: ListReducerState) => {
         };
 
         sortFiles();
-    }, [ctx, getConfig, state]);
+    }, [ctx, getConfig, mode, state]);
 };
