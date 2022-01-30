@@ -40,6 +40,8 @@ jobs:
               run: pnpm install
             - name: build
               run: pnpm build
+            - name: test
+              run: pnpm test:tsc
 
             - name: create versions or publish to npm registry
               uses: changesets/action@v1

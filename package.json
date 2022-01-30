@@ -33,6 +33,7 @@
         "postinstall": "husky install",
         "format": "lint-staged",
         "build": "pnpm build --filter=vite-plugin-book",
+        "test:tsc": "pnpm tsc --filter=vite-plugin-book",
         "changeset": "changeset",
         "release": "changeset publish",
         "commit": "git-cz",

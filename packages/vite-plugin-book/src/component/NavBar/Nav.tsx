@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { Dispatch, FC, SetStateAction, useContext } from 'react';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { useConfig } from '../../hook/useConfig';
 import { useFile } from '../../hook/useFile';
@@ -8,11 +8,8 @@ import { useMode } from '../../hook/useMode';
 import { useRpc } from '../../hook/useRpc';
 import { ItemInfo } from '../../interface';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
-import { isIndexPage, nope } from '../../utils/helper';
-import { Button } from '../Button';
 import { IconButton } from './IconButton';
 import { List } from './List';
-import { ListReducerState } from './listReducer';
 
 type NavProps = {
     title: string;

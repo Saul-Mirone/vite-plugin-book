@@ -8,7 +8,7 @@ import { useDialog } from '../../hook/useDialog';
 import { useMode } from '../../hook/useMode';
 import { useRpc } from '../../hook/useRpc';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
-import { nope, transformName } from '../../utils/helper';
+import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
 

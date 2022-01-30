@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { createContext, Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react';
+import { createContext, Dispatch, FC, SetStateAction, useState } from 'react';
 
 import { BookConfig } from '../interface';
 

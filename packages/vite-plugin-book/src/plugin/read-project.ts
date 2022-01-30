@@ -1,5 +1,4 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { Dir } from 'fs';
 import fs from 'fs-extra';
 import { relative, resolve } from 'pathe';
 

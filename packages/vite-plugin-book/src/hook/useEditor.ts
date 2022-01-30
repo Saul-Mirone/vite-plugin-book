@@ -43,8 +43,8 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                         const doc = ctx.get(editorStateCtx).doc;
                         const data: { text: string; level: number }[] = [];
                         doc.descendants((node) => {
-                            if (node.type.name === 'heading' && node.attrs.level) {
-                                data.push({ text: node.textContent, level: node.attrs.level });
+                            if (node.type.name === 'heading' && node.attrs['level']) {
+                                data.push({ text: node.textContent, level: node.attrs['level'] });
                             }
                         });
                         setOutline(data);
@@ -52,8 +52,8 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                     .updated((_, doc) => {
                         const data: { text: string; level: number }[] = [];
                         doc.descendants((node) => {
-                            if (node.type.name === 'heading' && node.attrs.level) {
-                                data.push({ text: node.textContent, level: node.attrs.level });
+                            if (node.type.name === 'heading' && node.attrs['level']) {
+                                data.push({ text: node.textContent, level: node.attrs['level'] });
                             }
                         });
                         setOutline(data);

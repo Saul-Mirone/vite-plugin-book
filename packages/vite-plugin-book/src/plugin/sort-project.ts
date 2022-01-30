@@ -4,7 +4,7 @@ import produce from 'immer';
 import path from 'pathe';
 
 import type { ItemInfo } from '../interface';
-import { flatItems, isEqualState, walkThroughTree, withOutExt } from '../utils/helper';
+import { flatItems, isEqualState, walkThroughTree } from '../utils/helper';
 
 export const flushId = (state: ItemInfo[]) => {
     const value = produce(state, (draft) => {

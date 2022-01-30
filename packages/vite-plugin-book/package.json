@@ -30,6 +30,7 @@
     "sideEffects": false,
     "scripts": {
         "commit": "git-cz",
+        "tsc": "tsc --noEmit",
         "dev": "concurrently -n plugin,ui,render \"pnpm run dev:plugin\" \"pnpm run dev:ui\" \"pnpm run dev:render\"",
         "dev:ui": "vite build --config vite.config.ui.ts --watch",
         "dev:plugin": "rollup -c --watch",

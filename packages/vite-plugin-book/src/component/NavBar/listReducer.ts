@@ -38,13 +38,14 @@ const diffList = (origin: ItemInfo[], indexList: number[], newSlice: ItemInfo[])
 
     const value = produce(origin, (draft) => {
         if (indexList.length === 0) {
-            return newSlice;
+            return;
         }
         const _indexList = [...indexList];
         const last = _indexList.pop();
         const target = _indexList.reduce((acc, cur) => (acc[cur] as DirInfo).list, draft) as DirInfo[];
-        if (last != null) {
-            target[last].list = [...newSlice];
+        const lastTarget = last != null && target[last];
+        if (lastTarget) {
+            lastTarget.list = [...newSlice];
         }
     });
 

@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import produce from 'immer';
 import { basename, dirname, relative, resolve } from 'pathe';
 
-import type { BookConfig, DirInfo, FileInfo, ItemInfo, WebSocketServerEvents } from '../interface';
+import type { BookConfig, DirInfo, ItemInfo, WebSocketServerEvents } from '../interface';
 import { walkThroughTree, withOutExt } from '../utils/helper';
 import { ConfigService } from './config-service';
 import { flushId, sortProject } from './sort-project';
@@ -68,7 +68,7 @@ export class ContentManager implements WebSocketServerEvents {
     async createFile(near: string, folder = false): Promise<string> {
         // TODO: Check if has untitled
         let id = '';
-        const date = new Date().toISOString().split('T')[0];
+        const date = new Date().toISOString().split('T')[0] as string;
         const fullPath = this.resolveFilePath(near);
         const dir = dirname(fullPath);
         const filePath = resolve(dir, date + (!folder ? '.md' : ''));
@@ -127,7 +127,7 @@ export class ContentManager implements WebSocketServerEvents {
             let index = -1;
             walkThroughTree(draft, (x, p, i) => {
                 if (x.id === url) {
-                    index = i[i.length - 1];
+                    index = i[i.length - 1] as number;
                     if (!p) {
                         parent = draft;
                     } else {

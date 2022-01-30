@@ -1,8 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { useCallback, useContext, useEffect, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 
 import { ConfigCtx, SetConfigCtx } from '../provider/ConfigProvider';
-import { useMode } from './useMode';
 import { useRpc } from './useRpc';
 
 export const useConfig = () => {

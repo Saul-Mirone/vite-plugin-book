@@ -25,7 +25,11 @@ export class RuntimeRpc implements WebSocketServerEvents {
         if (!this.store.mapping[target]) {
             target += '/index';
         }
-        const module = await this.store.mapping[target]();
+        const getter = this.store.mapping[target];
+        if (!getter) {
+            throw new Error();
+        }
+        const module = await getter();
         return module.default;
     }
 
