@@ -1,4 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
+import './ListItem.css';
+
 import { FC, memo, useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -28,17 +30,11 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name, onClick }) => {
     const navigate = useNavigate();
     const mode = useMode();
     return (
-        <li
-            className={`transition cursor-pointer rounded-8px ${
-                dragging ? '' : 'hover:bg-primary hover:bg-opacity-38'
-            } ${isActive ? 'bg-secondary bg-opacity-12' : ''}`}
-        >
+        <li className={`list-item-container ${dragging ? '' : 'not-dragging'} ${isActive ? 'active' : ''}`}>
             <NavLink
                 to={to}
                 className={({ isActive }) =>
-                    `transition py-18px block no-underline text-sm flex justify-between items-center pl-24px pr-8px h-56px ${
-                        dragging ? '' : 'hover:text-primary hover:text-opacity-100'
-                    } ${isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'}`
+                    `list-item ${dragging ? '' : 'not-dragging'} ${isActive ? 'active' : 'inactive'}`
                 }
                 onClick={() => onClick(url)}
             >
