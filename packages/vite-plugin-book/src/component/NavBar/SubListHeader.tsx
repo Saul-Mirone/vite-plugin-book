@@ -12,6 +12,7 @@ import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
+import cx from './SubListHeader.module.css';
 
 type SubListHeaderProps = {
     name: string;
@@ -40,11 +41,9 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     return (
         <li>
             <div
-                className={`transition cursor-pointer rounded-8px ${
-                    dragging ? '' : 'hover:bg-primary hover:bg-opacity-38'
-                } transition py-18px pl-24px pr-8px text-neutral flex justify-between items-center ${
-                    hasIndex ? 'hover:text-primary' : ''
-                } ${isActive ? 'bg-secondary bg-opacity-12' : ''}`}
+                className={`${cx['list-container']} ${dragging ? '' : cx['not-dragging']} ${
+                    isActive ? cx['active'] : ''
+                }`}
                 onClick={() => {
                     setUrl(url);
                     setSpread(true);
@@ -55,15 +54,13 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
             >
                 <div className="flex h-24px">
                     <span
-                        className={`leading-24px cursor-pointer no-underline text-sm hover:text-primary hover:text-opacity-100 ${
-                            isActive ? 'text-primary text-opacity-100' : ' text-neutral text-opacity-60'
-                        }`}
+                        className={`${cx['header']} ${isActive ? cx['active'] : cx['inactive']}`}
                         onClick={() => hasIndex && setUrl(url)}
                     >
                         {transformName(name)}
                     </span>
                 </div>
-                <div className="flex items-center gap-4px">
+                <div className={cx['button-group']}>
                     {spread && mode === 'editable' && (
                         <>
                             <IconButton

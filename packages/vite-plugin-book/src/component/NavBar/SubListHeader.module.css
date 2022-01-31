@@ -1,0 +1,38 @@
+.list-container {
+    @apply transition
+        cursor-pointer
+        rounded-8px
+        transition
+        py-18px
+        pl-24px
+        pr-8px
+        text-neutral
+        flex
+        justify-between
+        items-center
+        hover:text-primary;
+
+    &.not-dragging {
+        @apply hover:bg-primary hover:bg-opacity-38;
+    }
+
+    &.active {
+        @apply bg-secondary bg-opacity-12;
+    }
+}
+
+.header {
+    @apply leading-24px cursor-pointer no-underline text-sm hover:text-primary hover:text-opacity-100;
+
+    &.active {
+        @apply text-primary text-opacity-100;
+    }
+
+    &.inactive {
+        @apply text-neutral text-opacity-60;
+    }
+}
+
+.button-group {
+    @apply flex items-center gap-4px;
+}
