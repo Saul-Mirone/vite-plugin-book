@@ -2,7 +2,7 @@
 
 /// <reference types="vite/client" />
 
-import { BookConfig, ItemInfo } from './interface';
+import { BookConfig } from './interface';
 
 declare global {
     var __VITE_PLUGIN_BOOK__: {

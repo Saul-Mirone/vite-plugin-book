@@ -1,0 +1,31 @@
+.nav {
+    @apply h-full
+        w-full
+        flex
+        flex-col
+        bg-surface
+        py-12px;
+}
+
+.container {
+    @apply cursor-pointer
+        h-42px
+        mx-12px
+        my-8px
+        text-base
+        flex
+        justify-between
+        items-center;
+}
+
+.title {
+    @apply pl-12px no-underline text-neutral;
+}
+
+.icon-group {
+    @apply flex gap-8px mr-8px;
+}
+
+.list {
+    @apply pr-12px overflow-auto;
+}

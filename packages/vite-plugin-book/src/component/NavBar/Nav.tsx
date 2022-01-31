@@ -10,6 +10,7 @@ import { ItemInfo } from '../../interface';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { IconButton } from './IconButton';
 import { List } from './List';
+import cx from './Nav.module.css';
 
 type NavProps = {
     title: string;
@@ -25,13 +26,13 @@ export const Nav: FC<NavProps> = ({ title, state, setDragging }) => {
     const navigate = useNavigate();
     const mode = useMode();
     return (
-        <nav className="h-full w-full flex flex-col bg-surface py-12px">
-            <div className="cursor-pointer mx-12px text-base flex justify-between items-center h-42px my-8px">
-                <NavLink onClick={() => setUrl('/')} to={base} className="pl-12px no-underline text-neutral">
+        <nav className={cx['nav']}>
+            <div className={cx['container']}>
+                <NavLink onClick={() => setUrl('/')} to={base} className={cx['title']}>
                     {title}
                 </NavLink>
                 {mode === 'editable' && (
-                    <div className="flex gap-8px mr-8px">
+                    <div className={cx['icon-group']}>
                         <IconButton
                             type="post_add"
                             onClick={async () => {
@@ -58,7 +59,7 @@ export const Nav: FC<NavProps> = ({ title, state, setDragging }) => {
                 )}
             </div>
             <div
-                className="pr-12px overflow-auto"
+                className={cx['list']}
                 onDrag={() => {
                     setDragging(true);
                 }}

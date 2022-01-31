@@ -1,6 +1,4 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import './ListItem.css';
-
 import { FC, memo, useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -14,6 +12,7 @@ import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
+import cx from './ListItem.module.css';
 
 type ListItemProps = {
     name: string;
@@ -31,11 +30,17 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name }) => {
     const mode = useMode();
     const { setUrl } = useFile();
     return (
-        <li className={`book_list-item-container ${dragging ? '' : 'not-dragging'} ${isActive ? 'active' : ''}`}>
+        <li
+            className={`${cx['list-item-container']} ${dragging ? '' : cx['not-dragging']} ${
+                isActive ? cx['active'] : ''
+            }`}
+        >
             <NavLink
                 to={to}
                 className={({ isActive }) =>
-                    `book_list-item ${dragging ? '' : 'not-dragging'} ${isActive ? 'active' : 'inactive'}`
+                    `${cx['list-item']} ${dragging ? '' : cx['not-dragging']} ${
+                        isActive ? cx['active'] : cx['inactive']
+                    }`
                 }
                 onClick={() => setUrl(url)}
             >
