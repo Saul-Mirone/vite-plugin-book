@@ -1,10 +1,11 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { Dispatch, FC, SetStateAction, useContext } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { useConfig } from '../../hook/useConfig';
 import { useFile } from '../../hook/useFile';
 import { useMode } from '../../hook/useMode';
+import { useNav } from '../../hook/useNav';
 import { useRpc } from '../../hook/useRpc';
 import { ItemInfo } from '../../interface';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
@@ -19,12 +20,11 @@ type NavProps = {
 };
 
 const ButtonGroup = () => {
-    const base = useContext(RouteBaseCtx);
-    const { url, setUrl } = useFile();
+    const { url } = useFile();
     const ctx = useRpc();
     const { getConfig } = useConfig();
-    const navigate = useNavigate();
     const mode = useMode();
+    const nav = useNav();
 
     if (mode !== 'editable') return null;
     return (
@@ -35,9 +35,7 @@ const ButtonGroup = () => {
                     if (ctx.status !== 'connected') return;
                     const nextId = await ctx.rpc.createFile(url);
                     await getConfig();
-                    const to = `${base}${nextId}`;
-                    navigate(to);
-                    setUrl(nextId);
+                    nav(nextId);
                 }}
             />
             <IconButton
@@ -46,9 +44,7 @@ const ButtonGroup = () => {
                     if (ctx.status !== 'connected') return;
                     const nextId = await ctx.rpc.createFile(url, true);
                     await getConfig();
-                    const to = `${base}${nextId}`;
-                    navigate(to);
-                    setUrl(nextId);
+                    nav(nextId);
                 }}
             />
         </div>

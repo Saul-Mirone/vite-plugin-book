@@ -1,30 +1,28 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import './style.css';
 
-import { FC, memo, useContext, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FC, memo, useRef } from 'react';
 
 import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
 import { useEditor } from '../../hook/useEditor';
 import { useFile } from '../../hook/useFile';
 import { useMode } from '../../hook/useMode';
+import { useNav } from '../../hook/useNav';
 import { useOutline } from '../../hook/useOutline';
 import { useRpc } from '../../hook/useRpc';
-import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { Toolbar } from '../Toolbar';
 
 export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const mode = useMode();
     const ctx = useRpc();
-    const { file, url, setFile, setUrl } = useFile();
+    const { file, url, setFile } = useFile();
     const divRef = useRef<HTMLDivElement>(null);
     const { flush, get, changed } = useEditor(divRef, file, readonly);
     const { show, hide } = useDialog();
     const [data] = useOutline();
     const { getConfig } = useConfig();
-    const navigate = useNavigate();
-    const base = useContext(RouteBaseCtx);
+    const nav = useNav();
 
     const onSave = async () => {
         if (ctx.status !== 'connected' || !url) return;
@@ -45,8 +43,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
             .slice(0, prevPathList.length - 1)
             .concat(name)
             .join('/');
-        navigate(`${base}${newPath}`);
-        setUrl(newPath);
+        nav(newPath);
     };
 
     const onCancel = () => {

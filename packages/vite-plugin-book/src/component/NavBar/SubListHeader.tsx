@@ -1,12 +1,13 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
 import { useDelete } from '../../hook/useDelete';
 import { useDialog } from '../../hook/useDialog';
 import { useFile } from '../../hook/useFile';
 import { useMode } from '../../hook/useMode';
+import { useNav } from '../../hook/useNav';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
@@ -63,17 +64,22 @@ const ButtonGroup: FC<{ url: string; spread: boolean; setSpread: Dispatch<SetSta
 };
 
 export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, children }) => {
-    const { to, isActive } = useActive(url);
+    const { isActive } = useActive(url);
     const { pathname } = useLocation();
-    const navigate = useNavigate();
     const [spread, setSpread] = useState(pathname.includes(url));
     const dragging = useContext(DraggingCtx);
     const { setUrl } = useFile();
+    const nav = useNav();
 
     useEffect(() => {
         if (isActive) return;
         // setSpread(pathname.includes(url));
     }, [isActive, pathname, url]);
+
+    const onClickHeader = () => {
+        nav(url);
+        setSpread(true);
+    };
 
     return (
         <li>
@@ -81,13 +87,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                 className={`${cx['list-container']} ${dragging ? '' : cx['not-dragging']} ${
                     isActive ? cx['active'] : ''
                 }`}
-                onClick={() => {
-                    setUrl(url);
-                    setSpread(true);
-                    if (hasIndex) {
-                        navigate(to);
-                    }
-                }}
+                onClick={onClickHeader}
             >
                 <div className="flex h-24px">
                     <span
