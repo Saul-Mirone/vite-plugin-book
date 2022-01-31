@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import produce from 'immer';
 import { basename, dirname, relative, resolve } from 'pathe';
 
-import type { BookConfig, DirInfo, ItemInfo, WebSocketServerEvents } from '../interface';
+import type { BookConfig, ItemInfo, WebSocketServerEvents } from '../interface';
 import { walkThroughTree, withOutExt } from '../utils/helper';
 import { ConfigService } from './config-service';
 import { flushId, sortProject } from './sort-project';
@@ -21,99 +21,26 @@ export class ContentManager implements WebSocketServerEvents {
         await fs.writeFile(fullPath, markdown);
         const filename = basename(fullPath);
         if (filename !== name) {
-            const config = this.configService.get();
+            const { isFile, newPath } = await this.configService.moveFile(url, name, fullPath);
 
-            let newPath = '';
-            let isFile = true;
-            let relativeUrl = '';
+            const from = isFile ? fullPath : dirname(fullPath);
+            const to = newPath + (isFile ? '.md' : '');
 
-            const newList = produce(config.projectInfo.list, (draft) => {
-                walkThroughTree(draft, (x) => {
-                    if (x.id === url) {
-                        if (x.type === 'file') {
-                            newPath = resolve(dirname(fullPath), name);
-                            isFile = true;
-                            relativeUrl = relative(this.docDir, newPath);
-
-                            x.id = relativeUrl;
-                            x.url = relativeUrl;
-                            x.name = name + '.md';
-                            return;
-                        }
-
-                        newPath = resolve(dirname(fullPath), '..', name);
-                        relativeUrl = relative(this.docDir, newPath);
-                        isFile = false;
-
-                        x.id = relativeUrl;
-                        x.url = relativeUrl;
-                        x.name = name;
-                        return;
-                    }
-
-                    if (isFile) return;
-
-                    const newId = x.url.replace(url, relativeUrl);
-                    x.id = newId;
-                    x.url = newId;
-                });
-            });
-
-            this.configService.setConfig({ ...config, projectInfo: { ...config.projectInfo, list: newList } });
-            await fs.rename(isFile ? fullPath : dirname(fullPath), newPath + (isFile ? '.md' : ''));
-            await this.configService.writeConfig();
+            await fs.rename(from, to);
         }
     }
 
     async createFile(near: string, folder = false): Promise<string> {
         // TODO: Check if has untitled
-        let id = '';
         const date = new Date().toISOString().split('T')[0] as string;
         const fullPath = this.resolveFilePath(near);
-        const dir = dirname(fullPath);
-        const filePath = resolve(dir, date + (!folder ? '.md' : ''));
+        const { id, filePath } = await this.configService.createFile(fullPath, date, folder);
         if (folder) {
             await fs.ensureDir(filePath);
             await fs.writeFile(resolve(filePath, 'index.md'), `# ${date}\n`);
         } else {
             await fs.writeFile(filePath, `# ${date}\n`);
         }
-        const config = this.configService.get();
-        const newList = produce(config.projectInfo.list, (draft) => {
-            const relativeUrl = relative(this.docDir, filePath);
-            id = withOutExt(relativeUrl);
-            const fileInfo: ItemInfo = folder
-                ? {
-                      type: 'dir',
-                      name: date,
-                      url: id,
-                      id,
-                      hasIndex: true,
-                      list: [],
-                  }
-                : {
-                      type: 'file',
-                      name: date + '.md',
-                      url: id,
-                      id,
-                  };
-            if (this.docDir === dir) {
-                draft.push(fileInfo);
-                return;
-            }
-
-            let target: DirInfo | undefined;
-            walkThroughTree(draft, (x) => {
-                if (x.type === 'dir' && x.id === relative(this.docDir, dir)) {
-                    target = x;
-                }
-            });
-            if (!target) return;
-
-            target.list.push(fileInfo);
-        });
-        this.configService.setConfig({ ...config, projectInfo: { ...config.projectInfo, list: newList } });
-        await this.configService.writeConfig();
         return id;
     }
 
