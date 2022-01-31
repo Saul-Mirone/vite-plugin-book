@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, useContext, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
@@ -20,18 +20,70 @@ type SubListHeaderProps = {
     hasIndex: boolean;
 };
 
+const DeleteGroupDesc = () => (
+    <div className="text-neutral">
+        <p>Are you sure you want to do this?</p>
+        <div className="text-sm mt-2 text-neutral text-opacity-60">All contents in this folder will be deleted.</div>
+    </div>
+);
+
+const ButtonGroup: FC<{ spread: boolean; setSpread: Dispatch<SetStateAction<boolean>> }> = ({ spread, setSpread }) => {
+    const { show, hide } = useDialog();
+    const mode = useMode();
+    const ctx = useRpc();
+    const { getConfig } = useConfig();
+    const navigate = useNavigate();
+    const base = useContext(RouteBaseCtx);
+    const { setUrl, url } = useFile();
+
+    const onDelete = async () => {
+        if (ctx.status !== 'connected') {
+            hide();
+            return;
+        }
+
+        const nextId = await ctx.rpc.deleteFile(url);
+        await getConfig();
+        navigate(base + nextId, { replace: true });
+        setUrl(nextId);
+        hide();
+    };
+
+    return (
+        <div className={cx['button-group']}>
+            {spread && mode === 'editable' && (
+                <>
+                    <IconButton
+                        type="delete_outline"
+                        onClick={() => {
+                            show({
+                                icon: 'delete',
+                                title: 'Delete the menu',
+                                description: <DeleteGroupDesc />,
+                                onConfirm: onDelete,
+                                onCancel: hide,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            <IconButton
+                type={!spread ? 'expand' : 'unfold_less'}
+                onClick={() => {
+                    setSpread(!spread);
+                }}
+            />
+        </div>
+    );
+};
+
 export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, children }) => {
     const { to, isActive } = useActive(url);
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [spread, setSpread] = useState(pathname.includes(url));
     const dragging = useContext(DraggingCtx);
-    const { show, hide } = useDialog();
     const { setUrl } = useFile();
-    const ctx = useRpc();
-    const base = useContext(RouteBaseCtx);
-    const { getConfig } = useConfig();
-    const mode = useMode();
 
     useEffect(() => {
         if (isActive) return;
@@ -60,50 +112,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                         {transformName(name)}
                     </span>
                 </div>
-                <div className={cx['button-group']}>
-                    {spread && mode === 'editable' && (
-                        <>
-                            <IconButton
-                                type="delete_outline"
-                                onClick={() => {
-                                    show({
-                                        icon: 'delete',
-                                        title: 'Delete the menu',
-                                        description: (
-                                            <div className="text-neutral">
-                                                <p>Are you sure you want to do this?</p>
-                                                <div className="text-sm mt-2 text-neutral text-opacity-60">
-                                                    All contents in this folder will be deleted.
-                                                </div>
-                                            </div>
-                                        ),
-                                        onConfirm: async () => {
-                                            if (ctx.status !== 'connected') {
-                                                hide();
-                                                return;
-                                            }
-                                            const nextId = await ctx.rpc.deleteFile(url);
-                                            await getConfig();
-                                            navigate(base + nextId, { replace: true });
-                                            setUrl(nextId);
-
-                                            hide();
-                                        },
-                                        onCancel: () => {
-                                            hide();
-                                        },
-                                    });
-                                }}
-                            />
-                        </>
-                    )}
-                    <IconButton
-                        type={!spread ? 'expand' : 'unfold_less'}
-                        onClick={() => {
-                            setSpread(!spread);
-                        }}
-                    />
-                </div>
+                <ButtonGroup spread={spread} setSpread={setSpread} />
             </div>
             {spread && <>{children}</>}
         </li>
