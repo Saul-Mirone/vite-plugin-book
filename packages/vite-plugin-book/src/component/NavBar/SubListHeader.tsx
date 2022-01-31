@@ -3,12 +3,10 @@ import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'r
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
-import { useConfig } from '../../hook/useConfig';
+import { useDelete } from '../../hook/useDelete';
 import { useDialog } from '../../hook/useDialog';
 import { useFile } from '../../hook/useFile';
 import { useMode } from '../../hook/useMode';
-import { useRpc } from '../../hook/useRpc';
-import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
@@ -27,27 +25,14 @@ const DeleteGroupDesc = () => (
     </div>
 );
 
-const ButtonGroup: FC<{ spread: boolean; setSpread: Dispatch<SetStateAction<boolean>> }> = ({ spread, setSpread }) => {
+const ButtonGroup: FC<{ url: string; spread: boolean; setSpread: Dispatch<SetStateAction<boolean>> }> = ({
+    url,
+    spread,
+    setSpread,
+}) => {
     const { show, hide } = useDialog();
     const mode = useMode();
-    const ctx = useRpc();
-    const { getConfig } = useConfig();
-    const navigate = useNavigate();
-    const base = useContext(RouteBaseCtx);
-    const { setUrl, url } = useFile();
-
-    const onDelete = async () => {
-        if (ctx.status !== 'connected') {
-            hide();
-            return;
-        }
-
-        const nextId = await ctx.rpc.deleteFile(url);
-        await getConfig();
-        navigate(base + nextId, { replace: true });
-        setUrl(nextId);
-        hide();
-    };
+    const onDelete = useDelete(url);
 
     return (
         <div className={cx['button-group']}>
@@ -112,7 +97,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                         {transformName(name)}
                     </span>
                 </div>
-                <ButtonGroup spread={spread} setSpread={setSpread} />
+                <ButtonGroup url={url} spread={spread} setSpread={setSpread} />
             </div>
             {spread && <>{children}</>}
         </li>

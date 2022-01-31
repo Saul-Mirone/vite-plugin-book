@@ -18,45 +18,53 @@ type NavProps = {
     setDragging: Dispatch<SetStateAction<boolean>>;
 };
 
-export const Nav: FC<NavProps> = ({ title, state, setDragging }) => {
+const ButtonGroup = () => {
     const base = useContext(RouteBaseCtx);
     const { url, setUrl } = useFile();
     const ctx = useRpc();
     const { getConfig } = useConfig();
     const navigate = useNavigate();
     const mode = useMode();
+
+    if (mode !== 'editable') return null;
+    return (
+        <div className={cx['icon-group']}>
+            <IconButton
+                type="post_add"
+                onClick={async () => {
+                    if (ctx.status !== 'connected') return;
+                    const nextId = await ctx.rpc.createFile(url);
+                    await getConfig();
+                    const to = `${base}${nextId}`;
+                    navigate(to);
+                    setUrl(nextId);
+                }}
+            />
+            <IconButton
+                type="create_new_folder"
+                onClick={async () => {
+                    if (ctx.status !== 'connected') return;
+                    const nextId = await ctx.rpc.createFile(url, true);
+                    await getConfig();
+                    const to = `${base}${nextId}`;
+                    navigate(to);
+                    setUrl(nextId);
+                }}
+            />
+        </div>
+    );
+};
+
+export const Nav: FC<NavProps> = ({ title, state, setDragging }) => {
+    const base = useContext(RouteBaseCtx);
+    const { setUrl } = useFile();
     return (
         <nav className={cx['nav']}>
             <div className={cx['container']}>
                 <NavLink onClick={() => setUrl('/')} to={base} className={cx['title']}>
                     {title}
                 </NavLink>
-                {mode === 'editable' && (
-                    <div className={cx['icon-group']}>
-                        <IconButton
-                            type="post_add"
-                            onClick={async () => {
-                                if (ctx.status !== 'connected') return;
-                                const nextId = await ctx.rpc.createFile(url);
-                                await getConfig();
-                                const to = `${base}${nextId}`;
-                                navigate(to);
-                                setUrl(nextId);
-                            }}
-                        />
-                        <IconButton
-                            type="create_new_folder"
-                            onClick={async () => {
-                                if (ctx.status !== 'connected') return;
-                                const nextId = await ctx.rpc.createFile(url, true);
-                                await getConfig();
-                                const to = `${base}${nextId}`;
-                                navigate(to);
-                                setUrl(nextId);
-                            }}
-                        />
-                    </div>
-                )}
+                <ButtonGroup />
             </div>
             <div
                 className={cx['list']}
