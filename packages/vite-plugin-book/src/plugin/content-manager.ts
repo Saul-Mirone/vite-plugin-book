@@ -118,7 +118,10 @@ export class ContentManager implements WebSocketServerEvents {
     }
 
     async deleteFile(url: string): Promise<string> {
-        const fullPath = this.resolveFilePath(url);
+        let fullPath = this.resolveFilePath(url);
+        if (fullPath.length === 0) {
+            fullPath = resolve(this.docDir, url);
+        }
         const dir = dirname(fullPath);
         await fs.remove(fullPath);
         const config = this.configService.get();
