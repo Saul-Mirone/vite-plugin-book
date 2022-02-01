@@ -1,0 +1,37 @@
+.mask {
+    @apply font-sans
+        fixed
+        top-0
+        bottom-0
+        left-0
+        right-0
+        w-full
+        h-full
+        z-1
+        flex
+        items-center
+        justify-center;
+
+    background: rgba(var(--shadow), 0.8);
+}
+
+.button-container {
+    @apply transition rounded-16px;
+
+    &:hover {
+        background: rgba(var(--primary), 0.3);
+    }
+
+    .button {
+        @apply px-12px
+            py-10px
+            cursor-pointer
+            flex
+            justify-center
+            items-center
+            leading-24px
+            gap-4px;
+
+        color: rgba(var(--primary), 1);
+    }
+}

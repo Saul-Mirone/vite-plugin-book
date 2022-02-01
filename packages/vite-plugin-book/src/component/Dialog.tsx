@@ -1,12 +1,12 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { FC } from 'react';
 
+import cx from './Dialog.module.css';
+
 const DialogButton: FC<{ onClick: () => void }> = ({ children, onClick }) => {
     return (
-        <div className="transition bg-opacity-30 hover:bg-primary rounded-16px" onClick={onClick}>
-            <div className="px-12px py-10px cursor-pointer text-primary text-opacity-100 flex justify-center items-center leading-24px gap-4px">
-                {children}
-            </div>
+        <div className={cx['button-container']} onClick={onClick}>
+            <div className={cx['button']}>{children}</div>
         </div>
     );
 };
@@ -20,7 +20,7 @@ export type DialogProps = {
 };
 
 export const Dialog: FC<DialogProps> = ({ title, description, onConfirm, onCancel, icon }) => (
-    <div className="font-sans fixed top-0 bottom-0 left-0 right-0 w-full h-full z-1 bg-neutral bg-opacity-80 flex items-center justify-center">
+    <div className={cx['mask']}>
         <div className="rounded-28px bg-background bg-opacity-100 p-24px w-312px">
             {icon && (
                 <div className="text-center mb-16px">

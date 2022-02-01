@@ -10,7 +10,7 @@ import {
     rootCtx,
 } from '@milkdown/core';
 import { cursor } from '@milkdown/plugin-cursor';
-// import { emoji } from '@milkdown/plugin-emoji';
+import { emoji } from '@milkdown/plugin-emoji';
 import { history } from '@milkdown/plugin-history';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prism } from '@milkdown/plugin-prism';
@@ -80,7 +80,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
             .use(listener)
             .use(prism)
             .use(history)
-            // .use(emoji)
+            .use(emoji)
             .use(gfm)
             .use(slash)
             .use(tooltip)
