@@ -34,11 +34,21 @@ const flushUrl = (state: ItemInfo[]) => {
 };
 
 const diffList = (origin: ItemInfo[], indexList: number[], newSlice: ItemInfo[]) => {
+    const whiteList = ['type', 'name', 'url', 'id'];
+    const slice = produce(newSlice, (draft) => {
+        walkThroughTree(draft, (item) => {
+            Object.keys(item).forEach((key) => {
+                if (whiteList.includes(key)) {
+                    return;
+                }
+                delete (item as Record<string, unknown>)[key];
+            });
+        });
+    });
     // TODO: validate first
-
     const value = produce(origin, (draft) => {
         if (indexList.length === 0) {
-            draft.splice(0, draft.length, ...newSlice);
+            draft.splice(0, draft.length, ...slice);
             return;
         }
         const _indexList = [...indexList];
@@ -47,7 +57,7 @@ const diffList = (origin: ItemInfo[], indexList: number[], newSlice: ItemInfo[])
         if (last != null) {
             const lastTarget = target[last];
             if (lastTarget) {
-                lastTarget.list = [...newSlice];
+                lastTarget.list = [...slice];
             }
         }
     });

@@ -8,26 +8,20 @@
                         "type": "file",
                         "name": "APIs-Reference-Manual.md",
                         "url": "Side-Bar-Config/APIs-Reference-Manual",
-                        "id": "Side-Bar-Config/APIs-Reference-Manual",
-                        "selected": false,
-                        "chosen": false
+                        "id": "Side-Bar-Config/APIs-Reference-Manual"
                     },
                     {
                         "type": "file",
                         "name": "Getting-Started.md",
                         "url": "Side-Bar-Config/Getting-Started",
-                        "id": "Side-Bar-Config/Getting-Started",
-                        "chosen": false,
-                        "selected": false
+                        "id": "Side-Bar-Config/Getting-Started"
                     }
                 ],
                 "type": "dir",
                 "name": "Side-Bar-Config",
                 "id": "Side-Bar-Config",
                 "url": "Side-Bar-Config",
-                "hasIndex": true,
-                "chosen": false,
-                "selected": false
+                "hasIndex": true
             },
             {
                 "type": "dir",
@@ -40,37 +34,27 @@
                         "type": "file",
                         "name": "installation.md",
                         "url": "Guide/installation",
-                        "id": "Guide/installation",
-                        "chosen": false,
-                        "selected": false
+                        "id": "Guide/installation"
                     },
                     {
                         "type": "file",
                         "name": "Test.md",
                         "url": "Guide/Test",
-                        "id": "Guide/Test",
-                        "selected": false,
-                        "chosen": false
+                        "id": "Guide/Test"
                     },
                     {
                         "type": "file",
                         "name": "Another.md",
                         "url": "Guide/Another",
-                        "id": "Guide/Another",
-                        "chosen": false,
-                        "selected": false
+                        "id": "Guide/Another"
                     }
-                ],
-                "chosen": false,
-                "selected": false
+                ]
             },
             {
                 "type": "file",
                 "name": "QA-List.md",
                 "url": "QA-List",
-                "id": "QA-List",
-                "selected": false,
-                "chosen": false
+                "id": "QA-List"
             }
         ]
     }
