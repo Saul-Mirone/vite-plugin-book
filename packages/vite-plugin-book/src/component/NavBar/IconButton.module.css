@@ -6,14 +6,14 @@
         items-center
         justify-center
         rounded-4xl
+        text-opacity-60
+        text-neutral
+        hover:text-primary
+        hover:text-opacity-100
         hover:bg-background;
 }
 
 .icon-btn {
     @apply cursor-pointer
-        text-lg
-        text-opacity-60
-        text-neutral
-        hover:text-primary
-        hover:text-opacity-100;
+        text-lg;
 }

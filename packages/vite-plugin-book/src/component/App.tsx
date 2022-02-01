@@ -27,7 +27,7 @@ export const App = () => {
             {config && <NavBar projectInfo={config.projectInfo} />}
             <div className="overflow-auto h-full flex flex-col">
                 <Header />
-                <div className="mx-30px flex justify-center mb-30px">
+                <div className="px-30px flex justify-center mb-30px">
                     <Editor readonly={mode !== 'editable'} />
                     <div className="w-255px ml-10px flex-shrink-0">
                         <Outline />

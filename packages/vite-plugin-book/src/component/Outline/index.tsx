@@ -34,7 +34,7 @@ export const Outline: FC = () => {
                     <div className="pl-10px">
                         <div className={`border-solid border-l border-line border-r-0 border-t-0 border-b-0`}>
                             <NestedDiv level={item.level}>
-                                <div className={'bg-opacity-12 cursor-pointer hover:bg-secondary'}>
+                                <div className={'bg-opacity-12 cursor-pointer hover:bg-secondary hover:bg-opacity-30'}>
                                     <a
                                         href={url}
                                         className={`no-underline truncate text-sm block pl-16px py-8px leading-20px text-opacity-78 hover:text-primary ${

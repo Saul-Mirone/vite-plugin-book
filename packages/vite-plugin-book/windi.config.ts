@@ -1,8 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { defineConfig } from 'windicss/helpers';
 
-const colorFactory = (r: number, g: number, b: number) =>
-    `rgba(${r}, ${g}, ${b}, var(--tw-text-opacity, var(--tw-bg-opacity, 1)))`;
+const colorFactory = (r: number, g: number, b: number) => `rgba(${r}, ${g}, ${b}, 1)`;
 
 export default defineConfig({
     preflight: false,
