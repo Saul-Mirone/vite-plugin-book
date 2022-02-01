@@ -3,21 +3,25 @@ import './Header.css';
 
 import { FC } from 'react';
 
-const Button: FC<{ text: string }> = ({ text }) => {
+import { useUIConfig } from '../hook/useUIConfig';
+import { nope } from '../utils/helper';
+
+const Button: FC<{ text: string; onClick: () => void }> = ({ text, onClick }) => {
     return (
-        <div className="header-button">
+        <div className="header-button" onClick={onClick}>
             <span className="material-icons-outlined">{text}</span>
         </div>
     );
 };
 
 export const Header = () => {
+    const { setMenuFold } = useUIConfig();
     return (
         <div className="h-64px flex justify-between px-16px items-center">
-            <Button text="menu" />
+            <Button onClick={() => setMenuFold((x) => !x)} text="menu" />
             <div className="flex gap-4px">
-                <Button text="dark_mode" />
-                <Button text="share" />
+                <Button onClick={nope} text="dark_mode" />
+                <Button onClick={nope} text="share" />
             </div>
         </div>
     );

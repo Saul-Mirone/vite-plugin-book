@@ -13,6 +13,7 @@ import { ModeProvider } from '../provider/ModeProvider';
 import { OutlineProvider } from '../provider/OutlineProvider';
 import { RouteBaseProvider } from '../provider/RouteBaseProvider';
 import { DevRpcProvider, RuntimeRpcProvider } from '../provider/RpcProvider';
+import { UIProvider } from '../provider/UIProvider';
 import { App } from './App';
 
 const isPreview = location.pathname.split('/').includes('__preview__');
@@ -35,7 +36,9 @@ export const Root: FC<{ isRuntime?: boolean }> = memo(({ isRuntime = false }) =>
                                 <ConfigProvider>
                                     <OutlineProvider>
                                         <DialogProvider>
-                                            <App />
+                                            <UIProvider>
+                                                <App />
+                                            </UIProvider>
                                         </DialogProvider>
                                     </OutlineProvider>
                                 </ConfigProvider>
