@@ -4,6 +4,7 @@ import './Header.css';
 import { FC } from 'react';
 
 import { useFile } from '../hook/useFile';
+import { useToast } from '../hook/useToast';
 import { useUIConfig } from '../hook/useUIConfig';
 
 const Button: FC<{ text: string; onClick: () => void }> = ({ text, onClick }) => {
@@ -17,6 +18,7 @@ const Button: FC<{ text: string; onClick: () => void }> = ({ text, onClick }) =>
 export const Header = () => {
     const { setMenuFold, setIsDarkMode } = useUIConfig();
     const { url } = useFile();
+    const setToast = useToast();
     return (
         <div className="h-64px flex justify-between px-16px items-center">
             <Button onClick={() => setMenuFold((x) => !x)} text="menu" />
@@ -25,6 +27,7 @@ export const Header = () => {
                 <Button
                     onClick={() => {
                         navigator.clipboard.writeText(`${location.protocol}//${location.host}/${url}`);
+                        setToast('Link Copied');
                     }}
                     text="share"
                 />
