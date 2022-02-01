@@ -2,9 +2,12 @@
     @apply cursor-pointer
         transition
         p-12px
-        hover:bg-secondary
-        hover:bg-opacity-20
-        hover:text-primary
-        hover:text-opacity-100
         rounded-14px;
+
+    color: rgba(var(--neutral), 1);
+
+    &:hover {
+        background: rgba(var(--secondary), 0.2);
+        color: rgba(var(--primary), 1);
+    }
 }

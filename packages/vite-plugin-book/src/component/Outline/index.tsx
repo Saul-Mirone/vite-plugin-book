@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useOutline } from '../../hook/useOutline';
+import cx from './Outline.module.css';
 
 type OutlineItem = {
     text: string;
@@ -32,13 +33,13 @@ export const Outline: FC = () => {
                 const url = '#' + item.text.toLowerCase().split(' ').join('-');
                 return (
                     <div className="pl-10px">
-                        <div className={`border-solid border-l border-line border-r-0 border-t-0 border-b-0`}>
+                        <div className={cx['container']}>
                             <NestedDiv level={item.level}>
-                                <div className={'bg-opacity-12 cursor-pointer hover:bg-secondary hover:bg-opacity-30'}>
+                                <div className={cx['item']}>
                                     <a
                                         href={url}
-                                        className={`no-underline truncate text-sm block pl-16px py-8px leading-20px text-opacity-78 hover:text-primary ${
-                                            location.hash === url ? 'text-primary' : 'text-neutral'
+                                        className={`no-underline truncate text-sm block pl-16px py-8px leading-20px hover:text-primary ${
+                                            location.hash === url ? 'text-primary' : ''
                                         }`}
                                     >
                                         {item.text}

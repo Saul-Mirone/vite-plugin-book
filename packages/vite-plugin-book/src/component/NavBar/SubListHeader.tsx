@@ -91,7 +91,9 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
             >
                 <div className="flex h-24px">
                     <span
-                        className={`${cx['header']} ${isActive ? cx['active'] : cx['inactive']}`}
+                        className={`${cx['header']} ${dragging ? '' : cx['not-dragging']} ${
+                            isActive ? cx['active'] : cx['inactive']
+                        }`}
                         onClick={() => hasIndex && setUrl(url)}
                     >
                         {transformName(name)}

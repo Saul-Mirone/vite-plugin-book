@@ -2,7 +2,7 @@
 import { FC } from 'react';
 
 import { nope } from '../utils/helper';
-import { SurfaceButton } from './Button';
+import cx from './Toolbar.module.css';
 
 type ToolbarProps = {
     changed: boolean;
@@ -10,9 +10,15 @@ type ToolbarProps = {
     onCancel: () => void;
 };
 
+const SurfaceButton: FC<{ icon: string; onClick: () => void }> = ({ icon, onClick }) => (
+    <div onClick={onClick} className={cx['button']}>
+        <span className="material-icons-outlined">{icon}</span>
+    </div>
+);
+
 export const Toolbar: FC<ToolbarProps> = ({ changed, onSave, onCancel }) => {
     return (
-        <div className="transition shadow-lg rounded-28px fixed right-24px bottom-24px bg-surface p-12px flex gap-8px">
+        <div className={cx['container']}>
             {/* <SurfaceButton onClick={onAdd} icon="add" />
             <SurfaceButton onClick={nope} icon="delete" /> */}
             <SurfaceButton onClick={nope} icon="visibility" />

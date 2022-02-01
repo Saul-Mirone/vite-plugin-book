@@ -9,14 +9,14 @@ export default defineConfig({
     theme: {
         extend: {
             colors: {
-                shadow: colorFactory(59, 66, 82),
-                primary: colorFactory(94, 129, 172),
-                secondary: colorFactory(129, 161, 193),
-                neutral: colorFactory(46, 52, 64),
-                solid: colorFactory(76, 86, 106),
-                line: colorFactory(216, 222, 233),
-                background: colorFactory(236, 239, 244),
-                surface: colorFactory(255, 255, 255),
+                shadow: 'rgba(var(--shadow), 1)',
+                primary: 'rgba(var(--primary), 1)',
+                secondary: 'rgba(var(--secondary), 1)',
+                neutral: 'rgba(var(--neutral), 1)',
+                solid: 'rgba(var(--solid), 1)',
+                line: 'rgba(var(--line), 1)',
+                background: 'rgba(var(--background), 1)',
+                surface: 'rgba(var(--surface), 1)',
             },
         },
     },

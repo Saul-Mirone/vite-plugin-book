@@ -15,12 +15,12 @@ const Button: FC<{ text: string; onClick: () => void }> = ({ text, onClick }) =>
 };
 
 export const Header = () => {
-    const { setMenuFold } = useUIConfig();
+    const { setMenuFold, setIsDarkMode } = useUIConfig();
     return (
         <div className="h-64px flex justify-between px-16px items-center">
             <Button onClick={() => setMenuFold((x) => !x)} text="menu" />
             <div className="flex gap-4px">
-                <Button onClick={nope} text="dark_mode" />
+                <Button onClick={() => setIsDarkMode((x) => !x)} text="dark_mode" />
                 <Button onClick={nope} text="share" />
             </div>
         </div>

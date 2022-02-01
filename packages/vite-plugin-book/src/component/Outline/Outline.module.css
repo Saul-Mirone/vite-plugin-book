@@ -1,0 +1,17 @@
+.container {
+    @apply border-solid border-l border-line border-r-0 border-t-0 border-b-0;
+}
+
+.item {
+    @apply cursor-pointer;
+
+    background: rgba(var(--secondary), 0);
+
+    a {
+        color: rgba(var(--neutral), 0.6);
+    }
+
+    &:hover {
+        background: rgba(var(--secondary), 0.3);
+    }
+}

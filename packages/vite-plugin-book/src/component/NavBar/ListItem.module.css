@@ -1,15 +1,3 @@
-.list-item-container {
-    @apply transition cursor-pointer rounded-8px;
-
-    &.not-dragging {
-        @apply hover:bg-primary hover:bg-opacity-38;
-    }
-
-    &.active {
-        @apply bg-secondary bg-opacity-12;
-    }
-}
-
 .list-item {
     @apply transition
         block
@@ -23,15 +11,26 @@
         justify-between
         items-center;
 
-    &.not-dragging {
-        @apply hover:text-primary hover:text-opacity-100;
-    }
-
     &.active {
-        @apply text-primary text-opacity-100;
+        @apply text-primary;
     }
 
     &.inactive {
-        @apply text-neutral text-opacity-60;
+        color: rgba(var(--neutral), 0.6);
+    }
+}
+
+.list-item-container {
+    @apply transition cursor-pointer rounded-8px;
+
+    &.active {
+        background: rgba(var(--secondary), 0.12);
+    }
+
+    &.not-dragging:hover {
+        background: rgba(var(--primary), 0.38);
+        .list-item {
+            color: rgba(var(--primary), 1);
+        }
     }
 }

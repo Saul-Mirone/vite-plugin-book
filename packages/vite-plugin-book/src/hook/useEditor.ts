@@ -17,11 +17,12 @@ import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { gfm } from '@milkdown/preset-gfm';
-import { nordLight } from '@milkdown/theme-nord';
+import { nordDark, nordLight } from '@milkdown/theme-nord';
 import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { nope } from '../utils/helper';
 import { useOutline } from './useOutline';
+import { useUIConfig } from './useUIConfig';
 
 export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: string, readOnly = false) {
     const milkdown = useRef<Editor>();
@@ -29,6 +30,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
     const [changed, setChanged] = useState(false);
     const [_, setOutline] = useOutline();
     const [editorValue, setEditorValue] = useState(defaultValue);
+    const { isDarkMode } = useUIConfig();
 
     const [flag, setFlag] = useState(false);
 
@@ -74,7 +76,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                         setEditorValue(markdown);
                     });
             })
-            .use(nordLight)
+            .use(isDarkMode ? nordDark : nordLight)
             .use(listener)
             .use(prism)
             .use(history)
@@ -96,7 +98,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                 )
                 .catch(nope);
         };
-    }, [containerRef, defaultValue, readOnly, setOutline, flag]);
+    }, [containerRef, defaultValue, readOnly, setOutline, flag, isDarkMode]);
 
     const get = useCallback(() => {
         const $ = milkdown.current;
