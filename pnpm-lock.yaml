@@ -101,6 +101,7 @@ importers:
       magic-string: ^0.25.7
       material-icons: ^1.10.6
       pathe: ^0.2.0
+      picocolors: ^1.0.0
       prism-themes: ^1.9.0
       react: ^17.0.2
       react-dom: ^17.0.2
@@ -120,6 +121,7 @@ importers:
       fs-extra: 10.0.0
       magic-string: 0.25.7
       pathe: 0.2.0
+      picocolors: 1.0.0
       react-sortablejs: 6.0.3_5225c19a6dafa75cd438f6773f26a971
       sirv: 2.0.2
       ws: 8.4.2
@@ -4639,7 +4641,6 @@ packages:
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
-    dev: true
 
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}

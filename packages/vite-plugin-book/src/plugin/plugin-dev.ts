@@ -1,6 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import type { AddressInfo } from 'net';
 import { resolve } from 'pathe';
+import colors from 'picocolors';
 import sirv from 'sirv';
 import { fileURLToPath } from 'url';
 import type { Plugin } from 'vite';
@@ -67,8 +68,8 @@ export function vitePluginBookDev(bookOptions: BookPluginOptions): Plugin {
                 const url = `${protocol}://${host.name}:${addr.port}/__vite_plugin_book__/`;
 
                 setTimeout(() => {
-                    console.log(`  > Book Admin: ${url}`);
-                    console.log(`  > Book Preview: ${url}__preview__/`);
+                    console.log(`  > Book Admin: ${colors.cyan(url)}`);
+                    console.log(`  > Book Preview: ${colors.cyan(url + '__preview__/')}`);
                 });
             });
         },

@@ -87,6 +87,7 @@
         "fs-extra": "^10.0.0",
         "magic-string": "^0.25.7",
         "pathe": "^0.2.0",
+        "picocolors": "^1.0.0",
         "react-sortablejs": "^6.0.3",
         "sirv": "^2.0.0",
         "ws": "^8.4.2"

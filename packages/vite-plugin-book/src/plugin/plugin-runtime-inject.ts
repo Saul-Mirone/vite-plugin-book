@@ -1,8 +1,8 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-
 import fs from 'fs-extra';
 import MagicString from 'magic-string';
 import { dirname, extname, relative, resolve } from 'pathe';
+import colors from 'picocolors';
 import type { Plugin } from 'vite';
 
 import { withOutExt } from '../utils/helper';
@@ -40,7 +40,7 @@ export function vitePluginBookRuntimeInject(bookOptions: BookPluginOptions): Plu
                 return null;
             }
             console.log('\n');
-            console.log('Inject global environments for vite-plugin-book to file: ', id);
+            console.log(colors.cyan('Injecting for vite-plugin-book to file: ' + id));
 
             const magicString = new MagicString(code);
 
@@ -65,7 +65,7 @@ export function vitePluginBookRuntimeInject(bookOptions: BookPluginOptions): Plu
                             relativeUrl,
                         )}'] = () => import('./${relative(dirname(id), url)}');`;
 
-                        console.log(injectStr);
+                        console.log(colors.green(`Handle file: ${relative(dirname(id), url)}`));
                         magicString.prepend(injectStr);
                     }),
                 );
@@ -73,8 +73,7 @@ export function vitePluginBookRuntimeInject(bookOptions: BookPluginOptions): Plu
 
             await handlePath(docsDir);
 
-            // TODO: inject json config here
-            console.log(docConfig);
+            console.log(colors.cyan('Inject config file'));
             magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__.config = ${JSON.stringify(docConfig)};`);
             magicString.prepend(`globalThis.__VITE_PLUGIN_BOOK__ = { mapping: {} };`);
 
