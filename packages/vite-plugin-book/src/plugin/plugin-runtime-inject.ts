@@ -20,7 +20,7 @@ export function vitePluginBookRuntimeInject(bookOptions: BookPluginOptions): Plu
         async configResolved(resolvedConfig) {
             root = resolvedConfig.root;
 
-            const docDir = resolve(root, 'docs');
+            const docDir = resolve(root, bookOptions.path);
             const configService = new ConfigService(docDir, bookOptions.name);
             await configService.ready;
             const contentManager = new ContentManager(docDir, configService);

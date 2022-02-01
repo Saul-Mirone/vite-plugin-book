@@ -36,6 +36,9 @@ export class ConfigService {
             }
         }
 
+        await fs.ensureDir(this.#rootDir);
+        await fs.ensureFile(path.resolve(this.#rootDir, 'index.md'));
+
         await this.#initConfig();
     }
 

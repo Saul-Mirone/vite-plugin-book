@@ -9,11 +9,13 @@ import { vitePluginBookRuntimeInject } from './plugin-runtime-inject';
 
 export type BookPluginOptions = {
     name: string;
+    path: string;
 };
 
-export function book(options?: BookPluginOptions): Plugin[] {
+export function book(options?: Partial<BookPluginOptions>): Plugin[] {
     const overrideOptions: BookPluginOptions = {
         name: 'vite-book',
+        path: 'docs',
         ...(options || {}),
     };
     return [
