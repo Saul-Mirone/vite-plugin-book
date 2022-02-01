@@ -7,12 +7,14 @@ import { useConfig } from './useConfig';
 import { useFile } from './useFile';
 import { useMode } from './useMode';
 import { useRpc } from './useRpc';
+import { useToast } from './useToast';
 
 export const useFileFetcher = (state: ListReducerState) => {
     const ctx = useRpc();
     const { setFile, url } = useFile();
     const { getConfig } = useConfig();
     const mode = useMode();
+    const setToast = useToast();
     useEffect(() => {
         if (ctx.status !== 'connected') {
             return;
@@ -43,10 +45,11 @@ export const useFileFetcher = (state: ListReducerState) => {
         const sortFiles = async () => {
             const changed = await ctx.rpc.sort(state.curr);
             if (changed) {
-                getConfig();
+                await getConfig();
+                setToast('Sort Files Succeed');
             }
         };
 
         sortFiles();
-    }, [ctx, getConfig, mode, state]);
+    }, [ctx, getConfig, mode, setToast, state]);
 };
