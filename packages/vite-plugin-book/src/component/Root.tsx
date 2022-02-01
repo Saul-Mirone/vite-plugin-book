@@ -13,6 +13,7 @@ import { ModeProvider } from '../provider/ModeProvider';
 import { OutlineProvider } from '../provider/OutlineProvider';
 import { RouteBaseProvider } from '../provider/RouteBaseProvider';
 import { DevRpcProvider, RuntimeRpcProvider } from '../provider/RpcProvider';
+import { ToastProvider } from '../provider/ToastProvider';
 import { UIProvider } from '../provider/UIProvider';
 import { App } from './App';
 
@@ -36,9 +37,11 @@ export const Root: FC<{ isRuntime?: boolean }> = memo(({ isRuntime = false }) =>
                                 <ConfigProvider>
                                     <OutlineProvider>
                                         <DialogProvider>
-                                            <UIProvider>
-                                                <App />
-                                            </UIProvider>
+                                            <ToastProvider>
+                                                <UIProvider>
+                                                    <App />
+                                                </UIProvider>
+                                            </ToastProvider>
                                         </DialogProvider>
                                     </OutlineProvider>
                                 </ConfigProvider>

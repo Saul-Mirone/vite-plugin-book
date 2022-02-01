@@ -1,0 +1,40 @@
+.container {
+    @apply font-sans
+        transition
+        duration-500
+        shadow-lg
+        rounded-28px
+        fixed
+        left-24px
+        top-24px
+        bg-surface
+        p-12px
+        flex
+        justify-between
+        items-center
+        gap-8px;
+
+    color: rgba(var(--neutral), 0.87);
+    left: 50%;
+    transform: translateX(-50%);
+
+    &.hide {
+        transform: translateY(-80px) translateX(-50%);
+    }
+
+    .icon {
+        @apply transition
+            w-28px
+            h-28px
+            flex
+            items-center
+            justify-center
+            rounded-4xl
+            cursor-pointer;
+
+        &:hover {
+            background: rgba(var(--background), 0.8);
+            color: rgba(var(--primary), 1);
+        }
+    }
+}

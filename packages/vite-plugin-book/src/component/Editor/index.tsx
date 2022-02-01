@@ -11,6 +11,7 @@ import { useIsRuntime } from '../../hook/useMode';
 import { useNav } from '../../hook/useNav';
 import { useOutline } from '../../hook/useOutline';
 import { useRpc } from '../../hook/useRpc';
+import { useToast } from '../../hook/useToast';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { Toolbar } from '../Toolbar';
 
@@ -25,6 +26,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const { getConfig } = useConfig();
     const isRuntime = useIsRuntime();
     const nav = useNav();
+    const setToast = useToast();
 
     const onSave = async () => {
         if (ctx.status !== 'connected' || !url) return;
@@ -46,6 +48,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
             .concat(name)
             .join('/');
         nav(newPath);
+        setToast('Article Saved');
     };
 
     const onCancel = () => {

@@ -7,6 +7,7 @@ import { useFile } from '../../hook/useFile';
 import { useMode } from '../../hook/useMode';
 import { useNav } from '../../hook/useNav';
 import { useRpc } from '../../hook/useRpc';
+import { useToast } from '../../hook/useToast';
 import { ItemInfo } from '../../interface';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { IconButton } from './IconButton';
@@ -25,6 +26,7 @@ const ButtonGroup = () => {
     const { getConfig } = useConfig();
     const mode = useMode();
     const nav = useNav();
+    const setToast = useToast();
 
     if (mode !== 'editable') return null;
     return (
@@ -36,6 +38,7 @@ const ButtonGroup = () => {
                     const nextId = await ctx.rpc.createFile(url);
                     await getConfig();
                     nav(nextId);
+                    setToast('New File Created');
                 }}
             />
             <IconButton
@@ -45,6 +48,7 @@ const ButtonGroup = () => {
                     const nextId = await ctx.rpc.createFile(url, true);
                     await getConfig();
                     nav(nextId);
+                    setToast('New Directory Created');
                 }}
             />
         </div>

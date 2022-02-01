@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useConfig } from '../hook/useConfig';
 import { useMode } from '../hook/useMode';
 import { useRpc } from '../hook/useRpc';
+import { useToast } from '../hook/useToast';
 import { Editor } from './Editor';
 import { Header } from './Header';
 import { Layout } from './Layout';
@@ -15,12 +16,17 @@ export const App = () => {
     const ctx = useRpc();
     const { config, getConfig } = useConfig();
     const mode = useMode();
+    const setToast = useToast();
 
     useEffect(() => {
         if (ctx.status === 'connected') {
-            getConfig();
+            const onConnected = async () => {
+                await getConfig();
+                setToast('Local Env Connected');
+            };
+            onConnected();
         }
-    }, [ctx, getConfig, mode]);
+    }, [ctx, getConfig, mode, setToast]);
 
     return (
         <Layout>
