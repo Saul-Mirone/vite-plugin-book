@@ -6,3 +6,7 @@
         background: rgba(var(--primary), 0.8);
     }
 }
+
+.milkdown-wrapper {
+    width: calc(100% - 255px);
+}

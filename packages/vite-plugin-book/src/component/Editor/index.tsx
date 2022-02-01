@@ -63,7 +63,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
 
     return (
         <>
-            <div className="max-w-1080px w-full" ref={divRef} />
+            <div className="max-w-1080px milkdown-wrapper" ref={divRef} />
             {mode === 'editable' && <Toolbar changed={changed} onSave={onSave} onCancel={onCancel} />}
         </>
     );
