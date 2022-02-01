@@ -5,6 +5,7 @@ import sirv from 'sirv';
 import { fileURLToPath } from 'url';
 import type { Plugin } from 'vite';
 
+import { BookPluginOptions } from '.';
 import { createWsServer } from './ws-server';
 
 function resolveHostname(optionsHost: string | boolean | undefined) {
@@ -31,7 +32,7 @@ function resolveHostname(optionsHost: string | boolean | undefined) {
     return { host, name } as const;
 }
 
-export function vitePluginBookDev(): Plugin {
+export function vitePluginBookDev(bookOptions: BookPluginOptions): Plugin {
     return {
         name: 'vite-plugin-book:dev',
         apply: 'serve',
@@ -42,7 +43,7 @@ export function vitePluginBookDev(): Plugin {
 
             const docsDir = resolve(root, 'docs');
 
-            createWsServer(server, docsDir);
+            createWsServer(server, docsDir, bookOptions.name);
 
             server.middlewares.use(
                 '/__vite_plugin_book__/',

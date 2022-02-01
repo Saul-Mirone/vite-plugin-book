@@ -11,12 +11,14 @@ import { readProject } from './read-project';
 export class ConfigService {
     #rootDir: string;
     #configPath: string;
+    #projectName: string;
     #configData!: BookConfig;
     ready: Promise<void>;
 
-    constructor(rootDir: string) {
+    constructor(rootDir: string, name: string) {
         this.#rootDir = rootDir;
         this.#configPath = path.resolve(rootDir, 'settings.json');
+        this.#projectName = name;
         this.ready = this.#ensureConfig();
     }
 
@@ -38,7 +40,7 @@ export class ConfigService {
     }
 
     async #initConfig(): Promise<void> {
-        const projectInfo = await readProject(this.#rootDir);
+        const projectInfo = await readProject(this.#rootDir, this.#projectName);
         const config = {
             projectInfo,
         };

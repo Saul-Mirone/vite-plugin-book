@@ -6,10 +6,11 @@ import { dirname, extname, relative, resolve } from 'pathe';
 import type { Plugin } from 'vite';
 
 import { withOutExt } from '../utils/helper';
+import { BookPluginOptions } from '.';
 import { ConfigService } from './config-service';
 import { ContentManager } from './content-manager';
 
-export function vitePluginBookRuntimeInject(): Plugin {
+export function vitePluginBookRuntimeInject(bookOptions: BookPluginOptions): Plugin {
     let root = '';
     let docConfig: Record<string, unknown>;
     let injected = false;
@@ -20,7 +21,7 @@ export function vitePluginBookRuntimeInject(): Plugin {
             root = resolvedConfig.root;
 
             const docDir = resolve(root, 'docs');
-            const configService = new ConfigService(docDir);
+            const configService = new ConfigService(docDir, bookOptions.name);
             await configService.ready;
             const contentManager = new ContentManager(docDir, configService);
 

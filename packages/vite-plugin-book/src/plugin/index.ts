@@ -7,6 +7,19 @@ import { vitePluginBookDev } from './plugin-dev';
 import { vitePluginBookMarkdown } from './plugin-markdown';
 import { vitePluginBookRuntimeInject } from './plugin-runtime-inject';
 
-export function book(): Plugin[] {
-    return [json(), vitePluginBookDev(), vitePluginBookMarkdown(), vitePluginBookRuntimeInject()];
+export type BookPluginOptions = {
+    name: string;
+};
+
+export function book(options?: BookPluginOptions): Plugin[] {
+    const overrideOptions: BookPluginOptions = {
+        name: 'vite-book',
+        ...(options || {}),
+    };
+    return [
+        json(),
+        vitePluginBookDev(overrideOptions),
+        vitePluginBookMarkdown(),
+        vitePluginBookRuntimeInject(overrideOptions),
+    ];
 }
