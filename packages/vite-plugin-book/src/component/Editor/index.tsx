@@ -1,20 +1,21 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import './style.css';
 
-import { FC, memo, useRef } from 'react';
+import { FC, memo, useContext, useRef } from 'react';
 
 import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
 import { useEditor } from '../../hook/useEditor';
 import { useFile } from '../../hook/useFile';
-import { useMode } from '../../hook/useMode';
+import { useIsRuntime } from '../../hook/useMode';
 import { useNav } from '../../hook/useNav';
 import { useOutline } from '../../hook/useOutline';
 import { useRpc } from '../../hook/useRpc';
+import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { Toolbar } from '../Toolbar';
 
 export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
-    const mode = useMode();
+    const base = useContext(RouteBaseCtx);
     const ctx = useRpc();
     const { file, url, setFile } = useFile();
     const divRef = useRef<HTMLDivElement>(null);
@@ -22,6 +23,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const { show, hide } = useDialog();
     const [data] = useOutline();
     const { getConfig } = useConfig();
+    const isRuntime = useIsRuntime();
     const nav = useNav();
 
     const onSave = async () => {
@@ -61,10 +63,19 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
         });
     };
 
+    const onPreview = () => {
+        location.href = `${location.protocol}//${location.host}${base}__preview__/${url}`;
+    };
+    const onEdit = () => {
+        location.href = `${location.protocol}//${location.host}/__vite_plugin_book__/${url}`;
+    };
+
     return (
         <>
             <div className="max-w-1080px milkdown-wrapper" ref={divRef} />
-            {mode === 'editable' && <Toolbar changed={changed} onSave={onSave} onCancel={onCancel} />}
+            {!isRuntime && (
+                <Toolbar changed={changed} onSave={onSave} onCancel={onCancel} onPreview={onPreview} onEdit={onEdit} />
+            )}
         </>
     );
 });

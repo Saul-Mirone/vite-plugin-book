@@ -29,7 +29,7 @@ export const Root: FC<{ isRuntime?: boolean }> = memo(({ isRuntime = false }) =>
     return (
         <StrictMode>
             <BrowserRouter>
-                <ModeProvider mode={mode}>
+                <ModeProvider mode={mode} isRuntime={isRuntime}>
                     <RouteBaseProvider base={base}>
                         <RpcProvider>
                             <FileProvider>
