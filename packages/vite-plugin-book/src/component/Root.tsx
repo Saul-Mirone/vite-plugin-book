@@ -18,11 +18,12 @@ import { UIProvider } from '../provider/UIProvider';
 import { App } from './App';
 
 const isPreview = location.pathname.split('/').includes('__preview__');
+const [prefix = '/'] = location.pathname.split('__vite_plugin_book__');
 const base = location.pathname.includes('__vite_plugin_book__')
     ? isPreview
-        ? '/__vite_plugin_book__/__preview__/'
-        : '/__vite_plugin_book__/'
-    : '/';
+        ? prefix + '__vite_plugin_book__/__preview__/'
+        : prefix + '__vite_plugin_book__/'
+    : prefix;
 
 export const Root: FC<{ isRuntime?: boolean }> = memo(({ isRuntime = false }) => {
     const RpcProvider = useMemo(() => (isRuntime ? RuntimeRpcProvider : DevRpcProvider), [isRuntime]);

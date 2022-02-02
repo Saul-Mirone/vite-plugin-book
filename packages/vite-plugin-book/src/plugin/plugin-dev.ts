@@ -40,7 +40,7 @@ export function vitePluginBookDev(bookOptions: BookPluginOptions): Plugin {
         async configureServer(server) {
             const clientDist = resolve(fileURLToPath(import.meta.url), '../../ui');
 
-            const { root } = server.config;
+            const { root, base = '/' } = server.config;
 
             const docsDir = resolve(root, bookOptions.path);
 
@@ -65,7 +65,7 @@ export function vitePluginBookDev(bookOptions: BookPluginOptions): Plugin {
                 const addr = httpServer.address() as AddressInfo;
                 if (!addr?.address) return;
 
-                const url = `${protocol}://${host.name}:${addr.port}/__vite_plugin_book__/`;
+                const url = `${protocol}://${host.name}:${addr.port}${base}__vite_plugin_book__/`;
 
                 setTimeout(() => {
                     console.log(`  > Book Admin: ${colors.cyan(url)}`);
