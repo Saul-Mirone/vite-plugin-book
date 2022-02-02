@@ -10,11 +10,11 @@ export const SetMenuFoldCtx = createContext<Dispatch<SetStateAction<boolean>>>(n
 export const IsDarkModeCtx = createContext<boolean>(false);
 export const SetIsDarkModeCtx = createContext<Dispatch<SetStateAction<boolean>>>(nope);
 
+const isDark = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
 export const UIProvider: FC = memo(({ children }) => {
     const [menuFold, setMenuFold] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(
-        Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches),
-    );
+    const [isDarkMode, setIsDarkMode] = useState(isDark);
 
     useEffect(() => {
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
