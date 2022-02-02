@@ -53,8 +53,7 @@ jobs:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: deploy to pages
-                    uses: peaceiris/actions-gh-pages@v3
-                    with:
-                        github_token: ${{ secrets.GITHUB_TOKEN }}
-                        publish_dir: gh-pages/dist
-
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: gh-pages/dist
