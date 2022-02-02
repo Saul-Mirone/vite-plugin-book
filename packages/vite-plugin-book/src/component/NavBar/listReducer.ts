@@ -34,7 +34,7 @@ const flushUrl = (state: ItemInfo[]) => {
 };
 
 const diffList = (origin: ItemInfo[], indexList: number[], newSlice: ItemInfo[]) => {
-    const whiteList = ['type', 'name', 'url', 'id'];
+    const whiteList = ['type', 'name', 'url', 'id', 'list', 'hasIndex'];
     const slice = produce(newSlice, (draft) => {
         walkThroughTree(draft, (item) => {
             Object.keys(item).forEach((key) => {
@@ -45,6 +45,7 @@ const diffList = (origin: ItemInfo[], indexList: number[], newSlice: ItemInfo[])
             });
         });
     });
+
     // TODO: validate first
     const value = produce(origin, (draft) => {
         if (indexList.length === 0) {
