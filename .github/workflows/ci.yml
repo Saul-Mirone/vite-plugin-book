@@ -52,6 +52,9 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+            - name: build doc
+              run: pnpm run build --filter=gh-pages
+
             - name: deploy to pages
               uses: peaceiris/actions-gh-pages@v3
               with:
