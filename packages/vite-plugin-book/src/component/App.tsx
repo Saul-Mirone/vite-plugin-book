@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import { useConfig } from '../hook/useConfig';
-import { useMode } from '../hook/useMode';
+import { useIsRuntime, useMode } from '../hook/useMode';
 import { useRpc } from '../hook/useRpc';
 import { useToast } from '../hook/useToast';
 import { Editor } from './Editor';
@@ -17,16 +17,19 @@ export const App = () => {
     const { config, getConfig } = useConfig();
     const mode = useMode();
     const setToast = useToast();
+    const isRuntime = useIsRuntime();
 
     useEffect(() => {
         if (ctx.status === 'connected') {
             const onConnected = async () => {
                 await getConfig();
-                setToast('Local Env Connected');
+                if (!isRuntime) {
+                    setToast('Local Env Connected');
+                }
             };
             onConnected();
         }
-    }, [ctx, getConfig, mode, setToast]);
+    }, [ctx, getConfig, isRuntime, mode, setToast]);
 
     return (
         <Layout>
