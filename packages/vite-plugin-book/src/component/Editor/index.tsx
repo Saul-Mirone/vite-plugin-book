@@ -43,10 +43,13 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
         }
         await getConfig();
         const prevPathList = url.split('/');
-        const newPath = prevPathList
-            .slice(0, prevPathList.length - 1)
-            .concat(name)
-            .join('/');
+        const newPath =
+            url === '/'
+                ? ''
+                : prevPathList
+                      .slice(0, prevPathList.length - 1)
+                      .concat(name)
+                      .join('/');
         nav(newPath);
         setToast('Article Saved');
     };

@@ -20,7 +20,7 @@ export class ContentManager implements WebSocketServerEvents {
         const fullPath = this.resolveFilePath(url);
         await fs.writeFile(fullPath, markdown);
         const filename = basename(fullPath);
-        if (filename !== name) {
+        if (url !== '/' && filename !== name) {
             const { isFile, newPath } = await this.configService.moveFile(url, name, fullPath);
 
             const from = isFile ? fullPath : dirname(fullPath);
@@ -100,6 +100,9 @@ export class ContentManager implements WebSocketServerEvents {
     }
 
     private resolveFilePath(url: string) {
+        if (url === '/') {
+            url = 'index';
+        }
         const target = resolve(this.docDir, url) + '.md';
         if (fs.existsSync(target)) {
             return target;

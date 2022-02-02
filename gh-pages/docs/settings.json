@@ -32,9 +32,9 @@
                 "list": [
                     {
                         "type": "file",
-                        "name": "installation.md",
-                        "url": "Guide/installation",
-                        "id": "Guide/installation"
+                        "name": "Installation.md",
+                        "url": "Guide/Installation",
+                        "id": "Guide/Installation"
                     },
                     {
                         "type": "file",
