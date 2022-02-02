@@ -3,7 +3,8 @@
     overflow: auto;
 
     .code-inline {
-        background: rgba(var(--primary), 0.8);
+        background: rgba(var(--background), 1);
+        color: rgba(var(--secondary), 0.8);
     }
 }
 
