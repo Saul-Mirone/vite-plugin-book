@@ -2,13 +2,13 @@
 
 > Install guide
 
-### Install
+## Install
 
 ```bash
 npm install vite-plugin-book
 ```
 
-### Enable in Config
+## Enable in Config
 
 In `vite.config.ts`:
 
@@ -21,7 +21,7 @@ export default defineConfig({
 });
 ```
 
-### See the Editor
+## See the Editor
 
 When running `vite`, you can see hint messages like this:
 
@@ -39,7 +39,7 @@ ready in XXXms.
 
 You can visit the **Book Admin** to write and manage your book. And preview it in **Book Preview**.
 
-### Render in Production
+## Render in Production
 
 In your code entry:
 
