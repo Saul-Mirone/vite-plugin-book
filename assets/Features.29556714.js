@@ -1,2 +1,2 @@
-var e=`# Another
+var e=`# Features
 `;export{e as default};

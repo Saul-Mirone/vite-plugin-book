@@ -8,7 +8,7 @@ A magical vite plugin that helps you to generate and manage documentation websit
 
 -   Auto generate documentation website.
 
--   Write and manage documentations just in browser.
+-   Manage documentations just in browser.
 
 -   Write document in a WYSIWYG way.
 
@@ -34,11 +34,21 @@ export default defineConfig({
 
 ### See the Editor
 
-When running \`vite\` in \`http://localhost:3000\`, you can open \`http://localhost:3000/__vite_plugin_book__/\` to see the editor.
+When running \`vite\`, you can see hint messages like this:
 
-You can write in editor and it will write to your local disk **when you click the save button**.
+\`\`\`bash
+vite v2.7.13 dev server running at:
 
-You can also visit \`http://localhost:3000/__vite_plugin_book__/?preview=1\` to preview the read-only site.
+> Local: http://localhost:3000/
+> Network: use \`--host\` to expose
+
+ready in 165ms.
+
+> Book Admin: http://localhost:3000/__vite_plugin_book__/
+> Book Preview: http://localhost:3000/__vite_plugin_book__/__preview__/
+\`\`\`
+
+You can visit the **Book Admin** to write and manage your book. And preview it in **Book Preview**.
 
 ### Render in Production
 
