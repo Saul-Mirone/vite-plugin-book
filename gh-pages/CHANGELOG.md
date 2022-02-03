@@ -1,5 +1,11 @@
 # @vite-plugin-book/gh-pages
 
+## 0.0.5
+
+### Patch Changes
+
+-   55ec6fd: Fix anchor scroll bug.
+
 ## 0.0.4
 
 ### Patch Changes
