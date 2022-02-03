@@ -52,6 +52,7 @@
         "@milkdown/plugin-cursor": "^5.5.0",
         "@milkdown/plugin-emoji": "^5.5.0",
         "@milkdown/plugin-history": "^5.5.0",
+        "@milkdown/plugin-indent": "^5.5.0",
         "@milkdown/plugin-listener": "^5.5.0",
         "@milkdown/plugin-prism": "^5.5.0",
         "@milkdown/plugin-slash": "^5.5.0",
@@ -84,7 +85,6 @@
         "windicss": "^3.4.3"
     },
     "dependencies": {
-        "@milkdown/plugin-indent": "^5.5.0",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/pluginutils": "^4.1.2",
         "birpc": "^0.1.0",
