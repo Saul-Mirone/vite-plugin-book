@@ -1,5 +1,11 @@
 # @vite-plugin-book/gh-pages
 
+## 0.0.7
+
+### Patch Changes
+
+-   36430e9: Fix dependency org issue
+
 ## 0.0.6
 
 ### Patch Changes
