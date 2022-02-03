@@ -1,84 +1,31 @@
-# vite-plugin-book
+# Vite Plugin Book
 
-A magical vite plugin that helps you to generate and manage documentation website.
-
-> ⚠️ This project is still WIP. It's a MVP now.
->
-> A bunch of new features and improvements will coming soon!
+> Vite plugin book (aka vite book), is a magical vite plugin that helps you to generate and manage documentation website like a book!
 
 ## Feature
 
--   Auto generate documentation website.
--   Write and manage documentation just in browser.
--   Write document in a WYSIWYG way.
+-   📓No statically built html files
+-   🛫Auto generate documentation website
+-   🍼Write documents in a WYSIWYG way
+-   🧰Manage site just in browser
+-   📦Deploy your site without any configuration.
 
-## Usage
+## Examples
 
-### Install
+The documentation of vite plugin book is created by itself!
 
-```bash
-npm install vite-plugin-book
-```
+> [View the source code here](https://github.com/Saul-Mirone/vite-plugin-book/tree/main/gh-pages).
 
-### Enable in Config
+## Donate
 
-In `vite.config.ts`:
+If you like vite book, please consider to fund me to help the maintenance.
 
-```typescript
-import { book } from 'vite-plugin-book/vite';
+-   [Github Sponsor](https://github.com/sponsors/Saul-Mirone)
 
-export default defineConfig({
-    plugins: [book()],
-});
-```
+-   [Afdian](https://afdian.net/@mirone)
 
-### Create Document Directory
+-   [Open Collective](https://opencollective.com/milkdown)
 
-Create a directory called `doc` in your **vite root** directory.
-Then create a `index.md` file with a `first-page.md` file.
+## License
 
-### See the Editor
-
-When running `vite` in `http://localhost:3000`,
-you can open `http://localhost:3000/__vite_plugin_book__/` to see the editor.
-
-You can write in editor and it will write to your local disk **when clicking the save button**.
-
-You can also visit `http://localhost:3000/__vite_plugin_book__/?preview=1` to preview the read-only site.
-
-### Render in Production
-
-In your code entry:
-
-> It's `main.ts` by default.
-
-```typescript
-import { renderBook } from 'vite-plugin-book';
-
-renderBook(import.meta.env.PROD, document.getElementById('app'));
-```
-
-Add following lines in your `index.html`'s head attribute:
-
-```html
-<!-- in head -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
-/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
-<link rel="stylesheet" href="https://unpkg.com/prism-themes/themes/prism-material-light.css" />
-```
-
-Then you can preview the result through:
-
-```bash
-npx vite build
-npx vite preview
-```
-
-# License
-
-[MIT](/LICENSE)
+[MIT](https://github.com/Saul-Mirone/vite-plugin-book/blob/main/LICENSE)
