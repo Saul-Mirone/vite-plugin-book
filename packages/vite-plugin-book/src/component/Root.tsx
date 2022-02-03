@@ -17,17 +17,17 @@ import { ToastProvider } from '../provider/ToastProvider';
 import { UIProvider } from '../provider/UIProvider';
 import { App } from './App';
 
-const isPreview = location.pathname.split('/').includes('__preview__');
-const [prefix = '/'] = location.pathname.split('__vite_plugin_book__');
-const base = location.pathname.includes('__vite_plugin_book__')
-    ? isPreview
-        ? prefix + '__vite_plugin_book__/__preview__/'
-        : prefix + '__vite_plugin_book__/'
-    : prefix;
-
-export const Root: FC<{ isRuntime?: boolean }> = memo(({ isRuntime = false }) => {
+export const Root: FC<{ isRuntime?: boolean; prefix?: string }> = memo(({ isRuntime = false, prefix }) => {
     const RpcProvider = useMemo(() => (isRuntime ? RuntimeRpcProvider : DevRpcProvider), [isRuntime]);
-    const mode = isRuntime || isPreview || base === '/' ? 'preview' : 'editable';
+    const isPreview = location.pathname.split('/').includes('__preview__');
+    const [p = '/'] = import.meta.env.BASE_URL.split('__vite_plugin_book__');
+    const pre = prefix != null ? prefix : p;
+    const base = location.pathname.includes('__vite_plugin_book__')
+        ? isPreview
+            ? pre + '__vite_plugin_book__/__preview__/'
+            : pre + '__vite_plugin_book__/'
+        : pre;
+    const mode = isRuntime || isPreview || base === pre ? 'preview' : 'editable';
     return (
         <StrictMode>
             <BrowserRouter>

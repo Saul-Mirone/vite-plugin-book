@@ -9,6 +9,7 @@ import {
     editorViewOptionsCtx,
     rootCtx,
 } from '@milkdown/core';
+import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
 import { emoji } from '@milkdown/plugin-emoji';
 import { history } from '@milkdown/plugin-history';
@@ -17,8 +18,9 @@ import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { gfm } from '@milkdown/preset-gfm';
-import { TextSelection } from '@milkdown/prose';
+import { Plugin, PluginKey, TextSelection } from '@milkdown/prose';
 import { nordDark, nordLight } from '@milkdown/theme-nord';
+import { $prose } from '@milkdown/utils';
 import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { nope } from '../utils/helper';
@@ -66,11 +68,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                         });
                         setOutline(data);
                     })
-                    .updated((ctx, doc) => {
-                        const view = ctx.get(editorViewCtx);
-                        from.current = view.state.selection.from;
-                        scrollTop.current = view.dom.parentElement?.scrollTop ?? 0;
-
+                    .updated((_, doc) => {
                         const data: { text: string; level: number }[] = [];
                         doc.descendants((node) => {
                             if (node.type.name === 'heading' && node.attrs['level']) {
@@ -93,6 +91,26 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
             .use(slash)
             .use(tooltip)
             .use(cursor)
+            .use(clipboard)
+            .use(
+                $prose(
+                    (_) =>
+                        new Plugin({
+                            key: new PluginKey('position-tracker'),
+                            state: {
+                                init: nope,
+                                apply: (tr) => {
+                                    from.current = tr.selection.from;
+                                },
+                            },
+                            view: () => ({
+                                update: (view) => {
+                                    scrollTop.current = view.dom.parentElement?.scrollTop ?? 0;
+                                },
+                            }),
+                        }),
+                ),
+            )
             .create();
 
         return () => {

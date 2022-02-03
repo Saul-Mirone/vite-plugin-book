@@ -1,74 +1,35 @@
 # Vite Plugin Book
 
-> A magical vite plugin that helps you to generate and manage documentation website.
-
-A magical vite plugin that helps you to generate and manage documentation website.
+> Vite plugin book (aka vite book), is a magical vite plugin that helps you to generate and manage documentation website like a book!
 
 ## Feature
 
--   Auto generate documentation website.
+-   📓No statically built html files
 
--   Manage documentations just in browser.
+-   🛫Auto generate documentation website
 
--   Write document in a WYSIWYG way.
+-   🍼Write documents in a WYSIWYG way
 
-## Usage
+-   🧰Manage site just in browser
 
-### Install
+-   📦Deploy your site without any configuration.
 
-```bash
-npm install vite-plugin-book
-```
+# Examples
 
-### Enable in Config
+The documentation of vite plugin book is created by itself!
 
-In `vite.config.ts`:
+> [View the source code here](https://github.com/Saul-Mirone/vite-plugin-book/tree/main/gh-pages).
 
-```typescript
-import { book } from 'vite-plugin-book/vite';
+# Donate
 
-export default defineConfig({
-    plugins: [book()],
-});
-```
+If you like vite book, please consider to fund me to help the maintenance.
 
-### See the Editor
+-   [Github Sponsor](https://github.com/sponsors/Saul-Mirone)
 
-When running `vite`, you can see hint messages like this:
+-   [Afdian](https://afdian.net/@mirone)
 
-```bash
-vite v2.7.13 dev server running at:
-
-> Local: http://localhost:3000/
-> Network: use `--host` to expose
-
-ready in 165ms.
-
-> Book Admin: http://localhost:3000/__vite_plugin_book__/
-> Book Preview: http://localhost:3000/__vite_plugin_book__/__preview__/
-```
-
-You can visit the **Book Admin** to write and manage your book. And preview it in **Book Preview**.
-
-### Render in Production
-
-In your code entry:
-
-> It's `main.ts` by default.
-
-```typescript
-import { renderBook } from 'vite-plugin-book';
-
-renderBook(import.meta.env.PROD, document.getElementById('app'));
-```
-
-Then you can preview the result through:
-
-```bash
-npx vite build
-npx vite preview
-```
+-   [Open Collective](https://opencollective.com/milkdown)
 
 # License
 
-[MIT](/LICENSE)
+[MIT](https://github.com/Saul-Mirone/vite-plugin-book/blob/main/LICENSE)

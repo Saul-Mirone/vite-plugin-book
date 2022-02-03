@@ -50,7 +50,14 @@ export class ContentManager implements WebSocketServerEvents {
             fullPath = resolve(this.docDir, url);
         }
         const dir = dirname(fullPath);
-        await fs.remove(fullPath);
+
+        const isDir = this.filterDir(url);
+        if (isDir != null) {
+            await fs.remove(isDir);
+        } else {
+            await fs.remove(fullPath);
+        }
+
         const config = this.configService.get();
         const newList = produce(config.projectInfo.list, (draft) => {
             let parent: ItemInfo[] | undefined;
@@ -70,8 +77,11 @@ export class ContentManager implements WebSocketServerEvents {
         });
         this.configService.setConfig({ ...config, projectInfo: { ...config.projectInfo, list: newList } });
         await this.configService.writeConfig();
-        const relativeUrl = relative(this.docDir, dir);
-        return withOutExt(relativeUrl);
+        if (fs.existsSync(dir)) {
+            const relativeUrl = relative(this.docDir, dir);
+            return withOutExt(relativeUrl);
+        }
+        return withOutExt(relative(this.docDir, resolve(dir, '..')));
     }
 
     async getConfig(): Promise<BookConfig> {
@@ -113,5 +123,21 @@ export class ContentManager implements WebSocketServerEvents {
         }
         console.error('Cannot resolve file: ', url);
         return '';
+    }
+
+    private filterDir(url: string) {
+        if (url === '/' || url === '') {
+            return null;
+        }
+        const target = resolve(this.docDir, url) + '.md';
+        if (fs.existsSync(target)) {
+            return null;
+        }
+        const index = resolve(withOutExt(target), 'index.md');
+        if (fs.existsSync(index)) {
+            return withOutExt(target);
+        }
+        console.error('Cannot resolve file: ', url);
+        return null;
     }
 }

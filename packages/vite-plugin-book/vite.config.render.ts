@@ -17,5 +17,5 @@ export default defineConfig({
         },
         outDir: 'dist/render',
     },
-    plugins: [react(), WindiCSS(), dts({ insertTypesEntry: true, include: 'src/render/index.tsx' })],
+    plugins: [react(), WindiCSS(), dts({ insertTypesEntry: true })],
 });

@@ -83,7 +83,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
         location.href = `${location.protocol}//${location.host}${base}__preview__/${url}`;
     };
     const onEdit = () => {
-        location.href = `${location.protocol}//${location.host}/__vite_plugin_book__/${url}`;
+        location.href = `${location.protocol}//${location.host}${base}__vite_plugin_book__/${url}`;
     };
 
     return (

@@ -3,31 +3,16 @@
         "name": "vite-book",
         "list": [
             {
-                "type": "dir",
-                "name": "Guide",
-                "url": "Guide",
-                "id": "Guide",
-                "hasIndex": true,
-                "list": [
-                    {
-                        "type": "file",
-                        "name": "Why-Vite-Book.md",
-                        "url": "Guide/Why-Vite-Book",
-                        "id": "Guide/Why-Vite-Book"
-                    },
-                    {
-                        "type": "file",
-                        "name": "Getting-Started.md",
-                        "url": "Guide/Getting-Started",
-                        "id": "Guide/Getting-Started"
-                    },
-                    {
-                        "type": "file",
-                        "name": "Features.md",
-                        "url": "Guide/Features",
-                        "id": "Guide/Features"
-                    }
-                ]
+                "type": "file",
+                "name": "Getting-Started.md",
+                "url": "Getting-Started",
+                "id": "Getting-Started"
+            },
+            {
+                "type": "file",
+                "name": "Config.md",
+                "url": "Config",
+                "id": "Config"
             }
         ]
     }
