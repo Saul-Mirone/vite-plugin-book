@@ -68,6 +68,11 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                             }
                         });
                         setOutline(data);
+                        const { hash } = location;
+                        const anchor = document.getElementById(hash.slice(1));
+                        if (anchor) {
+                            anchor.scrollIntoView();
+                        }
                     })
                     .updated((_, doc) => {
                         const data: { text: string; level: number }[] = [];
