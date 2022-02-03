@@ -40,7 +40,7 @@ export const App = () => {
             <div className="overflow-auto h-full flex flex-col relative">
                 {config && <Header projectInfo={config.projectInfo} />}
                 <Loading />
-                <div className="px-30px flex justify-center mb-30px">
+                <div className={`${isMobile ? '' : 'px-30px'} flex justify-center mb-30px`}>
                     <Editor readonly={mode !== 'editable'} />
                     <div className={`${isMobile ? 'hidden' : 'w-255px ml-10px flex-shrink-0'}`}>
                         <Outline />

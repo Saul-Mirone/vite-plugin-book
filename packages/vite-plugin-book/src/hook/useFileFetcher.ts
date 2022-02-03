@@ -8,10 +8,12 @@ import { useFile } from './useFile';
 import { useMode } from './useMode';
 import { useRpc } from './useRpc';
 import { useToast } from './useToast';
+import { useUIConfig } from './useUIConfig';
 
 export const useFileFetcher = (state: ListReducerState) => {
     const ctx = useRpc();
     const { setFile, url, setLoading } = useFile();
+    const { isMobile, setMenuFold } = useUIConfig();
     const { getConfig } = useConfig();
     const mode = useMode();
     const setToast = useToast();
@@ -22,6 +24,9 @@ export const useFileFetcher = (state: ListReducerState) => {
 
         const setFileByUrl = async () => {
             setLoading(true);
+            if (isMobile) {
+                setMenuFold(true);
+            }
             const file = await ctx.rpc.getFile(url === '/' ? 'index' : url);
 
             setFile(file);
@@ -29,7 +34,7 @@ export const useFileFetcher = (state: ListReducerState) => {
         };
 
         setFileByUrl();
-    }, [url, setFile, ctx, setLoading]);
+    }, [url, setFile, ctx, setLoading, isMobile, setMenuFold]);
 
     useEffect(() => {
         if (mode !== 'editable') {
