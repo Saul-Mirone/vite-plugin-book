@@ -1,18 +1,6 @@
-var n=`# Vite Plugin Book
+var n=`# Getting Started
 
-> A magical vite plugin that helps you to generate and manage documentation website.
-
-A magical vite plugin that helps you to generate and manage documentation website.
-
-## Feature
-
--   Auto generate documentation website.
-
--   Manage documentations just in browser.
-
--   Write document in a WYSIWYG way.
-
-## Usage
+> Install guide
 
 ### Install
 
@@ -25,6 +13,7 @@ npm install vite-plugin-book
 In \`vite.config.ts\`:
 
 \`\`\`typescript
+// vite.config.ts
 import { book } from 'vite-plugin-book/vite';
 
 export default defineConfig({
@@ -37,12 +26,12 @@ export default defineConfig({
 When running \`vite\`, you can see hint messages like this:
 
 \`\`\`bash
-vite v2.7.13 dev server running at:
+vite dev server running at:
 
 > Local: http://localhost:3000/
 > Network: use \`--host\` to expose
 
-ready in 165ms.
+ready in XXXms.
 
 > Book Admin: http://localhost:3000/__vite_plugin_book__/
 > Book Preview: http://localhost:3000/__vite_plugin_book__/__preview__/
@@ -57,9 +46,16 @@ In your code entry:
 > It's \`main.ts\` by default.
 
 \`\`\`typescript
+// Don't forget to import css!
+import 'vite-plugin-book/style.css';
+
 import { renderBook } from 'vite-plugin-book';
 
-renderBook(true, document.getElementById('app'));
+renderBook({
+    isProd: import.$META_ENV$.PROD,
+    baseUrl: import.$META_ENV$.BASE_URL,
+    container: '#app',
+});
 \`\`\`
 
 Then you can preview the result through:
@@ -68,8 +64,4 @@ Then you can preview the result through:
 npx vite build
 npx vite preview
 \`\`\`
-
-# License
-
-[MIT](/LICENSE)
 `;export{n as default};
