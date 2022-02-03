@@ -13,7 +13,7 @@ export const Layout: FC = ({ children }) => {
 
     if (isMobile) {
         return (
-            <div className="h-screen w-screen overflow-hidden font-sans">
+            <div className="bg-background h-screen w-screen overflow-hidden font-sans">
                 <div className={`mobile-nav ${menuFold ? 'fold' : ''}`}>{nav}</div>
                 {!menuFold && <div className="mobile-mask" onClick={() => setMenuFold(true)} />}
                 {main}

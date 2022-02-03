@@ -33,7 +33,7 @@ type Options = {
     baseUrl: string;
     container?: Element | string;
 };
-export function renderBook(options: Options) {
+export async function renderBook(options: Options) {
     const { isProd, baseUrl, container } = options;
     render(<Root isRuntime={isProd} prefix={baseUrl} />, getRoot(container));
 }

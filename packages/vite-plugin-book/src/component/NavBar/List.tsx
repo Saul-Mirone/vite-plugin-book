@@ -1,7 +1,8 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, memo, useContext, useMemo } from 'react';
-import { ReactSortable } from 'react-sortablejs';
+import { FC, lazy, memo, Suspense, useContext, useMemo } from 'react';
+import type { ItemInterface, ReactSortableProps } from 'react-sortablejs';
 
+// import { ReactSortable } from 'react-sortablejs';
 import { useMode } from '../../hook/useMode';
 import { ItemInfo } from '../../interface';
 import { DispatchCtx } from '.';
@@ -12,6 +13,15 @@ type ListProps = {
     id: string;
     items: ItemInfo[];
     indexList: number[];
+};
+
+const Sortable = lazy(() => import('react-sortablejs').then((module) => ({ default: module.ReactSortable })));
+const ReactSortable: FC<ReactSortableProps<ItemInterface>> = ({ children, ...rest }) => {
+    return (
+        <Suspense fallback={<div>{children}</div>}>
+            <Sortable {...rest}>{children}</Sortable>
+        </Suspense>
+    );
 };
 
 export const List: FC<ListProps> = memo(({ items, id, indexList }) => {
@@ -47,7 +57,7 @@ export const List: FC<ListProps> = memo(({ items, id, indexList }) => {
                 key={id}
                 list={items}
                 setList={(list) => {
-                    dispatch({ type: 'ModifyList', indexList, newSlice: list });
+                    dispatch({ type: 'ModifyList', indexList, newSlice: list as ItemInfo[] });
                 }}
                 group="shared"
                 swapThreshold={0.65}

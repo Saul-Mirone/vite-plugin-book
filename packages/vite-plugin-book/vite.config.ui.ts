@@ -1,6 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import react from '@vitejs/plugin-react';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import WindiCSS from 'vite-plugin-windicss';
 
@@ -10,5 +11,5 @@ export default defineConfig({
     build: {
         outDir: 'dist/ui',
     },
-    plugins: [react(), WindiCSS()],
+    plugins: [react(), WindiCSS(), visualizer()],
 });

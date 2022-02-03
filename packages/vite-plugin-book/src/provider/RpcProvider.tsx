@@ -3,22 +3,11 @@
 import { createContext, FC, useEffect, useRef, useState } from 'react';
 
 import { WebSocketServerEvents } from '../interface';
-import { Rpc, RuntimeRpc } from '../utils/rpc';
+import { Rpc } from '../utils/rpc';
 
 export type Status = 'connecting' | 'connected' | 'disconnected';
 export const RpcCtx = createContext<WebSocketServerEvents | undefined>(undefined);
 export const RpcStatusCtx = createContext<Status>('connecting');
-
-export const RuntimeRpcProvider: FC = ({ children }) => {
-    const rpcRef = useRef<RuntimeRpc>(new RuntimeRpc());
-    const [status] = useState<Status>('connected');
-
-    return (
-        <RpcStatusCtx.Provider value={status}>
-            <RpcCtx.Provider value={rpcRef.current}>{children}</RpcCtx.Provider>
-        </RpcStatusCtx.Provider>
-    );
-};
 
 export const DevRpcProvider: FC = ({ children }) => {
     const rpcRef = useRef<Rpc>();
