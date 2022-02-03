@@ -3,10 +3,12 @@
 import { useEffect } from 'react';
 
 import { useConfig } from '../hook/useConfig';
+import { useFile } from '../hook/useFile';
 import { useIsRuntime, useMode } from '../hook/useMode';
 import { useRpc } from '../hook/useRpc';
 import { useToast } from '../hook/useToast';
 import { useUIConfig } from '../hook/useUIConfig';
+import cx from './App.module.css';
 import { Editor } from './Editor';
 import { Header } from './Header';
 import { Layout } from './Layout';
@@ -18,6 +20,7 @@ export const App = () => {
     const ctx = useRpc();
     const { config, getConfig } = useConfig();
     const { isMobile } = useUIConfig();
+    const { loading } = useFile();
     const mode = useMode();
     const setToast = useToast();
     const isRuntime = useIsRuntime();
@@ -40,7 +43,11 @@ export const App = () => {
             <div className="overflow-auto h-full flex flex-col relative">
                 {config && <Header projectInfo={config.projectInfo} />}
                 <Loading />
-                <div className={`${isMobile ? '' : 'px-30px'} flex justify-center mb-30px`}>
+                <div
+                    className={`${isMobile ? '' : 'px-30px'} ${
+                        loading ? cx['loading'] : ''
+                    } flex justify-center mb-30px`}
+                >
                     <Editor readonly={mode !== 'editable'} />
                     <div className={`${isMobile ? 'hidden' : 'w-255px ml-10px flex-shrink-0'}`}>
                         <Outline />

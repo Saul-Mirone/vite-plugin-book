@@ -14,7 +14,7 @@ body {
         top-0
         bottom-0
         w-255px
-        z-10;
+        z-20;
 
     &.fold {
         transform: translateX(-100%);
