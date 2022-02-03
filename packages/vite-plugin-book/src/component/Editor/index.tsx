@@ -18,9 +18,9 @@ import { Toolbar } from '../Toolbar';
 export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const base = useContext(RouteBaseCtx);
     const ctx = useRpc();
-    const { file, url, setFile } = useFile();
+    const { file, url, setFile, changed } = useFile();
     const divRef = useRef<HTMLDivElement>(null);
-    const { flush, get, changed } = useEditor(divRef, file, readonly);
+    const { flush, get } = useEditor(divRef, file, readonly);
     const { show, hide } = useDialog();
     const [data] = useOutline();
     const { getConfig } = useConfig();
@@ -50,7 +50,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
                       .slice(0, prevPathList.length - 1)
                       .concat(name)
                       .join('/');
-        nav(newPath);
+        nav(newPath, { replace: true });
         setToast('Article Saved');
     };
 

@@ -7,7 +7,6 @@ import { useDelete } from '../../hook/useDelete';
 import { useDialog } from '../../hook/useDialog';
 import { useFile } from '../../hook/useFile';
 import { useMode } from '../../hook/useMode';
-import { useNav } from '../../hook/useNav';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
@@ -69,7 +68,6 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     const [spread, setSpread] = useState(pathname.includes(url));
     const dragging = useContext(DraggingCtx);
     const { setUrl } = useFile();
-    const nav = useNav();
 
     useEffect(() => {
         if (isActive) return;
@@ -77,7 +75,7 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     }, [isActive, pathname, url]);
 
     const onClickHeader = () => {
-        nav(url);
+        setUrl(url);
         setSpread(true);
     };
 

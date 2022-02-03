@@ -1,6 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import { FC, memo, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
 import { useDelete } from '../../hook/useDelete';
@@ -51,7 +50,7 @@ const ButtonGroup: FC<{ isActive: boolean; url: string }> = ({ isActive, url }) 
 
 export const ListItem: FC<ListItemProps> = memo(({ url, name }) => {
     const dragging = useContext(DraggingCtx);
-    const { to, isActive } = useActive(url);
+    const { isActive } = useActive(url);
     const { setUrl } = useFile();
     return (
         <li
@@ -59,18 +58,15 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name }) => {
                 isActive ? cx['active'] : ''
             }`}
         >
-            <NavLink
-                to={to}
-                className={({ isActive }) =>
-                    `${cx['list-item']} ${dragging ? '' : cx['not-dragging']} ${
-                        isActive ? cx['active'] : cx['inactive']
-                    }`
-                }
+            <span
+                className={`${cx['list-item']} ${dragging ? '' : cx['not-dragging']} ${
+                    isActive ? cx['active'] : cx['inactive']
+                }`}
                 onClick={() => setUrl(url)}
             >
                 {transformName(name)}
                 <ButtonGroup isActive={isActive} url={url} />
-            </NavLink>
+            </span>
         </li>
     );
 });

@@ -21,13 +21,14 @@ import { nordDark, nordLight } from '@milkdown/theme-nord';
 import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { nope } from '../utils/helper';
+import { useFile } from './useFile';
 import { useOutline } from './useOutline';
 import { useUIConfig } from './useUIConfig';
 
 export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: string, readOnly = false) {
     const milkdown = useRef<Editor>();
     const [status, setStatus] = useState<'loading' | 'loaded'>('loading');
-    const [changed, setChanged] = useState(false);
+    const { setChanged } = useFile();
     const [_, setOutline] = useOutline();
     const [editorValue, setEditorValue] = useState(defaultValue);
     const { isDarkMode } = useUIConfig();
@@ -98,7 +99,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                 )
                 .catch(nope);
         };
-    }, [containerRef, defaultValue, readOnly, setOutline, flag, isDarkMode]);
+    }, [containerRef, defaultValue, readOnly, setOutline, flag, isDarkMode, setChanged]);
 
     const get = useCallback(() => {
         const $ = milkdown.current;
@@ -110,11 +111,10 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
     return useMemo(
         () => ({
             status,
-            changed,
             milkdown: milkdown.current,
             get,
             flush,
         }),
-        [status, changed, get, flush],
+        [status, get, flush],
     );
 }

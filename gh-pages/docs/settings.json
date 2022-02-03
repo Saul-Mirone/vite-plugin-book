@@ -52,9 +52,9 @@
             },
             {
                 "type": "file",
-                "name": "QA-List.md",
-                "url": "QA-List",
-                "id": "QA-List"
+                "name": "QA-Lists.md",
+                "url": "QA-Lists",
+                "id": "QA-Lists"
             }
         ]
     }
