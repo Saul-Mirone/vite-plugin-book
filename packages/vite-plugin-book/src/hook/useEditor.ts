@@ -17,6 +17,7 @@ import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { gfm } from '@milkdown/preset-gfm';
+import { TextSelection } from '@milkdown/prose';
 import { nordDark, nordLight } from '@milkdown/theme-nord';
 import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -32,6 +33,8 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
     const [_, setOutline] = useOutline();
     const [editorValue, setEditorValue] = useState(defaultValue);
     const { isDarkMode } = useUIConfig();
+    const from = useRef(0);
+    const scrollTop = useRef(0);
 
     const [flag, setFlag] = useState(false);
 
@@ -63,7 +66,11 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                         });
                         setOutline(data);
                     })
-                    .updated((_, doc) => {
+                    .updated((ctx, doc) => {
+                        const view = ctx.get(editorViewCtx);
+                        from.current = view.state.selection.from;
+                        scrollTop.current = view.dom.parentElement?.scrollTop ?? 0;
+
                         const data: { text: string; level: number }[] = [];
                         doc.descendants((node) => {
                             if (node.type.name === 'heading' && node.attrs['level']) {
@@ -108,13 +115,28 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
         return editorValue;
     }, [editorValue, status]);
 
+    const recoverSelection = useCallback(() => {
+        const $ = milkdown.current;
+        if (status !== 'loaded' || !$) return;
+
+        $.action((ctx) => {
+            const view = ctx.get(editorViewCtx);
+            const { state } = view;
+            const selection = new TextSelection(state.doc.resolve(from.current));
+            view.focus();
+            view.dom.parentElement?.scrollTo(0, scrollTop.current);
+            view.dispatch(state.tr.setSelection(selection));
+        });
+    }, [status]);
+
     return useMemo(
         () => ({
             status,
             milkdown: milkdown.current,
             get,
             flush,
+            recoverSelection,
         }),
-        [status, get, flush],
+        [status, get, flush, recoverSelection],
     );
 }

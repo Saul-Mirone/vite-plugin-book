@@ -38,8 +38,8 @@ export const Outline: FC = () => {
                                 <div className={cx['item']}>
                                     <a
                                         href={url}
-                                        className={`no-underline truncate text-sm block pl-16px py-8px leading-20px hover:text-primary ${
-                                            location.hash === url ? 'text-primary' : ''
+                                        className={`no-underline truncate text-sm block pl-16px py-8px leading-20px ${
+                                            location.hash === url ? cx['active'] : ''
                                         }`}
                                     >
                                         {item.text}

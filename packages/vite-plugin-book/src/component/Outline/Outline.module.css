@@ -9,9 +9,15 @@
 
     a {
         color: rgba(var(--neutral), 0.6);
+        &.active {
+            color: rgba(Var(--primary), 1);
+        }
     }
 
     &:hover {
         background: rgba(var(--secondary), 0.3);
+        a {
+            color: rgba(Var(--primary), 1);
+        }
     }
 }

@@ -3,27 +3,6 @@
         "name": "vite-book",
         "list": [
             {
-                "list": [
-                    {
-                        "type": "file",
-                        "name": "APIs-Reference-Manual.md",
-                        "url": "Side-Bar-Config/APIs-Reference-Manual",
-                        "id": "Side-Bar-Config/APIs-Reference-Manual"
-                    },
-                    {
-                        "type": "file",
-                        "name": "Getting-Started.md",
-                        "url": "Side-Bar-Config/Getting-Started",
-                        "id": "Side-Bar-Config/Getting-Started"
-                    }
-                ],
-                "type": "dir",
-                "name": "Side-Bar-Config",
-                "id": "Side-Bar-Config",
-                "url": "Side-Bar-Config",
-                "hasIndex": true
-            },
-            {
                 "type": "dir",
                 "name": "Guide",
                 "url": "Guide",
@@ -32,29 +11,23 @@
                 "list": [
                     {
                         "type": "file",
-                        "name": "Installation.md",
-                        "url": "Guide/Installation",
-                        "id": "Guide/Installation"
+                        "name": "Why-Vite-Book.md",
+                        "url": "Guide/Why-Vite-Book",
+                        "id": "Guide/Why-Vite-Book"
                     },
                     {
                         "type": "file",
-                        "name": "Test.md",
-                        "url": "Guide/Test",
-                        "id": "Guide/Test"
+                        "name": "Getting-Started.md",
+                        "url": "Guide/Getting-Started",
+                        "id": "Guide/Getting-Started"
                     },
                     {
                         "type": "file",
-                        "name": "Another.md",
-                        "url": "Guide/Another",
-                        "id": "Guide/Another"
+                        "name": "Features.md",
+                        "url": "Guide/Features",
+                        "id": "Guide/Features"
                     }
                 ]
-            },
-            {
-                "type": "file",
-                "name": "QA-Lists.md",
-                "url": "QA-Lists",
-                "id": "QA-Lists"
             }
         ]
     }

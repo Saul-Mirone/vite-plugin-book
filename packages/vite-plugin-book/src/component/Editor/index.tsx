@@ -20,7 +20,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const ctx = useRpc();
     const { file, url, setFile, changed } = useFile();
     const divRef = useRef<HTMLDivElement>(null);
-    const { flush, get } = useEditor(divRef, file, readonly);
+    const { flush, get, recoverSelection } = useEditor(divRef, file, readonly);
     const { show, hide } = useDialog();
     const [data] = useOutline();
     const { getConfig } = useConfig();
@@ -29,7 +29,10 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const setToast = useToast();
 
     const onSave = async () => {
-        if (ctx.status !== 'connected') return;
+        const div = divRef.current;
+        if (ctx.status !== 'connected' || !div || !changed) return;
+        const milkdownEl = div.firstElementChild;
+        if (!milkdownEl) return;
 
         const markdown = get();
 
@@ -50,8 +53,15 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
                       .slice(0, prevPathList.length - 1)
                       .concat(name)
                       .join('/');
-        nav(newPath, { replace: true });
+
+        if (newPath !== url) {
+            nav(newPath, { replace: true });
+        }
+
         setToast('Article Saved');
+        setTimeout(() => {
+            recoverSelection();
+        }, 0);
     };
 
     const onCancel = () => {
