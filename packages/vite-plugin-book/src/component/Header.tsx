@@ -43,6 +43,7 @@ export const Header: FC<{ projectInfo: ProjectInfo }> = ({ projectInfo }) => {
                             return;
                         }
                         show({
+                            icon: 'report_problem',
                             title: 'Unsaved Changes',
                             description: 'You have unsaved changes, are you sure you want to leave this page?',
                             onConfirm: () => {

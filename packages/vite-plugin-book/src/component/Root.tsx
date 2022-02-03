@@ -1,6 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import '@fontsource/roboto';
-import 'material-icons/iconfont/material-icons.css';
+import 'material-icons/iconfont/outlined.css';
 import 'prism-themes/themes/prism-nord.css';
 
 import { FC, memo, StrictMode, useMemo } from 'react';

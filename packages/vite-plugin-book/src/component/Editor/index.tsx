@@ -69,6 +69,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const onCancel = () => {
         if (ctx.status !== 'connected') return;
         show({
+            icon: 'report_problem',
             title: 'Abandon you change',
             description: 'Are you sure you want to do this?',
             onConfirm: () => {

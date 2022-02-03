@@ -25,6 +25,7 @@ export function useFile() {
             }
             if (changed) {
                 show({
+                    icon: 'report_problem',
                     title: 'Unsaved Changes',
                     description: 'You have unsaved changes, are you sure you want to leave this page?',
                     onConfirm: () => {

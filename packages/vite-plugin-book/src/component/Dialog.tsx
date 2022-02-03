@@ -43,7 +43,7 @@ export const Dialog: FC<DialogProps> = ({ title, description, onConfirm, onCance
             <div className="rounded-28px bg-background bg-opacity-100 p-24px w-312px">
                 {icon && (
                     <div className="text-center mb-16px">
-                        <span className="text-3xl text-primary material-icons">{icon}</span>
+                        <span className="text-3xl text-primary material-icons-outlined">{icon}</span>
                     </div>
                 )}
                 <div className="text-neutral text-opacity-87 text-2xl mb-16px text-center">{title}</div>
