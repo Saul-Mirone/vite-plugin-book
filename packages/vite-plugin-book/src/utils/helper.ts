@@ -71,3 +71,5 @@ export const isEqualState = (prevState: ItemInfo[], nextState: ItemInfo[]): bool
         return true;
     });
 };
+
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

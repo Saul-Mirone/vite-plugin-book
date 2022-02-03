@@ -9,8 +9,6 @@ import { useMode } from './useMode';
 import { useRpc } from './useRpc';
 import { useToast } from './useToast';
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export const useFileFetcher = (state: ListReducerState) => {
     const ctx = useRpc();
     const { setFile, url, setLoading } = useFile();
@@ -24,7 +22,6 @@ export const useFileFetcher = (state: ListReducerState) => {
 
         const setFileByUrl = async () => {
             setLoading(true);
-            await sleep(5000);
             const file = await ctx.rpc.getFile(url === '/' ? 'index' : url);
 
             setFile(file);

@@ -14,7 +14,7 @@ export const Loading = () => {
 
     return (
         <div className={`${cx['container']}`}>
-            <HashLoader color="#5e81ac" />
+            <HashLoader color="#5e81ac" size={80} />
         </div>
     );
 };
