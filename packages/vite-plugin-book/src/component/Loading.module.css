@@ -1,7 +1,6 @@
 .container {
     background: rgba(--var(--background), 1);
-    @apply max-w-1080px
-        flex
+    @apply flex
         justify-center
         items-center
         absolute
