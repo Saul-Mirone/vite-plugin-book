@@ -69,7 +69,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                         });
                         setOutline(data);
                         const { hash } = location;
-                        const anchor = document.getElementById(hash.slice(1));
+                        const anchor = document.querySelector(hash);
                         if (anchor) {
                             anchor.scrollIntoView();
                         }
