@@ -1,7 +1,6 @@
 {
     "name": "@vite-plugin-book/monorepo",
     "private": "true",
-    "version": "0.0.2",
     "description": "A vite plugin to help you write a book.",
     "module": "true",
     "main": "./dist/render/index.js",
