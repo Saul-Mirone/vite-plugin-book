@@ -2,6 +2,11 @@
 import { dataToEsm } from '@rollup/pluginutils';
 import type { Plugin } from 'vite';
 
+// esbuild cannot handle replaceAll by some reason. Have to hack for it.
+function replaceAll(str: string, find: string, replace: string) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
 export function vitePluginBookMarkdown(): Plugin {
     return {
         name: 'vite-plugin-book:markdown',
@@ -9,7 +14,7 @@ export function vitePluginBookMarkdown(): Plugin {
         async transform(code: string, id: string) {
             if (id.endsWith('.md')) {
                 // Hack for encode env
-                return dataToEsm(code.replaceAll('meta.env', '$META_ENV$'));
+                return dataToEsm(replaceAll(code, 'meta.env', '$META_ENV$'));
             }
 
             return null;
