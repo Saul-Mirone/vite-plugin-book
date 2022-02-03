@@ -1,0 +1,12 @@
+.container {
+    background: rgba(--var(--background), 1);
+    @apply max-w-1080px
+        flex
+        justify-center
+        items-center
+        absolute
+        top-0
+        bottom-0
+        left-0
+        right-0;
+}

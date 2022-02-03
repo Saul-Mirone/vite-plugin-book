@@ -19,7 +19,7 @@ import { Toolbar } from '../Toolbar';
 export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const base = useContext(RouteBaseCtx);
     const ctx = useRpc();
-    const { file, url, setFile, changed } = useFile();
+    const { file, url, setFile, changed, loading } = useFile();
     const divRef = useRef<HTMLDivElement>(null);
     const { flush, get, recoverSelection } = useEditor(divRef, file, readonly);
     const { show, hide } = useDialog();
@@ -104,7 +104,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
                         e.preventDefault();
                     }
                 }}
-                className={`max-w-1080px ${isMobile ? '' : 'milkdown-wrapper'}`}
+                className={`max-w-1080px ${isMobile ? '' : 'milkdown-wrapper'} ${loading ? 'milkdown-loading' : ''}`}
                 ref={divRef}
             />
             {!isRuntime && (

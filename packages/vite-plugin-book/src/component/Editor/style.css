@@ -11,3 +11,7 @@
 .milkdown-wrapper {
     width: calc(100% - 265px);
 }
+
+.milkdown-loading {
+    visibility: hidden;
+}

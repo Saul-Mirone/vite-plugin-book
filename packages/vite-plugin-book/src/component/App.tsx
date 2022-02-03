@@ -10,6 +10,7 @@ import { useUIConfig } from '../hook/useUIConfig';
 import { Editor } from './Editor';
 import { Header } from './Header';
 import { Layout } from './Layout';
+import { Loading } from './Loading';
 import { NavBar } from './NavBar';
 import { Outline } from './Outline';
 
@@ -36,8 +37,9 @@ export const App = () => {
     return (
         <Layout>
             {config && <NavBar projectInfo={config.projectInfo} />}
-            <div className="overflow-auto h-full flex flex-col">
+            <div className="overflow-auto h-full flex flex-col relative">
                 {config && <Header projectInfo={config.projectInfo} />}
+                <Loading />
                 <div className="px-30px flex justify-center mb-30px">
                     <Editor readonly={mode !== 'editable'} />
                     <div className={`${isMobile ? 'hidden' : 'w-255px ml-10px flex-shrink-0'}`}>

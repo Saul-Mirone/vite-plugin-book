@@ -110,6 +110,7 @@ importers:
       react-dom: ^17.0.2
       react-router-dom: ^6.2.1
       react-sortablejs: ~6.0.3
+      react-spinners: ^0.11.0
       react-split-pane: ^0.1.92
       sirv: ^2.0.0
       sortablejs: ^1.14.0
@@ -160,6 +161,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
       react-sortablejs: 6.0.3_5225c19a6dafa75cd438f6773f26a971
+      react-spinners: 0.11.0_b3482aaf5744fc7c2aeb7941b0e0a78f
       react-split-pane: 0.1.92_react-dom@17.0.2+react@17.0.2
       sortablejs: 1.14.0
       vite-plugin-windicss: 1.6.3_vite@2.7.13
@@ -867,6 +869,29 @@ packages:
 
   /@emotion/memoize/0.7.5:
     resolution: {integrity: sha512-igX9a37DR2ZPGYtV6suZ6whr8pTFtyHL3K/oLUotxpSVO2ASaprmAe2Dkq7tBo7CRY7MMDrAa9nuQP9/YG8FxQ==}
+    dev: true
+
+  /@emotion/react/11.7.1_b08e3c15324cbe90a6ff8fcd416c932c:
+    resolution: {integrity: sha512-DV2Xe3yhkF1yT4uAUoJcYL1AmrnO5SVsdfvu+fBuS7IbByDeTVx9+wFmvx9Idzv7/78+9Mgx2Hcmr7Fex3tIyw==}
+    peerDependencies:
+      '@babel/core': ^7.0.0
+      '@types/react': '*'
+      react: '>=16.8.0'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.16.7
+      '@emotion/cache': 11.7.1
+      '@emotion/serialize': 1.0.2
+      '@emotion/sheet': 1.1.0
+      '@emotion/utils': 1.0.0
+      '@emotion/weak-memoize': 0.2.5
+      '@types/react': 17.0.38
+      hoist-non-react-statics: 3.3.2
+      react: 17.0.2
     dev: true
 
   /@emotion/serialize/1.0.2:
@@ -3360,6 +3385,12 @@ packages:
       '@babel/runtime': 7.16.7
     dev: true
 
+  /hoist-non-react-statics/3.3.2:
+    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
+    dependencies:
+      react-is: 16.13.1
+    dev: true
+
   /hosted-git-info/2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: true
@@ -4923,6 +4954,20 @@ packages:
       react-dom: 17.0.2_react@17.0.2
       sortablejs: 1.14.0
       tiny-invariant: 1.2.0
+    dev: true
+
+  /react-spinners/0.11.0_b3482aaf5744fc7c2aeb7941b0e0a78f:
+    resolution: {integrity: sha512-rDZc0ABWn/M1OryboGsWVmIPg8uYWl0L35jPUhr40+Yg+syVPjeHwvnB7XWaRpaKus3M0cG9BiJA+ZB0dAwWyw==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0
+      react-dom: ^16.0.0 || ^17.0.0
+    dependencies:
+      '@emotion/react': 11.7.1_b08e3c15324cbe90a6ff8fcd416c932c
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@types/react'
     dev: true
 
   /react-split-pane/0.1.92_react-dom@17.0.2+react@17.0.2:

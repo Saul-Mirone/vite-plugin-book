@@ -2,7 +2,16 @@
 import { useCallback, useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ChangedCtx, FileCtx, SetChangedCtx, SetFileCtx, SetUrlCtx, UrlCtx } from '../provider/FileProvider';
+import {
+    ChangedCtx,
+    FileCtx,
+    LoadingCtx,
+    SetChangedCtx,
+    SetFileCtx,
+    SetLoadingCtx,
+    SetUrlCtx,
+    UrlCtx,
+} from '../provider/FileProvider';
 import { RouteBaseCtx } from '../provider/RouteBaseProvider';
 import { useDialog } from './useDialog';
 
@@ -12,6 +21,8 @@ export function useFile() {
     const setFile = useContext(SetFileCtx);
     const url = useContext(UrlCtx);
     const setUrl = useContext(SetUrlCtx);
+    const loading = useContext(LoadingCtx);
+    const setLoading = useContext(SetLoadingCtx);
     const changed = useContext(ChangedCtx);
     const setChanged = useContext(SetChangedCtx);
     const base = useContext(RouteBaseCtx);
@@ -50,6 +61,7 @@ export function useFile() {
             setUrl(current);
         }
     }, [base, location, setUrl, url]);
+
     return {
         file,
         setFile,
@@ -57,5 +69,7 @@ export function useFile() {
         setUrl: checkAndSetUrl,
         changed,
         setChanged,
+        loading,
+        setLoading,
     };
 }

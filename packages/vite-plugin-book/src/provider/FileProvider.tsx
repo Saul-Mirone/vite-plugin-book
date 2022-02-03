@@ -8,6 +8,8 @@ export const FileCtx = createContext('');
 export const SetFileCtx = createContext<Dispatch<SetStateAction<string>>>(nope);
 export const UrlCtx = createContext('');
 export const SetUrlCtx = createContext<Dispatch<SetStateAction<string>>>(nope);
+export const LoadingCtx = createContext(false);
+export const SetLoadingCtx = createContext<Dispatch<SetStateAction<boolean>>>(nope);
 export const ChangedCtx = createContext(false);
 export const SetChangedCtx = createContext<Dispatch<SetStateAction<boolean>>>(nope);
 
@@ -17,17 +19,22 @@ export const FileProvider: FC = ({ children }) => {
     const [file, setFile] = useState('');
     const [url, setUrl] = useState(pureBase.length === 0 ? '/' : pureBase);
     const [changed, setChanged] = useState(false);
+    const [loading, setLoading] = useState(false);
     return (
-        <SetChangedCtx.Provider value={setChanged}>
-            <ChangedCtx.Provider value={changed}>
-                <UrlCtx.Provider value={url}>
-                    <SetUrlCtx.Provider value={setUrl}>
-                        <FileCtx.Provider value={file}>
-                            <SetFileCtx.Provider value={setFile}>{children}</SetFileCtx.Provider>
-                        </FileCtx.Provider>
-                    </SetUrlCtx.Provider>
-                </UrlCtx.Provider>
-            </ChangedCtx.Provider>
-        </SetChangedCtx.Provider>
+        <SetLoadingCtx.Provider value={setLoading}>
+            <LoadingCtx.Provider value={loading}>
+                <SetChangedCtx.Provider value={setChanged}>
+                    <ChangedCtx.Provider value={changed}>
+                        <UrlCtx.Provider value={url}>
+                            <SetUrlCtx.Provider value={setUrl}>
+                                <FileCtx.Provider value={file}>
+                                    <SetFileCtx.Provider value={setFile}>{children}</SetFileCtx.Provider>
+                                </FileCtx.Provider>
+                            </SetUrlCtx.Provider>
+                        </UrlCtx.Provider>
+                    </ChangedCtx.Provider>
+                </SetChangedCtx.Provider>
+            </LoadingCtx.Provider>
+        </SetLoadingCtx.Provider>
     );
 };
