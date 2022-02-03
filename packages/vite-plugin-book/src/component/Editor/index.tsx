@@ -12,6 +12,7 @@ import { useNav } from '../../hook/useNav';
 import { useOutline } from '../../hook/useOutline';
 import { useRpc } from '../../hook/useRpc';
 import { useToast } from '../../hook/useToast';
+import { useUIConfig } from '../../hook/useUIConfig';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { Toolbar } from '../Toolbar';
 
@@ -24,6 +25,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const { show, hide } = useDialog();
     const [data] = useOutline();
     const { getConfig } = useConfig();
+    const { isMobile } = useUIConfig();
     const isRuntime = useIsRuntime();
     const nav = useNav();
     const setToast = useToast();
@@ -101,7 +103,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
                         e.preventDefault();
                     }
                 }}
-                className="max-w-1080px milkdown-wrapper"
+                className={`max-w-1080px ${isMobile ? '' : 'milkdown-wrapper'}`}
                 ref={divRef}
             />
             {!isRuntime && (

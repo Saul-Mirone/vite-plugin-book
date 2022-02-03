@@ -19,7 +19,7 @@
     transform: translateX(-50%);
 
     &.hide {
-        transform: translateY(-80px) translateX(-50%);
+        transform: translateY(-100px) translateX(-50%);
     }
 
     .icon {
