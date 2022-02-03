@@ -5,6 +5,7 @@
         rounded-14px;
 
     color: rgba(var(--neutral), 1);
+    fill: rgba(var(--neutral), 1);
 
     &:hover {
         background: rgba(var(--secondary), 0.2);
