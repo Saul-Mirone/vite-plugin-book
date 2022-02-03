@@ -5,4 +5,8 @@ import 'vite-plugin-book/style.css';
 
 import { renderBook } from 'vite-plugin-book';
 
-renderBook(import.meta.env, '#doc');
+renderBook({
+    isProd: import.meta.env.PROD,
+    baseUrl: import.meta.env.BASE_URL,
+    container: '#doc',
+});

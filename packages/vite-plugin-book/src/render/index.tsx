@@ -28,7 +28,12 @@ function getRoot(container?: Element | string) {
 }
 
 // Pure render for vite plugin book
-export function renderBook(env: ImportMetaEnv, container?: Element | string) {
-    const isProd = env.PROD;
-    render(<Root isRuntime={isProd} prefix={env.BASE_URL} />, getRoot(container));
+type Options = {
+    isProd: boolean;
+    baseUrl: string;
+    container?: Element | string;
+};
+export function renderBook(options: Options) {
+    const { isProd, baseUrl, container } = options;
+    render(<Root isRuntime={isProd} prefix={baseUrl} />, getRoot(container));
 }

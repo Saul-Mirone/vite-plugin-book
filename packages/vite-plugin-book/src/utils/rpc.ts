@@ -22,6 +22,9 @@ export class RuntimeRpc implements WebSocketServerEvents {
 
     async getFile(url: string) {
         let target = url;
+        if (url.length === 0) {
+            target = 'index';
+        }
         if (!this.store.mapping[target]) {
             target += '/index';
         }
@@ -30,7 +33,8 @@ export class RuntimeRpc implements WebSocketServerEvents {
             throw new Error();
         }
         const module = await getter();
-        return module.default;
+        // Hack for decode env
+        return module.default.replaceAll('$META_ENV$', 'meta.env');
     }
 
     getFiles() {

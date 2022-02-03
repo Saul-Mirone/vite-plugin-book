@@ -8,7 +8,8 @@ export function vitePluginBookMarkdown(): Plugin {
         enforce: 'pre',
         async transform(code: string, id: string) {
             if (id.endsWith('.md')) {
-                return dataToEsm(code);
+                // Hack for encode env
+                return dataToEsm(code.replaceAll('meta.env', '$META_ENV$'));
             }
 
             return null;

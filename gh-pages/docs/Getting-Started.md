@@ -51,7 +51,11 @@ import 'vite-plugin-book/style.css';
 
 import { renderBook } from 'vite-plugin-book';
 
-renderBook(import.meta.env, document.getElementById('app'));
+renderBook({
+    isProd: import.meta.env.PROD,
+    baseUrl: import.meta.env.BASE_URL,
+    container: '#app',
+});
 ```
 
 Then you can preview the result through:
