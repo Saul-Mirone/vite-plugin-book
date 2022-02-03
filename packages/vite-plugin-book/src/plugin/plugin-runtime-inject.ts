@@ -21,7 +21,7 @@ export function vitePluginBookRuntimeInject(bookOptions: BookPluginOptions): Plu
             root = resolvedConfig.root;
 
             const docDir = resolve(root, bookOptions.path);
-            const configService = new ConfigService(docDir, bookOptions.name);
+            const configService = new ConfigService(docDir, bookOptions.name, bookOptions.repo);
             await configService.ready;
             const contentManager = new ContentManager(docDir, configService);
 

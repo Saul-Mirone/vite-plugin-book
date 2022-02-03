@@ -11,7 +11,7 @@ import { ContentManager } from './content-manager';
 
 type ClientMap = Map<WebSocket, BirpcReturn<WebSocketClientEvents>>;
 
-export const createWsServer = (server: ViteDevServer, docDir: string, name: string) => {
+export const createWsServer = (server: ViteDevServer, docDir: string, name: string, repo: string) => {
     const clients: ClientMap = new Map();
     const wss = new WebSocketServer({ noServer: true });
 
@@ -23,13 +23,13 @@ export const createWsServer = (server: ViteDevServer, docDir: string, name: stri
 
         wss.handleUpgrade(request, socket, head, (ws) => {
             wss.emit('connection', ws, request);
-            setupClient(ws, clients, docDir, name);
+            setupClient(ws, clients, docDir, name, repo);
         });
     });
 };
 
-async function setupClient(ws: WebSocket, clientMap: ClientMap, docDir: string, name: string) {
-    const configService = new ConfigService(docDir, name);
+async function setupClient(ws: WebSocket, clientMap: ClientMap, docDir: string, name: string, repo: string) {
+    const configService = new ConfigService(docDir, name, repo);
     await configService.ready;
     const rpc = createBirpc<WebSocketClientEvents, WebSocketServerEvents>(new ContentManager(docDir, configService), {
         post: (msg) => ws.send(msg),

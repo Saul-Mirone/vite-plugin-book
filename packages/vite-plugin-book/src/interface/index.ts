@@ -20,6 +20,7 @@ export type ItemInfo = FileInfo | DirInfo;
 
 export type ProjectInfo = {
     name: string;
+    repo: string;
     list: ItemInfo[];
 };
 

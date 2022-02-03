@@ -55,11 +55,12 @@ const readDir = async (root: string, dir: string = root): Promise<DirInfo> => {
     };
 };
 
-export const readProject = async (root: string, name: string): Promise<ProjectInfo> => {
+export const readProject = async (root: string, name: string, repo: string): Promise<ProjectInfo> => {
     const rootDirInfo = await readDir(root);
 
     return {
         name,
+        repo,
         list: rootDirInfo.list,
     };
 };

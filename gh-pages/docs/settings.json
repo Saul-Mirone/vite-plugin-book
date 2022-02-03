@@ -1,6 +1,7 @@
 {
     "projectInfo": {
         "name": "vite-book",
+        "repo": "https://github.com/Saul-Mirone/vite-plugin-book",
         "list": [
             {
                 "type": "file",

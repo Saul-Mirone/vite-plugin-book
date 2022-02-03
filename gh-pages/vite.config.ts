@@ -10,7 +10,9 @@ import { book } from 'vite-plugin-book/vite';
 export default defineConfig({
     base: '/vite-plugin-book/',
     plugins: [
-        book(),
+        book({
+            repo: 'https://github.com/Saul-Mirone/vite-plugin-book',
+        }),
         copy({
             targets: [
                 {

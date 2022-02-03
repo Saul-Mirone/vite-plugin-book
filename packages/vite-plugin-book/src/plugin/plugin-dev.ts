@@ -44,7 +44,7 @@ export function vitePluginBookDev(bookOptions: BookPluginOptions): Plugin {
 
             const docsDir = resolve(root, bookOptions.path);
 
-            createWsServer(server, docsDir, bookOptions.name);
+            createWsServer(server, docsDir, bookOptions.name, bookOptions.repo);
 
             server.middlewares.use(
                 '/__vite_plugin_book__/',

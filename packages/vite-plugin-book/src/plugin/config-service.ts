@@ -12,13 +12,15 @@ export class ConfigService {
     #rootDir: string;
     #configPath: string;
     #projectName: string;
+    #projectRepo: string;
     #configData!: BookConfig;
     ready: Promise<void>;
 
-    constructor(rootDir: string, name: string) {
+    constructor(rootDir: string, name: string, repo: string) {
         this.#rootDir = rootDir;
         this.#configPath = path.resolve(rootDir, 'settings.json');
         this.#projectName = name;
+        this.#projectRepo = repo;
         this.ready = this.#ensureConfig();
     }
 
@@ -32,6 +34,9 @@ export class ConfigService {
             const stat = await fs.stat(this.#configPath);
             if (stat.isFile()) {
                 this.#configData = await fs.readJSON(this.#configPath);
+                this.#configData.projectInfo.name = this.#projectName;
+                this.#configData.projectInfo.repo = this.#projectRepo;
+                await this.writeConfig();
                 return;
             }
         }
@@ -43,7 +48,7 @@ export class ConfigService {
     }
 
     async #initConfig(): Promise<void> {
-        const projectInfo = await readProject(this.#rootDir, this.#projectName);
+        const projectInfo = await readProject(this.#rootDir, this.#projectName, this.#projectRepo);
         const config = {
             projectInfo,
         };

@@ -9,5 +9,6 @@
     &:hover {
         background: rgba(var(--secondary), 0.2);
         color: rgba(var(--primary), 1);
+        fill: rgba(var(--primary), 1);
     }
 }
