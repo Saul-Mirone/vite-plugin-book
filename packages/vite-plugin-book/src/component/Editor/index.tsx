@@ -55,7 +55,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     };
 
     const onCancel = () => {
-        if (ctx.status !== 'connected' || !url) return;
+        if (ctx.status !== 'connected') return;
         show({
             title: 'Abandon you change',
             description: 'Are you sure you want to do this?',
@@ -85,6 +85,10 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
                             onSave();
                             e.preventDefault();
                         }
+                    }
+                    if (e.key === 'Escape') {
+                        onCancel();
+                        e.preventDefault();
                     }
                 }}
                 className="max-w-1080px milkdown-wrapper"

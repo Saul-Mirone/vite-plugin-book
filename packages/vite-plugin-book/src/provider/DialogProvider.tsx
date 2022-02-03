@@ -12,6 +12,7 @@ export type DialogData = {
     onCancel: () => void;
 };
 
+export const ShowDialogCtx = createContext<boolean>(false);
 export const SetShowDialogCtx = createContext<Dispatch<SetStateAction<boolean>>>(nope);
 export const SetDialogDataCtx = createContext<Dispatch<SetStateAction<DialogData>>>(nope);
 
@@ -20,11 +21,13 @@ export const DialogProvider: FC = ({ children }) => {
     const [dialogData, setDialogData] = useState({} as DialogData);
 
     return (
-        <SetShowDialogCtx.Provider value={setShowDialog}>
-            <SetDialogDataCtx.Provider value={setDialogData}>
-                {children}
-                {showDialog && <Dialog {...dialogData} />}
-            </SetDialogDataCtx.Provider>
-        </SetShowDialogCtx.Provider>
+        <ShowDialogCtx.Provider value={showDialog}>
+            <SetShowDialogCtx.Provider value={setShowDialog}>
+                <SetDialogDataCtx.Provider value={setDialogData}>
+                    {children}
+                    {showDialog && <Dialog {...dialogData} />}
+                </SetDialogDataCtx.Provider>
+            </SetShowDialogCtx.Provider>
+        </ShowDialogCtx.Provider>
     );
 };
