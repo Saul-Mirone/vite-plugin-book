@@ -13,6 +13,7 @@ import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
 import { emoji } from '@milkdown/plugin-emoji';
 import { history } from '@milkdown/plugin-history';
+import { indent } from '@milkdown/plugin-indent';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
@@ -92,6 +93,7 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
             .use(tooltip)
             .use(cursor)
             .use(clipboard)
+            .use(indent)
             .use(
                 $prose(
                     (_) =>

@@ -76,6 +76,7 @@ importers:
       '@milkdown/plugin-cursor': ^5.4.1
       '@milkdown/plugin-emoji': ^5.4.1
       '@milkdown/plugin-history': ^5.4.1
+      '@milkdown/plugin-indent': ^5.4.1
       '@milkdown/plugin-listener': ^5.4.1
       '@milkdown/plugin-prism': ^5.4.1
       '@milkdown/plugin-slash': ^5.4.1
@@ -116,6 +117,7 @@ importers:
       windicss: ^3.4.3
       ws: ^8.4.2
     dependencies:
+      '@milkdown/plugin-indent': 5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e
       '@rollup/plugin-json': 4.1.0_rollup@2.66.0
       '@rollup/pluginutils': 4.1.2
       birpc: 0.1.0
@@ -1048,7 +1050,6 @@ packages:
     resolution: {integrity: sha512-IDSdMS/pZZAyshQWyyY+Kk9EnkdqqyBgX3+r9swrcvTpAQFDGM83lHxGWDBXTw2G/xDixWNfO5voQX98Y5x/OQ==}
     dependencies:
       tslib: 2.3.1
-    dev: true
 
   /@milkdown/plugin-clipboard/5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e:
     resolution: {integrity: sha512-9gPTKpjvI+YMhBU3VPJ3arapY2EP+pnCx4BrYzHQg5KN2JImJXX1u00+EYEfKw4awQzEvRHR2OXYBjMRVTRDzA==}
@@ -1105,6 +1106,18 @@ packages:
       '@milkdown/utils': 5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e
       tslib: 2.3.1
     dev: true
+
+  /@milkdown/plugin-indent/5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e:
+    resolution: {integrity: sha512-kywYCamH9ldQ28pOXpJ6eQHQwksxPT7jDljZRqYDTrS0H4lHlQN7YUJ7oNfhGOIl7w0otNq8N8sGegTpAZs9iw==}
+    peerDependencies:
+      '@milkdown/core': ^5.4.0
+      '@milkdown/prose': ^5.4.0
+    dependencies:
+      '@milkdown/core': 5.4.1_@milkdown+prose@5.4.1
+      '@milkdown/prose': 5.4.1
+      '@milkdown/utils': 5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e
+      tslib: 2.3.1
+    dev: false
 
   /@milkdown/plugin-listener/5.4.1_6b656e3bcfc3a28c62ba46e3224ac27e:
     resolution: {integrity: sha512-LpWtIx/+sVkWmsD5nY2biYMVB7OnAWGvKc4KQZSR+NFEdO+cUq6ibG1yf48NBz4v/J+S4UoApvZ/dGPHaKchpQ==}
@@ -1249,7 +1262,6 @@ packages:
       '@milkdown/exception': 5.4.1
       '@milkdown/prose': 5.4.1
       tslib: 2.3.1
-    dev: true
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -5688,7 +5700,6 @@ packages:
 
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
-    dev: true
 
   /tsutils/3.21.0_typescript@4.5.5:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

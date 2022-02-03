@@ -11,6 +11,7 @@ export default defineConfig({
         book({
             name: 'My Book',
             path: 'site',
+            repo: 'https://github.com/Saul-Mirone/vite-plugin-book',
         }),
     ],
 });
@@ -23,3 +24,7 @@ You can provide your book name. It's `vite-book` by default.
 ## Path
 
 The relative path of documentation directory. It's `docs` by default.
+
+## Repo
+
+The repository link of current project. It's empty by default.

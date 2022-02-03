@@ -26,12 +26,12 @@ export default defineConfig({
 When running `vite`, you can see hint messages like this:
 
 ```bash
-vite v2.7.13 dev server running at:
+vite dev server running at:
 
 > Local: http://localhost:3000/
 > Network: use `--host` to expose
 
-ready in 165ms.
+ready in XXXms.
 
 > Book Admin: http://localhost:3000/__vite_plugin_book__/
 > Book Preview: http://localhost:3000/__vite_plugin_book__/__preview__/

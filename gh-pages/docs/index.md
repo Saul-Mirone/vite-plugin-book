@@ -14,13 +14,13 @@
 
 -   📦Deploy your site without any configuration.
 
-# Examples
+## Examples
 
 The documentation of vite plugin book is created by itself!
 
 > [View the source code here](https://github.com/Saul-Mirone/vite-plugin-book/tree/main/gh-pages).
 
-# Donate
+## Donate
 
 If you like vite book, please consider to fund me to help the maintenance.
 
@@ -30,6 +30,6 @@ If you like vite book, please consider to fund me to help the maintenance.
 
 -   [Open Collective](https://opencollective.com/milkdown)
 
-# License
+## License
 
 [MIT](https://github.com/Saul-Mirone/vite-plugin-book/blob/main/LICENSE)
