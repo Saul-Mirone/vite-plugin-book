@@ -29,7 +29,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const setToast = useToast();
 
     const onSave = async () => {
-        if (ctx.status !== 'connected' || !url) return;
+        if (ctx.status !== 'connected') return;
 
         const markdown = get();
 
@@ -44,7 +44,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
         await getConfig();
         const prevPathList = url.split('/');
         const newPath =
-            url === '/'
+            url === '/' || url === ''
                 ? ''
                 : prevPathList
                       .slice(0, prevPathList.length - 1)
@@ -78,7 +78,18 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
 
     return (
         <>
-            <div className="max-w-1080px milkdown-wrapper" ref={divRef} />
+            <div
+                onKeyDown={(e) => {
+                    if (e.ctrlKey || e.metaKey) {
+                        if (e.key === 's') {
+                            onSave();
+                            e.preventDefault();
+                        }
+                    }
+                }}
+                className="max-w-1080px milkdown-wrapper"
+                ref={divRef}
+            />
             {!isRuntime && (
                 <Toolbar changed={changed} onSave={onSave} onCancel={onCancel} onPreview={onPreview} onEdit={onEdit} />
             )}
