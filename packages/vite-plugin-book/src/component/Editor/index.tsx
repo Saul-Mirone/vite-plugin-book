@@ -104,7 +104,9 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
                         e.preventDefault();
                     }
                 }}
-                className={`max-w-1080px ${isMobile ? '' : 'milkdown-wrapper'} ${loading ? 'milkdown-loading' : ''}`}
+                className={`max-w-1080px ${isMobile ? 'milkdown-mobile-wrapper' : 'milkdown-wrapper'} ${
+                    loading ? 'milkdown-loading' : ''
+                }`}
                 ref={divRef}
             />
             {!isRuntime && (

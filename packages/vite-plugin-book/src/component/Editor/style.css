@@ -12,6 +12,10 @@
     width: calc(100% - 265px);
 }
 
+.milkdown-mobile-wrapper {
+    width: 100%;
+}
+
 .milkdown-loading {
     visibility: hidden;
 }

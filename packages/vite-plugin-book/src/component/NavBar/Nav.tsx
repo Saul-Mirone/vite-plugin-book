@@ -54,7 +54,7 @@ const ButtonGroup = () => {
 export const Nav: FC<NavProps> = ({ title, state, setDragging }) => {
     const { setUrl } = useFile();
     return (
-        <nav className={cx['nav']}>
+        <nav className={`${cx['nav']}`}>
             <div className={cx['container']}>
                 <span onClick={() => setUrl('')} className={cx['title']}>
                     {title}
