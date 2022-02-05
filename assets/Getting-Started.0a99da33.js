@@ -1,6 +1,6 @@
 var n=`# Getting Started
 
-> Install guide
+> Installation guide
 
 ## Install
 
