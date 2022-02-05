@@ -1,6 +1,6 @@
 {
     "name": "vite-plugin-book",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "A vite plugin to help you write a book.",
     "module": "true",
     "main": "./dist/render/index.js",
