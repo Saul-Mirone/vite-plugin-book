@@ -1,6 +1,6 @@
 # Getting Started
 
-> Install guide
+> Installation guide
 
 ## Install
 

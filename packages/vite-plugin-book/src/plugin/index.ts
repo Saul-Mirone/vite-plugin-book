@@ -15,7 +15,7 @@ export type BookPluginOptions = {
 
 export function book(options?: Partial<BookPluginOptions>): Plugin[] {
     const overrideOptions: BookPluginOptions = {
-        name: 'vite-book',
+        name: 'Vite Book',
         path: 'docs',
         repo: '',
         ...(options || {}),
