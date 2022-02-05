@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useCallback, useEffect } from 'react';
 
 import { useConfig } from '../../hook/useConfig';
 import { useFile } from '../../hook/useFile';
@@ -24,29 +24,50 @@ const ButtonGroup = () => {
     const mode = useMode();
     const setToast = useToast();
 
+    const newFile = useCallback(async () => {
+        if (ctx.status !== 'connected') return;
+        const nextId = await ctx.rpc.createFile(url);
+        await getConfig();
+        setUrl(nextId);
+        setToast('New File Created');
+    }, [ctx, getConfig, setToast, setUrl, url]);
+
+    const newFolder = useCallback(async () => {
+        if (ctx.status !== 'connected') return;
+        const nextId = await ctx.rpc.createFile(url, true);
+        await getConfig();
+        setUrl(nextId);
+        setToast('New Directory Created');
+    }, [ctx, getConfig, setToast, setUrl, url]);
+
+    useEffect(() => {
+        if (mode !== 'editable') return;
+
+        const keyBoardListener = (e: KeyboardEvent) => {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'Enter') {
+                    if (e.shiftKey) {
+                        newFolder();
+                    } else {
+                        newFile();
+                    }
+                    e.preventDefault();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', keyBoardListener);
+
+        return () => {
+            window.removeEventListener('keydown', keyBoardListener);
+        };
+    }, [mode, newFile, newFolder]);
+
     if (mode !== 'editable') return null;
     return (
         <div className={cx['icon-group']}>
-            <IconButton
-                type="post_add"
-                onClick={async () => {
-                    if (ctx.status !== 'connected') return;
-                    const nextId = await ctx.rpc.createFile(url);
-                    await getConfig();
-                    setUrl(nextId);
-                    setToast('New File Created');
-                }}
-            />
-            <IconButton
-                type="create_new_folder"
-                onClick={async () => {
-                    if (ctx.status !== 'connected') return;
-                    const nextId = await ctx.rpc.createFile(url, true);
-                    await getConfig();
-                    setUrl(nextId);
-                    setToast('New Directory Created');
-                }}
-            />
+            <IconButton type="post_add" onClick={newFile} />
+            <IconButton type="create_new_folder" onClick={newFolder} />
         </div>
     );
 };

@@ -1,3 +1,8 @@
+.list-item-text {
+    width: calc(100% - 28px);
+    @apply truncate;
+}
+
 .list-item {
     @apply transition
         block

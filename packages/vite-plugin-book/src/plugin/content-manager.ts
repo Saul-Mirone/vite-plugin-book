@@ -31,8 +31,7 @@ export class ContentManager implements WebSocketServerEvents {
     }
 
     async createFile(near: string, folder = false): Promise<string> {
-        // TODO: Check if has untitled
-        const date = new Date().toISOString().split('T')[0] as string;
+        const date = new Date().toISOString().replaceAll(':', '-').split('.')[0] as string;
         const fullPath = this.resolveFilePath(near);
         const { id, filePath } = await this.configService.createFile(fullPath, date, folder);
         if (folder) {

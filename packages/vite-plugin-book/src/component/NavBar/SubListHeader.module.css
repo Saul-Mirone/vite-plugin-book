@@ -1,7 +1,19 @@
+.header-container {
+    @apply flex h-24px;
+
+    width: calc(100% - 28px);
+
+    &.active {
+        width: calc(100% - 60px);
+    }
+}
+
 .header {
     @apply leading-24px
         cursor-pointer
         no-underline
+        w-full
+        truncate 
         text-sm;
 
     &.active {
@@ -24,6 +36,8 @@
         flex
         justify-between
         items-center
+        truncate
+        w-full
         hover:text-primary;
 
     &.active {
@@ -40,5 +54,5 @@
 }
 
 .button-group {
-    @apply flex items-center gap-4px;
+    @apply flex items-center gap-4px flex-shrink-0;
 }

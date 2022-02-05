@@ -7,7 +7,7 @@ import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
 import { useEditor } from '../../hook/useEditor';
 import { useFile } from '../../hook/useFile';
-import { useIsRuntime } from '../../hook/useMode';
+import { useIsRuntime, useMode } from '../../hook/useMode';
 import { useNav } from '../../hook/useNav';
 import { useOutline } from '../../hook/useOutline';
 import { useRpc } from '../../hook/useRpc';
@@ -18,6 +18,7 @@ import { Toolbar } from '../Toolbar';
 
 export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const base = useContext(RouteBaseCtx);
+    const mode = useMode();
     const ctx = useRpc();
     const { file, url, setFile, changed } = useFile();
     const divRef = useRef<HTMLDivElement>(null);
@@ -93,6 +94,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
         <>
             <div
                 onKeyDown={(e) => {
+                    if (mode === 'preview') return;
                     if (e.ctrlKey || e.metaKey) {
                         if (e.key === 's') {
                             onSave();

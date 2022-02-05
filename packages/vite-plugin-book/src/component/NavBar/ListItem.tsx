@@ -64,7 +64,7 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name }) => {
                 }`}
                 onClick={() => setUrl(url)}
             >
-                {transformName(name)}
+                <span className={cx['list-item-text']}>{transformName(name)}</span>
                 <ButtonGroup isActive={isActive} url={url} />
             </span>
         </li>
