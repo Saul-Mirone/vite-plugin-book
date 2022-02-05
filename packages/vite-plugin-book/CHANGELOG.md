@@ -1,5 +1,11 @@
 # vite-plugin-book
 
+## 0.0.8
+
+### Patch Changes
+
+-   29f1521: Optimize ux and add title
+
 ## 0.0.7
 
 ### Patch Changes

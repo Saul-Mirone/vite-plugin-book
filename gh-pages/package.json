@@ -1,7 +1,7 @@
 {
     "name": "@vite-plugin-book/gh-pages",
     "private": "true",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "scripts": {
         "start": "vite",
         "build": "vite build",
