@@ -52,9 +52,10 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
             .config((ctx) => {
                 ctx.set(rootCtx, ref);
                 ctx.set(defaultValueCtx, defaultValue);
-                ctx.set(editorViewOptionsCtx, {
+                ctx.update(editorViewOptionsCtx, (prev) => ({
+                    ...prev,
                     editable: () => !readOnly,
-                });
+                }));
                 ctx.get(listenerCtx)
                     .mounted((ctx) => {
                         setChanged(false);
