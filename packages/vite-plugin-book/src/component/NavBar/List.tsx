@@ -55,7 +55,7 @@ export const List: FC<ListProps> = memo(({ items, id, indexList }) => {
         <ul className="list-none m-0 pl-16px">
             <ReactSortable
                 key={id}
-                list={items}
+                list={items.map((x) => ({ ...x }))}
                 setList={(list) => {
                     dispatch({ type: 'ModifyList', indexList, newSlice: list as ItemInfo[] });
                 }}

@@ -113,7 +113,7 @@ importers:
       react-dom: ^17.0.2
       react-helmet: ^6.1.0
       react-router-dom: ^6.2.1
-      react-sortablejs: ~6.0.3
+      react-sortablejs: ^6.1.1
       react-spinners: ^0.11.0
       react-split-pane: ^0.1.92
       sirv: ^2.0.0
@@ -166,7 +166,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       react-helmet: 6.1.0_react@17.0.2
       react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
-      react-sortablejs: 6.0.3_5225c19a6dafa75cd438f6773f26a971
+      react-sortablejs: 6.1.1_5225c19a6dafa75cd438f6773f26a971
       react-spinners: 0.11.0_b3482aaf5744fc7c2aeb7941b0e0a78f
       react-split-pane: 0.1.92_react-dom@17.0.2+react@17.0.2
       sortablejs: 1.14.0
@@ -4944,8 +4944,8 @@ packages:
       react: 17.0.2
     dev: true
 
-  /react-sortablejs/6.0.3_5225c19a6dafa75cd438f6773f26a971:
-    resolution: {integrity: sha512-Aoxl/kuqOA1A2y42Z4E/uZ+eAP2rP11TYM+CZYfs3VoYlh7rzwIdVqrKPibYg1CdzFkJiFb4pYGmMvGKYKv3bA==}
+  /react-sortablejs/6.1.1_5225c19a6dafa75cd438f6773f26a971:
+    resolution: {integrity: sha512-VXTCHiitk1QT1uxt+hFGSihG1phk/HAw/17a65diTT3NVm/5dui2O99X5L/tOFLgRT5ifxwZtnloTTDsT5EH2w==}
     peerDependencies:
       '@types/sortablejs': '1'
       react: '>=16.9.0'

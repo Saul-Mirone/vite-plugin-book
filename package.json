@@ -2,32 +2,6 @@
     "name": "@vite-plugin-book/monorepo",
     "private": "true",
     "description": "A vite plugin to help you write a book.",
-    "module": "true",
-    "main": "./dist/render/index.js",
-    "types": "./dist/render/index.d.ts",
-    "files": [
-        "dist",
-        "src"
-    ],
-    "exports": {
-        ".": {
-            "import": "./dist/render/index.js",
-            "types": "./dist/render/index.d.ts"
-        },
-        "./*": "./dist/render/*",
-        "./vite": {
-            "require": "./dist/plugin/index.js",
-            "types": "./dist/plugin/index.d.ts"
-        }
-    },
-    "typesVersions": {
-        "*": {
-            "vite": [
-                "dist/plugin/index.d.ts"
-            ]
-        }
-    },
-    "sideEffects": false,
     "scripts": {
         "postinstall": "husky install",
         "format": "lint-staged",

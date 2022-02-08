@@ -2,7 +2,6 @@
 import { FC, memo } from 'react';
 
 import { ItemInfo } from '../../interface';
-import { isIndexPage } from '../../utils/helper';
 import { List } from './List';
 import { SubListHeader } from './SubListHeader';
 
@@ -14,8 +13,10 @@ type DirItemProps = {
     indexList: number[];
 };
 
-export const DirItem: FC<DirItemProps> = memo(({ name, list, url, indexList, hasIndex }) => (
-    <SubListHeader hasIndex={hasIndex} url={url} name={name}>
-        <List indexList={[...indexList]} id={url} items={list.filter((item) => !isIndexPage(item))} />
-    </SubListHeader>
-));
+export const DirItem: FC<DirItemProps> = memo(({ name, list, url, indexList, hasIndex }) => {
+    return (
+        <SubListHeader hasIndex={hasIndex} url={url} name={name}>
+            <List indexList={[...indexList]} id={url} items={list} />
+        </SubListHeader>
+    );
+});
