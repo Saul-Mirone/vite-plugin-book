@@ -89,7 +89,7 @@
     "dependencies": {
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/pluginutils": "^4.1.2",
-        "birpc": "^0.1.0",
+        "birpc": "^0.2.0",
         "flatted": "^3.2.4",
         "fs-extra": "^10.0.0",
         "magic-string": "^0.26.0",
