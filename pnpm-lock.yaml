@@ -109,8 +109,8 @@ importers:
       pathe: ^0.2.0
       picocolors: ^1.0.0
       prism-themes: ^1.9.0
-      react: ^17.0.2
-      react-dom: ^17.0.2
+      react: ^18.0.0
+      react-dom: ^18.0.0
       react-helmet: ^6.1.0
       react-router-dom: ^6.2.1
       react-sortablejs: ^6.1.1
@@ -162,13 +162,13 @@ importers:
       immer: 9.0.12
       material-icons: 1.10.7
       prism-themes: 1.9.0
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-helmet: 6.1.0_react@17.0.2
-      react-router-dom: 6.2.2_react-dom@17.0.2+react@17.0.2
-      react-sortablejs: 6.1.1_5225c19a6dafa75cd438f6773f26a971
-      react-spinners: 0.11.0_b5d7bf22a7b46dd4876f0e926ab0c987
-      react-split-pane: 0.1.92_react-dom@17.0.2+react@17.0.2
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
+      react-helmet: 6.1.0_react@18.0.0
+      react-router-dom: 6.2.2_react-dom@18.0.0+react@18.0.0
+      react-sortablejs: 6.1.1_cf395bd7de3afeadec858be7272f4b3b
+      react-spinners: 0.11.0_c13207e15fed56fc7b9b70ab319ad0ff
+      react-split-pane: 0.1.92_react-dom@18.0.0+react@18.0.0
       sortablejs: 1.14.0
       vite-plugin-windicss: 1.8.3_vite@2.8.6
       windicss: 3.5.1
@@ -887,7 +887,7 @@ packages:
     resolution: {integrity: sha512-igX9a37DR2ZPGYtV6suZ6whr8pTFtyHL3K/oLUotxpSVO2ASaprmAe2Dkq7tBo7CRY7MMDrAa9nuQP9/YG8FxQ==}
     dev: true
 
-  /@emotion/react/11.8.1_03a98942b76c57740a9573edba2d1cc1:
+  /@emotion/react/11.8.1_00a11a054056e3746b551a83b9229751:
     resolution: {integrity: sha512-XGaie4nRxmtP1BZYBXqC5JGqMYF2KRKKI7vjqNvQxyRpekVAZhb6QqrElmZCAYXH1L90lAelADSVZC4PFsrJ8Q==}
     peerDependencies:
       '@babel/core': ^7.0.0
@@ -908,7 +908,7 @@ packages:
       '@emotion/weak-memoize': 0.2.5
       '@types/react': 17.0.43
       hoist-non-react-statics: 3.3.2
-      react: 17.0.2
+      react: 18.0.0
     dev: true
 
   /@emotion/serialize/1.0.2:
@@ -4953,31 +4953,30 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /react-dom/17.0.2_react@17.0.2:
-    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
+  /react-dom/18.0.0_react@18.0.0:
+    resolution: {integrity: sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw==}
     peerDependencies:
-      react: 17.0.2
+      react: ^18.0.0
     dependencies:
       loose-envify: 1.4.0
-      object-assign: 4.1.1
-      react: 17.0.2
-      scheduler: 0.20.2
+      react: 18.0.0
+      scheduler: 0.21.0
     dev: true
 
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
     dev: true
 
-  /react-helmet/6.1.0_react@17.0.2:
+  /react-helmet/6.1.0_react@18.0.0:
     resolution: {integrity: sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==}
     peerDependencies:
       react: '>=16.3.0'
     dependencies:
       object-assign: 4.1.1
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.0.0
       react-fast-compare: 3.2.0
-      react-side-effect: 2.1.1_react@17.0.2
+      react-side-effect: 2.1.1_react@18.0.0
     dev: true
 
   /react-is/16.13.1:
@@ -4993,36 +4992,36 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /react-router-dom/6.2.2_react-dom@17.0.2+react@17.0.2:
+  /react-router-dom/6.2.2_react-dom@18.0.0+react@18.0.0:
     resolution: {integrity: sha512-AtYEsAST7bDD4dLSQHDnk/qxWLJdad5t1HFa1qJyUrCeGgEuCSw0VB/27ARbF9Fi/W5598ujvJOm3ujUCVzuYQ==}
     peerDependencies:
       react: '>=16.8'
       react-dom: '>=16.8'
     dependencies:
       history: 5.3.0
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-router: 6.2.2_react@17.0.2
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
+      react-router: 6.2.2_react@18.0.0
     dev: true
 
-  /react-router/6.2.2_react@17.0.2:
+  /react-router/6.2.2_react@18.0.0:
     resolution: {integrity: sha512-/MbxyLzd7Q7amp4gDOGaYvXwhEojkJD5BtExkuKmj39VEE0m3l/zipf6h2WIB2jyAO0lI6NGETh4RDcktRm4AQ==}
     peerDependencies:
       react: '>=16.8'
     dependencies:
       history: 5.3.0
-      react: 17.0.2
+      react: 18.0.0
     dev: true
 
-  /react-side-effect/2.1.1_react@17.0.2:
+  /react-side-effect/2.1.1_react@18.0.0:
     resolution: {integrity: sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==}
     peerDependencies:
       react: ^16.3.0 || ^17.0.0
     dependencies:
-      react: 17.0.2
+      react: 18.0.0
     dev: true
 
-  /react-sortablejs/6.1.1_5225c19a6dafa75cd438f6773f26a971:
+  /react-sortablejs/6.1.1_cf395bd7de3afeadec858be7272f4b3b:
     resolution: {integrity: sha512-VXTCHiitk1QT1uxt+hFGSihG1phk/HAw/17a65diTT3NVm/5dui2O99X5L/tOFLgRT5ifxwZtnloTTDsT5EH2w==}
     peerDependencies:
       '@types/sortablejs': '1'
@@ -5032,35 +5031,35 @@ packages:
     dependencies:
       '@types/sortablejs': 1.10.7
       classnames: 2.3.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
       sortablejs: 1.14.0
       tiny-invariant: 1.2.0
     dev: true
 
-  /react-spinners/0.11.0_b5d7bf22a7b46dd4876f0e926ab0c987:
+  /react-spinners/0.11.0_c13207e15fed56fc7b9b70ab319ad0ff:
     resolution: {integrity: sha512-rDZc0ABWn/M1OryboGsWVmIPg8uYWl0L35jPUhr40+Yg+syVPjeHwvnB7XWaRpaKus3M0cG9BiJA+ZB0dAwWyw==}
     peerDependencies:
       react: ^16.0.0 || ^17.0.0
       react-dom: ^16.0.0 || ^17.0.0
     dependencies:
-      '@emotion/react': 11.8.1_03a98942b76c57740a9573edba2d1cc1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
+      '@emotion/react': 11.8.1_00a11a054056e3746b551a83b9229751
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
     transitivePeerDependencies:
       - '@babel/core'
       - '@types/react'
     dev: true
 
-  /react-split-pane/0.1.92_react-dom@17.0.2+react@17.0.2:
+  /react-split-pane/0.1.92_react-dom@18.0.0+react@18.0.0:
     resolution: {integrity: sha512-GfXP1xSzLMcLJI5BM36Vh7GgZBpy+U/X0no+VM3fxayv+p1Jly5HpMofZJraeaMl73b3hvlr+N9zJKvLB/uz9w==}
     peerDependencies:
       react: ^16.0.0-0
       react-dom: ^16.0.0-0
     dependencies:
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
       react-lifecycles-compat: 3.0.4
       react-style-proptype: 3.2.2
     dev: true
@@ -5071,12 +5070,11 @@ packages:
       prop-types: 15.8.1
     dev: true
 
-  /react/17.0.2:
-    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
+  /react/18.0.0:
+    resolution: {integrity: sha512-x+VL6wbT4JRVPm7EGxXhZ8w8LTROaxPXOqhlGyVSrv0sB1jkyFGgXxJ8LVoPRLvPR6/CIZGFmfzqUa2NYeMr2A==}
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-      object-assign: 4.1.1
     dev: true
 
   /read-pkg-up/7.0.1:
@@ -5375,11 +5373,10 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: true
 
-  /scheduler/0.20.2:
-    resolution: {integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==}
+  /scheduler/0.21.0:
+    resolution: {integrity: sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==}
     dependencies:
       loose-envify: 1.4.0
-      object-assign: 4.1.1
     dev: true
 
   /scroll-into-view-if-needed/2.2.29:
