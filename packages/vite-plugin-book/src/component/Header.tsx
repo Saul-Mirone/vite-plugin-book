@@ -38,7 +38,7 @@ export const Header: FC<{ projectInfo: ProjectInfo }> = ({ projectInfo }) => {
     const setToast = useToast();
     const { show, hide } = useDialog();
     return (
-        <div className="h-16 px-4 flex justify-between items-center">
+        <div className="h-16 px-4 py-2 flex justify-between items-center">
             <Button onClick={() => setMenuFold((x) => !x)} text="menu" />
             <div className="flex gap-1">
                 <Button

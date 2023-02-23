@@ -21,10 +21,22 @@ export const UIProvider: FC<{ children: ReactNode }> = memo(({ children }) => {
     const [isDarkMode, setIsDarkMode] = useState(isDark);
 
     useEffect(() => {
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
-            setIsDarkMode(event.matches);
-        });
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+        const listener = (event: MediaQueryListEvent) => {
+            const newColorScheme = !!event.matches;
+
+            setIsDarkMode(newColorScheme);
+        };
+
+        media.addEventListener('change', listener);
+        return () => {
+            media.removeEventListener('change', listener);
+        };
     }, []);
+
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', isDarkMode);
+    }, [isDarkMode]);
 
     return (
         <IsMobileCtx.Provider value={isMobile.current}>
