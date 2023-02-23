@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { createContext, Dispatch, FC, SetStateAction, useContext, useState } from 'react';
+import { createContext, Dispatch, FC, ReactNode, SetStateAction, useContext, useState } from 'react';
 
 import { nope } from '../utils/helper';
 import { RouteBaseCtx } from './RouteBaseProvider';
@@ -13,7 +13,7 @@ export const SetLoadingCtx = createContext<Dispatch<SetStateAction<boolean>>>(no
 export const ChangedCtx = createContext(false);
 export const SetChangedCtx = createContext<Dispatch<SetStateAction<boolean>>>(nope);
 
-export const FileProvider: FC = ({ children }) => {
+export const FileProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const base = useContext(RouteBaseCtx);
     const pureBase = window.location.pathname.replace(base, '');
     const [file, setFile] = useState('');

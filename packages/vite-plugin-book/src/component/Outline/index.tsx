@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useOutline } from '../../hook/useOutline';
@@ -12,7 +12,7 @@ type OutlineItem = {
 };
 export type OutlineList = OutlineItem[];
 
-const NestedDiv: FC<{ level: number }> = ({ level, children }) => {
+const NestedDiv: FC<{ level: number; children: ReactNode }> = ({ level, children }) => {
     if (level === 0) {
         return <>{children}</>;
     }

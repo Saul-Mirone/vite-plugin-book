@@ -63,9 +63,11 @@ export function vitePluginBookDev(bookOptions: BookPluginOptions): Plugin {
 
             httpServer.on('listening', () => {
                 const addr = httpServer.address() as AddressInfo;
+                console.log('----------');
                 if (!addr?.address) return;
 
                 const url = `${protocol}://${host.name}:${addr.port}/__vite_plugin_book__/`;
+                console.log(url);
 
                 setTimeout(() => {
                     console.log(`  > Book Admin: ${colors.cyan(url)}`);

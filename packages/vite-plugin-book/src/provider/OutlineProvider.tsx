@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { createContext, Dispatch, FC, SetStateAction, useState } from 'react';
+import { createContext, Dispatch, FC, ReactNode, SetStateAction, useState } from 'react';
 
 import { nope } from '../utils/helper';
 
@@ -12,7 +12,7 @@ export type OutlineList = OutlineItem[];
 export const OutlineCtx = createContext<OutlineList>([]);
 export const SetOutlineCtx = createContext<Dispatch<SetStateAction<OutlineList>>>(nope);
 
-export const OutlineProvider: FC = ({ children }) => {
+export const OutlineProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [outline, setOutline] = useState<OutlineList>([]);
     return (
         <OutlineCtx.Provider value={outline}>

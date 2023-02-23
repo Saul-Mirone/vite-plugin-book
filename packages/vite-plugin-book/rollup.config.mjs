@@ -5,7 +5,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
 
-import pkg from './package.json';
+import pkg from './package.json' assert { type: 'json' };
 
 const pluginEntry = ['./src/plugin/index.ts'];
 

@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { createContext, Dispatch, FC, SetStateAction, useState } from 'react';
+import { createContext, Dispatch, FC, ReactNode, SetStateAction, useState } from 'react';
 
 import { Toast } from '../component/Toast';
 import { nope } from '../utils/helper';
@@ -11,7 +11,7 @@ export type ToastData = {
 
 export const SetToastDataCtx = createContext<Dispatch<SetStateAction<ToastData>>>(nope);
 
-export const ToastProvider: FC = ({ children }) => {
+export const ToastProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [dialogData, setDialogData] = useState({} as ToastData);
 
     return (

@@ -6,7 +6,7 @@ import SplitPane from 'react-split-pane';
 
 import { useUIConfig } from '../../hook/useUIConfig';
 
-export const Layout: FC = ({ children }) => {
+export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
     const { menuFold, isMobile, setMenuFold } = useUIConfig();
     const [onDrag, setOnDrag] = useState(false);
     const [nav = null, main = null] = children as ReactNode[];
@@ -23,6 +23,7 @@ export const Layout: FC = ({ children }) => {
 
     return (
         <div className="h-screen w-screen overflow-hidden font-sans">
+            {/* @ts-expect-error not supported */}
             <SplitPane
                 onDragStarted={() => setOnDrag(true)}
                 onDragFinished={() => setOnDrag(false)}

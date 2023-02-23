@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { createContext, Dispatch, FC, memo, SetStateAction, useEffect, useRef, useState } from 'react';
+import { createContext, Dispatch, FC, memo, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
 
 import { nope } from '../utils/helper';
 
@@ -15,7 +15,7 @@ const isDark = Boolean(window.matchMedia && window.matchMedia('(prefers-color-sc
 
 const screenWidth = document.body.getBoundingClientRect().width;
 
-export const UIProvider: FC = memo(({ children }) => {
+export const UIProvider: FC<{ children: ReactNode }> = memo(({ children }) => {
     const isMobile = useRef(screenWidth < 905);
     const [menuFold, setMenuFold] = useState(isMobile.current);
     const [isDarkMode, setIsDarkMode] = useState(isDark);

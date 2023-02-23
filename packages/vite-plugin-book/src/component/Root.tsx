@@ -5,7 +5,7 @@ import 'prism-themes/themes/prism-nord.css';
 // eslint-disable-next-line import/no-unresolved
 import '@milkdown/theme-nord/style.css';
 
-import { FC, lazy, memo, StrictMode, Suspense, useMemo } from 'react';
+import { FC, lazy, memo, ReactNode, StrictMode, Suspense, useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { ConfigProvider } from '../provider/ConfigProvider';
@@ -23,7 +23,7 @@ const RuntimeRpc = lazy(() =>
     import('../provider/RuntimeRpcProvider').then((module) => ({ default: module.RuntimeRpcProvider })),
 );
 
-const Rpc: FC<{ isRuntime: boolean }> = memo(({ children, isRuntime }) => {
+const Rpc: FC<{ isRuntime: boolean; children: ReactNode }> = memo(({ children, isRuntime }) => {
     const RpcProvider = useMemo(() => (isRuntime ? RuntimeRpc : DevRpc), [isRuntime]);
     return (
         <Suspense fallback={<div>{children}</div>}>

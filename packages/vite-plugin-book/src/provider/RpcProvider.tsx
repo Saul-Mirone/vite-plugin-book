@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { createContext, FC, useEffect, useRef, useState } from 'react';
+import { createContext, FC, ReactNode, useEffect, useRef, useState } from 'react';
 
 import { WebSocketServerEvents } from '../interface';
 import { Rpc } from '../utils/rpc';
@@ -9,7 +9,7 @@ export type Status = 'connecting' | 'connected' | 'disconnected';
 export const RpcCtx = createContext<WebSocketServerEvents | undefined>(undefined);
 export const RpcStatusCtx = createContext<Status>('connecting');
 
-export const DevRpcProvider: FC = ({ children }) => {
+export const DevRpcProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const rpcRef = useRef<Rpc>();
     const [ws, setWs] = useState<WebSocket | null>();
     const [status, setStatus] = useState<Status>('connecting');

@@ -1,10 +1,10 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, useContext, useEffect } from 'react';
+import { FC, ReactNode, useContext, useEffect } from 'react';
 
 import { ShowDialogCtx } from '../provider/DialogProvider';
 import cx from './Dialog.module.css';
 
-const DialogButton: FC<{ onClick: () => void }> = ({ children, onClick }) => {
+const DialogButton: FC<{ onClick: () => void; children: ReactNode }> = ({ children, onClick }) => {
     return (
         <div className={cx['button-container']} onClick={onClick}>
             <div className={cx['button']}>{children}</div>

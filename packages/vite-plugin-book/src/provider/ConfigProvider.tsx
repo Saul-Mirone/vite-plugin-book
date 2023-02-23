@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import { createContext, Dispatch, FC, SetStateAction, useState } from 'react';
+import { createContext, Dispatch, FC, ReactNode, SetStateAction, useState } from 'react';
 
 import { BookConfig } from '../interface';
 
@@ -9,7 +9,7 @@ export const SetConfigCtx = createContext<Dispatch<SetStateAction<BookConfig | u
     throw new Error();
 });
 
-export const ConfigProvider: FC = ({ children }) => {
+export const ConfigProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [config, setConfig] = useState<BookConfig>();
 
     return (

@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { FC, lazy, memo, Suspense, useContext, useMemo } from 'react';
+import { FC, lazy, memo, ReactNode, Suspense, useContext, useMemo } from 'react';
 import type { ItemInterface, ReactSortableProps } from 'react-sortablejs';
 
 // import { ReactSortable } from 'react-sortablejs';
@@ -15,8 +15,10 @@ type ListProps = {
     indexList: number[];
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const Sortable = lazy(() => import('react-sortablejs').then((module) => ({ default: module.ReactSortable })));
-const ReactSortable: FC<ReactSortableProps<ItemInterface>> = ({ children, ...rest }) => {
+const ReactSortable: FC<ReactSortableProps<ItemInterface> & { children: ReactNode }> = ({ children, ...rest }) => {
     return (
         <Suspense fallback={<div>{children}</div>}>
             <Sortable {...rest}>{children}</Sortable>

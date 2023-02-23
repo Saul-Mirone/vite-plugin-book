@@ -1,5 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react';
+import { Dispatch, FC, ReactNode, SetStateAction, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useActive } from '../../hook/useActive';
@@ -16,6 +16,7 @@ type SubListHeaderProps = {
     name: string;
     url: string;
     hasIndex: boolean;
+    children: ReactNode;
 };
 
 const DeleteGroupDesc = () => (
