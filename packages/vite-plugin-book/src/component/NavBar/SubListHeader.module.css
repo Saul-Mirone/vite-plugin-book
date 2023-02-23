@@ -16,7 +16,7 @@
     }
 
     &.inactive {
-        color: rgba(var(--neutral), 0.6);
+        @apply text-nord0;
     }
 }
 
@@ -24,14 +24,14 @@
     @apply transition cursor-pointer rounded-lg py-4 pl-6 pr-2 flex justify-between items-center truncate w-full hover:text-nord10;
 
     &.active {
-        background: rgba(var(--secondary), 0.12);
+        @apply bg-gray-100;
     }
 
     &.not-dragging:hover {
-        background: rgba(var(--primary), 0.38);
+        @apply bg-gray-300;
 
-        .header {
-            color: rgba(var(--primary), 1);
+        .list-item {
+            @apply text-nord10;
         }
     }
 }

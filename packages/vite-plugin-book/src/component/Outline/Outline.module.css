@@ -3,23 +3,13 @@
 }
 
 .item {
-    @apply cursor-pointer;
-
-    background: rgba(var(--secondary), 0);
+    @apply cursor-pointer bg-transparent hover:bg-gray-100 hover:text-nord10;
 
     a {
-        color: rgba(var(--neutral), 0.6);
+        @apply text-nord0;
 
         &.active {
-            color: rgba(Var(--primary), 1);
-        }
-    }
-
-    &:hover {
-        background: rgba(var(--secondary), 0.3);
-
-        a {
-            color: rgba(Var(--primary), 1);
+            @apply text-nord10;
         }
     }
 }

@@ -11,7 +11,7 @@
     }
 
     &.inactive {
-        color: rgba(var(--neutral), 0.6);
+        @apply text-nord0;
     }
 }
 
@@ -19,14 +19,14 @@
     @apply transition cursor-pointer rounded-lg;
 
     &.active {
-        background: rgba(var(--secondary), 0.12);
+        @apply bg-gray-100;
     }
 
     &.not-dragging:hover {
-        background: rgba(var(--primary), 0.38);
+        @apply bg-gray-300;
 
         .list-item {
-            color: rgba(var(--primary), 1);
+            @apply text-nord10;
         }
     }
 }
