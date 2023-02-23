@@ -61,18 +61,19 @@ export function vitePluginBookDev(bookOptions: BookPluginOptions): Plugin {
             const host = resolveHostname(options.host);
             const protocol = options.https ? 'https' : 'http';
 
-            httpServer.on('listening', () => {
+            const logger = server.config.logger;
+            httpServer.once('listening', () => {
                 const addr = httpServer.address() as AddressInfo;
-                console.log('----------');
                 if (!addr?.address) return;
 
                 const url = `${protocol}://${host.name}:${addr.port}/__vite_plugin_book__/`;
-                console.log(url);
 
                 setTimeout(() => {
-                    console.log(`  > Book Admin: ${colors.cyan(url)}`);
-                    console.log(`  > Book Preview: ${colors.cyan(url + '__preview__/')}`);
-                });
+                    logger.info('\n');
+                    logger.info('  ➜  Vite Plugin Book');
+                    logger.info(`  ➜  Book Admin: ${colors.cyan(url)}`);
+                    logger.info(`  ➜  Book Preview: ${colors.cyan(url + '__preview__/')}`);
+                }, 100);
             });
         },
     };
