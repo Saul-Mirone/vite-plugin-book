@@ -1,31 +1,19 @@
 .nav {
-    @apply h-full
-        w-full
-        flex
-        flex-col
-        bg-surface
-        py-12px;
+    @apply h-full w-full flex flex-col bg-white py-3;
 }
 
 .container {
-    @apply cursor-pointer
-        h-42px
-        mx-12px
-        my-8px
-        text-base
-        flex
-        justify-between
-        items-center;
+    @apply cursor-pointer h-11 mx-3 my-2 text-base flex justify-between items-center;
 }
 
 .title {
-    @apply pl-12px no-underline text-neutral;
+    @apply pl-3 no-underline text-nord0;
 }
 
 .icon-group {
-    @apply flex gap-8px mr-8px;
+    @apply flex gap-2 mr-2;
 }
 
 .list {
-    @apply pr-12px overflow-auto;
+    @apply pr-3 overflow-auto;
 }

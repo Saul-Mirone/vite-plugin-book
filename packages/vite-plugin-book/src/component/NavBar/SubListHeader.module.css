@@ -1,5 +1,5 @@
 .header-container {
-    @apply flex h-24px;
+    @apply flex h-6;
 
     width: calc(100% - 28px);
 
@@ -9,15 +9,10 @@
 }
 
 .header {
-    @apply leading-24px
-        cursor-pointer
-        no-underline
-        w-full
-        truncate 
-        text-sm;
+    @apply leading-6 cursor-pointer no-underline w-full truncate text-sm;
 
     &.active {
-        @apply text-primary;
+        @apply text-nord10;
     }
 
     &.inactive {
@@ -26,19 +21,7 @@
 }
 
 .list-container {
-    @apply transition
-        cursor-pointer
-        rounded-8px
-        transition
-        py-18px
-        pl-24px
-        pr-8px
-        flex
-        justify-between
-        items-center
-        truncate
-        w-full
-        hover:text-primary;
+    @apply transition cursor-pointer rounded-lg py-4 pl-6 pr-2 flex justify-between items-center truncate w-full hover:text-nord10;
 
     &.active {
         background: rgba(var(--secondary), 0.12);
@@ -54,5 +37,5 @@
 }
 
 .button-group {
-    @apply flex items-center gap-4px flex-shrink-0;
+    @apply flex items-center gap-1 flex-shrink-0;
 }

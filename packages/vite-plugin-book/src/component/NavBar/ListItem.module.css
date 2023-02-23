@@ -4,20 +4,10 @@
 }
 
 .list-item {
-    @apply transition
-        block
-        pl-24px
-        pr-8px
-        h-56px
-        py-18px
-        no-underline
-        text-sm
-        flex
-        justify-between
-        items-center;
+    @apply transition pl-6 pr-2 h-14 py-4 no-underline text-sm flex justify-between items-center;
 
     &.active {
-        @apply text-primary;
+        @apply text-nord10;
     }
 
     &.inactive {
@@ -26,7 +16,7 @@
 }
 
 .list-item-container {
-    @apply transition cursor-pointer rounded-8px;
+    @apply transition cursor-pointer rounded-lg;
 
     &.active {
         background: rgba(var(--secondary), 0.12);
@@ -34,6 +24,7 @@
 
     &.not-dragging:hover {
         background: rgba(var(--primary), 0.38);
+
         .list-item {
             color: rgba(var(--primary), 1);
         }

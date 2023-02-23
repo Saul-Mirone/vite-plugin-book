@@ -4,7 +4,6 @@ import react from '@vitejs/plugin-react';
 import path from 'pathe';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import WindiCSS from 'vite-plugin-windicss';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,5 +16,5 @@ export default defineConfig({
         },
         outDir: 'dist/render',
     },
-    plugins: [react(), WindiCSS(), dts({ insertTypesEntry: true })],
+    plugins: [react(), dts({ insertTypesEntry: true })],
 });

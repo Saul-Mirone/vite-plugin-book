@@ -8,13 +8,7 @@ body {
 }
 
 .mobile-nav {
-    @apply fixed
-        transition
-        left-0
-        top-0
-        bottom-0
-        w-255px
-        z-20;
+    @apply fixed transition left-0 top-0 bottom-0 w-[255px] z-20;
 
     &.fold {
         transform: translateX(-100%);
@@ -22,17 +16,7 @@ body {
 }
 
 .mobile-mask {
-    @apply fixed
-        top-0
-        bottom-0
-        left-0
-        right-0
-        w-full
-        h-full
-        z-1
-        flex
-        items-center
-        justify-center;
+    @apply fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex items-center justify-center;
 
     background: rgba(var(--shadow), 0.8);
 }

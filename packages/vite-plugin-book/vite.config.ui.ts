@@ -3,7 +3,6 @@
 import react from '@vitejs/plugin-react';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
-import WindiCSS from 'vite-plugin-windicss';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,5 +10,5 @@ export default defineConfig({
     build: {
         outDir: 'dist/ui',
     },
-    plugins: [react(), WindiCSS(), visualizer()],
+    plugins: [react(), visualizer()],
 });

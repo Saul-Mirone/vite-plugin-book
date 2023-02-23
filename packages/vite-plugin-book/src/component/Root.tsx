@@ -1,6 +1,9 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
+import './global.css';
 import 'material-icons/iconfont/outlined.css';
 import 'prism-themes/themes/prism-nord.css';
+// eslint-disable-next-line import/no-unresolved
+import '@milkdown/theme-nord/style.css';
 
 import { FC, lazy, memo, StrictMode, Suspense, useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
