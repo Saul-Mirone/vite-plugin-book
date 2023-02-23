@@ -6,6 +6,7 @@ import sirv from 'sirv';
 import { fileURLToPath } from 'url';
 import type { Plugin } from 'vite';
 
+import pkgJson from '../../package.json' assert { type: 'json' };
 import { BookPluginOptions } from '.';
 import { createWsServer } from './ws-server';
 
@@ -70,9 +71,9 @@ export function vitePluginBookDev(bookOptions: BookPluginOptions): Plugin {
 
                 setTimeout(() => {
                     logger.info('\n');
-                    logger.info('  ➜  Vite Plugin Book');
-                    logger.info(`  ➜  Book Admin: ${colors.cyan(url)}`);
-                    logger.info(`  ➜  Book Preview: ${colors.cyan(url + '__preview__/')}`);
+                    logger.info(`  ${colors.green('➜')}  ${colors.green('Vite Plugin Book v' + pkgJson.version)}`);
+                    logger.info(`  ${colors.green('➜')}  Book Admin: ${colors.cyan(url)}`);
+                    logger.info(`  ${colors.green('➜')}  Book Preview: ${colors.cyan(url + '__preview__/')}`);
                 }, 100);
             });
         },
