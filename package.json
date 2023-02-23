@@ -5,13 +5,13 @@
     "scripts": {
         "postinstall": "husky install",
         "format": "lint-staged",
-        "build": "pnpm build --filter=vite-plugin-book",
-        "test:tsc": "pnpm tsc --filter=vite-plugin-book",
+        "build": "pnpm --filter=vite-plugin-book build",
+        "test:tsc": "pnpm --filter=vite-plugin-book tsc",
         "changeset": "changeset",
         "release": "changeset publish",
         "commit": "git-cz",
-        "dev": "pnpm dev --filter=vite-plugin-book",
-        "doc": "pnpm start --filter=gh-pages"
+        "dev": "pnpm --filter=vite-plugin-book dev",
+        "doc": "pnpm --filter=gh-pages start"
     },
     "keywords": [
         "vite-plugin"

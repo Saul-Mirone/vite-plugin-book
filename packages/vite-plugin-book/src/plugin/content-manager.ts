@@ -12,11 +12,11 @@ import { flushId, sortProject } from './sort-project';
 export class ContentManager implements WebSocketServerEvents {
     constructor(private docDir: string, private configService: ConfigService) {}
 
-    async getFile(url: string): Promise<string> {
+    getFile = async (url: string): Promise<string> => {
         return fs.readFile(this.resolveFilePath(url), 'utf-8');
-    }
+    };
 
-    async writeFile(url: string, name: string, markdown: string): Promise<void> {
+    writeFile = async (url: string, name: string, markdown: string): Promise<void> => {
         const fullPath = this.resolveFilePath(url);
         await fs.writeFile(fullPath, markdown);
         const filename = basename(fullPath);
@@ -28,9 +28,9 @@ export class ContentManager implements WebSocketServerEvents {
 
             await fs.rename(from, to);
         }
-    }
+    };
 
-    async createFile(near: string, folder = false): Promise<string> {
+    createFile = async (near: string, folder = false): Promise<string> => {
         const date = new Date().toISOString().replaceAll(':', '-').split('.')[0] as string;
         const fullPath = this.resolveFilePath(near);
         const { id, filePath } = await this.configService.createFile(fullPath, date, folder);
@@ -41,9 +41,9 @@ export class ContentManager implements WebSocketServerEvents {
             await fs.writeFile(filePath, `# ${date}\n`);
         }
         return id;
-    }
+    };
 
-    async deleteFile(url: string): Promise<string> {
+    deleteFile = async (url: string): Promise<string> => {
         let fullPath = this.resolveFilePath(url);
         if (fullPath.length === 0) {
             fullPath = resolve(this.docDir, url);
@@ -81,14 +81,13 @@ export class ContentManager implements WebSocketServerEvents {
             return withOutExt(relativeUrl);
         }
         return withOutExt(relative(this.docDir, resolve(dir, '..')));
-    }
+    };
 
-    async getConfig(): Promise<BookConfig> {
-        // TODO: diff the saved config with file system
+    getConfig = async (): Promise<BookConfig> => {
         return Promise.resolve(this.configService.get());
-    }
+    };
 
-    async sort(info: ItemInfo[]): Promise<boolean> {
+    sort = async (info: ItemInfo[]): Promise<boolean> => {
         try {
             const config = this.configService.get();
             const saved = config.projectInfo.list;
@@ -106,9 +105,9 @@ export class ContentManager implements WebSocketServerEvents {
             console.error(e);
         }
         return false;
-    }
+    };
 
-    private resolveFilePath(url: string) {
+    private resolveFilePath = (url: string) => {
         if (url === '/' || url === '') {
             url = 'index';
         }
@@ -122,9 +121,9 @@ export class ContentManager implements WebSocketServerEvents {
         }
         console.error('Cannot resolve file: ', url);
         return '';
-    }
+    };
 
-    private filterDir(url: string) {
+    private filterDir = (url: string) => {
         if (url === '/' || url === '') {
             return null;
         }
@@ -138,5 +137,5 @@ export class ContentManager implements WebSocketServerEvents {
         }
         console.error('Cannot resolve file: ', url);
         return null;
-    }
+    };
 }
