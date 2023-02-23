@@ -6,3 +6,4 @@ dist-ssr
 .pnpm-store
 .npmrc
 stats.html
+.vscode
