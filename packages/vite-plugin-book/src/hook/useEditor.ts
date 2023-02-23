@@ -16,11 +16,11 @@ import { history } from '@milkdown/plugin-history';
 import { indent } from '@milkdown/plugin-indent';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prism } from '@milkdown/plugin-prism';
-import { slash } from '@milkdown/plugin-slash';
-import { tooltip } from '@milkdown/plugin-tooltip';
+import { commonmark } from '@milkdown/preset-commonmark';
 import { gfm } from '@milkdown/preset-gfm';
-import { Plugin, PluginKey, TextSelection } from '@milkdown/prose';
-import { nordDark, nordLight } from '@milkdown/theme-nord';
+// eslint-disable-next-line import/no-unresolved
+import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state';
+import { nord } from '@milkdown/theme-nord';
 import { $prose } from '@milkdown/utils';
 import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -90,14 +90,13 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                         setEditorValue(markdown);
                     });
             })
-            .use(isDarkMode ? nordDark : nordLight)
+            .config(nord)
             .use(listener)
             .use(prism)
             .use(history)
             .use(emoji)
+            .use(commonmark)
             .use(gfm)
-            .use(slash)
-            .use(tooltip)
             .use(cursor)
             .use(clipboard)
             .use(indent)

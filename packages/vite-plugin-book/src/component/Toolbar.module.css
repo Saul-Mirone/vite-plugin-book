@@ -1,15 +1,9 @@
 .container {
-    @apply transition shadow-lg rounded-28px fixed right-24px bottom-24px bg-surface p-12px flex gap-8px;
+    @apply transition shadow-lg rounded-3xl fixed right-6 bottom-6 bg-white p-3 flex gap-2;
 }
 
 .button {
-    @apply cursor-pointer
-        transition
-        rounded-16px
-        p-8px
-        w-40px
-        h-40px
-        hover:text-primary box-border;
+    @apply cursor-pointer transition rounded-2xl p-2 w-10 h-10 box-border;
 
     color: rgba(var(--neutral), 1);
 

@@ -24,5 +24,6 @@
         "vitejs",
         "Windi",
         "windicss"
-    ]
+    ],
+    "eslint.validate": ["javascript", "typescript", "javascriptreact", "typescriptreact"]
 }

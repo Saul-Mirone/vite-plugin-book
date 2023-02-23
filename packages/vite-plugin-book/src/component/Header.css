@@ -1,8 +1,5 @@
 .header-button {
-    @apply cursor-pointer
-        transition
-        p-12px
-        rounded-14px;
+    @apply cursor-pointer transition p-3 rounded-xl;
 
     color: rgba(var(--neutral), 1);
     fill: rgba(var(--neutral), 1);
