@@ -1,7 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
 import { createContext, Dispatch, FC, useEffect, useReducer, useState } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import { useFile } from '../../hook/useFile';
 import { useFileFetcher } from '../../hook/useFileFetcher';

@@ -1,5 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
+import { Allotment } from 'allotment';
+import clsx from 'clsx';
 import { useEffect } from 'react';
 
 import { useConfig } from '../hook/useConfig';
@@ -37,23 +39,25 @@ export const App = () => {
         }
     }, [ctx, getConfig, isRuntime, mode, setToast]);
 
+    const className = clsx(!isMobile && 'px-7', loading && cx['loading'], 'flex justify-center mb-7');
+
     return (
         <Layout>
-            {config && <NavBar projectInfo={config.projectInfo} />}
-            <div className="overflow-auto h-full flex flex-col relative">
-                {config && <Header projectInfo={config.projectInfo} />}
-                <Loading />
-                <div
-                    className={`${isMobile ? '' : 'px-30px'} ${
-                        loading ? cx['loading'] : ''
-                    } flex justify-center mb-30px`}
-                >
-                    <Editor readonly={mode !== 'editable'} />
-                    <div className={`${isMobile ? 'hidden' : 'w-255px ml-10px flex-shrink-0'}`}>
-                        <Outline />
+            <Allotment.Pane minSize={280} maxSize={500}>
+                {config && <NavBar projectInfo={config.projectInfo} />}
+            </Allotment.Pane>
+            <Allotment.Pane snap>
+                <div className="overflow-auto h-full flex flex-col relative">
+                    {config && <Header projectInfo={config.projectInfo} />}
+                    <Loading />
+                    <div className={className}>
+                        <Editor readonly={mode !== 'editable'} />
+                        <div className={clsx(isMobile ? 'hidden' : 'w-64 ml-2 flex-shrink-0')}>
+                            <Outline />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Allotment.Pane>
         </Layout>
     );
 };

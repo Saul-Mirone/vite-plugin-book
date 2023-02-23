@@ -70,8 +70,9 @@ export function vitePluginBookDev(bookOptions: BookPluginOptions): Plugin {
                 const url = `${protocol}://${host.name}:${addr.port}/__vite_plugin_book__/`;
 
                 setTimeout(() => {
-                    logger.info('\n');
-                    logger.info(`  ${colors.green('➜')}  ${colors.green('Vite Plugin Book v' + pkgJson.version)}`);
+                    logger.info('');
+                    logger.info(`  ${colors.green('VPB v' + pkgJson.version)}`);
+                    logger.info('');
                     logger.info(`  ${colors.green('➜')}  Book Admin: ${colors.cyan(url)}`);
                     logger.info(`  ${colors.green('➜')}  Book Preview: ${colors.cyan(url + '__preview__/')}`);
                 }, 100);

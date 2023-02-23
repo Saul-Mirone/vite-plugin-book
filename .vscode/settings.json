@@ -25,5 +25,6 @@
         "Windi",
         "windicss"
     ],
-    "eslint.validate": ["javascript", "typescript", "javascriptreact", "typescriptreact"]
+    "eslint.validate": ["javascript", "typescript", "javascriptreact", "typescriptreact"],
+    "tailwindCSS.experimental.classRegex": ["clsx\\(([^)]*)\\)", "\"([^\"]*)\""]
 }

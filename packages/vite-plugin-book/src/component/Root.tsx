@@ -4,8 +4,10 @@ import 'material-icons/iconfont/outlined.css';
 import 'prism-themes/themes/prism-nord.css';
 // eslint-disable-next-line import/no-unresolved
 import '@milkdown/theme-nord/style.css';
+import 'allotment/dist/style.css';
 
 import { FC, lazy, memo, ReactNode, StrictMode, Suspense, useMemo } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 
 import { ConfigProvider } from '../provider/ConfigProvider';
@@ -44,27 +46,29 @@ export const Root: FC<{ isRuntime?: boolean; prefix?: string }> = memo(({ isRunt
     const mode = isRuntime || isPreview || base === pre ? 'preview' : 'editable';
     return (
         <StrictMode>
-            <BrowserRouter>
-                <ModeProvider mode={mode} isRuntime={isRuntime}>
-                    <RouteBaseProvider base={base}>
-                        <Rpc isRuntime={isRuntime}>
-                            <FileProvider>
-                                <ConfigProvider>
-                                    <OutlineProvider>
-                                        <DialogProvider>
-                                            <ToastProvider>
-                                                <UIProvider>
-                                                    <App />
-                                                </UIProvider>
-                                            </ToastProvider>
-                                        </DialogProvider>
-                                    </OutlineProvider>
-                                </ConfigProvider>
-                            </FileProvider>
-                        </Rpc>
-                    </RouteBaseProvider>
-                </ModeProvider>
-            </BrowserRouter>
+            <HelmetProvider>
+                <BrowserRouter>
+                    <ModeProvider mode={mode} isRuntime={isRuntime}>
+                        <RouteBaseProvider base={base}>
+                            <Rpc isRuntime={isRuntime}>
+                                <FileProvider>
+                                    <ConfigProvider>
+                                        <OutlineProvider>
+                                            <DialogProvider>
+                                                <ToastProvider>
+                                                    <UIProvider>
+                                                        <App />
+                                                    </UIProvider>
+                                                </ToastProvider>
+                                            </DialogProvider>
+                                        </OutlineProvider>
+                                    </ConfigProvider>
+                                </FileProvider>
+                            </Rpc>
+                        </RouteBaseProvider>
+                    </ModeProvider>
+                </BrowserRouter>
+            </HelmetProvider>
         </StrictMode>
     );
 });

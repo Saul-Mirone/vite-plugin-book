@@ -1,14 +1,14 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import './style.css';
 
-import { FC, ReactNode, useState } from 'react';
-import SplitPane from 'react-split-pane';
+// eslint-disable-next-line import/namespace
+import { Allotment } from 'allotment';
+import { FC, ReactNode } from 'react';
 
 import { useUIConfig } from '../../hook/useUIConfig';
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
     const { menuFold, isMobile, setMenuFold } = useUIConfig();
-    const [onDrag, setOnDrag] = useState(false);
     const [nav = null, main = null] = children as ReactNode[];
 
     if (isMobile) {
@@ -23,26 +23,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 
     return (
         <div className="h-screen w-screen overflow-hidden font-sans">
-            {/* @ts-expect-error not supported */}
-            <SplitPane
-                onDragStarted={() => setOnDrag(true)}
-                onDragFinished={() => setOnDrag(false)}
-                className="bg-background"
-                split="vertical"
-                defaultSize={menuFold ? 0 : 280}
-                minSize={menuFold ? 0 : 280}
-                maxSize={menuFold ? 0 : 400}
-                paneStyle={{
-                    overflow: 'hidden',
-                    transition: onDrag ? '' : 'all 0.2s',
-                }}
-                pane1Style={{
-                    transform: menuFold ? 'translateX(-100%)' : '',
-                    transition: onDrag ? '' : 'all 0.2s',
-                }}
-            >
-                {children}
-            </SplitPane>
+            <Allotment className="bg-background">{children}</Allotment>
         </div>
     );
 };

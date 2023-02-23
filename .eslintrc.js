@@ -8,8 +8,9 @@ module.exports = {
         'plugin:promise/recommended',
         'plugin:import/recommended',
         'plugin:import/typescript',
-        'plugin:prettier/recommended',
         'plugin:react-hooks/recommended',
+        'plugin:prettier/recommended',
+        'prettier',
     ],
     plugins: ['simple-import-sort', 'header', 'eslint-plugin-tsdoc'],
     env: {
