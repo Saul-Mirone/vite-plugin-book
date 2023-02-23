@@ -12,7 +12,7 @@ module.exports = {
         'plugin:prettier/recommended',
         'prettier',
     ],
-    plugins: ['simple-import-sort', 'header', 'eslint-plugin-tsdoc'],
+    plugins: ['@typescript-eslint', 'simple-import-sort', 'header'],
     env: {
         browser: true,
         node: true,
@@ -29,8 +29,6 @@ module.exports = {
 
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
-
-        'tsdoc/syntax': 'warn',
 
         'header/header': ['error', 'block', ' Copyright 2021, vite-plugin-book by Mirone. '],
     },
@@ -60,12 +58,6 @@ module.exports = {
             files: ['**/*.d.ts'],
             rules: {
                 'no-var': 'off',
-            },
-        },
-        {
-            files: ['**/plugin/**.ts'],
-            rules: {
-                'no-console': 'off',
             },
         },
     ],

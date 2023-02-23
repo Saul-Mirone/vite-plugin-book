@@ -3,7 +3,6 @@
 import HashLoader from 'react-spinners/HashLoader';
 
 import { useFile } from '../hook/useFile';
-import cx from './Loading.module.css';
 
 export const Loading = () => {
     const { loading } = useFile();
@@ -13,7 +12,7 @@ export const Loading = () => {
     }
 
     return (
-        <div className={`${cx['container']}`}>
+        <div className="flex justify-center items-center absolute w-full h-full top-0 left-0 z-10 bg-gray-50">
             <HashLoader color="#5e81ac" size={80} />
         </div>
     );

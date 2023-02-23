@@ -2,7 +2,6 @@
 import { FC } from 'react';
 
 import { useMode } from '../hook/useMode';
-import cx from './Toolbar.module.css';
 
 type ToolbarProps = {
     changed: boolean;
@@ -13,7 +12,7 @@ type ToolbarProps = {
 };
 
 const SurfaceButton: FC<{ icon: string; onClick: () => void }> = ({ icon, onClick }) => (
-    <div onClick={onClick} className={cx['button']}>
+    <div onClick={onClick} className="cursor-pointer transition rounded-2xl p-2 w-10 h-10 box-border text-nord0">
         <span className="material-icons-outlined">{icon}</span>
     </div>
 );
@@ -21,7 +20,7 @@ const SurfaceButton: FC<{ icon: string; onClick: () => void }> = ({ icon, onClic
 export const Toolbar: FC<ToolbarProps> = ({ changed, onSave, onCancel, onPreview, onEdit }) => {
     const mode = useMode();
     return (
-        <div className={cx['container']}>
+        <div className="transition shadow-lg rounded-3xl fixed right-6 bottom-6 bg-white p-3 flex gap-2 hover:bg-gray-100">
             {mode === 'editable' && <SurfaceButton onClick={onPreview} icon="visibility" />}
             {mode === 'preview' && <SurfaceButton onClick={onEdit} icon="edit" />}
             {changed && (

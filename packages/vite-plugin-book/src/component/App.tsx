@@ -10,7 +10,6 @@ import { useIsRuntime, useMode } from '../hook/useMode';
 import { useRpc } from '../hook/useRpc';
 import { useToast } from '../hook/useToast';
 import { useUIConfig } from '../hook/useUIConfig';
-import cx from './App.module.css';
 import { Editor } from './Editor';
 import { Header } from './Header';
 import { Layout } from './Layout';
@@ -21,7 +20,7 @@ import { Outline } from './Outline';
 export const App = () => {
     const ctx = useRpc();
     const { config, getConfig } = useConfig();
-    const { isMobile } = useUIConfig();
+    const { isMobile, menuFold } = useUIConfig();
     const { loading } = useFile();
     const mode = useMode();
     const setToast = useToast();
@@ -39,11 +38,11 @@ export const App = () => {
         }
     }, [ctx, getConfig, isRuntime, mode, setToast]);
 
-    const className = clsx(!isMobile && 'px-7', loading && cx['loading'], 'flex justify-center mb-7');
+    const className = clsx(!isMobile && 'px-7', loading && 'hidden', 'flex justify-center mb-7');
 
     return (
         <Layout>
-            <Allotment.Pane minSize={280} maxSize={500}>
+            <Allotment.Pane minSize={280} maxSize={500} preferredSize={320} visible={!menuFold}>
                 {config && <NavBar projectInfo={config.projectInfo} />}
             </Allotment.Pane>
             <Allotment.Pane snap>

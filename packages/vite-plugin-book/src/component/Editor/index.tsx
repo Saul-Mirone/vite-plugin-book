@@ -1,7 +1,7 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import './style.css';
 
-import { FC, memo, useContext, useRef } from 'react';
+import { FC, KeyboardEvent, memo, useContext, useRef } from 'react';
 
 import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
@@ -12,7 +12,6 @@ import { useNav } from '../../hook/useNav';
 import { useOutline } from '../../hook/useOutline';
 import { useRpc } from '../../hook/useRpc';
 import { useToast } from '../../hook/useToast';
-import { useUIConfig } from '../../hook/useUIConfig';
 import { RouteBaseCtx } from '../../provider/RouteBaseProvider';
 import { Toolbar } from '../Toolbar';
 
@@ -26,16 +25,14 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const { show, hide } = useDialog();
     const [data] = useOutline();
     const { getConfig } = useConfig();
-    const { isMobile } = useUIConfig();
     const isRuntime = useIsRuntime();
     const nav = useNav();
     const setToast = useToast();
 
     const onSave = async () => {
         const div = divRef.current;
-        if (ctx.status !== 'connected' || !div || !changed) return;
-        const milkdownEl = div.firstElementChild;
-        if (!milkdownEl) return;
+        const milkdownEl = div?.firstElementChild;
+        if (ctx.status !== 'connected' || !milkdownEl || !changed) return;
 
         const markdown = get();
 
@@ -47,15 +44,18 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
             await ctx.rpc.writeFile(url, name, markdown);
             setFile(markdown);
         }
+
         await getConfig();
         const prevPathList = url.split('/');
-        const newPath =
-            url === '/' || url === ''
-                ? ''
-                : prevPathList
-                      .slice(0, prevPathList.length - 1)
-                      .concat(name)
-                      .join('/');
+
+        let newPath = '';
+        const isRoot = url === '/' || url === '';
+        if (!isRoot) {
+            newPath = prevPathList
+                .slice(0, prevPathList.length - 1)
+                .concat(name)
+                .join('/');
+        }
 
         if (newPath !== url) {
             nav(newPath, { replace: true });
@@ -86,29 +86,29 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const onPreview = () => {
         location.href = `${location.protocol}//${location.host}${base}__preview__/${url}`;
     };
+
     const onEdit = () => {
         location.href = location.href.replace('/__preview__', '');
     };
 
+    const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+        if (mode === 'preview') return;
+
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            onSave();
+            e.preventDefault();
+            return;
+        }
+
+        if (e.key === 'Escape') {
+            onCancel();
+            e.preventDefault();
+        }
+    };
+
     return (
         <>
-            <div
-                onKeyDown={(e) => {
-                    if (mode === 'preview') return;
-                    if (e.ctrlKey || e.metaKey) {
-                        if (e.key === 's') {
-                            onSave();
-                            e.preventDefault();
-                        }
-                    }
-                    if (e.key === 'Escape') {
-                        onCancel();
-                        e.preventDefault();
-                    }
-                }}
-                className={`max-w-1080px ${isMobile ? 'milkdown-mobile-wrapper' : 'milkdown-wrapper'}`}
-                ref={divRef}
-            />
+            <div onKeyDown={onKeyDown} ref={divRef} />
             {!isRuntime && (
                 <Toolbar changed={changed} onSave={onSave} onCancel={onCancel} onPreview={onPreview} onEdit={onEdit} />
             )}

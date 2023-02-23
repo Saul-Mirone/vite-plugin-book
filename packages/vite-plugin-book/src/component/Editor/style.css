@@ -1,17 +1,3 @@
-.milkdown {
-    height: calc(100vh - 64px - 30px);
-    overflow: auto;
-
-    .code-inline {
-        background: rgba(var(--background), 1);
-        color: rgba(var(--secondary), 0.8);
-    }
-}
-
-.milkdown-wrapper {
-    width: calc(100% - 265px);
-}
-
-.milkdown-mobile-wrapper {
-    width: 100%;
+.milkdown .editor {
+    @apply mx-auto;
 }

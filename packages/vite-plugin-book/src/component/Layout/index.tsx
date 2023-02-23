@@ -3,6 +3,7 @@ import './style.css';
 
 // eslint-disable-next-line import/namespace
 import { Allotment } from 'allotment';
+import clsx from 'clsx';
 import { FC, ReactNode } from 'react';
 
 import { useUIConfig } from '../../hook/useUIConfig';
@@ -14,7 +15,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
     if (isMobile) {
         return (
             <div className="bg-background h-screen w-screen overflow-hidden font-sans">
-                <div className={`mobile-nav ${menuFold ? 'fold' : ''}`}>{nav}</div>
+                <div className={clsx('mobile-nav', menuFold && 'fold')}>{nav}</div>
                 {!menuFold && <div className="mobile-mask" onClick={() => setMenuFold(true)} />}
                 {main}
             </div>

@@ -9,7 +9,6 @@ import { useToast } from '../../hook/useToast';
 import { ItemInfo } from '../../interface';
 import { IconButton } from './IconButton';
 import { List } from './List';
-import cx from './Nav.module.css';
 
 type NavProps = {
     title: string;
@@ -65,7 +64,7 @@ const ButtonGroup = () => {
 
     if (mode !== 'editable') return null;
     return (
-        <div className={cx['icon-group']}>
+        <div className="flex gap-2 mr-2">
             <IconButton type="post_add" onClick={newFile} />
             <IconButton type="create_new_folder" onClick={newFolder} />
         </div>
@@ -75,15 +74,15 @@ const ButtonGroup = () => {
 export const Nav: FC<NavProps> = ({ title, state, setDragging }) => {
     const { setUrl } = useFile();
     return (
-        <nav className={`${cx['nav']}`}>
-            <div className={cx['container']}>
-                <span onClick={() => setUrl('')} className={cx['title']}>
+        <nav className="h-full w-full flex flex-col bg-white py-3">
+            <div className="cursor-pointer h-11 mx-3 my-2 text-base flex justify-between items-center">
+                <span onClick={() => setUrl('')} className="pl-3 no-underline text-nord0">
                     {title}
                 </span>
                 <ButtonGroup />
             </div>
             <div
-                className={cx['list']}
+                className="px-3 overflow-auto"
                 onDrag={() => {
                     setDragging(true);
                 }}

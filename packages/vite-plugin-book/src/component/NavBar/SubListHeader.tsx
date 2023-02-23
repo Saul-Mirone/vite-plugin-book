@@ -1,4 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
+import clsx from 'clsx';
 import { Dispatch, FC, ReactNode, SetStateAction, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -10,7 +11,6 @@ import { useMode } from '../../hook/useMode';
 import { transformName } from '../../utils/helper';
 import { DraggingCtx } from '.';
 import { IconButton } from './IconButton';
-import cx from './SubListHeader.module.css';
 
 type SubListHeaderProps = {
     name: string;
@@ -20,7 +20,7 @@ type SubListHeaderProps = {
 };
 
 const DeleteGroupDesc = () => (
-    <div className="text-neutral">
+    <div className="text-nord0">
         <p>Are you sure you want to do this?</p>
         <div className="text-sm mt-2 text-neutral text-opacity-60">All contents in this folder will be deleted.</div>
     </div>
@@ -36,22 +36,20 @@ const ButtonGroup: FC<{ url: string; spread: boolean; setSpread: Dispatch<SetSta
     const onDelete = useDelete(url);
 
     return (
-        <div className={cx['button-group']}>
+        <div className="flex items-center gap-1 flex-shrink-0">
             {spread && mode === 'editable' && (
-                <>
-                    <IconButton
-                        type="delete_outline"
-                        onClick={() => {
-                            show({
-                                icon: 'delete',
-                                title: 'Delete the menu',
-                                description: <DeleteGroupDesc />,
-                                onConfirm: onDelete,
-                                onCancel: hide,
-                            });
-                        }}
-                    />
-                </>
+                <IconButton
+                    type="delete_outline"
+                    onClick={() => {
+                        show({
+                            icon: 'delete',
+                            title: 'Delete the menu',
+                            description: <DeleteGroupDesc />,
+                            onConfirm: onDelete,
+                            onCancel: hide,
+                        });
+                    }}
+                />
             )}
             <IconButton
                 type={!spread ? 'expand' : 'unfold_less'}
@@ -83,16 +81,20 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
     return (
         <li>
             <div
-                className={`${cx['list-container']} ${dragging ? '' : cx['not-dragging']} ${
-                    isActive ? cx['active'] : ''
-                }`}
+                className={clsx(
+                    'transition cursor-pointer rounded-lg py-4 pl-6 pr-2 flex justify-between items-center truncate w-full hover:text-nord10',
+                    !dragging && 'hover:bg-gray-300',
+                    isActive && 'bg-gray-100',
+                )}
                 onClick={onClickHeader}
             >
-                <div className={`${cx['header-container']} ${spread ? cx['active'] : ''}`}>
+                <div className={clsx('flex h-6 w-[calc(100%-28px)]', spread && 'w-[calc(100%-60px)]')}>
                     <span
-                        className={`${cx['header']} ${dragging ? '' : cx['not-dragging']} ${
-                            isActive ? cx['active'] : cx['inactive']
-                        }`}
+                        className={clsx(
+                            'leading-6 cursor-pointer no-undeline w-full truncate text-sm',
+                            !dragging && 'hover:text-nord10',
+                            isActive ? 'text-nord10' : 'text-nord0',
+                        )}
                         onClick={() => hasIndex && setUrl(url)}
                     >
                         {transformName(name)}
