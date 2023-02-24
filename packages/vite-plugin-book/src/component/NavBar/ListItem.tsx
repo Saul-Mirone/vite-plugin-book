@@ -24,7 +24,7 @@ const ButtonGroup: FC<{ isActive: boolean; url: string }> = ({ isActive, url }) 
             icon: 'delete',
             title: 'Delete the menu',
             description: (
-                <div className="text-nord0">
+                <div>
                     <p>Are you sure you want to do this?</p>
                     <div className="text-sm mt-2 text-neutral text-opacity-60">You file will be deleted.</div>
                 </div>
@@ -42,11 +42,16 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name }) => {
     const { setUrl } = useFile();
 
     return (
-        <li className={clsx('transition cursor-pointer rounded-xl hover:bg-gray-200', isActive && 'bg-gray-100')}>
+        <li
+            className={clsx(
+                'cursor-pointer rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700',
+                isActive && 'bg-gray-100 dark:bg-gray-600',
+            )}
+        >
             <span
                 className={clsx(
-                    'transition pl-6 pr-2 h-14 py-4 no-underline text-sm flex justify-between items-center',
-                    isActive && 'text-nord10',
+                    'pl-6 pr-2 h-14 py-4 no-underline text-sm flex justify-between items-center',
+                    isActive && 'text-nord10 dark:text-nord9',
                 )}
                 onClick={() => setUrl(url)}
             >

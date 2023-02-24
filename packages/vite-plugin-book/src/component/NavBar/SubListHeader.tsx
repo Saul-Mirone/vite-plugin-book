@@ -20,7 +20,7 @@ type SubListHeaderProps = {
 };
 
 const DeleteGroupDesc = () => (
-    <div className="text-nord0">
+    <div>
         <p>Are you sure you want to do this?</p>
         <div className="text-sm mt-2 text-neutral text-opacity-60">All contents in this folder will be deleted.</div>
     </div>
@@ -82,9 +82,9 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
         <li>
             <div
                 className={clsx(
-                    'transition cursor-pointer rounded-lg py-4 pl-6 pr-2 flex justify-between items-center truncate w-full hover:text-nord10',
-                    !dragging && 'hover:bg-gray-300',
-                    isActive && 'bg-gray-100',
+                    'cursor-pointer rounded-lg py-4 pl-6 pr-2 flex justify-between items-center truncate w-full hover:text-nord10 hover:dark:text-nord9',
+                    !dragging && 'hover:bg-gray-200 dark:hover:bg-gray-700',
+                    isActive && 'bg-gray-100 dark:bg-gray-600',
                 )}
                 onClick={onClickHeader}
             >
@@ -92,8 +92,8 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
                     <span
                         className={clsx(
                             'leading-6 cursor-pointer no-undeline w-full truncate text-sm',
-                            !dragging && 'hover:text-nord10',
-                            isActive ? 'text-nord10' : 'text-nord0',
+                            !dragging && 'hover:text-nord10 hover:dark:text-nord9',
+                            isActive && 'text-nord10 dark:text-nord9',
                         )}
                         onClick={() => hasIndex && setUrl(url)}
                     >

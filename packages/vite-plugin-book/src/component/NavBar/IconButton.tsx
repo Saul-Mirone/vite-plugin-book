@@ -10,14 +10,17 @@ export type IconButtonProps = {
 
 export const IconButton: FC<IconButtonProps> = ({ type, onClick }) => {
     return (
-        <div className="transition w-7 h-7 flex items-center justify-center rounded-2xl hover:bg-gray-300">
+        <div className="transition w-7 h-7 flex items-center justify-center rounded-2xl hover:bg-gray-300 dark:hover:bg-gray-600">
             <span
                 onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
                     onClick();
                 }}
-                className={clsx('cursor-pointer !text-lg !text-nord0 hover:text-nord10', 'material-icons-outlined')}
+                className={clsx(
+                    'cursor-pointer !text-lg hover:text-nord10 hover:dark:text-nord9',
+                    'material-icons-outlined',
+                )}
             >
                 {type}
             </span>

@@ -35,12 +35,12 @@ export const Outline: FC = () => {
                     <div className="pl-2">
                         <div className="border-l-solid">
                             <NestedDiv level={item.level}>
-                                <div className="cursor-pointer leading-5 pl-4 py-3 bg-transparent hover:bg-gray-200 hover:text-nord10">
+                                <div className="cursor-pointer leading-5 pl-4 py-3 bg-transparent hover:text-nord10 hover:dark:text-nord9">
                                     <a
                                         href={url}
                                         className={clsx(
-                                            'no-underline text-nord0',
-                                            location.hash === url && 'text-nord10',
+                                            'no-underline',
+                                            location.hash === url && 'text-nord10 dark:text-nord9',
                                         )}
                                     >
                                         {item.text}

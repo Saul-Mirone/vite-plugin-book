@@ -26,10 +26,6 @@ If you like vite book, please consider to fund me to help the maintenance.
 
 -   [Github Sponsor](https://github.com/sponsors/Saul-Mirone)
 
--   [Afdian](https://afdian.net/@mirone)
-
--   [Open Collective](https://opencollective.com/milkdown)
-
 ## License
 
 [MIT](https://github.com/Saul-Mirone/vite-plugin-book/blob/main/LICENSE)

@@ -74,9 +74,9 @@ const ButtonGroup = () => {
 export const Nav: FC<NavProps> = ({ title, state, setDragging }) => {
     const { setUrl } = useFile();
     return (
-        <nav className="h-full w-full flex flex-col bg-white py-3">
+        <nav className="h-full w-full flex flex-col py-3">
             <div className="cursor-pointer h-11 mx-3 my-2 text-base flex justify-between items-center">
-                <span onClick={() => setUrl('')} className="pl-3 no-underline text-nord0">
+                <span onClick={() => setUrl('')} className="pl-3 no-underline">
                     {title}
                 </span>
                 <ButtonGroup />
