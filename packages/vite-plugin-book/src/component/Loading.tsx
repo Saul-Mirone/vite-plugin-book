@@ -12,7 +12,7 @@ export const Loading = () => {
     }
 
     return (
-        <div className="flex justify-center items-center absolute w-full h-full top-0 left-0 z-10 bg-gray-50">
+        <div className="flex justify-center items-center absolute w-full h-full top-0 left-0 z-10 bg-slate-50 dark:bg-slate-900">
             <HashLoader color="#5e81ac" size={80} />
         </div>
     );
