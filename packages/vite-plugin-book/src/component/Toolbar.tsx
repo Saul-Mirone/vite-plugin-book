@@ -14,7 +14,7 @@ type ToolbarProps = {
 const SurfaceButton: FC<{ icon: string; onClick: () => void }> = ({ icon, onClick }) => (
     <div
         onClick={onClick}
-        className="cursor-pointer transition rounded-2xl p-2 w-10 h-10 box-border hover:bg-gray-200 dark:hover:bg-gray-700"
+        className="cursor-pointer transition rounded-2xl p-2 w-10 h-10 box-border hover:bg-slate-200 dark:hover:bg-slate-700"
     >
         <span className="material-icons-outlined">{icon}</span>
     </div>
@@ -23,7 +23,7 @@ const SurfaceButton: FC<{ icon: string; onClick: () => void }> = ({ icon, onClic
 export const Toolbar: FC<ToolbarProps> = ({ changed, onSave, onCancel, onPreview, onEdit }) => {
     const mode = useMode();
     return (
-        <div className="transition shadow-lg rounded-3xl fixed right-6 bottom-6 bg-gray-100 dark:bg-gray-600 p-3 flex gap-2">
+        <div className="transition shadow-lg rounded-3xl fixed right-6 bottom-6 bg-slate-300 dark:bg-slate-600 p-3 flex gap-2">
             {mode === 'editable' && <SurfaceButton onClick={onPreview} icon="visibility" />}
             {mode === 'preview' && <SurfaceButton onClick={onEdit} icon="edit" />}
             {changed && (

@@ -10,7 +10,7 @@ export type IconButtonProps = {
 
 export const IconButton: FC<IconButtonProps> = ({ type, onClick }) => {
     return (
-        <div className="transition w-7 h-7 flex items-center justify-center rounded-2xl hover:bg-gray-300 dark:hover:bg-gray-600">
+        <div className="transition w-7 h-7 flex items-center justify-center rounded-2xl hover:bg-slate-300 dark:hover:bg-slate-600">
             <span
                 onClick={(e) => {
                     e.stopPropagation();

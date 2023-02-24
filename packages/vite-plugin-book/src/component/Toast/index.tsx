@@ -20,7 +20,7 @@ export const Toast: FC<ToastData> = (props) => {
         // <div className={`${cx['container']} ${display ? '' : cx['hide']}`}>
         <div
             className={clsx(
-                'font-sans transition duration-500 shadow-lg rounded-[28px] fixed top-6 bg-gray-100 dark:bg-gray-600 p-3 flex justify-between items-center gap-2 left-1/2 -translate-x-1/2',
+                'font-sans transition duration-500 shadow-lg rounded-[28px] fixed top-6 bg-slate-300 dark:bg-slate-600 p-3 flex justify-between items-center gap-2 left-1/2 -translate-x-1/2',
                 !display && 'translate-y-[-100px]',
             )}
         >
@@ -28,7 +28,7 @@ export const Toast: FC<ToastData> = (props) => {
             {/* <span onClick={() => setDisplay(false)} className={`${cx['icon']} material-icons-outlined`}> */}
             <span
                 onClick={() => setDisplay(false)}
-                className="transition w-7 h-7 flex items-center justify-center rounded-3xl cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-nord10 hover:dark:text-nord9"
+                className="transition w-7 h-7 flex items-center justify-center rounded-3xl cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-nord10 hover:dark:text-nord9"
             >
                 <span className="material-icons-outlined !text-base">cancel</span>
             </span>

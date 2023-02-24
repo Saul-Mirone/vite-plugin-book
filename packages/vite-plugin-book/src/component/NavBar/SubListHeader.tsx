@@ -83,8 +83,8 @@ export const SubListHeader: FC<SubListHeaderProps> = ({ hasIndex, url, name, chi
             <div
                 className={clsx(
                     'cursor-pointer rounded-lg py-4 pl-6 pr-2 flex justify-between items-center truncate w-full hover:text-nord10 hover:dark:text-nord9',
-                    !dragging && 'hover:bg-gray-200 dark:hover:bg-gray-700',
-                    isActive && 'bg-gray-100 dark:bg-gray-600',
+                    !dragging && 'hover:bg-slate-200 dark:hover:bg-slate-700',
+                    isActive && 'bg-slate-300 dark:bg-slate-600',
                 )}
                 onClick={onClickHeader}
             >

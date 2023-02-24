@@ -44,8 +44,8 @@ export const ListItem: FC<ListItemProps> = memo(({ url, name }) => {
     return (
         <li
             className={clsx(
-                'cursor-pointer rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700',
-                isActive && 'bg-gray-100 dark:bg-gray-600',
+                'cursor-pointer rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700',
+                isActive && 'bg-slate-300 dark:bg-slate-600',
             )}
         >
             <span
