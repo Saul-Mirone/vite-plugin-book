@@ -1,14 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 
-import {
-    defaultValueCtx,
-    Editor,
-    editorCtx,
-    editorStateCtx,
-    editorViewCtx,
-    editorViewOptionsCtx,
-    rootCtx,
-} from '@milkdown/core';
+import { defaultValueCtx, Editor, editorCtx, editorViewCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
 import { emoji } from '@milkdown/plugin-emoji';
@@ -21,7 +13,7 @@ import { gfm } from '@milkdown/preset-gfm';
 // eslint-disable-next-line import/no-unresolved
 import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state';
 import { nord } from '@milkdown/theme-nord';
-import { $prose } from '@milkdown/utils';
+import { $prose, outline } from '@milkdown/utils';
 import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { nope } from '../utils/helper';
@@ -59,14 +51,12 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                         setChanged(false);
                         setStatus('loaded');
                         milkdown.current = ctx.get(editorCtx);
-                        const doc = ctx.get(editorStateCtx).doc;
-                        const data: { text: string; level: number }[] = [];
-                        doc.descendants((node) => {
-                            if (node.type.name === 'heading' && node.attrs['level']) {
-                                data.push({ text: node.textContent, level: node.attrs['level'] });
-                            }
-                        });
-                        setOutline(data);
+                        const view = ctx.get(editorViewCtx);
+                        if (view.state) {
+                            const data = outline()(ctx);
+                            setOutline(data);
+                        }
+
                         const { hash } = location;
                         if (!hash) return;
                         const anchor = document.querySelector(hash);
@@ -74,14 +64,12 @@ export function useEditor(containerRef: RefObject<HTMLElement>, defaultValue: st
                             anchor.scrollIntoView();
                         }
                     })
-                    .updated((_, doc) => {
-                        const data: { text: string; level: number }[] = [];
-                        doc.descendants((node) => {
-                            if (node.type.name === 'heading' && node.attrs['level']) {
-                                data.push({ text: node.textContent, level: node.attrs['level'] });
-                            }
-                        });
-                        setOutline(data);
+                    .updated((ctx) => {
+                        const view = ctx.get(editorViewCtx);
+                        if (view.state) {
+                            const data = outline()(ctx);
+                            setOutline(data);
+                        }
                     })
                     .markdownUpdated((_, markdown) => {
                         setChanged(defaultValue !== markdown);

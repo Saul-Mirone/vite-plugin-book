@@ -6,6 +6,7 @@ import { nope } from '../utils/helper';
 type OutlineItem = {
     text: string;
     level: number;
+    id: string;
 };
 export type OutlineList = OutlineItem[];
 

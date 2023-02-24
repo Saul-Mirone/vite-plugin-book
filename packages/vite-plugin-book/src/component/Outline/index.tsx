@@ -30,7 +30,7 @@ export const Outline: FC = () => {
     return (
         <div>
             {data.map((item) => {
-                const url = '#' + item.text.toLowerCase().split(' ').join('-');
+                const url = '#' + item.id;
                 return (
                     <div className="pl-2">
                         <div className="border-l-solid">
