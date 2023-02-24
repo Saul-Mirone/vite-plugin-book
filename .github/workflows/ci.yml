@@ -53,7 +53,7 @@ jobs:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: build doc
-              run: pnpm run build --filter=gh-pages
+              run: pnpm run --filter=gh-pages build
 
             - name: deploy to pages
               uses: peaceiris/actions-gh-pages@v3
