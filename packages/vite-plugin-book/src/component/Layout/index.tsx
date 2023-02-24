@@ -1,5 +1,4 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-import './style.css';
 
 // eslint-disable-next-line import/namespace
 import { Allotment } from 'allotment';
@@ -14,9 +13,21 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 
     if (isMobile) {
         return (
-            <div className="bg-background h-screen w-screen overflow-hidden font-sans">
-                <div className={clsx('mobile-nav', menuFold && 'fold')}>{nav}</div>
-                {!menuFold && <div className="mobile-mask" onClick={() => setMenuFold(true)} />}
+            <div className="h-screen w-screen overflow-hidden font-sans">
+                <div
+                    className={clsx(
+                        'fixed transition left-0 top-0 bottom-0 w-[255px] z-20 bg-slate-50 dark:bg-slate-900',
+                        menuFold && '-translate-x-full',
+                    )}
+                >
+                    {nav}
+                </div>
+                {!menuFold && (
+                    <div
+                        className="fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex items-center justify-center bg-slate-600/60 dark:bg-slate-800/60"
+                        onClick={() => setMenuFold(true)}
+                    />
+                )}
                 {main}
             </div>
         );

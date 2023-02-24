@@ -107,7 +107,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
 
     return (
         <>
-            <div onKeyDown={onKeyDown}>
+            <div className="flex-1 min-w-0" onKeyDown={onKeyDown}>
                 <Milkdown />
             </div>
             {!isRuntime && (
