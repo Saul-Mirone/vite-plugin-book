@@ -13,7 +13,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 
     if (isMobile) {
         return (
-            <div className="h-screen w-screen overflow-hidden font-sans">
+            <div className="font-sans">
                 <div
                     className={clsx(
                         'fixed transition left-0 top-0 bottom-0 w-[255px] z-20 bg-slate-50 dark:bg-slate-900',
