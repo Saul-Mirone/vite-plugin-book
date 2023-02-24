@@ -1,6 +1,6 @@
 const n=`# Vite Plugin Book
 
-> Vite plugin book (aka vite book), is a magical vite plugin that helps you to generate and manage documentation website like a book!
+> Vite plugin book (aka VPB), is a magical vite plugin that helps you to generate and manage documentation website like a book.
 
 ## Feature
 
