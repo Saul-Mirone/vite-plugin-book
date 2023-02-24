@@ -1,7 +1,9 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import './style.css';
 
-import { FC, KeyboardEvent, memo, useContext, useRef } from 'react';
+import { Milkdown } from '@milkdown/react';
+import { getMarkdown } from '@milkdown/utils';
+import { FC, KeyboardEvent, memo, useContext } from 'react';
 
 import { useConfig } from '../../hook/useConfig';
 import { useDialog } from '../../hook/useDialog';
@@ -20,8 +22,7 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const mode = useMode();
     const ctx = useRpc();
     const { file, url, setFile, changed } = useFile();
-    const divRef = useRef<HTMLDivElement>(null);
-    const { flush, get, recoverSelection } = useEditor(divRef, file, readonly);
+    const { flush, get, recoverSelection, loading } = useEditor(file, readonly);
     const { show, hide } = useDialog();
     const [data] = useOutline();
     const { getConfig } = useConfig();
@@ -30,11 +31,9 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
     const setToast = useToast();
 
     const onSave = async () => {
-        const div = divRef.current;
-        const milkdownEl = div?.firstElementChild;
-        if (ctx.status !== 'connected' || !milkdownEl || !changed) return;
+        if (ctx.status !== 'connected' || !changed || loading) return;
 
-        const markdown = get();
+        const markdown = get()?.action(getMarkdown());
 
         const [h1] = data;
 
@@ -108,7 +107,9 @@ export const Editor: FC<{ readonly: boolean }> = memo(({ readonly }) => {
 
     return (
         <>
-            <div onKeyDown={onKeyDown} ref={divRef} />
+            <div onKeyDown={onKeyDown}>
+                <Milkdown />
+            </div>
             {!isRuntime && (
                 <Toolbar changed={changed} onSave={onSave} onCancel={onCancel} onPreview={onPreview} onEdit={onEdit} />
             )}

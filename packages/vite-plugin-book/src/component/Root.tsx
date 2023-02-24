@@ -6,6 +6,7 @@ import 'prism-themes/themes/prism-nord.css';
 import '@milkdown/theme-nord/style.css';
 import 'allotment/dist/style.css';
 
+import { MilkdownProvider } from '@milkdown/react';
 import { FC, lazy, memo, ReactNode, StrictMode, Suspense, useMemo } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
@@ -57,7 +58,9 @@ export const Root: FC<{ isRuntime?: boolean; prefix?: string }> = memo(({ isRunt
                                             <DialogProvider>
                                                 <ToastProvider>
                                                     <UIProvider>
-                                                        <App />
+                                                        <MilkdownProvider>
+                                                            <App />
+                                                        </MilkdownProvider>
                                                     </UIProvider>
                                                 </ToastProvider>
                                             </DialogProvider>

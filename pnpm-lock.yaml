@@ -85,6 +85,7 @@ importers:
       '@milkdown/preset-commonmark': ^7.0.0
       '@milkdown/preset-gfm': ^7.0.0
       '@milkdown/prose': ^7.0.0
+      '@milkdown/react': ^7.0.0
       '@milkdown/theme-nord': ^7.0.0
       '@milkdown/transformer': ^7.0.0
       '@milkdown/utils': ^7.0.0
@@ -156,6 +157,7 @@ importers:
       '@milkdown/preset-commonmark': 7.0.0_j3asfmta2ulx7x2m2z27icwsgu
       '@milkdown/preset-gfm': 7.0.0_rel76nqv3ryy3plmmp4vdz7jnm
       '@milkdown/prose': 7.0.0
+      '@milkdown/react': 7.0.0_nxz5o5vywhko3mq5nkazxgyxry
       '@milkdown/theme-nord': 7.0.0_zja6enjlfs5gehnwwogyfi2vr4
       '@milkdown/transformer': 7.0.0_@milkdown+prose@7.0.0
       '@milkdown/utils': 7.0.0_j3asfmta2ulx7x2m2z27icwsgu
@@ -1343,6 +1345,25 @@ packages:
       prosemirror-transform: 1.7.1
       prosemirror-view: 1.30.1
       tslib: 2.5.0
+    dev: true
+
+  /@milkdown/react/7.0.0_nxz5o5vywhko3mq5nkazxgyxry:
+    resolution: {integrity: sha512-LjjxrGwaIsz2YZOOV61LEXV6rjsfmUJl4IrjtX2OVa4I/t0lN3ZnWMDKg9VTubVQ6UOwS/wt4e72yNvd1X+XRg==}
+    peerDependencies:
+      '@milkdown/core': ^7.0.0-next.0
+      '@milkdown/prose': ^7.0.0-next.0
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      '@milkdown/core': 7.0.0_k4cma33hoyb3totlovo6vuxyya
+      '@milkdown/prose': 7.0.0
+      '@milkdown/utils': 7.0.0_j3asfmta2ulx7x2m2z27icwsgu
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - '@milkdown/ctx'
+      - '@milkdown/transformer'
     dev: true
 
   /@milkdown/theme-nord/7.0.0_zja6enjlfs5gehnwwogyfi2vr4:
