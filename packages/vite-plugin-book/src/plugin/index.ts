@@ -21,7 +21,7 @@ export function book(options?: Partial<BookPluginOptions>): Plugin[] {
         ...(options || {}),
     };
     return [
-        json(),
+        json() as Plugin,
         vitePluginBookDev(overrideOptions),
         vitePluginBookMarkdown(),
         vitePluginBookRuntimeInject(overrideOptions),
