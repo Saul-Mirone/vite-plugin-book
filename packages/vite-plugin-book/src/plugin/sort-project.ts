@@ -1,6 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import fs from 'fs-extra';
-import produce from 'immer';
+import { produce } from 'immer';
 import path from 'pathe';
 
 import type { ItemInfo } from '../interface';

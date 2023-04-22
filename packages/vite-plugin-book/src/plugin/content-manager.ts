@@ -1,7 +1,6 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
 import fs from 'fs-extra';
-// eslint-disable-next-line import/no-named-as-default
-import produce from 'immer';
+import { produce } from 'immer';
 import { basename, dirname, relative, resolve } from 'pathe';
 
 import type { BookConfig, ItemInfo, WebSocketServerEvents } from '../interface';

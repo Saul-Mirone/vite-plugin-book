@@ -1,6 +1,5 @@
 /* Copyright 2021, vite-plugin-book by Mirone. */
-// eslint-disable-next-line import/no-named-as-default
-import produce from 'immer';
+import { produce } from 'immer';
 
 import { DirInfo, ItemInfo } from '../../interface';
 import { flatItems, walkThroughTree, withOutExt } from '../../utils/helper';
