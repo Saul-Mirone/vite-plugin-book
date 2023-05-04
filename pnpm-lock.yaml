@@ -216,8 +216,8 @@ importers:
         specifier: ^18.0.0
         version: 18.14.1
       '@types/react':
-        specifier: 18.2.1
-        version: 18.2.1
+        specifier: 18.2.2
+        version: 18.2.2
       '@types/react-dom':
         specifier: ^18.0.0
         version: 18.0.11
@@ -1945,11 +1945,11 @@ packages:
   /@types/react-dom@18.0.11:
     resolution: {integrity: sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw==}
     dependencies:
-      '@types/react': 18.2.1
+      '@types/react': 18.2.2
     dev: true
 
-  /@types/react@18.2.1:
-    resolution: {integrity: sha512-KbNvY50AOVy1HBHbQc+iPK44HMaz6CRXuUFsu/L8yCP+nsuE1c1EQSdyaHhsPiI7gJQ3c3VRp+YuCL/5hzvcRw==}
+  /@types/react@18.2.2:
+    resolution: {integrity: sha512-4GZH3GLuqdZbDvOW5Pqqe7jgsDrKwkJfZMZLwFcgoz3CVDSvnMeG/Ihe44IbZ5Mqhh1fyTh5e44z6pNjIzzV8g==}
     dependencies:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
