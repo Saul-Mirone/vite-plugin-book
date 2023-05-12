@@ -63,7 +63,7 @@
         "@milkdown/theme-nord": "^7.0.0",
         "@milkdown/transformer": "^7.0.0",
         "@milkdown/utils": "^7.0.0",
-        "@rollup/plugin-commonjs": "^24.0.0",
+        "@rollup/plugin-commonjs": "^25.0.0",
         "@rollup/plugin-node-resolve": "^15.0.0",
         "@types/fs-extra": "^11.0.0",
         "@types/node": "^18.0.0",
