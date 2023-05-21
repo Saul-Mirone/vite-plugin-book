@@ -46,7 +46,7 @@
     "author": "Saul-Mirone",
     "license": "MIT",
     "devDependencies": {
-        "@fontsource/roboto": "^4.5.2",
+        "@fontsource/roboto": "^5.0.0",
         "@milkdown/core": "^7.0.0",
         "@milkdown/ctx": "^7.0.0",
         "@milkdown/plugin-clipboard": "^7.0.0",
