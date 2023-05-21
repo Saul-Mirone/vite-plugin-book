@@ -153,8 +153,8 @@ importers:
         version: 8.5.0
     devDependencies:
       '@fontsource/roboto':
-        specifier: ^4.5.2
-        version: 4.5.3
+        specifier: ^5.0.0
+        version: 5.0.0
       '@milkdown/core':
         specifier: ^7.0.0
         version: 7.0.0(@milkdown/ctx@7.0.0)(@milkdown/prose@7.0.0)(@milkdown/transformer@7.0.0)
@@ -1271,8 +1271,8 @@ packages:
       - supports-color
     dev: true
 
-  /@fontsource/roboto@4.5.3:
-    resolution: {integrity: sha512-NUvBTj332dFRdiVkLlavXbDGoD2zyyeGYmMyrXOnctg/3e4pq95+rJgNfUP+k4v8UBk2L1aomGw9dDjbRdAmTg==}
+  /@fontsource/roboto@5.0.0:
+    resolution: {integrity: sha512-ZUbU49VQcTGo06+C/SOX77BYuJJ8kBAp1tcxQ/BwQrJEQCXct4913gKrX6b+IMGFaj+FnI9kx0SSe0J2iN2Mug==}
     dev: true
 
   /@humanwhocodes/config-array@0.9.5:
