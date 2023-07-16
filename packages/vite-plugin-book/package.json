@@ -90,7 +90,7 @@
         "allotment": "^1.18.1",
         "autoprefixer": "^10.4.13",
         "birpc": "^0.2.0",
-        "clsx": "^1.2.1",
+        "clsx": "^2.0.0",
         "flatted": "^3.2.4",
         "fs-extra": "^11.0.0",
         "magic-string": "^0.30.0",
