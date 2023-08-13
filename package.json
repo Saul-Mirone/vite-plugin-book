@@ -37,7 +37,7 @@
         "eslint-plugin-tsdoc": "^0.2.14",
         "git-cz": "^4.7.6",
         "husky": "^8.0.0",
-        "lint-staged": "^13.0.0",
+        "lint-staged": "^14.0.0",
         "prettier": "^3.0.0",
         "prettier-plugin-tailwindcss": "^0.5.0",
         "rimraf": "^5.0.0",
