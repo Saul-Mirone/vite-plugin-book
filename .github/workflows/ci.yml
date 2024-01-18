@@ -23,7 +23,7 @@ jobs:
             - name: install pnpm
               run: npm i pnpm@latest -g
             - name: load cache
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: |
                       ./.pnpm-store
