@@ -36,7 +36,7 @@
         "eslint-plugin-simple-import-sort": "^10.0.0",
         "eslint-plugin-tsdoc": "^0.2.14",
         "git-cz": "^4.7.6",
-        "husky": "^8.0.0",
+        "husky": "^9.0.0",
         "lint-staged": "^15.0.0",
         "prettier": "^3.0.0",
         "prettier-plugin-tailwindcss": "^0.5.0",
