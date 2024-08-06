@@ -63,11 +63,11 @@
         "@milkdown/theme-nord": "^7.0.0",
         "@milkdown/transformer": "^7.0.0",
         "@milkdown/utils": "^7.0.0",
-        "@rollup/plugin-commonjs": "^25.0.0",
+        "@rollup/plugin-commonjs": "^26.0.0",
         "@rollup/plugin-node-resolve": "^15.0.0",
         "@types/fs-extra": "^11.0.0",
         "@types/node": "^20.0.0",
-        "@types/react": "18.2.58",
+        "@types/react": "18.3.3",
         "@types/react-dom": "^18.0.0",
         "@types/sortablejs": "^1.10.7",
         "@types/ws": "^8.2.2",
@@ -80,7 +80,7 @@
         "react-helmet-async": "^2.0.0",
         "react-router-dom": "^6.2.1",
         "react-sortablejs": "^6.1.1",
-        "react-spinners": "^0.13.0",
+        "react-spinners": "^0.14.0",
         "sortablejs": "^1.14.0"
     },
     "dependencies": {
